@@ -1,6 +1,4 @@
-
-    // Define your manifest JSON here
-    const manifestJson = {
+{
         "name": "Your Firmware",
         "version": "1.0.0",
          "builds": [
@@ -13,6 +11,7 @@
         { "path": "simpleServerwithwebsocket.ino.bin", "offset": 65536 }       
       ]
     }
-         ]
-    };
+    ]
+}
+
 
