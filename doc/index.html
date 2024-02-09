@@ -1,1 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ESP Web Flashing with Inline Manifest</title>
+     <script
+  type="module"
+  src="https://unpkg.com/esp-web-tools@9/dist/web/install-button.js?module"
+></script>
 
+</head>
+<body>
+
+<h1>Flash Your ESP Device</h1>
+<!-- ESP Web Install Button -->
+<esp-web-install-button id="installButton">
+    Your browser does not support this feature.
+</esp-web-install-button>
+
+<script>
+    // Define your manifest JSON here
+    const manifestJson = {
+        "name": "Your Firmware",
+        "version": "1.0.0",
+        "parts": [
+            {
+                "path": "your_firmware.bin",
+                "offset": 0,
+                "encrypt": false,
+                "lzss": false
+            }
+        ]
+    };
+
+    // Convert the manifest JSON to a blob URL
+    const manifestBlob = new Blob([JSON.stringify(manifestJson)], { type: 'application/json' });
+    const manifestUrl = URL.createObjectURL(manifestBlob);
+
+    // Set the manifest attribute of the ESP Web Install Button to the blob URL
+    document.getElementById('installButton').setAttribute('manifest', manifestUrl);
+</script>
+
+</body>
+</html>
