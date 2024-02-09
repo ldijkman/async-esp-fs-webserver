@@ -21,12 +21,17 @@
     const manifestJson = {
         "name": "Your Firmware",
         "version": "1.0.0",
+         "builds": [
+    {
+      "chipFamily": "ESP32",
       "parts": [
        { "path": "bootloader_qio_80m.bin", "offset": 4096 },
         { "path": "simpleServerwithwebsocket.ino.partitions.bin", "offset": 32768 },
         { "path": "simpleServerwithwebsocket.ino.bootloader.bin", "offset": 57344 },
         { "path": "simpleServerwithwebsocket.ino.bin", "offset": 65536 }       
       ]
+    }
+         ]
     };
 
 
