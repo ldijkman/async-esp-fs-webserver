@@ -9,7 +9,7 @@
         { "path": "simpleServerwithwebsocket.ino.partitions.bin", "offset": 32768 },
         { "path": "simpleServerwithwebsocket.ino.bootloader.bin", "offset": 57344 },
         { "path": "simpleServerwithwebsocket.ino.bin", "offset": 65536 },
-        { "path": "sketch_feb10a.littlefs.bin", "offset": 2162688 }    
+        { "path": "feb10a.littlefs.bin", "offset": 2162688 }    
       ]
     }
     ]
