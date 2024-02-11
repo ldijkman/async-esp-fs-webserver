@@ -5,7 +5,8 @@ upload to 4mb ESP32 from browser
 
 https://ldijkman.github.io/async-esp-fs-webserver/
 
-code
+code not fully working yet
+helpme?
 
 ```
 
