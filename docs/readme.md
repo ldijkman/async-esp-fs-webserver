@@ -47,7 +47,7 @@ helpme?
 #include <ESPmDNS.h>
 
 int gpiopin = 21;
-const  char* hostname = "garage.local";
+const  char* hostname = "garage";   // .local is added by mdns
       String myhostname=hostname;
 
 AsyncFsWebServer server(80, LittleFS, "webserver");
