@@ -51,7 +51,8 @@ helpme?
 
 int gpiopin = 21;                       // for future relais gpio pin
 const  char* hostname = "garage";       // .local is added by esp32 mdns   http://garage.local
-      String myhostname=hostname;
+String myhostname=hostname;
+    
 
 AsyncFsWebServer server(80, LittleFS, "webserver");
 
@@ -61,8 +62,10 @@ AsyncFsWebServer server(80, LittleFS, "webserver");
 
 // NTP server settings
 const char* ntpServer = "time.google.com";
-const long gmtOffset_sec = 0;         // Adjust according to your timezone
-const int daylightOffset_sec = 3600;  // Typically 3600 for 1 hour, or 0 if not using DST
+// can be set from setup custom
+long GMT_Time_Offset_sec = 0;      // Adjust according to your timezoneGMT_Time_Offset_sec = 0; 
+
+const int daylightOffset_sec = 0;  // Typically 3600 for 1 hour, or 0 if not using DST
 
 // FILESYSTEM INIT
 bool startFilesystem() {
@@ -166,9 +169,11 @@ void setup() {
       gpiopin = doc["gpio"];
       hostname = doc["mdns"];
       myhostname=hostname;
+      GMT_Time_Offset_sec=doc["GMT_Time_Offset_sec"];
     }
     Serial.printf("Stored \"gpiopin\" value: %d\n", gpiopin);
     Serial.printf("Stored \"hostname\" value: %s\n", hostname);
+    Serial.printf("Stored \"GMT_Time_Offset_sec\" value: %d\n", GMT_Time_Offset_sec);
   } else 
     Serial.println("LittleFS error!");
   
@@ -181,8 +186,9 @@ void setup() {
 
   server.addOption("gpio", gpiopin);
   server.addOption("mdns", hostname);
+  server.addOption("GMT_Time_Offset_sec", GMT_Time_Offset_sec);
 
-  server.setSetupPageTitle("Simple Async ESP FS WebServer");
+  server.setSetupPageTitle("The Art of Time Controlled");
 
 
 
@@ -227,7 +233,7 @@ void setup() {
   // Check if we are in station mode before starting NTP
   if (WiFi.getMode() == WIFI_STA) {
     // Initialize NTP
-    configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+    configTime(GMT_Time_Offset_sec, daylightOffset_sec, ntpServer);
     Serial.println("NTP client started"); 
     
   // ESP32 Start MDSN responder
