@@ -49,8 +49,8 @@ helpme?
 #include "time.h"
 #include <ESPmDNS.h>
 
-int gpiopin = 21;
-const  char* hostname = "garage";   // .local is added by mdns
+int gpiopin = 21;                       // for future relais gpio pin
+const  char* hostname = "garage";       // .local is added by esp32 mdns   http://garage.local
       String myhostname=hostname;
 
 AsyncFsWebServer server(80, LittleFS, "webserver");
@@ -193,14 +193,16 @@ void setup() {
   server.setFsInfoCallback(getFsInfo);
 #endif
 
- // // Server index.html at the root path
+ 
+ 
+ // if i activate next
+ // there is no custom tab anymore on setup page for mdns and relais gpio pin setting
+ // Server index.html at the root path
  // server.on("/index.html", HTTP_GET, [](AsyncWebServerRequest* request) {
  //   request->send(LittleFS, "/index.html", "text/html");
  // });
-// Add custom page handlers
- // server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-  //  request->send(200,  "/index.html", "text/html");
- // });
+
+
 
 
   // Start server
@@ -286,7 +288,6 @@ void printLocalTime() {
   // Print the local time
   Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
 }
-
 
 
 ```
