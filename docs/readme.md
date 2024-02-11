@@ -12,7 +12,7 @@ helpme?
 
 ```
 
-// mdns is not working like it should
+// mdns is working like it should
 
 
 
