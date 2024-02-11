@@ -16,6 +16,9 @@ helpme?
 
 
 
+
+
+
 // starts as an wifi accespoint AP
 // wifi name broadcasted in the air "ESP32_AP1234"
 // no password used
@@ -257,7 +260,10 @@ void loop() {
     // Check WiFi connection and print the time
     if (WiFi.status() == WL_CONNECTED) {
       printLocalTime();
-      Serial.print("mDNS responder started at ");Serial.println(myhostname);
+      Serial.print("mDNS responder started at ");
+      Serial.print("http://");
+      Serial.print(myhostname);
+      Serial.println(".local");
     }
 
   }
@@ -277,6 +283,7 @@ void printLocalTime() {
   // Print the local time
   Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
 }
+
 
 
 ```
