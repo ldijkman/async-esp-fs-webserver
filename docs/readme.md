@@ -8,6 +8,8 @@ https://ldijkman.github.io/async-esp-fs-webserver/
 code not fully working yet
 helpme?
 
+https://github.com/cotestatnt/async-esp-fs-webserver/issues/28
+
 ```
 
 // mdns is not working like it should
