@@ -15,7 +15,11 @@ helpme?
 ```
 
 // mdns is working like it should
-// only my bonjourbrowser shows "async-fs-webserver" listed and not the set one
+// only my android phone bonjourbrowser
+//     shows "async-fs-webserver" listed and not the set one garage
+
+// even cheaper
+// ESP8266 12E/12F 4mb Version (only little changes needed) 
 
 
 
