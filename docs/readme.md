@@ -10,6 +10,8 @@ helpme?
 
 ```
 
+// mdns is not working like it should
+
 
 
 // starts as an wifi accespoint AP
@@ -214,18 +216,24 @@ void setup() {
   if (WiFi.getMode() == WIFI_STA) {
     // Initialize NTP
     configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
-    Serial.println("NTP client started");
+    Serial.println("NTP client started"); 
+    
+  // ESP32 Start MDSN responder
+ //char const* hostname = "garage.local";
+
+
+// When starting the MDNS responder, convert the String object to a C-style string.
+if (MDNS.begin("garage")) {
+    Serial.println("MDNS responder started.");
+    Serial.print("You should be able to connect with address http://");
+    Serial.print("garage"); // Directly use the String object here.
+    Serial.println(".local/");
+    MDNS.addService("http", "tcp", 80);
+} else {
+    Serial.println("Error setting up MDNS responder!");
+}
   }
 
-  // Start MDSN responder
-  if (WiFi.status() == WL_CONNECTED) {
-    if (MDNS.begin(hostname)) {
-      Serial.println(F("MDNS responder started."));
-      Serial.printf("You should be able to connect with address  http://%s.local/\n", hostname);
-      // Add service to MDNS-SD
-      MDNS.addService("http", "tcp", 80);
-    }
-  }
 
 }
 
@@ -263,6 +271,5 @@ void printLocalTime() {
   // Print the local time
   Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
 }
-
 
 ```
