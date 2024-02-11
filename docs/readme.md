@@ -26,6 +26,9 @@ helpme?
 // need to make the on/off json websocket implemented 
 // chat gpt4 knows it all howto do it
 
+// do not use delay() in the code, it will result in reboot loop
+
+
 
 
 
