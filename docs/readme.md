@@ -299,3 +299,23 @@ void printLocalTime() {
 
 
 ```
+
+![Screenshot from 2024-02-11 11-16-47](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/607b52b9-51d9-41c2-8d0a-fd53413513da)
+
+
+![Screenshot from 2024-02-11 17-01-21](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/7a397514-bb32-4ce3-920f-a75252986527)
+
+
+![Screenshot from 2024-02-11 17-01-30](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/bbd9ac93-9a0c-4f44-a767-e9a7633c88aa)
+
+![Screenshot from 2024-02-11 17-01-38](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/c0bbf158-2975-42b5-9f90-b8e7d4b3e5cc)
+
+![Screenshot from 2024-02-11 08-49-58](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/6a2095b5-aa0f-4a00-99d2-d497e0caa839)
+
+
+
+
+
+
+
+
