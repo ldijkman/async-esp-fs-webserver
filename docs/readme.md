@@ -15,8 +15,10 @@ helpme?
 ```
 
 // mdns is working like it should
-// only my android phone bonjourbrowser https://play.google.com/store/apps/details?id=de.wellenvogel.bonjourbrowser
-//     shows "async-fs-webserver" listed and not the set one garage
+// only my android phone bonjourbrowser
+//                       https://play.google.com/store/apps/details?id=de.wellenvogel.bonjourbrowser
+//     shows "async-fs-webserver" listed
+//             and not the set one garage
 
 // even cheaper
 // ESP8266 12E/12F 4mb Version (only little changes needed)
