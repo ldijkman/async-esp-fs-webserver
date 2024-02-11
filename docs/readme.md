@@ -14,6 +14,8 @@ helpme?
 
 
 
+
+
 // starts as an wifi accespoint AP
 // wifi name broadcasted in the air "ESP32_AP1234"
 // no password used
@@ -42,9 +44,10 @@ helpme?
 #include <ESPmDNS.h>
 
 int gpiopin = 21;
-const char* hostname = "garage.local";
+const  char* hostname = "garage.local";
+      String myhostname=hostname;
 
-AsyncFsWebServer server(80, LittleFS, hostname);
+AsyncFsWebServer server(80, LittleFS, "webserver");
 
 
 
@@ -156,6 +159,7 @@ void setup() {
       deserializeJson(doc, config);
       gpiopin = doc["gpio"];
       hostname = doc["mdns"];
+      myhostname=hostname;
     }
     Serial.printf("Stored \"gpiopin\" value: %d\n", gpiopin);
     Serial.printf("Stored \"hostname\" value: %s\n", hostname);
@@ -219,14 +223,16 @@ void setup() {
     Serial.println("NTP client started"); 
     
   // ESP32 Start MDSN responder
- //char const* hostname = "garage.local";
 
 
-// When starting the MDNS responder, convert the String object to a C-style string.
-if (MDNS.begin("garage")) {
+
+// there is sometihng with strings an chars i do not understand
+// thats why hostname and myhostname 
+// otherwise i cannot get it to work
+if (MDNS.begin(myhostname)) {                        
     Serial.println("MDNS responder started.");
     Serial.print("You should be able to connect with address http://");
-    Serial.print("garage"); // Directly use the String object here.
+    Serial.print(myhostname); 
     Serial.println(".local/");
     MDNS.addService("http", "tcp", 80);
 } else {
@@ -251,7 +257,7 @@ void loop() {
     // Check WiFi connection and print the time
     if (WiFi.status() == WL_CONNECTED) {
       printLocalTime();
-       Serial.print("mDNS responder started at ");Serial.println(hostname);
+      Serial.print("mDNS responder started at ");Serial.println(myhostname);
     }
 
   }
@@ -271,5 +277,6 @@ void printLocalTime() {
   // Print the local time
   Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
 }
+
 
 ```
