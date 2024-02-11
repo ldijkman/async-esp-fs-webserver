@@ -13,6 +13,7 @@ helpme?
 ```
 
 // mdns is working like it should
+// only my bonjourbrowser shows "async-fs-webserver" listed and not the set one
 
 
 
