@@ -33,6 +33,8 @@ helpme?
 
 
 
+
+
 // starts as an wifi accespoint AP
 // wifi name broadcasted in the air "ESP32_AP1234"
 // no password used
@@ -60,7 +62,7 @@ helpme?
 #include "time.h"
 #include <ESPmDNS.h>
 
-int gpiopin = 21;                       // for future relais gpio pin
+int gpio_relais_pin = 21;                       // for future relais gpio pin
 const  char* hostname = "garage";       // .local is added by esp32 mdns   http://garage.local
 String myhostname=hostname;
     
@@ -177,13 +179,13 @@ void setup() {
     if (config) {
       DynamicJsonDocument doc(config.size() * 2);
       deserializeJson(doc, config);
-      gpiopin = doc["gpio"];
-      hostname = doc["mdns"];
+      gpio_relais_pin = doc["gpio_relais_pin"];
+      hostname = doc["mDNS"];
       myhostname=hostname;
       GMT_Time_Offset_sec=doc["GMT_Time_Offset_sec"];
     }
-    Serial.printf("Stored \"gpiopin\" value: %d\n", gpiopin);
-    Serial.printf("Stored \"hostname\" value: %s\n", hostname);
+    Serial.printf("Stored \"gpio_relais_pin\" value: %d\n", gpio_relais_pin);
+    Serial.printf("Stored \"mDNS hostname\" value: %s\n", hostname);
     Serial.printf("Stored \"GMT_Time_Offset_sec\" value: %d\n", GMT_Time_Offset_sec);
   } else 
     Serial.println("LittleFS error!");
@@ -195,8 +197,8 @@ void setup() {
 
   server.addOptionBox("Custom");
 
-  server.addOption("gpio", gpiopin);
-  server.addOption("mdns", hostname);
+  server.addOption("gpio_relais_pin", gpio_relais_pin);
+  server.addOption("mDNS", hostname);
   server.addOption("GMT_Time_Offset_sec", GMT_Time_Offset_sec);
 
   server.setSetupPageTitle("The Art of Time Controlled");
@@ -305,6 +307,7 @@ void printLocalTime() {
   // Print the local time
   Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
 }
+
 
 
 ```
