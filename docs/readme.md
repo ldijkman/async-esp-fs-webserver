@@ -3,6 +3,8 @@
 
 upload to 4mb ESP32 from browser
 
+Flash 4mb ESP32 from InBrowser
+
 https://ldijkman.github.io/async-esp-fs-webserver/
 
 code not fully working yet
