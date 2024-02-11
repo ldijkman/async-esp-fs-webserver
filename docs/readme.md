@@ -1,7 +1,7 @@
 
 # The Art of Time Controlled
 
-upload to esp32 from browser
+upload to 4mb ESP32 from browser
 
 https://ldijkman.github.io/async-esp-fs-webserver/
 
