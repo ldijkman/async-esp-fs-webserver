@@ -19,7 +19,10 @@ helpme?
 //     shows "async-fs-webserver" listed and not the set one garage
 
 // even cheaper
-// ESP8266 12E/12F 4mb Version (only little changes needed) 
+// ESP8266 12E/12F 4mb Version (only little changes needed)
+
+// need to make the on/off jso websocket implemented chat
+// gpt4 knows it all howto do it
 
 
 
