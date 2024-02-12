@@ -17,8 +17,7 @@ helpme?
 // mdns is working like it should
 // only my android phone bonjourbrowser
 //                       https://play.google.com/store/apps/details?id=de.wellenvogel.bonjourbrowser
-//     shows "async-fs-webserver" listed
-//             and not the set one garage
+//     ok now shows the correct set mdns adres http://garage.local
 
 // even cheaper
 // ESP8266 12E/12F 4mb Version (only little changes needed)
@@ -35,6 +34,10 @@ helpme?
 
 
 
+
+
+// when in wifi ap or apsta mode no date time displayed in serial monitor
+// only in wifi station mode  date time displayed  in serial monitor
 
 
 // starts as an wifi accespoint AP
@@ -271,6 +274,7 @@ if (MDNS.begin(myhostname)) {
     Serial.print(myhostname); 
     Serial.println(".local/");
     MDNS.addService("http", "tcp", 80);
+    MDNS.setInstanceName(myhostname); // Change "new-service-name" to your desired name
 } else {
     Serial.println("Error setting up MDNS responder!");
 }
@@ -293,7 +297,7 @@ void loop() {
     // Check WiFi connection and print the time
     if (WiFi.status() == WL_CONNECTED) {
       printLocalTime();
-      Serial.print("mDNS responder started at ");
+      Serial.print("mDNS at ");
       Serial.print("http://");
       Serial.print(myhostname);
       Serial.println(".local");
@@ -316,6 +320,7 @@ void printLocalTime() {
   // Print the local time
   Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
 }
+
 
 
 
