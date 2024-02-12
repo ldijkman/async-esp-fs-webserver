@@ -22,7 +22,7 @@ helpme?
 // only my android phone bonjourbrowser
 //                       https://play.google.com/store/apps/details?id=de.wellenvogel.bonjourbrowser
 //     ok now shows the correct set mdns adres http://garage.local
-// choose a unique mdns adres afor each device like garden, living, toilet, hallway, stairs, kitchen, etcetera
+// choose a unique mdns adres for each ESP device like garden, living, toilet, hallway, stairs, kitchen, etcetera
 // set mdns in setup page tab custom
 
 // even cheaper
@@ -347,9 +347,11 @@ void printLocalTime() {
 ![Screenshot from 2024-02-11 08-49-58](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/6a2095b5-aa0f-4a00-99d2-d497e0caa839)
 
 
+also can edit config from ace editor
 
+![Screenshot from 2024-02-12 05-07-34](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/8b023c65-aebe-46e6-98ad-880a15215110)
 
-
+also can edit config from ace editor
 
 
 
