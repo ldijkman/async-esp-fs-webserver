@@ -16,6 +16,8 @@ helpme?
 
 - https://github.com/cotestatnt/async-esp-fs-webserver/issues/28
 
+
+https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/simpleServerwithwebsocket.ino
 ```
 
 // mdns is working like it should
