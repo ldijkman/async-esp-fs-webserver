@@ -1,7 +1,7 @@
 
 # The Art of Time Controlled
 
-upload to 4mb ESP32 from browser
+Simple Easy Upload to 4mb ESP32 from Browser.
 
 --- 
 
