@@ -38,6 +38,9 @@ helpme?
 
 
 
+
+
+
 // starts as an wifi accespoint AP
 // wifi name broadcasted in the air "ESP32_AP1234"
 // no password used
@@ -224,6 +227,9 @@ void setup() {
  //   request->send(LittleFS, "/index.html", "text/html");
  // });
 
+ // https://github.com/cotestatnt/async-esp-fs-webserver/issues/23
+ // https://github.com/cotestatnt/async-esp-fs-webserver/issues/18
+
 
 
 
@@ -310,6 +316,7 @@ void printLocalTime() {
   // Print the local time
   Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
 }
+
 
 
 
