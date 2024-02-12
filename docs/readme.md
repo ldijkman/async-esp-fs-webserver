@@ -37,10 +37,6 @@ helpme?
 
 
 
-
-
-
-
 // starts as an wifi accespoint AP
 // wifi name broadcasted in the air "ESP32_AP1234"
 // no password used
@@ -69,6 +65,7 @@ helpme?
 #include <ESPmDNS.h>
 
 int gpio_relais_pin = 21;                       // for future relais gpio pin
+int gpio_input_button_pin=17;                   // for future override
 const  char* hostname = "garage";       // .local is added by esp32 mdns   http://garage.local
 String myhostname=hostname;
     
@@ -187,10 +184,12 @@ void setup() {
       deserializeJson(doc, config);
       gpio_relais_pin = doc["gpio_relais_pin"];
       hostname = doc["mDNS"];
-      myhostname=hostname;
-      GMT_Time_Offset_sec=doc["GMT_Time_Offset_sec"];
+      myhostname = hostname;
+      GMT_Time_Offset_sec = doc["GMT_Time_Offset_sec"];
+      gpio_input_button_pin = doc["gpio_input_button_pin"];
     }
     Serial.printf("Stored \"gpio_relais_pin\" value: %d\n", gpio_relais_pin);
+    Serial.printf("Stored \"gpio_input_button_pin\" value: %d\n", gpio_input_button_pin);
     Serial.printf("Stored \"mDNS hostname\" value: %s\n", hostname);
     Serial.printf("Stored \"GMT_Time_Offset_sec\" value: %d\n", GMT_Time_Offset_sec);
   } else 
@@ -204,6 +203,7 @@ void setup() {
   server.addOptionBox("Custom");
 
   server.addOption("gpio_relais_pin", gpio_relais_pin);
+  server.addOption("gpio_input_button_pin", gpio_input_button_pin);
   server.addOption("mDNS", hostname);
   server.addOption("GMT_Time_Offset_sec", GMT_Time_Offset_sec);
 
@@ -316,6 +316,7 @@ void printLocalTime() {
   // Print the local time
   Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
 }
+
 
 
 
