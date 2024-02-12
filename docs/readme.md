@@ -347,12 +347,12 @@ void printLocalTime() {
 ![Screenshot from 2024-02-11 08-49-58](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/6a2095b5-aa0f-4a00-99d2-d497e0caa839)
 
 
-also can edit config from ace editor
+### also can edit config from ace editor
 http://garage.local/edit
 
 ![Screenshot from 2024-02-12 05-07-34](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/8b023c65-aebe-46e6-98ad-880a15215110)
 
-http://garage.local/edit
+### http://garage.local/edit
 also can edit config from ace editor
 
 
