@@ -22,6 +22,8 @@ helpme?
 // only my android phone bonjourbrowser
 //                       https://play.google.com/store/apps/details?id=de.wellenvogel.bonjourbrowser
 //     ok now shows the correct set mdns adres http://garage.local
+// choose a unique mdns adres afor each device like garden, living, toilet, hallway, stairs, kitchen, etcetera
+// set mdns in setup page tab custom
 
 // even cheaper
 // ESP8266 12E/12F 4mb Version (only little changes needed)
