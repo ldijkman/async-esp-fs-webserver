@@ -348,9 +348,11 @@ void printLocalTime() {
 
 
 also can edit config from ace editor
+http://garage.local/edit
 
 ![Screenshot from 2024-02-12 05-07-34](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/8b023c65-aebe-46e6-98ad-880a15215110)
 
+http://garage.local/edit
 also can edit config from ace editor
 
 
