@@ -1,9 +1,9 @@
 // mdns is working like it should
-// only my android phone bonjourbrowser
+// my android phone bonjourbrowser app lists it
 //                       https://play.google.com/store/apps/details?id=de.wellenvogel.bonjourbrowser
 //     ok now shows the correct set mdns adres http://garage.local
 // choose a unique mdns adres for each ESP device like garden, living, toilet, hallway, stairs, kitchen, etcetera
-// set mdns in setup page tab custom
+// set mdns in /setup page tab custom
 
 // even cheaper
 // ESP8266 12E/12F 4mb Version (only little changes needed)
@@ -13,23 +13,18 @@
 
 // do not use delay() in the code, it will result in reboot loop
 
-// when in wifi ap or apsta mode no date time displayed in serial monitor
+// when in wifi ap or apsta mode no date time displayed in serial monitor 115200
 // only in wifi station mode  date time displayed  in serial monitor
 
 
 // starts as an wifi accespoint AP
 // wifi name broadcasted in the air "ESP32_AP1234"
 // no password used
-// connect to it
+// connect wifi to it
 // if connected browse to http://8.8.8.8/setup
 // or browse to http://8.8.8.8/edit
-// create a file index or scheduler.html in ace editor FS browsser
-// copy the code from https://codepen.io/ldijkman/pen/LYaOgvW
-// paste and save in ace editor FSbrowser
-// browse to http://8.8.8.8/scheduler.html
-//   or when made index.html
-//       browse to http://8.8.8.8/  or http://8.8.8.8/index.html
-// see when times are changed result in serial monitor
+
+// see when times are changed result in serial monitor 115200
 // now need to do someting with the times on the ESP
 
 
