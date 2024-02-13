@@ -1,3 +1,18 @@
+// mdns is working like it should
+// only my android phone bonjourbrowser
+//                       https://play.google.com/store/apps/details?id=de.wellenvogel.bonjourbrowser
+//     ok now shows the correct set mdns adres http://garage.local
+// choose a unique mdns adres for each ESP device like garden, living, toilet, hallway, stairs, kitchen, etcetera
+// set mdns in setup page tab custom
+
+// even cheaper
+// ESP8266 12E/12F 4mb Version (only little changes needed)
+
+// need to make the on/off json websocket implemented 
+// chat gpt4 knows it all howto do it
+
+// do not use delay() in the code, it will result in reboot loop
+
 // when in wifi ap or apsta mode no date time displayed in serial monitor
 // only in wifi station mode  date time displayed  in serial monitor
 
