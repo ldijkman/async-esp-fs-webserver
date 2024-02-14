@@ -1,3 +1,13 @@
+
+---
+
+added a drecory docs for flash esp32 from browser webpage
+
+https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs
+
+---
+
+
 If you like this work, please consider [sponsoring this project!](https://paypal.me/cotesta)
 
 # async-esp-fs-webserver
