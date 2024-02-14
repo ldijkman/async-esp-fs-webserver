@@ -44,6 +44,7 @@ int gpio_input_button_pin=17;                   // for future override
 const  char* hostname = "garage";       // .local is added by esp32 mdns   http://garage.local
 String myhostname=hostname;
     
+    AsyncWebSocket ws("/ws");
 
 AsyncFsWebServer server(80, LittleFS, "webserver");
 
@@ -229,6 +230,10 @@ void AsyncFsWebServer::notFound(AsyncWebServerRequest *request) {
 
   // Start server
   // Init with custom WebSocket event handler and start server
+  
+  ws.onEvent(onWsEvent);
+  server.addHandler(&ws);
+
   server.init(onWsEvent);
  //server.init();
 
@@ -294,6 +299,8 @@ void loop() {
       Serial.println(".local");
     }
 
+    
+
   }
 
 
@@ -302,12 +309,20 @@ void loop() {
 
 
 
+// bit changed for ESP8266
 void printLocalTime() {
   struct tm timeinfo;
   if (!getLocalTime(&timeinfo)) {
     Serial.println("Failed to obtain time");
     return;
   }
-  // Print the local time
-  Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
+  // Buffer to hold the formatted time. Adjust size if needed.
+  char buffer[64]; 
+  // Format the time and store it in buffer. The format string can be adjusted as per your needs.
+  strftime(buffer, sizeof(buffer), "%A, %B %d %Y %H:%M:%S", &timeinfo);
+  // Print the formatted time
+  Serial.println(buffer);
+    
+    // Broadcast current time to all connected WebSocket clients
+    ws.textAll(buffer);
 }
