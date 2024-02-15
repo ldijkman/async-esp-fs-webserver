@@ -5,6 +5,9 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
 -->
 */
 
+// does ESP8266 4mb 12E / 12F  (switch AP to station not flawless with setup messages)
+// does ESP32 4mb Wroom
+
 // mdns is working like it should
 // my android phone bonjourbrowser app lists it
 //                       https://play.google.com/store/apps/details?id=de.wellenvogel.bonjourbrowser
@@ -44,7 +47,11 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
 
 #include <ArduinoJson.h>
 #include "time.h"
+#if defined(ESP8266)
+#include <ESP8266mDNS.h>
+#elif defined(ESP32)
 #include <ESPmDNS.h>
+#endif
 
 int gpio_relais_pin = 21;                       // for future relais gpio pin
 int gpio_input_button_pin=17;                   // for future override
@@ -287,7 +294,11 @@ if (MDNS.begin(myhostname)) {
 }
 
 void loop() {
-
+  if (WiFi.status() == WL_CONNECTED) {
+#ifdef ESP8266
+    MDNS.update();
+#endif
+  }
   
   static unsigned long lastPrintTime = 0;
   const unsigned long printInterval = 10000;  // Print every 10000 milliseconds (10 seconds)
