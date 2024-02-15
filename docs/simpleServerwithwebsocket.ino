@@ -1,3 +1,10 @@
+/*
+<!-- 
+Copyright 2023 Dirk Luberth Dijkman Bangert 30 1619GJ Andijk The Netherlands    
+The Art of Time Controlled. Visual TimeSlots Schedule.
+-->
+*/
+
 // mdns is working like it should
 // my android phone bonjourbrowser app lists it
 //                       https://play.google.com/store/apps/details?id=de.wellenvogel.bonjourbrowser
@@ -326,3 +333,10 @@ void printLocalTime() {
     // Broadcast current time to all connected WebSocket clients
     ws.textAll(buffer);
 }
+
+/*
+<!-- 
+Copyright 2023 Dirk Luberth Dijkman Bangert 30 1619GJ Andijk The Netherlands    
+The Art of Time Controlled. Visual TimeSlots Schedule.
+-->
+*/
