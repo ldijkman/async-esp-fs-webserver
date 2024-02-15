@@ -1,1 +1,16 @@
 
+
+{
+  "name": "Firmware ESP8266 4mb 12E / 12F",
+  "version": "15 frebruari 2024",
+  "new_install_prompt_erase": true,
+  "builds": [
+    {
+      "chipFamily": "ESP8266",
+      "parts": [
+        { "path": "simpleServerwithwebsocket_esp8266.ino.bin", "offset": 0 },
+        { "path": "", "offset": 2097152 }
+      ]
+    }
+  ]
+}
