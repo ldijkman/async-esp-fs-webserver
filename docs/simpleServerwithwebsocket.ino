@@ -106,6 +106,7 @@ void getFsInfo(fsInfo_t* fsInfo) {
 #endif
 
 //---------------------------------------
+// for the demo ledtest.html on ESP8266 version litlefs, not very useful, page does not now state 
 void handleLed(AsyncWebServerRequest *request) {
   static int value = false;
   // http://xxx.xxx.xxx.xxx/led?val=1
