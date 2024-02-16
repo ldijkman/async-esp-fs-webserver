@@ -53,8 +53,9 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
 #include <ESPmDNS.h>
 #endif
 
-int gpio_relais_pin = 21;                       // for future relais gpio pin
+int gpio_relais_pin = 2;      //wemos d1 esp32 led pin                 // for future relais gpio pin
 int gpio_input_button_pin=17;                   // for future override
+
 const  char* hostname = "garage";       // .local is added by esp32 mdns   http://garage.local
 String myhostname=hostname;
     
@@ -104,7 +105,18 @@ void getFsInfo(fsInfo_t* fsInfo) {
 }
 #endif
 
-
+//---------------------------------------
+void handleLed(AsyncWebServerRequest *request) {
+  static int value = false;
+  // http://xxx.xxx.xxx.xxx/led?val=1
+  if(request->hasParam("val")) {
+    value = request->arg("val").toInt();
+    digitalWrite(gpio_relais_pin, value);
+  }
+  String reply = "LED is now ";
+  reply += value ? "ON" : "OFF";
+  request->send(200, "text/plain", reply);
+}
 
 
 // In this example a custom websocket event handler is used instead default
@@ -163,6 +175,8 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
 void setup() {
  
 
+
+
   Serial.begin(115200);
   delay(1000);
 
@@ -185,7 +199,7 @@ void setup() {
   } else 
     Serial.println("LittleFS error!");
   
-
+pinMode(gpio_relais_pin, OUTPUT);
 
   IPAddress myIP = server.startWiFi(15000, "ESP32_AP1234", "");
   WiFi.setSleep(WIFI_PS_NONE);
@@ -239,6 +253,8 @@ void AsyncFsWebServer::notFound(AsyncWebServerRequest *request) {
     log_debug("Resource %s not found\n", request->url().c_str());
 }
 */
+
+ server.on("/led", HTTP_GET, handleLed);
 
 
 
