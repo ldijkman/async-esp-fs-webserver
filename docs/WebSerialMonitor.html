@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Web Serial Port Monitor</title>
+
+    <style>
+
+#output {
+    white-space: pre-wrap; /* Ensures text wraps */
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-top: 10px;
+    height: 300px;
+    overflow-y: auto;
+}
+      </style>
+</head>
+<body>
+  run https FullScreen<br>
+    <button id="connect">Connect</button>
+    <pre id="output"></pre>
+
+    <script>
+
+document.getElementById('connect').addEventListener('click', async () => {
+    if ('serial' in navigator) {
+        try {
+            const port = await navigator.serial.requestPort();
+            await port.open({ baudRate: 115200 });
+
+            const textDecoder = new TextDecoderStream();
+            const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
+            const reader = textDecoder.readable.getReader();
+
+            // Continuously read from the serial port
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) {
+                    // Allow the serial port to be closed later.
+                    reader.releaseLock();
+                    break;
+                }
+                // Display the received data in the <pre> element
+                document.getElementById('output').textContent += value;
+            }
+        } catch (err) {
+            console.error('There was an error:', err);
+        }
+    } else {
+        console.log('Web Serial API not supported.');
+    }
+});
+
+    </script>
+
+    <br><a href="https://ldijkman.github.io/async-esp-fs-webserver/" target="_blank">flash ESP8266 ESP32InBrowser<br>https://ldijkman.github.io/async-esp-fs-webserver/</a><br>
+<br>
+
+
+
+</body>
+</html>
+
