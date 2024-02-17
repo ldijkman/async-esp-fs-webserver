@@ -257,7 +257,13 @@ void AsyncFsWebServer::notFound(AsyncWebServerRequest *request) {
 
  server.on("/led", HTTP_GET, handleLed);
 
-
+ // Define route for "/ace" to serve "ace.html"
+  server.on("/ace", HTTP_GET, [](AsyncWebServerRequest *request) {
+    if(LittleFS.exists("/ace.html")) {
+      Serial.println("/ace requested. Serving ace.html now...");
+      request->send(LittleFS, "/ace.html", "text/html");
+    } 
+  });
 
   // Start server
   // Init with custom WebSocket event handler and start server
