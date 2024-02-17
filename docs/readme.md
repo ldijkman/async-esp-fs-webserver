@@ -42,5 +42,12 @@ http://garage.local/edit
 ### http://garage.local/edit
 also can edit config from ace editor
 
+---
+
+list other mdns devices in the network
+
+living.local  kitchen.local
+
+![Screenshot from 2024-02-17 20-05-40](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/09ea021c-41a5-4a11-a789-128bd30c2d33)
 
 
