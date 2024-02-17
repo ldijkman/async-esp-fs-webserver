@@ -331,6 +331,8 @@ void loop() {
     // Save the last time you printed the time
     lastPrintTime = currentTime;
 
+     browseService("http", "tcp"); // find other mdns devices in network
+
     // Check WiFi connection and print the time
     if (WiFi.status() == WL_CONNECTED) {
       printLocalTime();
@@ -366,6 +368,36 @@ void printLocalTime() {
     
     // Broadcast current time to all connected WebSocket clients
     ws.textAll(buffer);
+}
+
+
+void browseService(const char * service, const char * proto){
+    Serial.printf("Browsing for service _%s._%s.local. ... ", service, proto);
+    int n = MDNS.queryService(service, proto);
+    if (n == 0) {
+        Serial.println("no services found");
+    } else {
+        Serial.print(n);
+        Serial.println(" service(s) found");
+        for (int i = 0; i < n; ++i) {
+            // Print details for each service found
+            Serial.print("  ");
+            Serial.print(i + 1);
+            Serial.print(": ");
+            Serial.print(MDNS.hostname(i));
+            Serial.print(" (");
+            Serial.print(MDNS.IP(i));
+            Serial.print(":");
+            Serial.print(MDNS.port(i));
+            Serial.println(")");
+            // Concatenate the hostname, IP, and port into a single string
+            String message = String(MDNS.hostname(i)) + " (" + MDNS.IP(i).toString() + ":" + String(MDNS.port(i)) + ")";
+
+            // Send the concatenated string to all connected WebSocket clients
+            ws.textAll(message.c_str());;
+        }
+    }
+    Serial.println();
 }
 
 /*
