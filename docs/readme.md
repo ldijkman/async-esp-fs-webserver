@@ -57,3 +57,7 @@ https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html
 ![Screenshot from 2024-02-17 20-21-00](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/72cbb512-9ac1-436b-9349-3b97d3c150b2)
 
 https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html
+
+![Screenshot from 2024-02-18 00-01-02](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/8ffd31d0-6689-4c3d-884a-ea0baf632a1c)
+
+
