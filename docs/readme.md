@@ -44,7 +44,7 @@ also can edit config from ace editor
 
 ---
 
-list other mdns devices in the network
+mDNS scan, list other mdns devices in the network
 
 living.local  kitchen.local
 
