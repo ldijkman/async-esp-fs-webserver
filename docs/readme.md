@@ -51,3 +51,4 @@ living.local  kitchen.local
 ![Screenshot from 2024-02-17 20-05-40](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/09ea021c-41a5-4a11-a789-128bd30c2d33)
 
 
+![Screenshot from 2024-02-17 20-21-00](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/72cbb512-9ac1-436b-9349-3b97d3c150b2)
