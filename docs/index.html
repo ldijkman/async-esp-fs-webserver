@@ -14,33 +14,7 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
 
 <body>
 
-    <p id="fileDate">Fetching...</p>
-  <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const owner = 'ldijkman';
-    const repo = 'async-esp-fs-webserver';
-    const filePath = 'docs/ESP8266_feb10a.mklittlefs.bin';
 
-    // GitHub API endpoint for commits affecting the specified file
-    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/commits?path=${filePath}`;
-
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            if (data.length > 0) {
-                // The date of the last commit affecting the file
-                const lastCommitDate = new Date(data[0].commit.committer.date);
-                document.getElementById('fileDate').textContent = `Last Updated: $[FilePath] ${lastCommitDate.toDateString()}`;
-            } else {
-                document.getElementById('fileDate').textContent = 'No updates found.';
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching file date:', error);
-            document.getElementById('fileDate').textContent = 'Failed to fetch date.';
-        });
-});
-  </script>
   Just want to simple switch devices on a time, Easy, Simple, Me No Home Assistant Nerd. ServerLess Home Automation?<br>
   <center>
     <h1>Flash Your 4mb ESP8266 / 4mb ESP32 Device</h1>
@@ -82,10 +56,33 @@ document.addEventListener('DOMContentLoaded', function() {
       <esp-web-install-button manifest="https://ldijkman.github.io/async-esp-fs-webserver/manifest_ESP8266.json"></esp-web-install-button><br>
       <br>
       Firmware Version: 17 Februari 2024<br>
-      added server.on /ace serve ace.html<br>
-      added list other mDNS devices in network in console or serial<br>
-      added mdns.html list link mdns scan fo othr devices in network<br>
-      littlefs 17 februari added ace.html 2024<br>
+         <p id="fileDate4">Fetching...</p>
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const owner = 'ldijkman';
+    const repo = 'async-esp-fs-webserver';
+    const filePath = 'docs/ESP8266_feb10a.mklittlefs.bin';
+
+    // GitHub API endpoint for commits affecting the specified file
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/commits?path=${filePath}`;
+
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                // The date of the last commit affecting the file
+                const lastCommitDate = new Date(data[0].commit.committer.date);
+                document.getElementById('fileDate4').textContent = `Last Updated: ${FilePath} ${lastCommitDate.toDateString()}`;
+            } else {
+                document.getElementById('fileDate4').textContent = 'No updates found.';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching file date:', error);
+            document.getElementById('fileDate4').textContent = 'Failed to fetch date.';
+        });
+});
+  </script>
 
       <br>
       it works but:<br>
