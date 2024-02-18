@@ -25,6 +25,9 @@
     label.checkbox {
       margin-right: 1em;
     }
+    #terminal {
+      height:90%;
+    }
   </style>
   <script type="module" crossorigin src="https://googlechromelabs.github.io/serial-terminal/assets/index.15524ea3.js"></script>
   <link rel="stylesheet" href="https://googlechromelabs.github.io/serial-terminal/assets/index.ff373be6.css">
@@ -84,13 +87,13 @@
 
   <br>
 
-  <input id="echo" type="checkbox">
+  <input id="echo" type="checkbox" checked>
   <label class="checkbox" for="echo">Local echo</label>
-  <input id="enter_flush" type="checkbox">
+  <input id="enter_flush" type="checkbox" checked>
   <label class="checkbox" for="enter_flush">Flush on enter</label>
-  <input id="convert_eol" type="checkbox">
+  <input id="convert_eol" type="checkbox" checked>
   <label class="checkbox" for="convert_eol">Convert EOL</label>
-  <input id="autoconnect" type="checkbox">
+  <input id="autoconnect" type="checkbox" checked>
   <label class="checkbox" for="autoconnect">Automatically connect</label>
 
   <div class="info">
