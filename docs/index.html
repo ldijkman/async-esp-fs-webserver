@@ -56,7 +56,7 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
       <esp-web-install-button manifest="https://ldijkman.github.io/async-esp-fs-webserver/manifest_ESP8266.json"></esp-web-install-button><br>
       <br>
       Firmware Version: 17 Februari 2024<br>
-         <p id="fileDate4">Fetching...</p>
+         <span id="fileDate">Fetching...</span>
   <script>
 document.addEventListener('DOMContentLoaded', function() {
     const owner = 'ldijkman';
@@ -72,14 +72,14 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.length > 0) {
                 // The date of the last commit affecting the file
                 const lastCommitDate = new Date(data[0].commit.committer.date);
-                document.getElementById('fileDate4').textContent = `Last Updated: ${FilePath} ${lastCommitDate.toDateString()}`;
+                document.getElementById('fileDate').textContent = `Last Updated: ${FilePath} ${lastCommitDate.toDateString()}`;
             } else {
-                document.getElementById('fileDate4').textContent = 'No updates found.';
+                document.getElementById('fileDate').textContent = 'No updates found.';
             }
         })
         .catch(error => {
             console.error('Error fetching file date:', error);
-            document.getElementById('fileDate4').textContent = 'Failed to fetch date.';
+            document.getElementById('fileDate').textContent = 'Failed to fetch date.';
         });
 });
   </script>
