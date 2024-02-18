@@ -1,7 +1,7 @@
 
 ---
 
-### added a drecory docs for flash esp32 from browser webpage
+### added a directory docs for flash esp32 from browser webpage
 
 ### https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs
 
