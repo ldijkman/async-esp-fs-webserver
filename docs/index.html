@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.length > 0) {
                 // The date of the last commit affecting the file
                 const lastCommitDate = new Date(data[0].commit.committer.date);
-                document.getElementById('fileDate1').textContent = `Last Updated: ${filePath} ${lastCommitDate.toDateString()}`;
+                document.getElementById('fileDate1').textContent = `FirmWare Last Updated: ${lastCommitDate.toDateString()}`;
             } else {
                 document.getElementById('fileDate1').textContent = 'Last Updated: ${filePath} No updates found.';
             }
@@ -94,7 +94,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.length > 0) {
                 // The date of the last commit affecting the file
                 const lastCommitDate = new Date(data[0].commit.committer.date);
-                document.getElementById('fileDate2').textContent = `Last Updated: ${filePath} ${lastCommitDate.toDateString()}`;
+                document.getElementById('fileDate2').textContent = `LittleFS Last Updated: ${lastCommitDate.toDateString()}`;
             } else {
                 document.getElementById('fileDate2').textContent = 'Last Updated: ${filePath} No updates found.';
             }
