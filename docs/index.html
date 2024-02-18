@@ -53,7 +53,7 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
    
         <span id="fileDate1">Fetching...</span><br>
          <span id="fileDate2">Fetching...</span><br>
-        <script>
+<script>
 document.addEventListener('DOMContentLoaded', function() {
     const owner = 'ldijkman';
     const repo = 'async-esp-fs-webserver';
@@ -68,17 +68,20 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.length > 0) {
                 // The date of the last commit affecting the file
                 const lastCommitDate = new Date(data[0].commit.committer.date);
-                document.getElementById('fileDate1').textContent = `FirmWare Last Updated: ${lastCommitDate.toDateString()}`;
+                // Format date and time
+                const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short' };
+                const formattedDateTime = lastCommitDate.toLocaleDateString('en-US', options);
+                document.getElementById('fileDate1').textContent = `Firmware Last Updated: ${formattedDateTime}`;
             } else {
-                document.getElementById('fileDate1').textContent = 'Last Updated: ${filePath} No updates found.';
+                document.getElementById('fileDate1').textContent = `Last Updated: No updates found for ${filePath}.`;
             }
         })
         .catch(error => {
             console.error('Error fetching file date:', error);
-            document.getElementById('fileDat1').textContent = 'Last Updated: ${filePath} Failed to fetch date.';
+            document.getElementById('fileDate1').textContent = `Last Updated: Failed to fetch date for ${filePath}.`;
         });
 });
-  </script>
+</script>
   <script>
 document.addEventListener('DOMContentLoaded', function() {
     const owner = 'ldijkman';
