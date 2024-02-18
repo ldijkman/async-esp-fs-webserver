@@ -43,8 +43,66 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
       <!-- ESP Web Install Button -->
       Dev. boards with ESP32 4Mb <esp-web-install-button manifest="https://ldijkman.github.io/async-esp-fs-webserver/manifest_ESP32.json"></esp-web-install-button><br>
       <br>
-      Firmware Version: 14 Februari 2024<br>
-      19:26 filesystem update with time.html added<br>
+      <span id="fileDate11">Fetching...</span><br>
+      <span id="fileDate22">Fetching...</span><br>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const owner = 'ldijkman';
+    const repo = 'async-esp-fs-webserver';
+    const filePath = 'docs/simpleServerwithwebsocket.ino.binn';
+
+    // GitHub API endpoint for commits affecting the specified file
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/commits?path=${filePath}`;
+
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                // The date of the last commit affecting the file
+                const lastCommitDate = new Date(data[0].commit.committer.date);
+                // Format date and time
+                const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short' };
+                const formattedDateTime = lastCommitDate.toLocaleDateString('en-US', options);
+                document.getElementById('fileDate11').textContent = `Firmware Last Updated: ${formattedDateTime}`;
+            } else {
+                document.getElementById('fileDate11').textContent = `Last Updated: No updates found for ${filePath}.`;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching file date:', error);
+            document.getElementById('fileDate11').textContent = `Last Updated: Failed to fetch date for ${filePath}.`;
+        });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const owner = 'ldijkman';
+    const repo = 'async-esp-fs-webserver';
+    const filePath = 'docs/feb10a.littlefs.bin';
+
+    // GitHub API endpoint for commits affecting the specified file
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/commits?path=${filePath}`;
+
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                // The date of the last commit affecting the file
+                const lastCommitDate = new Date(data[0].commit.committer.date);
+                // Format date and time
+                const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short' };
+                const formattedDateTime = lastCommitDate.toLocaleDateString('en-US', options);
+                document.getElementById('fileDate22').textContent = `LittleFS Last Updated: ${formattedDateTime}`;
+            } else {
+                document.getElementById('fileDate22').textContent = `Last Updated: No updates found for ${filePath}.`;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching file date:', error);
+            document.getElementById('fileDate22').textContent = `Last Updated: Failed to fetch date for ${filePath}.`;
+        });
+});
+</script>
       <br>
     </p>
     <br><br>
@@ -170,11 +228,11 @@ document.addEventListener('DOMContentLoaded', function() {
    
 
     <center>
-      <img src="http://aicode.great-site.net/counter.php?counter=flasher">
+     <!-- <img src="http://aicode.great-site.net/counter.php?counter=flasher"> -->
     </center>
-    <br><br>
+
     
-    <br><br> <br><br>
+    <br><br><br><br> <br><br>
 
     /*
     <!-- 
