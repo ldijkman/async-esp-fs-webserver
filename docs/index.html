@@ -13,7 +13,7 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
 </head>
 
 <body>
-  <h1>/ESP8266_feb10a.mklittlefs.bin </h1>
+
     <p id="fileDate">Fetching...</p>
   <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.length > 0) {
                 // The date of the last commit affecting the file
                 const lastCommitDate = new Date(data[0].commit.committer.date);
-                document.getElementById('fileDate').textContent = `Last Updated: ${lastCommitDate.toDateString()}`;
+                document.getElementById('fileDate').textContent = `Last Updated: $[FilePath] ${lastCommitDate.toDateString()}`;
             } else {
                 document.getElementById('fileDate').textContent = 'No updates found.';
             }
