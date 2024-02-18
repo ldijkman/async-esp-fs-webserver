@@ -74,12 +74,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 const lastCommitDate = new Date(data[0].commit.committer.date);
                 document.getElementById('fileDate').textContent = `Last Updated: ${FilePath} ${lastCommitDate.toDateString()}`;
             } else {
-                document.getElementById('fileDate').textContent = 'No updates found.';
+                document.getElementById('fileDate').textContent = 'Last Updated: ${FilePath} No updates found.';
             }
         })
         .catch(error => {
             console.error('Error fetching file date:', error);
-            document.getElementById('fileDate').textContent = 'Failed to fetch date.';
+            document.getElementById('fileDate').textContent = 'Last Updated: ${FilePath} Failed to fetch date.';
         });
 });
   </script>
