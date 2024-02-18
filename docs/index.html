@@ -50,8 +50,35 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
       Dev. boards with ESP8266 4Mb 12E/12F
       <esp-web-install-button manifest="https://ldijkman.github.io/async-esp-fs-webserver/manifest_ESP8266.json"></esp-web-install-button><br>
       <br>
-      Firmware Version: 17 Februari 2024<br>
-         <span id="fileDate">Fetching...</span><br>
+   
+        <span id="fileDate1">Fetching...</span><br>
+         <span id="fileDate2">Fetching...</span><br>
+        <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const owner = 'ldijkman';
+    const repo = 'async-esp-fs-webserver';
+    const filePath = 'docs/simpleServerwithwebsocket_esp8266.ino.bin';
+
+    // GitHub API endpoint for commits affecting the specified file
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/commits?path=${filePath}`;
+
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                // The date of the last commit affecting the file
+                const lastCommitDate = new Date(data[0].commit.committer.date);
+                document.getElementById('fileDate1').textContent = `Last Updated: ${filePath} ${lastCommitDate.toDateString()}`;
+            } else {
+                document.getElementById('fileDate1').textContent = 'Last Updated: ${filePath} No updates found.';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching file date:', error);
+            document.getElementById('fileDat1').textContent = 'Last Updated: ${filePath} Failed to fetch date.';
+        });
+});
+  </script>
   <script>
 document.addEventListener('DOMContentLoaded', function() {
     const owner = 'ldijkman';
@@ -67,14 +94,14 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.length > 0) {
                 // The date of the last commit affecting the file
                 const lastCommitDate = new Date(data[0].commit.committer.date);
-                document.getElementById('fileDate').textContent = `Last Updated: ${filePath} ${lastCommitDate.toDateString()}`;
+                document.getElementById('fileDate2').textContent = `Last Updated: ${filePath} ${lastCommitDate.toDateString()}`;
             } else {
-                document.getElementById('fileDate').textContent = 'Last Updated: ${filePath} No updates found.';
+                document.getElementById('fileDate2').textContent = 'Last Updated: ${filePath} No updates found.';
             }
         })
         .catch(error => {
             console.error('Error fetching file date:', error);
-            document.getElementById('fileDate').textContent = 'Last Updated: ${filePath} Failed to fetch date.';
+            document.getElementById('fileDat2').textContent = 'Last Updated: ${filePath} Failed to fetch date.';
         });
 });
   </script>
