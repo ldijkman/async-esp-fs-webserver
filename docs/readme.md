@@ -5,9 +5,9 @@ Simple Easy Upload to 4mb ESP32 from Browser.
 
 --- 
 
-### Flash 4mb ESP32 from InBrowser
+## Flash 4mb ESP8266 or ESP32 from InBrowser
 
-### https://ldijkman.github.io/async-esp-fs-webserver/
+## https://ldijkman.github.io/async-esp-fs-webserver/
 
 ---
 
