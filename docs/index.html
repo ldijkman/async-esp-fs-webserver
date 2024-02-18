@@ -13,7 +13,34 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
 </head>
 
 <body>
+  <h1>/ESP8266_feb10a.mklittlefs.bin </h1>
+    <p id="fileDate">Fetching...</p>
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const owner = 'ldijkman';
+    const repo = 'async-esp-fs-webserver';
+    const filePath = 'docs/ESP8266_feb10a.mklittlefs.bin';
 
+    // GitHub API endpoint for commits affecting the specified file
+    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/commits?path=${filePath}`;
+
+    fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                // The date of the last commit affecting the file
+                const lastCommitDate = new Date(data[0].commit.committer.date);
+                document.getElementById('fileDate').textContent = `Last Updated: ${lastCommitDate.toDateString()}`;
+            } else {
+                document.getElementById('fileDate').textContent = 'No updates found.';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching file date:', error);
+            document.getElementById('fileDate').textContent = 'Failed to fetch date.';
+        });
+});
+  </script>
   Just want to simple switch devices on a time, Easy, Simple, Me No Home Assistant Nerd. ServerLess Home Automation?<br>
   <center>
     <h1>Flash Your 4mb ESP8266 / 4mb ESP32 Device</h1>
