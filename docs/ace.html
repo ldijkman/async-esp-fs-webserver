@@ -284,13 +284,13 @@
   }
 
   .ace_editor .ace_marker-layer .ace_selection {
-  //background-color: orange;
-  border:2px solid orange;
+  background-color: rgba(0,241,191,0.7);
+  bbbborder:2px solid orange;
 }
 
 .ace_editor .ace_marker-layer .ace_selected-word {
-  //background-color: orange;
-  border:2px solid yellow;
+  background-color: rgba(0,241,191,0.7);;
+  bbborder:2px solid yellow;
 }
 
 
@@ -315,7 +315,27 @@
   background-color: #444444;
   color: lightgray;*/
 }
+
+
+.ace_editor .ace_marker-layer .ace_bracket {  /*better visible {} pair*/
+  
+   background: rgba(255,255,0,0.25);
+   border: .1px solid greenyellow;
+   //padding-left: 2px;padding-right: 2px;padding-top: 2px;padding-bottom: 2px;
+   //border-collapse: 10px;
+    
+  }
+
 </style>
+
+
+
+
+
+
+
+
+
 <script>
   var tree, fsInfo;
   const $ = function(e) {
