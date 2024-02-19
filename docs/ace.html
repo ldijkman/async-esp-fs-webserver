@@ -846,7 +846,7 @@ document.getElementById('downloadBtn').addEventListener('click', function() {
 
     // Create an anchor (<a>) element to facilitate the download
     var downloadLink = document.createElement('a');
-    downloadLink.download = 'AceEditorContent.txt'; // Name of the file to download
+    downloadLink.download = 'AceEditorContent.html'; // Name of the file to download
     downloadLink.href = window.URL.createObjectURL(fileToDownload);
     downloadLink.style.display = 'none';
 
