@@ -282,6 +282,39 @@
     width: 64px;
     height: 64px
   }
+
+  .ace_editor .ace_marker-layer .ace_selection {
+  //background-color: orange;
+  border:2px solid orange;
+}
+
+.ace_editor .ace_marker-layer .ace_selected-word {
+  //background-color: orange;
+  border:2px solid yellow;
+}
+
+
+
+
+.ace_link_marker {                  /*red underline when over url link in editore*/
+  position: absolute;
+  border-bottom: 5px solid red;
+  opacity: 50%;
+}
+
+.ace_search.right {                      /*find search popup box*/
+  position: absolute;
+  border-radius: 8px 8px 8px 8px;
+  border-right: 0 none;
+  left: 5%;
+  top: 2%;
+  font-size: 15px; /*otherwise it scales with fontsize of editor inherit*/
+  right: auto;
+  cursor: move;
+  color-scheme: dark;
+  background-color: #444444;
+  color: lightgray;
+}
 </style>
 <script>
   var tree, fsInfo;
@@ -639,7 +672,11 @@
             ace.edit("editor").setFontSize(currentSize - 1); // Decrease font size by 2
         }
     });
- 
+   setTimeout(function(){
+     ace.edit("editor").execCommand('find');         // create the search find replace popup
+                                    // think draggable wants to add code to div class="ace_search"
+  }, 50);
+
   }
 </script>
 
@@ -685,6 +722,68 @@
     <div class=spinner-anim>Loading...</div>
   </div>
 
+
+
+<script>
+
+  // make search div draggable
+document.addEventListener("DOMContentLoaded", function() {
+  
+    // Function to make an element draggable
+    function makeDraggable(dragElement) {
+        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+
+        if (document.querySelector(dragElement)) {
+            var elmnt = document.querySelector(dragElement);
+            // if present, the header is where you move the DIV from:
+            elmnt.onmousedown = dragMouseDown;
+        } else {
+            // otherwise, move the DIV from anywhere inside the DIV:
+            elmnt.onmousedown = dragMouseDown;
+        }
+
+        function dragMouseDown(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // get the mouse cursor position at startup:
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            // call a function whenever the cursor moves:
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // calculate the new cursor position:
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            // set the element's new position:
+            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+        }
+
+        function closeDragElement() {
+            // stop moving when mouse button is released:
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+    }
+
+    // Making the specific element draggable
+      setTimeout(function(){
+   makeDraggable(".ace_search.right");
+   
+                                    }, 2500);
+
+   
+});
+</script>
+
+  
 </body>
 
 </html>
