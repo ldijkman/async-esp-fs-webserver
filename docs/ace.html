@@ -311,9 +311,9 @@
   font-size: 15px; /*otherwise it scales with fontsize of editor inherit*/
   right: auto;
   cursor: move;
-  color-scheme: dark;
+  /*color-scheme: dark;
   background-color: #444444;
-  color: lightgray;
+  color: lightgray;*/
 }
 </style>
 <script>
@@ -693,7 +693,7 @@
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.32.6/src-noconflict/ace.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/ace-builds@1.32.6/css/ace.min.css" rel="stylesheet"><script>
+<!--<link href="https://cdn.jsdelivr.net/npm/ace-builds@1.32.6/css/ace.min.css" rel="stylesheet"><script>-->
 <script>
   var script;
   "undefined" == typeof ace && (console.log("Cannot load ace.js from the web, trying local copy"), (script = newEm("script")).src = "/edit/ace.js", script.async = !1, document.head.appendChild(script))
@@ -773,13 +773,43 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+
+
     // Making the specific element draggable
       setTimeout(function(){
+    // Locate the .ace_search.right div
+    var searchDiv = document.querySelector('.ace_search.right');
+    
+    if (searchDiv) {
+        // Create a new div element
+        var newDiv = document.createElement('div');
+        newDiv.textContent = 'You can drag me';
+        
+        // Append the new div as a child of the .ace_search.right div
+        searchDiv.appendChild(newDiv);
+    } else {
+        console.log('.ace_search.right div not found');
+    }
+        
    makeDraggable(".ace_search.right");
-   
-                                    }, 2500);
+   document.addEventListener("DOMContentLoaded", function() {
+    // Locate the element with the class .ace_search.right
+    var searchDiv = document.querySelector('.ace_search.right');
+    
+    // Check if the element exists
+    if (searchDiv) {
+        // Disable the right: 0; by setting it to auto
+        searchDiv.style.right = 'auto';
+    }
+});
+   }, 2500);
 
-   
+  
+    var searchDiv = document.querySelector('.ace_search.right');
+    if (searchDiv) {
+        searchDiv.style.right = '';
+    
+};
 });
 </script>
 
