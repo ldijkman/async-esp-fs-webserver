@@ -212,31 +212,57 @@ document.addEventListener('DOMContentLoaded', function() {
       <h1>Flash 4mb ESP8266 12E / 12F from Browser</h1><br>
       <iframe width="640" height="480"  src="https://www.youtube.com/embed/VG4Q86ob8IQ" title="Flash 4mb ESP8266 12E /12F from browser witch webserver filebrowser Ace editor" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
       <br><br></br>
+<style>
+    .video-pair {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 
+    .video {
+        flex: 1;
+        max-width: 320px; /* Matches the iframe width */
+        box-sizing: border-box;
+        padding: 10px; /* Adjusts spacing between videos */
+        text-align: center;
+    }
+
+    @media (max-width: 660px) {
+        .video-pair {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+</style>
 <center>
-    <!-- Video 1 container -->
-    <div style="text-align:center; margin-bottom:20px;">
-        <iframe width="320" height="240" src="https://www.youtube.com/embed/epnAWMtlQu4" title="ESP8266 webserver  browser serial monitor console log inspect websockets" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        <p>Description for Video 1</p>
+    <!-- First pair of videos -->
+    <div class="video-pair">
+        <div class="video">
+            <iframe width="320" height="240" src="https://www.youtube.com/embed/epnAWMtlQu4" title="ESP8266 webserver  browser serial monitor console log inspect websockets" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            <p>Description for Video 1</p>
+        </div>
+        
+        <div class="video">
+            <iframe width="320" height="240" src="https://www.youtube.com/embed/AZR5SOFe5-8" title="ESP8266 WebServer webserial monitor in browser find ip and mdns adres" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            <p>Description for Video 2</p>
+        </div>
     </div>
     
-    <!-- Video 2 container -->
-    <div style="text-align:center; margin-bottom:20px;">
-        <iframe width="320" height="240" src="https://www.youtube.com/embed/AZR5SOFe5-8" title="ESP8266 WebServer webserial monitor in browser find ip and mdns adres" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        <p>Description for Video 2</p>
+    <!-- Second pair of videos -->
+    <div class="video-pair">
+        <div class="video">
+            <iframe width="320" height="240" src="https://www.youtube.com/embed/1J_wVUORrPc" title="ESP8266 Webserver Ace Editor changed version" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            <p>Description for Video 3</p>
+        </div>
+        
+        <div class="video">
+            <iframe width="320" height="240" src="https://www.youtube.com/embed/1A_sA4RYbuw" title="ESP8266 Webserver move drag Ace editor search replace" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            <p>Ace move drag search replace</p>
+        </div>
     </div>
+</center>
 
-    <!-- Video 3 container -->
-    <div style="text-align:center; margin-bottom:20px;">
-        <iframe width="320" height="240" src="https://www.youtube.com/embed/1J_wVUORrPc" title="ESP8266 Webserver Ace Editor changed version" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        <p>Description for Video 3</p>
-    </div>
 
-    <!-- Video 4 container -->
-    <div style="text-align:center; margin-bottom:20px;">
-        <iframe width="320" height="240" src="https://www.youtube.com/embed/1A_sA4RYbuw" title="ESP8266 Webserver move drag Ace editor search replace" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        <p>Ace editor drag move search/replace</p>
-    </div>
 </center>
      <!-- <img src="http://aicode.great-site.net/counter.php?counter=flasher"> -->
     </center>
