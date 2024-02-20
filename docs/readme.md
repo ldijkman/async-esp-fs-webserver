@@ -96,6 +96,13 @@ maybe i should start ip and mdns with http:// so that it is clickable
 
 
 
+--- 
+
+## Flash 4mb ESP8266 or ESP32 from InBrowser
+
+## https://ldijkman.github.io/async-esp-fs-webserver/
+
+---
 
 
 
