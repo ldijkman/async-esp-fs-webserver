@@ -88,7 +88,7 @@ maybe i should start ip and mdns with http:// so that it is clickable
 
 ### drag search replace to a desired position, not static upper right corner
 
-## Beat that microsoft visual studio monaco! ;-)
+## Beat that Microsoft Visual Studio Monaco! ;-)
 
 ## Beat that Arduino Monaco IDE2
 
