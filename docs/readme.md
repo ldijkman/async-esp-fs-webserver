@@ -84,8 +84,13 @@ maybe i should start ip and mdns with http:// so that it is clickable
 ![Screenshot from 2024-02-20 05-37-53](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/080388ae-acf5-4b2e-9bee-a5acf3b082be)
 
 
+---
 
+drag search replace to a desired position, not static upper right corner
 
+Beat that microsoft visual studio monaco! ;-)
+
+![Screenshot from 2024-02-20 05-48-00](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/0ee3d7a3-5814-4f2e-8ec3-8f26cd7eddc2)
 
 
 
