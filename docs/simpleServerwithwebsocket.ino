@@ -275,7 +275,7 @@ void AsyncFsWebServer::notFound(AsyncWebServerRequest *request) {
  //server.init();
 
   Serial.println("");
-  Serial.print(F("Async ESP Web Server started on IP Address: "));
+  Serial.print(F("Async ESP Web Server started on IP Address: http://")); // added http for webserial clickable link
   Serial.println(myIP);
   
   Serial.println(F(
@@ -371,6 +371,44 @@ void printLocalTime() {
 }
 
 
+
+
+void browseService(const char * service, const char * proto) {
+    Serial.printf("Browsing for service _%s._%s.local. ... ", service, proto);
+    int n = MDNS.queryService(service, proto); // Query mDNS service
+    if (n == 0) {
+        Serial.println("no services found");
+    } else {
+        Serial.print(n);
+        Serial.println(" service(s) found");
+
+        // Create a JSON array to hold service details
+        DynamicJsonDocument doc(1024);
+        JsonArray services = doc.to<JsonArray>();
+
+        for (int i = 0; i < n; ++i) {
+            // Print details for each service found
+            // added http so that it is clickable in webserial monitor https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html
+            Serial.printf("  %d: http://%s - http://%s:%d\n", i + 1, MDNS.hostname(i).c_str(), MDNS.IP(i).toString().c_str(), MDNS.port(i));
+
+            // Add service details to the JSON array
+            JsonObject serviceObj = services.createNestedObject();
+            serviceObj["mdnsname"] = MDNS.hostname(i);
+            serviceObj["ip"] = MDNS.IP(i).toString();
+            serviceObj["port"] = MDNS.port(i);
+        }
+
+        // Serialize the JSON array to a string
+        String message;
+        serializeJson(doc, message);
+
+        // Send the JSON string to all connected WebSocket clients
+        ws.textAll(message.c_str());
+    }
+    Serial.println();
+}
+
+/*
 void browseService(const char * service, const char * proto){
     Serial.printf("Browsing for service _%s._%s.local. ... ", service, proto);
     int n = MDNS.queryService(service, proto);
@@ -399,7 +437,7 @@ void browseService(const char * service, const char * proto){
     }
     Serial.println();
 }
-
+*/
 /*
 <!-- 
 Copyright 2023 Dirk Luberth Dijkman Bangert 30 1619GJ Andijk The Netherlands    
