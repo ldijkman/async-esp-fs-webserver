@@ -56,13 +56,30 @@ https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html
 
 ![Screenshot from 2024-02-17 20-21-00](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/72cbb512-9ac1-436b-9349-3b97d3c150b2)
 
+
+---
+
+links in webserial monitor are clickable when it starts with http
+
+maybe i should start ip and mdns with http:// so that it is clickable
+
 https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html
 
 ![Screenshot from 2024-02-18 00-01-02](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/8ffd31d0-6689-4c3d-884a-ea0baf632a1c)
 
+---
+
+links in webserial monitor are clickable when it starts with http
+
+maybe i should start ip and mdns with http:// so that it is clickable
 
 ![Screenshot from 2024-02-20 05-38-13](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/0967d4f2-206b-421e-91fa-8ee1f58dc040)
 
+---
+
+links in webserial monitor are clickable when it starts with http
+
+maybe i should start ip and mdns with http:// so that it is clickable
 
 ![Screenshot from 2024-02-20 05-37-53](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/080388ae-acf5-4b2e-9bee-a5acf3b082be)
 
