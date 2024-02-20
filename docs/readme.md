@@ -90,6 +90,8 @@ maybe i should start ip and mdns with http:// so that it is clickable
 
 ## Beat that microsoft visual studio monaco! ;-)
 
+## beat that arduino monaco ide2
+
 
 ![Screenshot from 2024-02-20 05-53-44](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/e5c3da3b-6ea6-43a5-8e49-f12335be0b77)
 
