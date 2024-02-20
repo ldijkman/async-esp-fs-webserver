@@ -1,1927 +1,853 @@
-<!-- 
-Copyright 2023 Dirk Luberth Dijkman Bangert 30 1619GJ Andijk The Netherlands    
-The Art of Time Controlled. Visual TimeSlots Schedule.
--->
-<html
-    lang="en"
->
-    <head>
-        <meta charset="UTF-8" />
-        <title>The Art of Time Controlled. Visual TimeSlots Schedule. On/Off Switch Times</title>
-      <!-- Link Swiper's CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+<html lang=en>
+<title>File manager The Art of Time Controlled</title>
+<style media=screen>
+  body {
+    font-size: 12px;
+    font-family: Verdana, Arial, Sans-serif
+  }
 
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-            }
-            #time-status,
-            #current-time {
-                margin-top: 20px;
-            }
-            .time-input {
-                width: 50px;
-                margin-right: 5px;
-            }
-            .time-entry {
-                margin-bottom: 5px;
-            }
-            .time-entry label {
-                display: inline-block;
-                width: 30px;
-            }
-            .status-on {
-                color: green;
-            }
-            .status-off {
-                color: red;
-            }
-            #time-bar-container {
-                position: absolute;
-                left: 0;
-                width: 100%;
-                height: 50px;
-                background-color: #c8c2c2;
+  .contextMenu {
+    z-index: 300;
+    position: absolute;
+    left: 5px;
+    border: 1px solid #444;
+    background-color: #f5f5f5;
+    display: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .4);
+    font-size: 11px;
+    font-weight: 700
+  }
 
-                margin: 5px;
-                margin-top: 15px;
-                position: absolute;
-                z-index: 1000;
-                border: 1px solid gray;
-                padding: 5px;
-            }
-            #time-bar {
-                height: 100%;
-                position: absolute;
-                left: 0;
-                top: 5px;
-                width: 100%;
-                height: 50px;
-                background-color: #dad6d6;
+  .contextMenu ul {
+    list-style: none;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0
+  }
 
-                position: absolute;
-                z-index: 1000;
-            }
-            .time-segment {
-                height: 100%;
-                position: absolute;
-                background-color: greenyellow;
-            }
+  .contextMenu li {
+    position: relative;
+    min-width: 60px;
+    cursor: pointer
+  }
 
-/*
-ask Ai
-create a vertical line at bottom start and end of each time-segment 
-*/
-.time-segment::before,
-.time-segment::after {
-    content: '';
+  .contextMenu span {
+    color: #444;
+    display: inline-block;
+    padding: 6px
+  }
+
+  .contextMenu li:hover {
+    background: #444
+  }
+
+  .contextMenu li:hover span {
+    color: #eee
+  }
+
+  .css-treeview li,
+  .css-treeview ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    padding-top: 2px
+  }
+
+  .css-treeview input {
+    position: absolute;
+    opacity: 0
+  }
+
+  .css-treeview {
+    font-size: 11px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    user-select: none
+  }
+
+  .css-treeview span {
+    color: #00f;
+    cursor: pointer
+  }
+
+  .css-treeview span:hover {
+    text-decoration: underline
+  }
+
+  .css-treeview input+label+ul {
+    margin: 0 0 0 22px
+  }
+
+  .css-treeview input~ul {
+    display: none
+  }
+
+  .css-treeview label,
+  .css-treeview label::before {
+    cursor: pointer
+  }
+
+  .css-treeview input:disabled+label {
+    cursor: default;
+    opacity: .6
+  }
+
+  .css-treeview input:checked:not(:disabled)~ul {
+    display: block
+  }
+
+  .css-treeview label,
+  .css-treeview label::before,
+  .css-treeview span {
+    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAACgCAYAAAAFOewUAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAAZdEVYdFNvZnR3YXJlAEFkb2JlIEltYWdlUmVhZHlxyWU8AAAEHElEQVRoQ+2XXWgcVRTH/7tpdrNtarqoXZe06EpTCyJiFYmKHw0UKwj2UfHBB1+KYECwUEFI8pA8SKEPiraIPlsphOIXIoJ5sFgpolRFBEke0som2Thx0+7u7M6M59y5d/bOzuw26SY0yP3ByT1z7z3/OefMzCWb8AgQv3zxGv2twas7fIl0Xx+277pT+DoDe45g154n5BWQlCNSGRcPHjqA7GBWmN2ow1pexrbb7sLdw0cDm//5IxnhEwiA8nBdD3sP5IU98PR+3HP/7bjy2w/A72cD4z06TQHCo0XXdX1zPOwY2C7ma7YDh66ZtgLcCdfxA3VjGjTPxrh+ywK0EmRQwzeHAtiYRoOzWkMGjhaohJhqna75BnTZsQeiBL4bmSONqdYc2HUWJ5H2GdAGEcSj8n2BSq2BKjXSpvnC/odx4ZOXxTwTbqIWWClXUS6tirVrFQf8ftWolNxDb4SyaGkiBdMmtvk/r2D+ryLdPYF0uhc9PT2UhXwScQKqiaoHjFV2sLLaoNS5DBfXyUa/Gw09Si0Dv4l67TaXQg20yjYqdHcWeWW5iuS2HWKdCQSSqRwW5xdDApb1LxYWS1gqLaG4sChs931H8dRLze8h+BoVf3z7uhivrZRxfecRPHn4RXHdjmYJip68b8n0DYOZSAbrJZrBOulaIFTCxMSE9NozNjYmPQkLKMbHx6UXT9z6re9BrEAikYhYO2IFqLSItePW96Dr9+B/8C0YgS1/HnT6ChWb00T9DOjqPGj149icEhSd7qww58EGCAQ94JelUCjAtu3Ii+M4DoaGhjAzMyNnmgQCffQDo1qtisk48vk8/XvnolgsyhmfoIRarSa9eFg8l8sJ01lzD4aHh1EqlZDJZJDNZuUswSUwmntDRkZGpOd5oSayy2M6nQ4ayanLLQFqr/BbBdaCvndj3wN2edRLUPAaPym1R4ZtxRJ6e3uRTCaF6ajfk/V6fYuVEAhw59eKvjdUAjM4OBj4rfDWVCqF2dnZaA9ulo3rwc3StUCkiZ2Ia1coA97QaorHDz0bfxPaJFAuHSBiVPA82/T5zzwSkbNNQgLnP//Se+75F7z3PjgjTM2z/Xjpp8DXCZXwzddfYfrcWVy88L2wubk5uQKcPPUuXj02ioOPPRMqZfMf49sTk8L6d/ZT/h723VuQKxJZSlAb9+D9Dz8WFofqhSIi0Ao/FbbJyUnv6tW/IwIdDxQ+RN88flz4v16+jOwdu/HWiRN49JGDwd5ID6ampmBZljAO5kA25p+lBaxYy8JXhDKg9wCnTr6DTP+AWKysrohRh7OYPvdpfAanT58RIwfGBTOchU5IoF1QJ7p+kdb1OeuoHpgz0QgwRsAIMEbACDBGwAgwRsAIMEbACDBGwAgwRsAIMEbACDBGAPgPluQbnYFDf0MAAAAASUVORK5CYII=) no-repeat
+  }
+
+  .css-treeview label,
+  .css-treeview label::before,
+  .css-treeview span,
+  .css-treeview span::before {
+    display: inline-block;
+    height: 16px;
+    line-height: 16px;
+    vertical-align: middle
+  }
+
+  .css-treeview label {
+    background-position: 18px 0
+  }
+
+  .css-treeview span.txt {
+    background-position: 18px -48px
+  }
+
+  .css-treeview span.img {
+    background-position: 18px -68px
+  }
+
+  .css-treeview label::before {
+    content: "";
+    width: 16px;
+    margin: 0 22px 0 0;
+    vertical-align: middle;
+    background-position: 0 -32px
+  }
+
+  .css-treeview span::before {
+    content: "";
+    width: 16px;
+    margin: 0 22px 0 0
+  }
+
+  .css-treeview input:checked+label::before {
+    background-position: 0 -16px
+  }
+
+  @media screen and (-webkit-min-device-pixel-ratio:0) {
+    .css-treeview {
+      -webkit-animation: webkit-adjacent-element-selector-bugfix infinite 1s
+    }
+  }
+
+  @-webkit-keyframes webkit-adjacent-element-selector-bugfix {
+    from {
+      padding: 0
+    }
+
+    to {
+      padding: 0
+    }
+  }
+
+  #header {
     position: absolute;
     top: 0;
-    width: 1px; /* Adjust the width of the line as needed */
-    height: 60px; /* Adjust the height of the line as needed */
-    background-color: #000; /* Adjust the color of the line as needed */
-    pointer-events: none;
-}
-
-.time-segment::before {
-    background-color: green; /* Adjust the color of the line as needed */
-    left: 0;
-}
-
-.time-segment::after {
-    background-color: red; /* Adjust the color of the line as needed */
-    height: 70px;
     right: 0;
-}
-/*
-Ask Ai
-place a label below the .time-segment::before and after line, with the corresponding time
-*/
-.time-label {
+    left: 0;
+    height: 24px;
+    padding: 1px 1px 0 10px;
+    background-color: #444;
+    color: #eee
+  }
+
+  #tree {
     position: absolute;
-    bottom: -20px; /* Adjust as needed */
-    font-size: 10px; /* Adjust as needed */
-    color: #000; /* Adjust as needed */
-    white-space: nowrap;
-    pointer-events: none;
-}
+    top: 25px;
+    bottom: 0;
+    left: 0;
+    width: 20%;
+    padding: 8px
+  }
 
-.start-label {
-    color:green;
+  #editor,
+  #preview {
+    position: absolute;
+    top: 25px;
+    right: 0;
+    bottom: 0;
+    left: 15%
+  }
+
+  #preview {
+    background-color: #eee;
+    padding: 5px
+  }
+
+  #status {
+    position: absolute;
+    top: 3px;
+    right: 10px;
+    font-size: 15px
+  }
+
+  #fsMeter {
+    width: 100px;
+    padding-bottom: 2px
+  }
+
+  #warning {
+    height: 100%;
+    background-color: orange;
+    color: #000
+  }
+
+  .tooltip {
+    position: absolute;
+    z-index: 2;
+    right: 0;
+    top: 20px;
+    visibility: hidden;
+    background-color: #fff;
+    color: #000;
+    text-align: center;
+    border: 1px solid #000;
+    padding: 3px;
+    font-size: 10px
+  }
+
+  #warning:hover .tooltip {
+    visibility: visible
+  }
+
+  #loading {
+    position: absolute;
+    top: -100vh;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+    background-color: rgba(0, 0, 0, .5);
+    opacity: 0;
+    transition: opacity .5s ease-in-out
+  }
+
+  #loading.shown {
+    top: 0;
+    opacity: 1
+  }
+
+  #loading-msg {
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 50%;
     transform: translateX(-50%);
+    color: #fff;
+    font-size: 32px
+  }
+
+  @keyframes spinner-anim {
+    0% {
+      transform: rotate(0)
+    }
+
+    100% {
+      transform: rotate(360deg)
+    }
+  }
+
+  .spinner-anim:not(:required) {
+    display: inline-block;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: spinner-anim 1s infinite linear;
+    border: 16px solid #eee;
+    border-right-color: transparent;
+    border-radius: 32px;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-indent: -9999px;
+    width: 64px;
+    height: 64px
+  }
+
+  .ace_editor .ace_marker-layer .ace_selection {
+  background-color: rgba(0,241,191,0.7);
+  bbbborder:2px solid orange;
 }
 
-.end-label {
-    color:red;
-    bottom: -35px;
-    transform: translateX(-50%);
-}
-            #time-scale-container {
-                width: 100%;
-                left: 0;
-                height: 50px;
-                position: absolute;
-                margin: 5px;
-                padding: 5px;
-            }
-
-            .scale-marker {
-                position: absolute;
-                left: 0;
-                height: 100%;
-                width: 1px;
-                background-color: #333;
-            }
-
-            .scale-label {
-                position: absolute;
-                margin-left: -5px; /* Adjust as needed */
-                margin-top: -15px;
-                font-size: 15px; /* Adjust size as needed */
-            }
-
-            .scale-marker.quarter-hour,
-            .scale-marker.half-hour,
-            .scale-marker.three-quarter-hour {
-                height: 10px; /* Shorter than the main hour markers */
-                background-color: #666; /* A lighter color */
-            }
-
-            .scale-marker.quarter-hour,
-            .scale-marker.three-quarter-hour {
-                width: 0.5px; /* Thinner than the main hour markers */
-            }
-
-            .scale-marker.half-hour {
-                width: 1px; /* Same as the main hour markers */
-                height: 20px;
-                top: 5px;
-                z-index: 20000;
-            }
-
-            .scale-marker {
-                width: 1px; /* Same as the main hour markers */
-                height: 25px;
-                top: 5px;
-                z-index: 20000;
-            }
-        </style>
-      <style>
-.time-picker {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 20px; /* Spacing between swipers */
-   z-index:300000;
-}
-.time-picker-header {
-  cursor: move; /* Change cursor to indicate the area is draggable */
-  background-color: #ddd; /* Light grey background */
-  padding: 10px; /* Some padding */
-  text-align: center; /* Center the text */
-  border-top-left-radius: 5px; /* Rounded corners at the top */
-  border-top-right-radius: 5px;
-}
-.swiper-container {
-  height: 200px;
-  width: 80px;
-  overflow: hidden; /* Hide overflowed slides */
-  z-index:300000;
+.ace_editor .ace_marker-layer .ace_selected-word {
+  background-color: rgba(0,241,191,0.7);;
+  bbborder:2px solid yellow;
 }
 
-.swiper-slide {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 20px;
-  opacity: 0.5; /* Lower opacity for non-active slides */
-  user-select: none; /* Prevent text selection */
-  -webkit-user-select: none; /* Safari */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-}
 
-/* Active slide has a different style */
-.swiper-slide-active {
-  opacity: 1; /* Full opacity for the active slide */
-  font-size: 30px; /* Larger font size for the active slide */
-  color: #333;
-  background: white;
-  padding-top:8px;
-    padding-bottom:8px;
-  border-top: 1px solid grey; /* Border only on top */
-  border-bottom: 1px solid grey; /* Border only on bottom */
-}
 
-/* Additional styles for the popup */
-.time-picker-popup {
-  display: none; /* Hide the popup initially */
+
+.ace_link_marker {                  /*red underline when over url link in editore*/
   position: absolute;
-  background: lightgrey;
-  border: 1px solid grey;
-  z-index: 990000;
-  padding: 6px;
-  border-radius: 5px;
+  border-bottom: 5px solid red;
+  opacity: 50%;
 }
 
-/* Show the popup when it has the 'active' class */
-.time-picker-popup.active {
-  display: flex;
+.ace_search.right {                      /*find search popup box*/
+  position: absolute;
+  border-radius: 8px 8px 8px 8px;
+  border-right: 0 none;
+  left: 5%;
+  top: 2%;
+  font-size: 15px; /*otherwise it scales with fontsize of editor inherit*/
+  right: auto;
+  cursor: move;
+  /*color-scheme: dark;
+  background-color: #444444;
+  color: lightgray;*/
 }
 
-/* Style for the input field */
-.timeInput {
-  margin-bottom: 20px;
-  cursor: pointer;
-  display: block; /* Make input fields stack vertically */
-}
 
-/* Style for the done button */
-#doneButton {
-  margin-top: 10px;
-  padding: 5px 10px;
-  border: none;
-  padding-left:10px;
-  background-color: #007bff;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-}
+.ace_editor .ace_marker-layer .ace_bracket {  /*better visible {} pair*/
+  
+   background: rgba(255,255,0,0.25);
+   border: .1px solid greenyellow;
+   //padding-left: 2px;padding-right: 2px;padding-top: 2px;padding-bottom: 2px;
+   //border-collapse: 10px;
+    
+  }
 
-#doneButton:hover {
-  background-color: #0056b3;
-}
 </style>
-    </head>
-    <body>
-      <div style="background-color: #f1f1f1; padding: 20px; text-align: center;">
-    <div id="urlDisplay" style="margin: 10px 0; font-size: 20px; font-weight: bold;"></div>
-    <a href="/setup" target="_blank" style="color: #007bff; text-decoration: none; margin: 0 10px;"> Setup </a>
-    <a href="/edit" target="_blank" style="color: #007bff; text-decoration: none; margin: 0 10px;"> Edit </a>
-    <a href="/ace" target="_blank" style="color: #007bff; text-decoration: none; margin: 0 10px;" title="serves /ace.html added a hide esp tree menu button to editor"> Ace </a>
-   <a href="/mdns.html" target="_blank" style="color: #007bff; text-decoration: none; margin: 0 10px;" title="mdns scan list other devices in network"> mDNS Scan List </a>
-   
-    <a href="/time.html" target="_blank" style="color: #007bff; text-decoration: none; margin: 0 10px;"> time.html </a>
-    <a href="/restart" target="_blank" style="color: #007bff; text-decoration: none; margin: 0 10px;"> Restart </a>
-    <a href="https://ldijkman.github.io/async-esp-fs-webserver/" target="_blank" style="color: #007bff; text-decoration: none; margin: 0 10px;"> Flash ESP8266 / ESP32 </a>
-</div>
+
+
+
+
+
+
+
+
 
 <script>
-    // Display the current page URL
-    document.getElementById('urlDisplay').textContent = document.location.href;
-</script>
-  <center>   <h2>
-       <a href="https://ldijkman.github.io/async-esp-fs-webserver/" target="_blank">Flash your 4mb ESP8266 / ESP32 inBrowser online </a>
-      </h2>
-      <br>
+  var tree, fsInfo;
+  const $ = function(e) {
+      return document.getElementById(e)
+    },
+    newEm = function(e) {
+      return document.createElement(e)
+    };
 
-      
- <!-- Made with loads of questions to a Lazy Chat GPT4,<br><br> -->
-The Art of Time Controlled. Visual TimeSlots Schedule.<br>
-<br>
-<a href="#" onclick="openInPopup('https://plnkr.co/edit/ikOuTjDZvqbPR5jr?preview'); return false;">Plunker</a> | 
-<a href="#" onclick="openInPopup('https://codepen.io/ldijkman/pen/LYaOgvW'); return false;">CodePen</a> | 
-<a href="#" onclick="openInPopup('https://jsfiddle.net/luberth/9cLvhm5y/'); return false;">JSFiddle</a>
+  function setLoading(e, n) {
+    $("loading-msg").innerHTML = n || "", e ? $("loading").classList.add("shown") : $("loading").classList.remove("shown"), document.body.style.cursor = e ? "wait" : "default"
+  }
 
-<br>
+  function readableSize(e) {
+    if (e < 1024) return e + " B";
+    for (var n = -1; n++, 1024 < (e /= 1024););
+    return e.toFixed(2) + [" KiB", " MiB", " GiB", " TiB", "PiB"][n]
+  }
 
+  function refreshStatus() {
+    $("status").innerHTML = "(refreshing...)";
+    var e = new XMLHttpRequest;
+    e.onload = function() {
+      var n, t;
+      200 != e.status ? showHttpError(e) : (n = (fsInfo = JSON.parse(e.responseText)).type + " - ", fsInfo.isOk ? (n += "<meter id='fsMeter' min='0' optimum='0'low='90' high='95' max='100' value='" + (1 + Math.round(99 * fsInfo.usedBytes / fsInfo.totalBytes)) + "' title='" + (t = readableSize(fsInfo.totalBytes - fsInfo.usedBytes) + " free of " + readableSize(fsInfo.totalBytes)) + "'>" + t + "</meter>", fsInfo.unsupportedFiles && (n += " <span id='warning'>WARNING<span class='tooltip'>Filesystem contains unsupported filenames:<br/>" + fsInfo.unsupportedFiles + "</span></span>")) : n += "<span style='background-color:red;color:white;font-weight:bold'>INIT ERROR !</span>", $("status").innerHTML = n, "SPIFFS" != fsInfo.type && ($("mkdir").style.display = "inline"))
+    }, e.open("GET", "/status", !0), e.send(null)
+  }
 
-<br>
+  function showHttpError(e) {
+    alert("ERROR: [" + e.status + "] " + e.responseText)
+  }
 
-<script>
-function openInPopup(url) {
-  window.open(url, 'popupWindow', 'width=800, height=600, left=100, top=100, resizable=yes, scrollbars=yes, toolbar=yes, menubar=no, location=no, directories=no, status=yes');
-}
-</script>
-        <a
-            href="https://ldijkman.github.io/Ace_Seventh_Heaven/Seventh_Heaven.html"
-            target="_blank"
-            >Visual Scheduling with analog clock time picker ( My Version, Not made with Ai )</a
-        ><br />
-        <h2>Sprinkler or Light On/Off Times Schedule, Visual TimeSlots</h2>
-        <br>
+  function canLoadNewContents() {
+    return !!$("saveBtn").disabled || !!confirm("Changes to your document will be lost if you continue") && (enableSaveDiscardBtns(!1), !0)
+  }
 
-<!--
-        <a href="#" onclick="openInPopup('  https://codepen.io/ldijkman/pen/BabYXeo'); return false;">popup scrollwheel is to slow, fastmouse example with custom mouse scrollwheel listener</a><br>
--->
+  function enableSaveDiscardBtns(e) {
+    $("saveBtn").disabled = !e, $("discardBtn").disabled = !e
+  }
 
-<script>
-function reloadPage() {
-    // Reloads the current document.
-    location.reload();
-}
-</script>
-<div id="The_Art_of_Time_Controlled" class="The_Art_of_Time_Controlled" style="display: flex; justify-content: center; ">
-        <div id="times-inputs">
-            <!-- Your input fields go here -->
-        </div>
-</div>      
+  function getParentFolder(e) {
+    return (e = (e = e.startsWith("/") ? e : "/" + e).endsWith("/") ? e.slice(0, -1) : e).substring(0, e.lastIndexOf("/"))
+  }
 
-        <button id="save-times" hidden>Save Times</button>
+  function createHeader(e, n, t) {
+    var a = $(e),
+      i = newEm("input");
+    i.type = "file", i.multiple = !1, i.name = "data", a.appendChild(i);
+    var o = newEm("input");
+    o.id = "pathInput", o.type = "text", o.name = "path", o.defaultValue = "/", a.appendChild(o);
+    var s = newEm("button");
+    s.innerHTML = "Upload", a.appendChild(s);
+    var l = newEm("button");
+    l.id = "mkdir", l.style.display = "none", l.innerHTML = "MkDir", a.appendChild(l);
+    var d = newEm("button");
+    d.innerHTML = "MkFile", a.appendChild(d);
+    var r = newEm("span");
+    r.id = "editorButtons", r.style.display = "none", a.appendChild(r);
+    var c = newEm("button");
+    c.id = "saveBtn", c.innerHTML = "Save", c.style.marginLeft = "30px", c.disabled = !0, r.appendChild(c);
+    var p = newEm("button");
+    p.id = "discardBtn", p.innerHTML = "Discard", p.disabled = !0, r.appendChild(p), (e = newEm("button")).id = "helpBtn", e.innerHTML = "?", r.appendChild(e), (r = newEm("span")).id = "status", r.innerHTML = "(loading)", a.appendChild(r), i.onchange = function(e) {
+      var n;
+      0 !== i.files.length && (n = i.files[0].name, o.value.startsWith("/") || (o.value = "/" + o.value), o.value = getParentFolder(o.value) + "/" + n)
+    }, s.onclick = function(e) {
+      0 !== i.files.length && n.httpUpload(i.files[0], o.value)
+    }, d.onclick = function(e) {
+      var t = o.value.trim();
+      "" === t ? alert("A filename must be given") : t.endsWith("/") ? alert("Filenames must not end with a '/' character") : n.httpCreate(t)
+    }, l.onclick = function(e) {
+      var t = o.value.trim();
+      "" === t ? alert("A folder name must be given") : (t.endsWith("/") || (t += "/"), n.httpCreate(t))
+    }, c.onclick = function(e) {
+      t.save()
+    }, p.onclick = function(e) {
+      t.discard()
+    }, e.onclick = function(e) {
+      t.showShortcuts()
+    }
+  }
 
- <br><br><br><br>
-        <div id="time-bar-container">
-            <div id="time-bar">
-                <!-- Your time segments go here -->
-            </div>
-        </div>
+  function createTree(e, n) {
+    var t = $("preview"),
+      a = newEm("div");
 
-        <div id="time-scale-container">
-            <!-- Your scale markers and labels go here -->
-        </div>
-        <br /><br /><br /><br />  <br /><br /><br />
-               <div id="current-time">Current Time: 15:11:06</div>
-        <div id="time-status" class="status-on">
-            The current time is within an ON interval.
-        </div>
-        <br /><br />
-click a timeslot to see a popup for 5 seconds<br>
-also highlights the corresponing inputfields<br>
-a click on time-bar adds a new time-segment timeslot<br>
-Reload Page, Sorts the inputfields / timeslots
-      
-        Browser local storage<br />
-        <div id="saved-times-list"></div>
+    function i(e) {
+      if (void 0 !== (e = /(?:\.([^.]+))?$/.exec(e)[1])) switch (e.toLowerCase()) {
+        case "txt":
+        case "htm":
+        case "html":
+        case "js":
+        case "json":
+        case "cpp":
+        case "css":
+        case "xml":
+        case "yaml":
+        case "csv":
+        case "gz":
+          return 1
+      }
+    }
 
-        <br />
-        <br /><br />
-              <a
-            href="https://ldijkman.github.io/Ace_Seventh_Heaven/Seventh_Heaven.html"
-            target="_blank"
-            >Visual Scheduling with analog clock time picker ( My Version, Not made with Ai )</a
-        ><br /><br>
+    function o(e) {
+      if (void 0 !== (e = /(?:\.([^.]+))?$/.exec(e)[1])) switch (e.toLowerCase()) {
+        case "png":
+        case "jpg":
+        case "jpeg":
+        case "gif":
+        case "ico":
+          return 1
+      }
+    }
 
-      
-   
-<!-- Time Picker Popup Container -->
-<!-- Time Picker Popup Container -->
-<div class="time-picker-popup" id="timePickerPopup">
-  <!-- Draggable Header -->
-  <div class="time-picker-header" draggable="true" id="dragHeader">D<br>r<br>a<br>g<br></div>
-  <!-- Time Picker Container -->
-  <div class="time-picker">
-    <!-- Swiper for hours -->
-    <div class="swiper-container hour-swiper">
-      <div class="swiper-wrapper" id="hourWrapper"></div>
-    </div>
-    <!-- Swiper for minutes -->
-    <div class="swiper-container minute-swiper">
-      <div class="swiper-wrapper" id="minuteWrapper"></div>
-    </div>
-  </div>
-  <!-- Done Button -->
-  <button id="doneButton" type="button">Done</button>
-</div>
-      
-      
-            <!-- Swiper JS -->
-<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-      
-        <script>
-            let defaultOnOffTimes = [
-                { on: 5 * 60, off: 5 * 60 + 15 },
-                { on: 12 * 60, off: 12 * 60 + 15 },
-                { on: 15 * 60, off: 15 * 60 + 15 },
-                { on: 19 * 60, off: 19 * 60 + 15 },
-                { on: 22 * 60, off: 22 * 60 + 15 },
-                { on: 23 * 60, off: 23 * 60 + 15 },
-            ];
+    function s(e, n) {
+      var t = newEm("ul");
+      e.appendChild(t);
+      var a = newEm("li");
+      t.appendChild(a), a = newEm("li"), t.appendChild(a), a.innerHTML = "<span>Rename/Move</span>", a.onclick = function(t) {
+        0 < document.body.getElementsByClassName("contextMenu").length && document.body.removeChild(e);
+        var a = prompt("Rename " + n + " to", n);
+        null != a && a != n && p(n, a)
+      }, a = newEm("li"), t.appendChild(a), a.innerHTML = "<span>Download</span>", a.onclick = function(t) {
+        var a, i;
+        0 < document.body.getElementsByClassName("contextMenu").length && document.body.removeChild(e), a = n, (i = new XMLHttpRequest).open("GET", a, !0), i.responseType = "blob", i.onload = function() {
+          var e = new Blob([i.response], {
+              type: "application/octetstream"
+            }),
+            n = (window.URL || window.webkitURL).createObjectURL(e),
+            t = document.createElement("a");
+          t.setAttribute("download", a.replace(/^.*[\\/]/, "")), t.setAttribute("href", n), document.body.appendChild(t), t.click(), document.body.removeChild(t)
+        }, i.send()
+      }, a = newEm("li"), t.appendChild(a), a.innerHTML = "<hr>", a = newEm("li"), t.appendChild(a), a.innerHTML = "<span>Delete</span>", a.onclick = function(t) {
+        0 < document.body.getElementsByClassName("contextMenu").length && document.body.removeChild(e), confirm("Delete file " + n + "?") && u(n)
+      }
+    }
 
-            let storedOnOffTimes = JSON.parse(
-                localStorage.getItem('onOffTimes')
-            );
-            let onOffTimes =
-                storedOnOffTimes && storedOnOffTimes.length > 0
-                    ? storedOnOffTimes
-                    : defaultOnOffTimes;
+    function l(e, n, t) {
+      var a = newEm("div"),
+        i = document.body.scrollTop || document.documentElement.scrollTop,
+        o = document.body.scrollLeft || document.documentElement.scrollLeft,
+        l = e.clientX + o,
+        d = e.clientY + i;
+      a.className = "contextMenu", a.style.display = "block", a.style.left = l + "px", a.style.top = d + "px", (t ? s : function(e, n) {
+        var t = newEm("ul");
+        e.appendChild(t);
+        var a = newEm("li");
+        t.appendChild(a);
+        var i = $(n).childNodes[0].checked,
+          a = newEm("li");
+        t.appendChild(a), i ? (a.innerHTML = "<span>Collapse</span>", a.onclick = function(t) {
+          0 < document.body.getElementsByClassName("contextMenu").length && document.body.removeChild(e), $(n).childNodes[0].checked = !1
+        }, i = newEm("li"), t.appendChild(i), i.innerHTML = "<span>Refresh</span>", i.onclick = function(t) {
+          0 < document.body.getElementsByClassName("contextMenu").length && document.body.removeChild(e), r(n, t)
+        }) : (a.innerHTML = "<span>Expand</span>", a.onclick = function(t) {
+          0 < document.body.getElementsByClassName("contextMenu").length && document.body.removeChild(e), $(n).childNodes[0].checked = !0, r(n, t)
+        }), a = newEm("li"), t.appendChild(a), a.innerHTML = "<span>Rename/Move</span>", a.onclick = function(t) {
+          0 < document.body.getElementsByClassName("contextMenu").length && document.body.removeChild(e);
+          var a = prompt("Rename " + n + " to", n);
+          null != a && a != n && p(n, a)
+        }, a = newEm("li"), t.appendChild(a), a.innerHTML = "<span>Delete</span>", a.onclick = function(t) {
+          0 < document.body.getElementsByClassName("contextMenu").length && document.body.removeChild(e), confirm("Delete folder " + n + "?") && u(n)
+        }
+      })(a, n), document.body.appendChild(a);
+      var c = a.offsetWidth,
+        h = a.offsetHeight;
+      a.onmouseout = function(e) {
+        (e.clientX < l || e.clientX > l + c || e.clientY < d || e.clientY > d + h) && 0 < document.body.getElementsByClassName("contextMenu").length && document.body.removeChild(a)
+      }
+    }
 
-// Function to sort the on/off times by the 'on' property
-function sortOnOffTimesByStartTime(onOffTimes) {
-    return onOffTimes.sort((a, b) => a.on - b.on);
-}
+    function d(e, n) {
+      return function() {
+        var t;
+        setLoading(!1), 200 != e.status ? showHttpError(e) : n ? (t = getParentFolder(n), e.responseText && e.responseText != t && refreshPath(e.responseText), refreshPath(t), attemptLoad(n)) : refreshPath(e.responseText), refreshStatus()
+      }
+    }
 
-// Call the function to sort the array
-onOffTimes = sortOnOffTimesByStartTime(onOffTimes);
+    function r(e, n) {
+      var t, a, s;
+      setLoading(!0, "Listing '" + e + "'..."), (xmlHttp = new XMLHttpRequest).onload = (t = xmlHttp, a = e, s = n, function() {
+        var e, n;
+        setLoading(!1), 200 != t.status ? showHttpError(t) : (!(e = $(a)) || (n = e.lastElementChild) && "UL" == n.tagName && e.removeChild(n), function(e, n) {
+          n.sort(function(e, n) {
+            return e.type == n.type ? e.name.localeCompare(n.name) : e.type.localeCompare(n.type)
+          });
+          var t = newEm("ul");
+          $(e).appendChild(t);
+          for (var a = n.length, s = 0; s < a; s++) {
+            var d = "file" === (d = n[s]).type ? function(e, n, t) {
+              var a = newEm("li");
+              return a.id = ("/" == e ? "" : e) + "/" + n, e = newEm("span"), i(n) ? e.classList.add("txt") : o(n) && e.classList.add("img"), e.innerHTML = n + " <i>(" + readableSize(t) + ")</i>", a.appendChild(e), a.onclick = function(e) {
+                attemptLoad(a.id)
+              }, a.oncontextmenu = function(e) {
+                e.preventDefault(), e.stopPropagation(), l(e, a.id, !0)
+              }, a
+            }(e, d.name, d.size) : function(e, n, t) {
+              var a = newEm("li");
+              a.id = ("/" == e ? "" : e) + "/" + n;
+              var i = newEm("input");
+              return i.type = "checkbox", void 0 !== t && t && (i.disabled = "disabled"), a.appendChild(i), (t = newEm("label")).textContent = n, a.appendChild(t), i.onchange = function(e) {
+                i.checked && r(a.id)
+              }, t.onclick = function(e) {
+                i.checked ? i.checked = !1 : (i.checked = !0, r(a.id))
+              }, a.oncontextmenu = function(e) {
+                e.preventDefault(), e.stopPropagation(), l(e, a.id, !1)
+              }, a
+            }(e, d.name);
+            t.appendChild(d)
+          }
+          $("pathInput").value = e
+        }(a, JSON.parse(t.responseText)), void 0 !== $(a).childNodes[0].checked && ($(a).childNodes[0].checked = !0), s && s.length && c(s))
+      }), xmlHttp.open("GET", "/list?dir=" + e, !0), xmlHttp.send(null)
+    }
 
+    function c(e) {
+      var n = e.pop();
+      n && r(n, e)
+    }
 
+    function p(e, n) {
+      setLoading(!0, "Renaming '" + e + "' to '" + n + "'..."), n.startsWith("/") || (n = "/" + n), (xmlHttp = new XMLHttpRequest).onload = d(xmlHttp, n);
+      var t = new FormData;
+      t.append("path", n), t.append("src", e), xmlHttp.open("PUT", "/edit"), xmlHttp.send(t)
+    }
 
-// Add a function to create a new time entry
-function createNewTimeEntry() {
-    // Define a new default time entry, for example, starting at 00:00 and ending at 00:15
-    const newEntry = { on: 0, off: 15 };
+    function u(e) {
+      setLoading(!0, "Deleting '" + e + "'..."), (xmlHttp = new XMLHttpRequest).onload = d(xmlHttp, e);
+      var n = new FormData;
+      n.append("path", e), xmlHttp.open("DELETE", "/edit"), xmlHttp.send(n)
+    }
+    return a.className = "css-treeview", a.id = "/", $(e).appendChild(a), this.clearMainPanel = function() {
+      $("editor").style.display = "none", $("editorButtons").style.display = "none", t.style.display = "block", t.innerHTML = "<div style='text-align:center'>(file not found or format not supported)</div>"
+    }, this.attemptLoad = function(e) {
+      var a, s, l;
+      $("pathInput").value = e, canLoadNewContents() && (i(e) ? "undefined" == typeof ace ? (a = e, $("pathInput").value = a, $("editor").style.display = "none", $("editorButtons").style.display = "none", t.style.display = "block", t.innerHTML = "<span style='color:red;'>Ace editor could not be loaded from the internet nor from /edit/ace.js . Defaulting to text viewer...</span><pre id='txtContents' style='overflow: auto;'></pre>", (s = new XMLHttpRequest).onload = function() {
+        $("txtContents").textContent = this.responseText
+      }, s.open("GET", a), s.send()) : n.loadUrl(e) : o(e) ? (l = e, $("pathInput").value = l, $("editor").style.display = "none", $("editorButtons").style.display = "none", t.style.display = "block", t.innerHTML = "<img src='" + l + "' style='max-width:100%; max-height:100%; margin:auto; display:block;' />") : clearMainPanel())
+    }, this.refreshPath = function(e) {
+      if ("SPIFFS" == fsInfo.type) r("/");
+      else if (-1 == e.lastIndexOf("/")) r("/");
+      else {
+        for (var n = [], t = e; - 1 != t.lastIndexOf("/") && !$(t);) n.push(t), t = getParentFolder(t);
+        "" == t ? n.push("/") : n.push(t), c(n)
+      }
+    }, this.httpUpload = function(e, n) {
+      setLoading(!0, "Uploading '" + n + "'..."), n.startsWith("/") || (n = "/" + n), (xmlHttp = new XMLHttpRequest).onload = d(xmlHttp, n);
+      var t = new FormData;
+      t.append("data", e, n), xmlHttp.open("POST", "/edit"), xmlHttp.send(t)
+    }, this.httpCreate = function(e) {
+      setLoading(!0, "Creating '" + e + "'..."), e.startsWith("/") || (e = "/" + e), (xmlHttp = new XMLHttpRequest).onload = d(xmlHttp, e);
+      var n = new FormData;
+      n.append("path", e), xmlHttp.open("PUT", "/edit"), xmlHttp.send(n)
+    }, r("/"), this
+  }
 
-    // Push the new entry to the onOffTimes array
-    onOffTimes.push(newEntry);
+  function createEditor(e, n, t, a, i) {
+    function o(e) {
+      var n = "plain",
+        t = /(?:\.([^.]+))?$/.exec(e)[1];
+      if (void 0 !== t) switch (t) {
+        case "txt":
+          n = "plain";
+          break;
+        case "htm":
+          n = "html";
+          break;
+        case "js":
+          n = "javascript";
+          break;
+        case "css":
+        case "scss":
+        case "php":
+        case "html":
+        case "json":
+        case "xml":
+        case "yaml":
+        case "csv":
+          n = t
+      }
+      return n
+    }
+    void 0 === n && (n = "/index.htm"), void 0 === t && (t = o(n)), void 0 === a && (a = "textmate"), void 0 === i && (i = "c_cpp" === t ? "text/plain" : "text/" + t);
+    var s = null,
+      l = ace.edit(e);
 
-    // Update the input fields, the visual time bar, and the display of saved times
-    createInputFields(onOffTimes);
-    updateTimeBar(onOffTimes);
-    localStorage.setItem('onOffTimes', JSON.stringify(onOffTimes)); // Save the updated array to localStorage
-    displaySavedTimes();
-    attachTimePickerEventListeners();
-    sendData(onOffTimes);
-}
-/////////////////////////////
-/////////////////////////////
+    function d() {
+      setLoading(!1), 200 != s.status && showHttpError(s), tree.refreshPath(getParentFolder(n)), refreshStatus()
+    }
 
+    function r() {
+      setLoading(!1), $("preview").style.display = "none", $("editor").style.display = "block", $("editorButtons").style.display = "inline", 200 == s.status ? (l.setValue(s.responseText), l.clearSelection(), enableSaveDiscardBtns(!1)) : tree.clearMainPanel()
+    }
 
+    function c(e) {
+      setLoading(!0, "Loading '" + e + "'..."), (s = new XMLHttpRequest).onload = r, s.open("GET", e, !0), s.send(null)
+    }
+    return "plain" !== t && l.getSession().setMode("ace/mode/" + t), l.setFontSize("18"),l.setTheme("ace/theme/monokai"/* + a*/), l.$blockScrolling = 1 / 0, l.getSession().setUseSoftTabs(!0), l.getSession().setTabSize(2), l.setHighlightActiveLine(!0), l.setShowPrintMargin(!1), l.commands.addCommand({
+      name: "save",
+      bindKey: {
+        win: "Ctrl-S",
+        mac: "Command-S"
+      },
+      exec: function(e) {
+        e.save()
+      },
+      readOnly: !1
+    }), l.commands.addCommand({
+      name: "showKeyboardShortcuts",
+      bindKey: {
+        win: "Ctrl-Alt-h",
+        mac: "Command-Alt-h"
+      },
+      exec: function(e) {
+        e.showShortcuts()
+      }
+    }), l.session.on("change", function(e) {
+      enableSaveDiscardBtns(!0)
+    }), l.loadUrl = function(e) {
+      $("pathInput").value = e, enableSaveDiscardBtns(!1), i = "text/" + (t = o(n = e)), "plain" !== t && l.getSession().setMode("ace/mode/" + t), c(n)
+    }, l.save = function() {
+      var e, t, a, o;
+      enableSaveDiscardBtns(!1), e = n, t = l.getValue() + "", a = i, setLoading(!0, "Saving '" + e + "'..."), (s = new XMLHttpRequest).onload = d, (o = new FormData).append("data", new Blob([t], {
+        type: a
+      }), e), s.open("POST", "/edit"), s.send(o)
+    }, l.discard = function() {
+      l.loadUrl(n), enableSaveDiscardBtns(!1)
+    }, l.showShortcuts = function() {
+      ace.config.loadModule("ace/ext/keybinding_menu", function(e) {
+        e.init(l), l.showKeyboardShortcuts()
+      })
+    }, c(n), l
+  }
 
-///////////////////////////////////
-///////////////////////////////
-// Now call createInputFields initially to set up the existing inputs and the add button
-createInputFields(onOffTimes);
-
-function createInputFields(onOffTimes) {
-    const timesInputs = document.getElementById('times-inputs');
-    timesInputs.innerHTML = ''; // Clear existing inputs
-
-    onOffTimes.forEach((entry, index) => {
-        const timeEntryDiv = document.createElement('div');
-        timeEntryDiv.className = 'time-entry';
-
-        const onInput = document.createElement('input');
-        onInput.className = 'time-input';
-        onInput.type = 'text';
-        onInput.style.color = 'green';
-        onInput.value = minutesToTime(entry.on);
-        onInput.dataset.index = index;
-        onInput.dataset.type = 'on';
-        onInput.readOnly = true; // Make the input read-only no keyboard popup on phone
-
-        const offInput = document.createElement('input');
-        offInput.className = 'time-input';
-        offInput.type = 'text';
-        offInput.style.color = 'red';
-        offInput.value = minutesToTime(entry.off);
-        offInput.dataset.index = index;
-        offInput.dataset.type = 'off';
-        offInput.readOnly = true; // Make the input read-only no keyboard popup on phone
-
-        // Create a delete button for each on/off pair
-        const deleteButton = document.createElement('button');
-        deleteButton.textContent = 'Delete';
-        deleteButton.dataset.index = index;
-        deleteButton.onclick = function() {
-            // Remove the entry from the onOffTimes array
-            onOffTimes.splice(this.dataset.index, 1);
-            // Update the display
-            createInputFields(onOffTimes);
-            updateTimeBar(onOffTimes);
-            localStorage.setItem('onOffTimes', JSON.stringify(onOffTimes)); // Save the updated array to localStorage
-            displaySavedTimes();
-            attachTimePickerEventListeners();
-            sendData(onOffTimes);
-        };
-
-        
-
-        timeEntryDiv.appendChild(document.createTextNode('On: '));
-        timeEntryDiv.appendChild(onInput);
-        timeEntryDiv.appendChild(document.createTextNode(' Off: '));
-        timeEntryDiv.appendChild(offInput);
-        timeEntryDiv.appendChild(deleteButton); // Add the delete button to the time entry
-
-        timesInputs.appendChild(timeEntryDiv);
-
-        
-    });
-    
-}
-
-
-/*
-// Ensure the DOM is fully loaded before manipulating it
-document.addEventListener('DOMContentLoaded', function() {
-    // Get the div where you want to add the button
-    const theArtOfTimeControlled = document.getElementById('The_Art_of_Time_Controlled');
-
-    // Create a button for creating new time entries
-    const addTimeButton = document.createElement('button');
-    addTimeButton.textContent = 'Add Time';
-    addTimeButton.onclick = createNewTimeEntry; // Ensure this function is defined
-    addTimeButton.style.position = 'absolute';
-      addTimeButton.style.left = '0px';
-
-    // Insert the button into the div
-    theArtOfTimeControlled.insertBefore(addTimeButton, theArtOfTimeControlled.firstChild);
-
+  function onBodyLoad() {
+    var e, n = {};
+    window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(e, t, a) {
+      n[t] = a
+    }), "undefined" != typeof ace && (e = createEditor("editor", n.file, n.lang, n.theme)), createHeader("header", tree = createTree("tree", e), e), refreshStatus()
  
-    // Create a line break element
-    const lineBreak = document.createElement('br');
-
-    // Insert the line break after the button
-    theArtOfTimeControlled.insertBefore(lineBreak, addTimeButton.nextSibling);
-
-
-});
-*/
-            function timeToMinutes(timeString) {
-                const [hours, minutes] = timeString.split(':').map(Number);
-                return (hours % 24) * 60 + minutes;
-            }
-
-            function minutesToTime(minutes) {
-                const hours = Math.floor(minutes / 60);
-                const mins = minutes % 60;
-                return `${hours
-                    .toString()
-                    .padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
-            }
-            function displaySavedTimes() {
-                // Retrieve saved times from localStorage
-                const savedTimes =
-                    JSON.parse(localStorage.getItem('onOffTimes')) || [];
-                const savedTimesList = document.getElementById(
-                    'saved-times-list'
-                );
-
-                // Clear existing list
-                savedTimesList.innerHTML = '';
-
-                // Create a list element to hold the saved times
-                const list = document.createElement('ul');
-
-                // Loop through each saved time and append it to the list
-                savedTimes.forEach((timeEntry, index) => {
-                    const listItem = document.createElement('li');
-                    listItem.textContent = `Entry ${
-                        index + 1
-                    }: On at ${minutesToTime(
-                        timeEntry.on
-                    )}, Off at ${minutesToTime(timeEntry.off)}`;
-                    listItem.textContent += ` , in minutes : On at ${timeEntry.on}, Off at ${timeEntry.off}`;
-                    list.appendChild(listItem);
-                    console.info(listItem.textContent);
-                });
-
-                // Append the list to the saved times list container
-                savedTimesList.appendChild(list);
-            }
-
-            function saveNewTimes() {
-                const inputs = document.querySelectorAll('.time-input');
-                inputs.forEach((input) => {
-                    const index = input.dataset.index;
-                    const type = input.dataset.type;
-                    const timeValue = timeToMinutes(input.value);
-
-                    if (type === 'on') {
-                        onOffTimes[index].on = timeValue;
-                    } else if (type === 'off') {
-                        onOffTimes[index].off = timeValue;
-                    }
-                });
-                // Save the updated onOffTimes array to localStorage
-                localStorage.setItem('onOffTimes', JSON.stringify(onOffTimes));
-                updateTimeBar(onOffTimes); // Update the time bar with new times
-
-                // Display the saved times on the page
-                displaySavedTimes();
-            }
-
-            document
-                .getElementById('save-times')
-                .addEventListener('click', () => {
-                    saveNewTimes();
-                    updateCurrentTimeStatus(onOffTimes);
-                    createInputFields(onOffTimes);
-                });
-
-            // Display saved times when the page loads
-            displaySavedTimes();
-
-            function isTimeOn(minutesOfDay, onOffTimes) {
-                return onOffTimes.some(
-                    ({ on, off }) => minutesOfDay >= on && minutesOfDay < off
-                );
-            }
-
-            function updateCurrentTimeStatus(onOffTimes) {
-                const currentTime = new Date();
-                const currentTimeInMinutes =
-                    currentTime.getHours() * 60 + currentTime.getMinutes();
-                const currentTimeStr = currentTime.toLocaleTimeString('en-GB', {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    second: '2-digit',
-                    hour12: false,
-                });
-
-                const timeStatus = document.getElementById('time-status');
-                const currentTimeDisplay = document.getElementById(
-                    'current-time'
-                );
-
-                const isCurrentlyOn = isTimeOn(
-                    currentTimeInMinutes,
-                    onOffTimes
-                );
-                timeStatus.textContent = isCurrentlyOn
-                    ? 'The current time is within an ON interval.'
-                    : 'The current time is not within an ON interval.';
-                timeStatus.className = isCurrentlyOn
-                    ? 'status-on'
-                    : 'status-off'; // Apply the appropriate class
-                currentTimeDisplay.textContent = `Current Time: ${currentTimeStr}`;
-            }
-
-
-// function to remove the leading zero for hours less than 10:
-function minutesToTime(minutes) {
-    const hours = Math.floor(minutes / 60);
-    const mins = minutes % 60;
-    // Format hours without leading zero if less than 10
-    const formattedHours = hours < 10 ? hours.toString() : hours.toString().padStart(2, '0');
-    // Always format minutes with leading zero
-    const formattedMinutes = mins.toString().padStart(2, '0');
-    return `${formattedHours}:${formattedMinutes}`;
-}
-
-
-
-function updateTimeBar(onOffTimes) {
-    const timeBar = document.getElementById('time-bar');
-    // Clear existing segments
-    while (timeBar.firstChild) {
-        timeBar.removeChild(timeBar.firstChild);
-    }
-
-    onOffTimes.forEach(({ on, off }, index) => {
-        const segment = document.createElement('div');
-        segment.className = 'time-segment';
-        segment.style.left = `${(on / (24 * 60)) * 100}%`;
-        segment.style.width = `${((off - on) / (24 * 60)) * 100}%`;
-
-        // Attach click event listener to the segment
-        segment.addEventListener('click', () => {
-            showPopup(index);
-        });
-
-        timeBar.appendChild(segment);
-
-
-        // Start label
-        const startLabel = document.createElement('div');
-        startLabel.className = 'time-label start-label';
-        startLabel.textContent = minutesToTime(on); // Will format correctly based on updated function
-        startLabel.style.left = segment.style.left;
-        timeBar.appendChild(startLabel);
-
-        // Modify the bottom offset for even indexes
-        //if (index % 2 === 0) {
-        //   startLabel.style.bottom = '-20px'; // 5px lower for every even label
-        //} else {
-        //    startLabel.style.bottom = '-30px';
-        //}
-
-        // End label
-        const endLabel = document.createElement('div');
-        endLabel.className = 'time-label end-label';
-        endLabel.textContent = minutesToTime(off); // Will format correctly based on updated function
-        timeBar.appendChild(endLabel);
-        
-        // Position the end label after it has been added to the DOM
-        endLabel.style.left = `calc(${segment.style.left} + ${segment.style.width})`;
-        // Adjust the position based on the label's width
-        const endLabelWidth = endLabel.offsetWidth;
-        const endLabelLeft = parseFloat(endLabel.style.left) - (endLabelWidth / 2);
-        endLabel.style.left = `${endLabelLeft}px`;
-
-        // Modify the bottom offset for even indexes
-        //if (index % 2 === 0) {
-        //    endLabel.style.bottom = '-30px'; // 5px lower for every even label
-        //} else {
-        //    endLabel.style.bottom = '-40px';
-        //}
+ 
+ ace.edit("editor").setTheme('ace/theme/monokai');
+     document.getElementById('themeSelector').addEventListener('change', function() {
+        ace.edit("editor").setTheme(this.value);
     });
-}
-            // Move the showPopup function outside of the updateTimeBar function
-            function showPopup(index) {
-                const onOffTime = onOffTimes[index];
-                const popup = document.createElement('div');
-
-                popup.id = 'time-popup';
-                popup.style.position = 'absolute';
-                popup.style.left = '50%';
-                popup.style.top = '50%';
-                popup.style.transform = 'translate(-50%, -50%)';
-                popup.style.backgroundColor = '#fff';
-                popup.style.padding = '11px';
-                popup.style.border = '1px solid #000';
-                popup.style.zIndex = '2000';
-                popup.style.color = 'red';
-                popup.textContent = `Set time for: On at ${minutesToTime(
-                    onOffTime.on
-                )}, Off at ${minutesToTime(onOffTime.off)}`;
-
-                // Append the popup to the body
-                document.body.appendChild(popup);
-
-                // Automatically close the popup after 2 seconds
-                setTimeout(function () {
-                    popup.remove();
-                }, 5000);
-                const timeEntries = document.querySelectorAll('.time-entry');
-    const relevantEntry = timeEntries[index];
-              
-                  // Save the original background color
-    const originalBackgroundColor = relevantEntry.style.backgroundColor;
-
-    // Highlight the background color of the relevantEntry
-    relevantEntry.style.backgroundColor = 'greenyellow';
-
-    // Remove the highlight after 5 seconds
-    setTimeout(function () {
-        relevantEntry.style.backgroundColor = originalBackgroundColor;
-    }, 3000);
-            }
-
-            document
-                .getElementById('save-times')
-                .addEventListener('click', () => {
-                    saveNewTimes();
-                    updateCurrentTimeStatus(onOffTimes);
-                    createInputFields(onOffTimes);
-                    sendData(onOffTimes);
-                });
-
-            createInputFields(onOffTimes);
-            updateCurrentTimeStatus(onOffTimes); 
-           
-            updateTimeBar(onOffTimes);
-           
-
-            setInterval(() => {
-                updateCurrentTimeStatus(onOffTimes);
-            }, 1000);
-
-            function createScale() {
-                const scaleContainer = document.getElementById(
-                    'time-scale-container'
-                );
-                scaleContainer.innerHTML = ''; // Clear existing scale
-
-                for (let i = 0; i <= 24; i++) {
-                    // Create a marker for each hour
-                    const marker = document.createElement('div');
-                    marker.className = 'scale-marker';
-                    marker.style.left = `${(i / 24) * 100}%`;
-                    scaleContainer.appendChild(marker);
-
-                    // Create a label for each hour
-                    const label = document.createElement('div');
-                    label.className = 'scale-label';
-                    label.style.left = `${(i / 24) * 100}%`;
-                    label.textContent = i;
-                    scaleContainer.appendChild(label);
-
-                    // Skip the quarter, half, and three-quarter-hour marks for the last hour marker
-                    if (i === 24) continue;
-
-                    // Create a marker for each quarter hour (15 minutes)
-                    const quarterMarker = document.createElement('div');
-                    quarterMarker.className = 'scale-marker quarter-hour';
-                    quarterMarker.style.left = `${((i + 0.25) / 24) * 100}%`;
-                    scaleContainer.appendChild(quarterMarker);
-
-                    // Create a marker for each half hour (30 minutes)
-                    const halfMarker = document.createElement('div');
-                    halfMarker.className = 'scale-marker half-hour';
-                    halfMarker.style.left = `${((i + 0.5) / 24) * 100}%`;
-                    scaleContainer.appendChild(halfMarker);
-
-                    // Create a marker for each three-quarter hour (45 minutes)
-                    const threeQuarterMarker = document.createElement('div');
-                    threeQuarterMarker.className =
-                        'scale-marker three-quarter-hour';
-                    threeQuarterMarker.style.left = `${
-                        ((i + 0.75) / 24) * 100
-                    }%`;
-                    scaleContainer.appendChild(threeQuarterMarker);
-                }
-            }
-
-            // Call createScale function after defining it
-            createScale();
-
-// Function to add a new div at the top of the time-bar-container
-function addTopDivToTimeBarContainer() {
-    const timeBarContainer = document.getElementById('time-bar-container');
-    const topDiv = document.createElement('div');
-
-    // Set the styles for the new div
-    topDiv.style.position = 'relative';
-  topDiv.id = 'SunRise_SunSet';
-    topDiv.style.left = '0';
-    topDiv.style.top = '-5px';
-    topDiv.style.width = '100%';
-    topDiv.style.height = '10px';
-    topDiv.style.backgroundColor = 'yellow'; // Example color, change as needed
-  topDiv.style.zIndex = '-1';
-
-    // Append the new div to the time-bar-container
-    timeBarContainer.appendChild(topDiv);
-}
-/*
-function createRiseNightOverlay() {
-    const sunRiseSunSetContainer = document.getElementById('SunRise_SunSet');
-    const overlay = document.createElement('div');
-    overlay.id = 'rise_night';
-
-    // Since the container starts at 00:00 by default, we only need to calculate the end percent for 07:00 hours
-    const endPercent = (7 / 24) * 100; // 07:00 hours as a percentage of a 24-hour day
-
-    // Set the styles for the overlay
-    overlay.style.position = 'absolute';
-    overlay.style.left = '0'; // Start at 00:00
-    overlay.style.width = `${endPercent}%`; // End at the calculated percentage for 07:00
-    overlay.style.height = '100%';
-    overlay.style.backgroundColor = 'lightgrey';
-    overlay.style.zIndex = '10'; // Ensure it's above the container background but below other elements
-
-    // Append the overlay to the sunRiseSunSetContainer
-    sunRiseSunSetContainer.appendChild(overlay);
-}
-
-// Call the function to add the overlay after the SunRise_SunSet container is rendered
-createRiseNightOverlay();
-*/
-
-// Call the function to add the top div
-addTopDivToTimeBarContainer();
-
-const timeBarContainer = document.getElementById('time-bar');
-timeBarContainer.addEventListener('click', function(event) {
-    // Check if the click was on the time-bar and not on a time-segment
-    if (event.target === this) {
-        const timeBarRect = this.getBoundingClientRect();
-        const clickedPosition = event.clientX - timeBarRect.left;
-        const clickedTimeFraction = clickedPosition / timeBarRect.width;
-        const totalMinutesInDay = 24 * 60;
-        const clickedTimeInMinutes = Math.floor(clickedTimeFraction * totalMinutesInDay);
-
-        // Snap the start time to the nearest 15 minutes
-        const snappedStartTime = Math.floor(clickedTimeInMinutes / 15) * 15;
-        const endTime = (snappedStartTime + 15) % totalMinutesInDay; // 15 minutes duration, wrap around at midnight
-
-        // Create a new time slot
-        const newTimeSlot = { on: snappedStartTime, off: endTime };
-
-        // Add the new time slot to onOffTimes array and update the display
-        onOffTimes.push(newTimeSlot);
-        createInputFields(onOffTimes); // Refresh input fields to include the new time slot
-        updateTimeBar(onOffTimes);
-        localStorage.setItem('onOffTimes', JSON.stringify(onOffTimes)); // Save the updated array to localStorage
-        displaySavedTimes();
-        attachTimePickerEventListeners();
-        sendData(onOffTimes);
-    }
-});
-
-
-            
-        </script>
-        <script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
-       
-      
-   <!-- Swiper JS -->
-<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-
-<script>
-// Function to create Swiper slides
-function createSwiperSlides(elementId, start, end, step = 1) {
-  const wrapper = document.getElementById(elementId);
-  // Add additional slides to the beginning for a smoother start
-  for (let i = start ; i <= end ; i += step) {
-    const slide = document.createElement('div');
-    slide.className = 'swiper-slide';
-    // Use modulo to create a loop effect
-    const displayValue = (i + 60) % 60; // Adjust for negative values
-    slide.textContent = displayValue.toString().padStart(2, '0');
-    wrapper.appendChild(slide);
-  }
-}
-
-// Create hour and minute slides
-createSwiperSlides('hourWrapper', 0, 23);
-createSwiperSlides('minuteWrapper', 0, 59);
-
-
-// Declare Swiper instances
-let hourSwiper, minuteSwiper;
-
-// Initialize hour swiper with mousewheel control
-hourSwiper = new Swiper('.hour-swiper', {
-  direction: 'vertical',
-  loop: true,
-   slideToClickedSlide: true,
-  slidesPerView: 5,
-  centeredSlides: true,
-  spaceBetween: -10,
-  speed: 0,
-  touchRatio: 2, // Increase this number to move more per drag
- // Enable keyboard control
-  keyboard: {
-    enabled: true,
-    onlyInViewport: true, // Keyboard control will be enabled only when the swiper is in viewport
-  },
-});
-
-// Initialize minute swiper with mousewheel control
-minuteSwiper = new Swiper('.minute-swiper', {
-  direction: 'vertical',
-  loop: true,
-   slideToClickedSlide: true,
-  slidesPerView: 5,
-  centeredSlides: true,
-  spaceBetween: -10,
-  speed: 0,
-  touchRatio: 2, // Increase this number to move more per drag
-  // Enable keyboard control
-  keyboard: {
-    enabled: true,
-    onlyInViewport: true, // Keyboard control will be enabled only when the swiper is in viewport
-  },
-});
-
-
-
-
-// Function to handle custom mouse wheel events for hours
-function customMouseWheelHandlerHours(event) {
-  // Prevent the default scroll behavior
-  event.preventDefault();
-
-  // Determine the direction of the scroll
-  const isScrollingUp = event.deltaY < 0;
-
-  // Adjust the Swiper's position based on the scroll direction
-  if (isScrollingUp) {
-    // Scroll up (decrease hours)
-    hourSwiper.slidePrev();
-  } else {
-    // Scroll down (increase hours)
-    hourSwiper.slideNext();
-  }
-}
-
-// Add the custom mouse wheel event listener to the hour swiper container
-document.querySelector('.hour-swiper').addEventListener('wheel', customMouseWheelHandlerHours);
-
-// Function to handle custom mouse wheel events
-function customMouseWheelHandler(event) {
-  // Prevent the default scroll behavior
-  event.preventDefault();
-
-  // Determine the direction of the scroll
-  const isScrollingUp = event.deltaY < 0;
-
-  // Adjust the Swiper's position based on the scroll direction
-  if (isScrollingUp) {
-    // Scroll up (decrease minutes)
-    minuteSwiper.slidePrev();
-  } else {
-    // Scroll down (increase minutes)
-    minuteSwiper.slideNext();
-  }
-}
-
-// Add the custom mouse wheel event listener to the minute swiper container
-document.querySelector('.minute-swiper').addEventListener('wheel', customMouseWheelHandler);
-
-
-
-let currentInput = null; // Keep a reference to the currently focused input
-
-// Function to update the selected time display
-function updateSelectedTime() {
-  const selectedHour = hourSwiper.slides[hourSwiper.activeIndex].textContent;
-  const selectedMinute = minuteSwiper.slides[minuteSwiper.activeIndex].textContent;
-  if (currentInput) {
-    currentInput.value = `${selectedHour}:${selectedMinute}`;
-    // Find the index of the current input among all elements with the 'timeInput' class
-    const inputIndex = Array.from(document.querySelectorAll('.timeInput')).findIndex(input => input === currentInput);
-    // Echo the current input value and the index of the input field
-    console.info('Time updated to:', currentInput.value, 'for input field at index:', inputIndex);     }
-}
-
-// Function to parse time and set Swiper sliders
-function setTimeInSwiper(inputTime) {
-  let hour = 0;
-  let minute = 0;
-  
-  // Check if input time is valid
-  if (inputTime && inputTime.includes(':')) {
-    const parts = inputTime.split(':');
-    hour = parseInt(parts[0], 10);
-    minute = parseInt(parts[1], 10);
-  }
-
-  // Set Swiper to the corresponding hour and minute
-  hourSwiper.slideToLoop(hour , 0, false);
-  minuteSwiper.slideToLoop(minute, 0, false);
-}
-
-// Function to show and hide the time picker
-function showTimePicker() {
-  document.getElementById('timePickerPopup').classList.add('active');
-}
-
-function hideTimePicker() {
-  document.getElementById('timePickerPopup').classList.remove('active');
-}
-
-// Function to position the popup below the input field
-function positionTimePicker(inputField) {
-  const popup = document.getElementById('timePickerPopup');
-  const rect = inputField.getBoundingClientRect();
-  popup.style.top = `${rect.bottom + window.scrollY}px`;
-  popup.style.left = `${rect.left + window.scrollX}px`;
-}
-
-// Set up event listeners for input fields
-document.querySelectorAll('.time-input').forEach(input => {
-  input.addEventListener('focus', function() {
-    currentInput = input; // Set the current input
-    positionTimePicker(input);
-    setTimeInSwiper(input.value); // Set the time in the swiper based on input value
-    showTimePicker();
-  });
-});
-
-// Add click event listener for the "Done" button
-        // Modify the Done button event listener to reset the time picker and trigger the save function
-// Modify the Done button event listener to reset the time picker and trigger the save function
-        document.getElementById('doneButton').addEventListener('click', function() {
-            hideTimePicker();
-            if (currentInput) {
-                updateSelectedTime();
-                currentInput.blur(); // Remove focus from the current input
-                currentInput = null; // Clear the current input reference
-                document.getElementById('save-times').click(); // Trigger save
-                // Re-attach event listeners to input fields to allow showing the time picker again
-                attachTimePickerEventListeners();
-            }
-        });
-
-        // Function to attach event listeners to input fields
-        function attachTimePickerEventListeners() {
-            document.querySelectorAll('.time-input').forEach(input => {
-                input.removeEventListener('focus', focusHandler); // Remove existing event handler, if any
-                input.addEventListener('focus', focusHandler); // Attach new event handler
-            });
-        }
-
-        // Event handler function for focus event
-        function focusHandler() {
-            currentInput = this; // Set the current input
-            positionTimePicker(this);
-            setTimeInSwiper(this.value); // Set the time in the swiper based on input value
-            showTimePicker();
-        }
-
-        let allowTimePickerToShow = true; // Flag to control when the time picker can be shown
-
-        // Set up event listeners for input fields
-        document.querySelectorAll('.time-input').forEach(input => {
-            input.addEventListener('focus', function() {
-                if (allowTimePickerToShow) {
-                    currentInput = input; // Set the current input
-                    positionTimePicker(input);
-                    setTimeInSwiper(input.value); // Set the time in the swiper based on input value
-                    showTimePicker();
-                    allowTimePickerToShow = false; // Prevent the time picker from showing again until reset
-                }
-            });
-        });
-
-// Listen to slide change events on both swipers
-hourSwiper.on('slideChange', () => updateSelectedTime());
-minuteSwiper.on('slideChange', () => updateSelectedTime());
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-/*
-add a marker on time-bar where current time is?
-
-To add a marker on the #time-bar that shows the current time, you can create a new element and position it according to the current time relative to the 24-hour scale of the time bar.
-
-Here's an example of how you can add this feature using JavaScript:
-
-add a label above current-time-marker with the current time?
-
-To add a label above the current-time-marker that shows the current time, you can create a new element for the label and position it right above the marker on the #time-bar. Here's how you can update the updateCurrentTimeMarker function to include a label:
-
-add seconds to current time label?
-
-To include seconds in the current time label, you simply need to update the timeString within the updateCurrentTimeMarker function to fetch and display the seconds as well. Here's the modified function:
-
-if current time is within change bleu time label to green?
-
-To change the color of the current time label to green if the current time is within one of the time segments, you can modify the updateCurrentTimeMarker function. This function should check if the current time falls within any of the time segments and change the color of the label accordingly.
-
-Here's how you can modify the updateCurrentTimeMarker function to implement this feature:
-*/
-
-
-function updateCurrentTimeMarker() {
-    const timeBar = document.getElementById('time-bar');
-    const currentTime = new Date();
-    const currentHours = currentTime.getHours();
-    const currentMinutes = currentTime.getMinutes();
-    const currentSeconds = currentTime.getSeconds();
-    const currentTimeInMinutes = currentHours * 60 + currentMinutes;
-    const percentageOfDay = (currentTimeInMinutes / (24 * 60)) * 100;
-
-    // Determine if the current time is within any of the time segments
-    const isWithinSegment = onOffTimes.some(({ on, off }) => {
-        return currentTimeInMinutes >= on && currentTimeInMinutes <= off;
-    });
-
-    // Format the current time string
-    const hoursStr = currentHours.toString().padStart(2, '0');
-    const minutesStr = currentMinutes.toString().padStart(2, '0');
-    const secondsStr = currentSeconds.toString().padStart(2, '0');
-    const timeString = `${hoursStr}:${minutesStr}:${secondsStr}`;
-
-    // Remove the existing current time marker and label if they exist
-    const existingMarker = document.getElementById('current-time-marker');
-    const existingLabel = document.getElementById('current-time-label');
-    if (existingMarker) {
-        timeBar.removeChild(existingMarker);
-    }
-    if (existingLabel) {
-        timeBar.removeChild(existingLabel);
-    }
-
-    // Create a new current time marker
-    const currentTimeMarker = document.createElement('div');
-    currentTimeMarker.id = 'current-time-marker';
-    currentTimeMarker.style.position = 'absolute';
-    currentTimeMarker.style.left = `${percentageOfDay}%`;
-    currentTimeMarker.style.top = '-30px';
-    currentTimeMarker.style.bottom = '0';
-    currentTimeMarker.style.width = '1px';
-    currentTimeMarker.style.backgroundColor = 'green';
-
-    // Create a label for the current time
-    const currentTimeLabel = document.createElement('div');
-    currentTimeLabel.id = 'current-time-label';
-    currentTimeLabel.textContent = timeString;
-    currentTimeLabel.style.position = 'absolute';
-    currentTimeLabel.style.left = `calc(${percentageOfDay}% - 25px)`;
-    currentTimeLabel.style.bottom = '175%';
-    currentTimeLabel.style.backgroundColor = isWithinSegment ? 'greenyellow' : '#fff'; // Change color if within a segment
-    currentTimeLabel.style.color = 'blue';
-    currentTimeLabel.style.padding = '2px 5px';
-    currentTimeLabel.style.fontSize = '0.75rem';
-    currentTimeLabel.style.whiteSpace = 'nowrap';
-    currentTimeLabel.style.border = '1px solid blue';
-    currentTimeLabel.style.borderRadius = '3px';
-
-    // Append the marker and label to the time bar
-    timeBar.appendChild(currentTimeMarker);
-    timeBar.appendChild(currentTimeLabel);
-}
-
-// Initial call to create the marker and label
-updateCurrentTimeMarker();
-
-// Update the current time marker and label every second
-setInterval(updateCurrentTimeMarker, 1000);
-</script>
-    </body>
-</html>
-
-<!-- Copyright 2023 Dirk Luberth Dijkman Bangert 30 1619GJ Andijk The Netherlands     -->
-
-<pre>
-</pre>
-
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(function() {
-    console.log('moved console and changed size of console.');
-    var consoleLogDiv = document.querySelector('#console-log-div');
     
-    if (consoleLogDiv) {
-      consoleLogDiv.style.left = '400px';    // Example: 
-      //consoleLogDiv.style.top = '10px';    // Example: 
-      consoleLogDiv.style.height = '200px';  // Example: 
-    }
-    }, 5000); // 3000 milliseconds = 3 seconds
-  });
+        document.getElementById('increaseFontBtn').addEventListener('click', function() {
+        var currentSize = parseInt(ace.edit("editor").getFontSize(), 10);
+        ace.edit("editor").setFontSize(currentSize + 1); // Increase font size by 2
+    });
+
+    document.getElementById('decreaseFontBtn').addEventListener('click', function() {
+        var currentSize = parseInt(ace.edit("editor").getFontSize(), 10);
+        if(currentSize > 8) { // Prevent font size from becoming too small
+            ace.edit("editor").setFontSize(currentSize - 1); // Decrease font size by 2
+        }
+    });
+   setTimeout(function(){
+     ace.edit("editor").execCommand('find');         // create the search find replace popup
+                                    // think draggable wants to add code to div class="ace_search"
+  }, 50);
+
+  }
 </script>
+
+<script>
+  //toggle tree menu
+  function toggleEditorPosition() {
+    var editor = document.getElementById('editor');
+    if (editor.style.left === '0%') {
+      editor.style.left = '12%';
+    } else {
+      editor.style.left = '0%';
+    }
+  }
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/ace-builds@1.32.6/src-noconflict/ace.js"></script>
+<!--<link href="https://cdn.jsdelivr.net/npm/ace-builds@1.32.6/css/ace.min.css" rel="stylesheet"><script>-->
+<script>
+  var script;
+  "undefined" == typeof ace && (console.log("Cannot load ace.js from the web, trying local copy"), (script = newEm("script")).src = "/edit/ace.js", script.async = !1, document.head.appendChild(script))
+</script>
+
+<body onload=onBodyLoad()>
+  <div id=header> 
+  <a href="/" style="color: #eee; text-decoration: none; margin-right: 0px;">Home</a>
+  <button onclick="toggleEditorPosition()">Toggle</button>
+  <button id="downloadBtn">Download</button>
+  
+  <select id="themeSelector" style="width:60px;">
+  <optgroup label="Bright"><option value="ace/theme/chrome">Chrome</option><option value="ace/theme/clouds">Clouds</option><option value="ace/theme/crimson_editor">Crimson Editor</option><option value="ace/theme/dawn">Dawn</option><option value="ace/theme/dreamweaver">Dreamweaver</option><option value="ace/theme/eclipse">Eclipse</option><option value="ace/theme/github">GitHub</option><option value="ace/theme/iplastic">IPlastic</option><option value="ace/theme/solarized_light">Solarized Light</option><option value="ace/theme/textmate">TextMate</option><option value="ace/theme/tomorrow">Tomorrow</option><option value="ace/theme/xcode">XCode</option><option value="ace/theme/kuroir">Kuroir</option><option value="ace/theme/katzenmilch">KatzenMilch</option><option value="ace/theme/sqlserver">SQL Server</option><option value="ace/theme/cloud_editor">CloudEditor</option></optgroup><optgroup label="Dark"><option value="ace/theme/ambiance">Ambiance</option><option value="ace/theme/chaos">Chaos</option><option value="ace/theme/clouds_midnight">Clouds Midnight</option><option value="ace/theme/dracula">Dracula</option><option value="ace/theme/cobalt">Cobalt</option><option value="ace/theme/gruvbox">Gruvbox</option><option value="ace/theme/gob">Green on Black</option><option value="ace/theme/idle_fingers">idle Fingers</option><option value="ace/theme/kr_theme">krTheme</option><option value="ace/theme/merbivore">Merbivore</option><option value="ace/theme/merbivore_soft">Merbivore Soft</option><option value="ace/theme/mono_industrial">Mono Industrial</option><option value="ace/theme/monokai">Monokai</option><option value="ace/theme/nord_dark">Nord Dark</option><option value="ace/theme/one_dark">One Dark</option><option value="ace/theme/pastel_on_dark">Pastel on dark</option><option value="ace/theme/solarized_dark">Solarized Dark</option><option value="ace/theme/terminal">Terminal</option><option value="ace/theme/tomorrow_night">Tomorrow Night</option><option value="ace/theme/tomorrow_night_blue">Tomorrow Night Blue</option><option value="ace/theme/tomorrow_night_bright">Tomorrow Night Bright</option><option value="ace/theme/tomorrow_night_eighties">Tomorrow Night 80s</option><option value="ace/theme/twilight">Twilight</option><option value="ace/theme/vibrant_ink">Vibrant Ink</option><option value="ace/theme/github_dark">GitHub Dark</option><option value="ace/theme/cloud_editor_dark">CloudEditor Dark</option></optgroup><
+  </select>
+  
+  <button id="decreaseFontBtn">-</button>
+  <button id="increaseFontBtn">+</button>
+    
+  
+  </div>
+
+  <div id=tree></div>
+  <div id=editor></div>
+  <div id=preview style=display:none></div>
+  <div id=loading><span id=loading-msg></span>
+    <br>
+    <div class=spinner-anim>Loading...</div>
+  </div>
 
 
 
 <script>
 
-// Function to make the time picker popup draggable
-function makePopupDraggable(popup, header) {
-  var posX = 0,
-      posY = 0,
-      posInitialX = 0,
-      posInitialY = 0;
+  // make search div draggable
+document.addEventListener("DOMContentLoaded", function() {
+  
+    // Function to make an element draggable
+    function makeDraggable(dragElement) {
+        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
-  // Mouse events
-  header.onmousedown = dragMouseDown;
-  // Touch events
-  header.ontouchstart = dragMouseDown;
+        if (document.querySelector(dragElement)) {
+            var elmnt = document.querySelector(dragElement);
+            // if present, the header is where you move the DIV from:
+            elmnt.onmousedown = dragMouseDown;
+        } else {
+            // otherwise, move the DIV from anywhere inside the DIV:
+            elmnt.onmousedown = dragMouseDown;
+        }
 
-  function dragMouseDown(e) {
-    e = e || window.event;
-    e.preventDefault();
-    if (e.type === "touchstart") {
-      // Get the initial touch position
-      posInitialX = e.touches[0].clientX;
-      posInitialY = e.touches[0].clientY;
-    } else {
-      // Get the initial cursor position
-      posInitialX = e.clientX;
-      posInitialY = e.clientY;
+        function dragMouseDown(e) {
+            e = e || window.event;
+            //e.preventDefault();
+            // get the mouse cursor position at startup:
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            // call a function whenever the cursor moves:
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e = e || window.event;
+            //e.preventDefault();
+            // calculate the new cursor position:
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            // set the element's new position:
+            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+        }
+
+        function closeDragElement() {
+            // stop moving when mouse button is released:
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
     }
-    document.onmouseup = closeDragElement;
-    document.onmousemove = elementDrag;
-    // Touch events
-    document.ontouchend = closeDragElement;
-    document.ontouchmove = elementDrag;
-  }
 
-  function elementDrag(e) {
-    e = e || window.event;
-    e.preventDefault();
-    if (e.type === "touchmove") {
-      // Calculate the new touch position
-      posX = posInitialX - e.touches[0].clientX;
-      posY = posInitialY - e.touches[0].clientY;
-      posInitialX = e.touches[0].clientX;
-      posInitialY = e.touches[0].clientY;
+
+
+    // Making the specific element draggable
+      setTimeout(function(){
+    // Locate the .ace_search.right div
+    var searchDiv = document.querySelector('.ace_search.right');
+    
+    if (searchDiv) {
+        // Create a new div element
+        var newDiv = document.createElement('div');
+        newDiv.textContent = 'You can drag me';
+        
+        // Append the new div as a child of the .ace_search.right div
+        searchDiv.appendChild(newDiv);
     } else {
-      // Calculate the new cursor position
-      posX = posInitialX - e.clientX;
-      posY = posInitialY - e.clientY;
-      posInitialX = e.clientX;
-      posInitialY = e.clientY;
+        console.log('.ace_search.right div not found');
     }
-    // Set the new position of the popup
-    popup.style.top = (popup.offsetTop - posY) + "px";
-    popup.style.left = (popup.offsetLeft - posX) + "px";
-  }
+        
+   makeDraggable(".ace_search.right");
+   
+ 
+   }, 2500);
 
-  function closeDragElement() {
-    // Stop moving when mouse button is released or touch ends
-    document.onmouseup = null;
-    document.onmousemove = null;
-    document.ontouchend = null;
-    document.ontouchmove = null;
-  }
-}
+  
+ 
+});
 
-// Call the function with the popup and header elements
-var popup = document.getElementById("timePickerPopup");
-var header = document.getElementById("dragHeader");
-makePopupDraggable(popup, header);
+
+
+
+
+document.getElementById('downloadBtn').addEventListener('click', function() {
+    // Get the content from the Ace Editor
+    var editorContent = ace.edit("editor").getValue();
+
+    // Create a Blob with the editor content, you can change the type to 'text/plain' or 'application/json' etc. based on your content
+    var fileToDownload = new Blob([editorContent], {type: 'text/plain'});
+
+    // Create an anchor (<a>) element to facilitate the download
+    var downloadLink = document.createElement('a');
+    downloadLink.download = 'AceEditorContent.html'; // Name of the file to download
+    downloadLink.href = window.URL.createObjectURL(fileToDownload);
+    downloadLink.style.display = 'none';
+
+    // Append the anchor to the body to make it clickable and click it to initiate download
+    document.body.appendChild(downloadLink);
+    downloadLink.click();
+
+    // Clean up by removing the temporary anchor element
+    document.body.removeChild(downloadLink);
+});
 </script>
 
-<!-- Copyright 2023 Dirk Luberth Dijkman Bangert 30 1619GJ Andijk The Netherlands     -->
-<hr>
-Ask Ai => ESP32 program to switch at times<br><br>
-<div class="flex gap-2 py-2.5 flex-row"><div class="text-xs text-[#6b7684] text-right"><div class="relative flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32"><g fill="none" fill-rule="evenodd"><path fill="#6436E2" d="M12 0c2.309 0 4.412.564 6.19 1.572a11.208 11.208 0 0 1 4.238 4.238C23.436 7.588 24 9.691 24 12c0 2.309-.564 4.412-1.572 6.19a11.208 11.208 0 0 1-4.238 4.238C16.412 23.436 14.309 24 12 24c-2.309 0-4.412-.564-6.19-1.572a11.208 11.208 0 0 1-4.238-4.238C.564 16.412 0 14.309 0 12c0-2.309.564-4.412 1.572-6.19A11.208 11.208 0 0 1 5.81 1.572C7.588.564 9.691 0 12 0z"></path><path fill="#FFF" d="M18.233 13.357a2.678 2.678 0 0 1-.55 1.406 2.733 2.733 0 0 1-1.23.896v-3.411a.46.46 0 0 0-.237-.408l-3.548-2.021 1.228-.7a.044.044 0 0 1 .041-.004l2.938 1.674c.45.257.817.634 1.058 1.09.24.454.344.967.3 1.478zm-2.735 2.203c-.001.715-.29 1.4-.802 1.906a2.757 2.757 0 0 1-3.682.168 2.14 2.14 0 0 0 .087-.048l2.906-1.656a.47.47 0 0 0 .238-.408V11.48l1.229.7a.044.044 0 0 1 .016.013.045.045 0 0 1 .008.02v3.347zM8.55 17.038a2.733 2.733 0 0 1-1.661-1.256 2.659 2.659 0 0 1-.326-1.808l.086.05 2.906 1.657a.478.478 0 0 0 .477 0l3.548-2.021v1.4a.043.043 0 0 1-.018.036l-2.937 1.674a2.77 2.77 0 0 1-2.075.268zM5.853 11.57a2.67 2.67 0 0 1 .272-2.047A2.716 2.716 0 0 1 7.548 8.34l-.001.099v3.312a.461.461 0 0 0 .238.408l3.548 2.02-1.228.7a.045.045 0 0 1-.042.004l-2.938-1.675a2.706 2.706 0 0 1-1.272-1.638zm2.648-3.131c0-.513.148-1.015.427-1.448a2.724 2.724 0 0 1 1.148-.995 2.769 2.769 0 0 1 2.91.37 2.18 2.18 0 0 0-.086.049L9.994 8.07a.47.47 0 0 0-.239.407l-.002 4.041-1.228-.7a.043.043 0 0 1-.024-.033V8.44zm3.5 1.76 1.58.9v1.8l-1.58.9-1.58-.9v-1.8l1.58-.9zm2.859-3.327a2.76 2.76 0 0 1 1.447.482c.426.293.759.7.959 1.173.2.473.26.992.172 1.498a3.618 3.618 0 0 0-.086-.051l-2.906-1.656a.478.478 0 0 0-.477 0l-3.548 2.02V8.94c0-.007 0-.014.004-.02a.043.043 0 0 1 .014-.017l2.937-1.672c.45-.256.965-.38 1.484-.358zm4.32 5.875a3.607 3.607 0 0 0-.93-2.054 3.543 3.543 0 0 0-.312-2.946 3.66 3.66 0 0 0-1.692-1.508 3.723 3.723 0 0 0-2.268-.233 3.633 3.633 0 0 0-1.24-.895 3.679 3.679 0 0 0-1.502-.31 3.712 3.712 0 0 0-2.17.691 3.631 3.631 0 0 0-1.338 1.82c-.507.103-.987.31-1.406.611-.42.3-.769.685-1.025 1.13a3.589 3.589 0 0 0 .452 4.254 3.544 3.544 0 0 0 .313 2.946 3.66 3.66 0 0 0 1.692 1.507 3.723 3.723 0 0 0 2.268.234c.344.382.766.687 1.239.895a3.68 3.68 0 0 0 1.503.31c.78.003 1.54-.24 2.17-.691a3.63 3.63 0 0 0 1.339-1.822c.507-.102.987-.31 1.406-.61.42-.3.769-.686 1.025-1.13.39-.665.557-1.435.476-2.2z"></path></g></svg></div></div><div class="max-w-[85%] px-3 break-words text-[#191f28] leading-6 rounded-xl py-2.5 mr-auto rounded-tl-md bg-white"><div class="prose max-w-[100%] break-words"><p>The ESP32 is a low-cost, low-power system on a chip (SoC) series created by Espressif Systems, a Shanghai-based Chinese company. It is a successor to the ESP8266 microcontroller, and it gained popularity for its combination of Wi-Fi, Bluetooth, and a variety of input/output options in a single package.</p>
-<hr>
-<div class="max-w-[85%] px-3 break-words text-[#191f28] leading-6 rounded-xl py-2.5 mr-auto rounded-tl-md bg-white"><div class="prose max-w-[100%] break-words"><p>To create an ESP32 program that switches a digital output at specific times, you can use the Arduino IDE to program your ESP32. The following example demonstrates how to toggle a GPIO pin based on hard-coded on/off times. For a more sophisticated approach, you might want to integrate a real-time clock (RTC) module or use the built-in time features of the ESP32 with NTP (Network Time Protocol) to keep accurate time.</p>
-<p>Please note that this example uses hardcoded times and does not account for time zones or daylight saving time. For real-world applications, you should use NTP to get the current time and an RTC to keep time when the ESP32 is not connected to the internet.</p>
-<p>Here's a simple example to get you started:</p>
-<pre class="scrollbar-thin scrollbar-thumb-[#33435a] scrollbar-track-[#1f2937]"><div style="color: rgb(248, 248, 242); background: rgb(43, 43, 43); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; overflow-wrap: normal; line-height: 1.5; tab-size: 4; hyphens: none; padding: 1em; margin: 0.5em 0px; overflow: auto; border-radius: 0.3em;"><code class="language-cpp" style="color: rgb(248, 248, 242); background: none; font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; overflow-wrap: normal; line-height: 1.5; tab-size: 4; hyphens: none;"><span class="token macro directive-hash" style="color: rgb(255, 160, 122);">#</span><span class="token macro directive" style="color: rgb(0, 224, 224);">include</span><span class="token macro" style="color: rgb(255, 160, 122);"> </span><span class="token macro" style="color: rgb(171, 227, 56);">&lt;WiFi.h&gt;</span><span>
-</span>
-<span></span><span class="token" style="color: rgb(212, 208, 171);">// Replace with your network credentials</span><span>
-</span><span></span><span class="token" style="color: rgb(0, 224, 224);">const</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">char</span><span class="token" style="color: rgb(0, 224, 224);">*</span><span> ssid </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> </span><span class="token" style="color: rgb(171, 227, 56);">"your_SSID"</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span></span><span class="token" style="color: rgb(0, 224, 224);">const</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">char</span><span class="token" style="color: rgb(0, 224, 224);">*</span><span> password </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> </span><span class="token" style="color: rgb(171, 227, 56);">"your_PASSWORD"</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span>
-<span></span><span class="token" style="color: rgb(212, 208, 171);">// Time settings (24-hour format)</span><span>
-</span><span></span><span class="token" style="color: rgb(0, 224, 224);">const</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">int</span><span> onHour </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">8</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>   </span><span class="token" style="color: rgb(212, 208, 171);">// Turn on at 8:00</span><span>
-</span><span></span><span class="token" style="color: rgb(0, 224, 224);">const</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">int</span><span> offHour </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">20</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span> </span><span class="token" style="color: rgb(212, 208, 171);">// Turn off at 20:00</span><span>
-</span>
-<span></span><span class="token" style="color: rgb(212, 208, 171);">// GPIO pin to switch</span><span>
-</span><span></span><span class="token" style="color: rgb(0, 224, 224);">const</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">int</span><span> relayPin </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">2</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span>
-<span></span><span class="token" style="color: rgb(0, 224, 224);">void</span><span> </span><span class="token" style="color: rgb(255, 215, 0);">setup</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>  Serial</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">begin</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(0, 224, 224);">115200</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>  </span><span class="token" style="color: rgb(255, 215, 0);">pinMode</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>relayPin</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> OUTPUT</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span>
-<span>  </span><span class="token" style="color: rgb(212, 208, 171);">// Connect to Wi-Fi</span><span>
-</span><span>  WiFi</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">begin</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>ssid</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> password</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>  </span><span class="token" style="color: rgb(0, 224, 224);">while</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>WiFi</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">status</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">!=</span><span> WL_CONNECTED</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>    </span><span class="token" style="color: rgb(255, 215, 0);">delay</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(0, 224, 224);">1000</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>    Serial</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">println</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(171, 227, 56);">"Connecting to WiFi..."</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>  </span><span class="token" style="color: rgb(254, 254, 254);">}</span><span>
-</span>
-<span>  </span><span class="token" style="color: rgb(212, 208, 171);">// Print the IP address</span><span>
-</span><span>  Serial</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">println</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>WiFi</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">localIP</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span>
-<span>  </span><span class="token" style="color: rgb(212, 208, 171);">// Initialize time</span><span>
-</span><span>  </span><span class="token" style="color: rgb(255, 215, 0);">configTime</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(0, 224, 224);">0</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">0</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> </span><span class="token" style="color: rgb(171, 227, 56);">"pool.ntp.org"</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> </span><span class="token" style="color: rgb(171, 227, 56);">"time.nist.gov"</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span></span><span class="token" style="color: rgb(254, 254, 254);">}</span><span>
-</span>
-<span></span><span class="token" style="color: rgb(0, 224, 224);">void</span><span> </span><span class="token" style="color: rgb(255, 215, 0);">loop</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>  time_t now</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>  </span><span class="token" style="color: rgb(0, 224, 224);">struct</span><span> </span><span class="token class-name">tm</span><span> timeinfo</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>  </span><span class="token" style="color: rgb(0, 224, 224);">if</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(0, 224, 224);">!</span><span class="token" style="color: rgb(255, 215, 0);">getLocalTime</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(0, 224, 224);">&amp;</span><span>timeinfo</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>    Serial</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">println</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(171, 227, 56);">"Failed to obtain time"</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>    </span><span class="token" style="color: rgb(0, 224, 224);">return</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>  </span><span class="token" style="color: rgb(254, 254, 254);">}</span><span>
-</span><span>  </span><span class="token" style="color: rgb(255, 215, 0);">time</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(0, 224, 224);">&amp;</span><span>now</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span>
-<span>  </span><span class="token" style="color: rgb(212, 208, 171);">// Get current hour</span><span>
-</span><span>  </span><span class="token" style="color: rgb(0, 224, 224);">int</span><span> currentHour </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> timeinfo</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span>tm_hour</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span>
-<span>  </span><span class="token" style="color: rgb(212, 208, 171);">// Compare with on/off hours</span><span>
-</span><span>  </span><span class="token" style="color: rgb(0, 224, 224);">if</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>currentHour </span><span class="token" style="color: rgb(0, 224, 224);">&gt;=</span><span> onHour </span><span class="token" style="color: rgb(0, 224, 224);">&amp;&amp;</span><span> currentHour </span><span class="token" style="color: rgb(0, 224, 224);">&lt;</span><span> offHour</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>    </span><span class="token" style="color: rgb(255, 215, 0);">digitalWrite</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>relayPin</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> HIGH</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span> </span><span class="token" style="color: rgb(212, 208, 171);">// Turn on</span><span>
-</span><span>  </span><span class="token" style="color: rgb(254, 254, 254);">}</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">else</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>    </span><span class="token" style="color: rgb(255, 215, 0);">digitalWrite</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>relayPin</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> LOW</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span> </span><span class="token" style="color: rgb(212, 208, 171);">// Turn off</span><span>
-</span><span>  </span><span class="token" style="color: rgb(254, 254, 254);">}</span><span>
-</span>
-<span>  </span><span class="token" style="color: rgb(212, 208, 171);">// Print the current time (for debugging)</span><span>
-</span><span>  Serial</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">println</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(0, 224, 224);">&amp;</span><span>timeinfo</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> </span><span class="token" style="color: rgb(171, 227, 56);">"%A, %B %d %Y %H:%M:%S"</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span>
-<span>  </span><span class="token" style="color: rgb(255, 215, 0);">delay</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(0, 224, 224);">10000</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span> </span><span class="token" style="color: rgb(212, 208, 171);">// Wait for 10 seconds</span><span>
-</span><span></span><span class="token" style="color: rgb(254, 254, 254);">}</span></code></div></pre>
-<p>This example requires you to connect your ESP32 to a Wi-Fi network to obtain the current time from an NTP server. Adjust the <code>onHour</code> and <code>offHour</code> variables to the times you want the switch to turn on and off. The <code>relayPin</code> variable should be set to the GPIO pin you're using to control the switch.</p>
-<p>Please ensure you have the necessary libraries installed in the Arduino IDE before compiling the program. You may also need to adjust the <code>configTime</code> function parameters to set the correct time zone for your location.</p></div></div>
-
-<hr>
-<br>
-Ask Ai => what is an ESP32<br>
-<br>
-<div class="flex gap-2 py-2.5 flex-row"><div class="text-xs text-[#6b7684] text-right"><div class="relative flex items-center justify-center"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32"><g fill="none" fill-rule="evenodd"><path fill="#6436E2" d="M12 0c2.309 0 4.412.564 6.19 1.572a11.208 11.208 0 0 1 4.238 4.238C23.436 7.588 24 9.691 24 12c0 2.309-.564 4.412-1.572 6.19a11.208 11.208 0 0 1-4.238 4.238C16.412 23.436 14.309 24 12 24c-2.309 0-4.412-.564-6.19-1.572a11.208 11.208 0 0 1-4.238-4.238C.564 16.412 0 14.309 0 12c0-2.309.564-4.412 1.572-6.19A11.208 11.208 0 0 1 5.81 1.572C7.588.564 9.691 0 12 0z"></path><path fill="#FFF" d="M18.233 13.357a2.678 2.678 0 0 1-.55 1.406 2.733 2.733 0 0 1-1.23.896v-3.411a.46.46 0 0 0-.237-.408l-3.548-2.021 1.228-.7a.044.044 0 0 1 .041-.004l2.938 1.674c.45.257.817.634 1.058 1.09.24.454.344.967.3 1.478zm-2.735 2.203c-.001.715-.29 1.4-.802 1.906a2.757 2.757 0 0 1-3.682.168 2.14 2.14 0 0 0 .087-.048l2.906-1.656a.47.47 0 0 0 .238-.408V11.48l1.229.7a.044.044 0 0 1 .016.013.045.045 0 0 1 .008.02v3.347zM8.55 17.038a2.733 2.733 0 0 1-1.661-1.256 2.659 2.659 0 0 1-.326-1.808l.086.05 2.906 1.657a.478.478 0 0 0 .477 0l3.548-2.021v1.4a.043.043 0 0 1-.018.036l-2.937 1.674a2.77 2.77 0 0 1-2.075.268zM5.853 11.57a2.67 2.67 0 0 1 .272-2.047A2.716 2.716 0 0 1 7.548 8.34l-.001.099v3.312a.461.461 0 0 0 .238.408l3.548 2.02-1.228.7a.045.045 0 0 1-.042.004l-2.938-1.675a2.706 2.706 0 0 1-1.272-1.638zm2.648-3.131c0-.513.148-1.015.427-1.448a2.724 2.724 0 0 1 1.148-.995 2.769 2.769 0 0 1 2.91.37 2.18 2.18 0 0 0-.086.049L9.994 8.07a.47.47 0 0 0-.239.407l-.002 4.041-1.228-.7a.043.043 0 0 1-.024-.033V8.44zm3.5 1.76 1.58.9v1.8l-1.58.9-1.58-.9v-1.8l1.58-.9zm2.859-3.327a2.76 2.76 0 0 1 1.447.482c.426.293.759.7.959 1.173.2.473.26.992.172 1.498a3.618 3.618 0 0 0-.086-.051l-2.906-1.656a.478.478 0 0 0-.477 0l-3.548 2.02V8.94c0-.007 0-.014.004-.02a.043.043 0 0 1 .014-.017l2.937-1.672c.45-.256.965-.38 1.484-.358zm4.32 5.875a3.607 3.607 0 0 0-.93-2.054 3.543 3.543 0 0 0-.312-2.946 3.66 3.66 0 0 0-1.692-1.508 3.723 3.723 0 0 0-2.268-.233 3.633 3.633 0 0 0-1.24-.895 3.679 3.679 0 0 0-1.502-.31 3.712 3.712 0 0 0-2.17.691 3.631 3.631 0 0 0-1.338 1.82c-.507.103-.987.31-1.406.611-.42.3-.769.685-1.025 1.13a3.589 3.589 0 0 0 .452 4.254 3.544 3.544 0 0 0 .313 2.946 3.66 3.66 0 0 0 1.692 1.507 3.723 3.723 0 0 0 2.268.234c.344.382.766.687 1.239.895a3.68 3.68 0 0 0 1.503.31c.78.003 1.54-.24 2.17-.691a3.63 3.63 0 0 0 1.339-1.822c.507-.102.987-.31 1.406-.61.42-.3.769-.686 1.025-1.13.39-.665.557-1.435.476-2.2z"></path></g></svg></div></div><div class="max-w-[85%] px-3 break-words text-[#191f28] leading-6 rounded-xl py-2.5 mr-auto rounded-tl-md bg-white"><div class="prose max-w-[100%] break-words"><p>The ESP32 is a low-cost, low-power system on a chip (SoC) series created by Espressif Systems, a Shanghai-based Chinese company. It is a successor to the ESP8266 microcontroller, and it gained popularity for its combination of Wi-Fi, Bluetooth, and a variety of input/output options in a single package.</p>
-<hr>
-<p>Here are some key features of the ESP32:</p>
-<ul>
-<li><strong>Wi-Fi</strong>: The ESP32 includes built-in 802.11 b/g/n Wi-Fi capabilities.</li>
-<li><strong>Bluetooth</strong>: It has Bluetooth v4.2 BR/EDR and BLE (Bluetooth Low Energy) standards, making it suitable for IoT (Internet of Things) applications.</li>
-<li><strong>Dual-Core Processor</strong>: The chip typically features a dual-core Tensilica Xtensa LX6 microprocessor that can be run at up to 240 MHz.</li>
-<li><strong>Memory</strong>: It comes with integrated 520 KB SRAM and supports external flash memory to store applications and data.</li>
-<li><strong>GPIO Pins</strong>: The ESP32 provides numerous General Purpose Input/Output (GPIO) pins that can be used for various functions like digital input/output, analog input (ADC), analog output (DAC), capacitive touch sensing, and more.</li>
-<li><strong>Peripheral Interfaces</strong>: It supports various interfaces such as SPI, I2C, UART, CAN, Ethernet, IR, PWM, and more.</li>
-<li><strong>Energy Efficient</strong>: It includes features for reducing power consumption, such as fine-grained clock gating, power modes, and dynamic power scaling.</li>
-</ul>
-<p>The ESP32 is commonly used in IoT projects and applications requiring wireless communication, sensor integration, and smart device connectivity. It is well-suited for both hobbyist projects and professional product development due to its versatility, processing power, and cost-effectiveness.</p>
-<p>The ESP32 can be programmed using various development environments, including the Arduino IDE, Espressif IoT Development Framework (ESP-IDF), MicroPython, and others. It's a popular choice for projects such as home automation systems, wearables, smart agriculture, and more.</p></div></div></div>
-
-
-
-
   
-  <script>
-  
- // maybe must be a http connection  // save file // open from disk
-  // Create a new WebSocket connection ESP32
-  // Log the WebSocket connection attempt
-  console.warn('WebSocket connection to ESP32');
+</body>
 
-  // Construct the WebSocket URL using the current location's hostname
-  const wsUrl = `ws://${window.location.hostname}/ws`;
-  const ws = new WebSocket(wsUrl);
-
-  // Function to send data to the WebSocket server
-  function sendData(data) {
-    console.info("function sendData");
-    // Check if the WebSocket connection is open
-    if (ws.readyState === WebSocket.OPEN) {
-      // Serialize the data into a JSON string
-      const dataToSend = JSON.stringify(data);
-      // Send the data over the WebSocket connection
-      ws.send(dataToSend);
-      console.info('Data sent:', dataToSend);
-    } else {
-      console.error('WebSocket connection is not open.');
-    }
-  }
-
-  // When the connection is open, send the on/off times
-  ws.onopen = function() {
-    console.info("ws.onopen");
-    sendData(onOffTimes);
-  };
-
-  // Log messages received from the server
-  ws.onmessage = function(event) {
-    console.info("ws.onmessage");
-    console.log('Message from server:', event.data);
-  };
-
-  // Handle any errors that occur
-  ws.onerror = function(error) {
-    console.info("ws.onerror");
-    console.error('WebSocket Error:', error);
-  };
-
-  // Handle when the connection is closed
-  ws.onclose = function(event) {
-    console.info("ws.onclose");
-    console.log('WebSocket connection closed:', event);
-  };
-
-  // Now you can call sendData() whenever you need to send data
-  // Example: sendData({ "message": "Hello from the browser!" });
-</script>
-
-
-
-
-<hr>
-possible ESP32 code given by chat gpt4<br>
-<hr>
-send page must be http for ws or from disk // or served from esp<br>
-<pre class="scrollbar-thin scrollbar-thumb-[#33435a] scrollbar-track-[#1f2937]"><div style="color: rgb(248, 248, 242); background: rgb(43, 43, 43); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; overflow-wrap: normal; line-height: 1.5; tab-size: 4; hyphens: none; padding: 1em; margin: 0.5em 0px; overflow: auto; border-radius: 0.3em;"><code class="language-cpp" style="color: rgb(248, 248, 242); background: none; font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; overflow-wrap: normal; line-height: 1.5; tab-size: 4; hyphens: none;"><span class="token macro directive-hash" style="color: rgb(255, 160, 122);">#</span><span class="token macro directive" style="color: rgb(0, 224, 224);">include</span><span class="token macro" style="color: rgb(255, 160, 122);"> </span><span class="token macro" style="color: rgb(171, 227, 56);">&lt;ArduinoJson.h&gt;</span><span>
-</span><span></span><span class="token macro directive-hash" style="color: rgb(255, 160, 122);">#</span><span class="token macro directive" style="color: rgb(0, 224, 224);">include</span><span class="token macro" style="color: rgb(255, 160, 122);"> </span><span class="token macro" style="color: rgb(171, 227, 56);">&lt;WiFi.h&gt;</span><span>
-</span><span></span><span class="token macro directive-hash" style="color: rgb(255, 160, 122);">#</span><span class="token macro directive" style="color: rgb(0, 224, 224);">include</span><span class="token macro" style="color: rgb(255, 160, 122);"> </span><span class="token macro" style="color: rgb(171, 227, 56);">&lt;WebSocketsClient.h&gt;</span><span>
-</span><span></span><span class="token macro directive-hash" style="color: rgb(255, 160, 122);">#</span><span class="token macro directive" style="color: rgb(0, 224, 224);">include</span><span class="token macro" style="color: rgb(255, 160, 122);"> </span><span class="token macro" style="color: rgb(171, 227, 56);">&lt;ESPmDNS.h&gt;</span><span>
-</span>
-<span></span><span class="token" style="color: rgb(212, 208, 171);">// Your WiFi credentials</span><span>
-</span><span></span><span class="token" style="color: rgb(0, 224, 224);">const</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">char</span><span class="token" style="color: rgb(0, 224, 224);">*</span><span> ssid     </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> </span><span class="token" style="color: rgb(171, 227, 56);">"yourSSID"</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span></span><span class="token" style="color: rgb(0, 224, 224);">const</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">char</span><span class="token" style="color: rgb(0, 224, 224);">*</span><span> password </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> </span><span class="token" style="color: rgb(171, 227, 56);">"yourPASSWORD"</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span>
-<span></span><span class="token" style="color: rgb(212, 208, 171);">// MDNS hostname</span><span>
-</span><span></span><span class="token" style="color: rgb(0, 224, 224);">const</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">char</span><span class="token" style="color: rgb(0, 224, 224);">*</span><span> mdnsHostname </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> </span><span class="token" style="color: rgb(171, 227, 56);">"esp32-switch"</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span>
-<span></span><span class="token" style="color: rgb(212, 208, 171);">// Pin to control the switch</span><span>
-</span><span></span><span class="token" style="color: rgb(0, 224, 224);">const</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">int</span><span> switchPin </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> YOUR_PIN</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span>
-<span>WebSocketsClient webSocket</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span>
-<span></span><span class="token" style="color: rgb(0, 224, 224);">void</span><span> </span><span class="token" style="color: rgb(255, 215, 0);">webSocketEvent</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>WStype_t type</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">uint8_t</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">*</span><span> payload</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> size_t length</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>    </span><span class="token" style="color: rgb(0, 224, 224);">switch</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>type</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>        </span><span class="token" style="color: rgb(0, 224, 224);">case</span><span> WStype_TEXT</span><span class="token" style="color: rgb(0, 224, 224);">:</span><span>
-</span><span>            </span><span class="token" style="color: rgb(212, 208, 171);">// Parse JSON array</span><span>
-</span><span>            DynamicJsonDocument </span><span class="token" style="color: rgb(255, 215, 0);">doc</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(0, 224, 224);">1024</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>            </span><span class="token" style="color: rgb(255, 215, 0);">deserializeJson</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>doc</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> payload</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span>
-<span>            </span><span class="token" style="color: rgb(212, 208, 171);">// Assuming `doc` is a JSON array</span><span>
-</span><span>            </span><span class="token" style="color: rgb(0, 224, 224);">for</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>JsonObject elem </span><span class="token" style="color: rgb(0, 224, 224);">:</span><span> doc</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token generic-function" style="color: rgb(255, 215, 0);">as</span><span class="token generic-function generic class-name" style="color: rgb(0, 224, 224);">&lt;</span><span class="token generic-function generic class-name">JsonArray</span><span class="token generic-function generic class-name" style="color: rgb(0, 224, 224);">&gt;</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>                </span><span class="token" style="color: rgb(0, 224, 224);">int</span><span> onTime </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> elem</span><span class="token" style="color: rgb(254, 254, 254);">[</span><span class="token" style="color: rgb(171, 227, 56);">"on"</span><span class="token" style="color: rgb(254, 254, 254);">]</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>                </span><span class="token" style="color: rgb(0, 224, 224);">int</span><span> offTime </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> elem</span><span class="token" style="color: rgb(254, 254, 254);">[</span><span class="token" style="color: rgb(171, 227, 56);">"off"</span><span class="token" style="color: rgb(254, 254, 254);">]</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span>
-<span>                </span><span class="token" style="color: rgb(0, 224, 224);">long</span><span> onTimeMillis </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> onTime </span><span class="token" style="color: rgb(0, 224, 224);">*</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">60</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">*</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">1000</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>                </span><span class="token" style="color: rgb(0, 224, 224);">long</span><span> offTimeMillis </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> offTime </span><span class="token" style="color: rgb(0, 224, 224);">*</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">60</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">*</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">1000</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>                </span><span class="token" style="color: rgb(0, 224, 224);">long</span><span> currentTimeMillis </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> </span><span class="token" style="color: rgb(255, 215, 0);">millis</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span>
-<span>                </span><span class="token" style="color: rgb(212, 208, 171);">// Check if the current time is within the on/off times</span><span>
-</span><span>                </span><span class="token" style="color: rgb(0, 224, 224);">if</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>currentTimeMillis </span><span class="token" style="color: rgb(0, 224, 224);">&gt;=</span><span> onTimeMillis </span><span class="token" style="color: rgb(0, 224, 224);">&amp;&amp;</span><span> currentTimeMillis </span><span class="token" style="color: rgb(0, 224, 224);">&lt;</span><span> offTimeMillis</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>                    </span><span class="token" style="color: rgb(212, 208, 171);">// Turn on the switch</span><span>
-</span><span>                    </span><span class="token" style="color: rgb(255, 215, 0);">digitalWrite</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>switchPin</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> HIGH</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>                </span><span class="token" style="color: rgb(254, 254, 254);">}</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">else</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>                    </span><span class="token" style="color: rgb(212, 208, 171);">// Turn off the switch</span><span>
-</span><span>                    </span><span class="token" style="color: rgb(255, 215, 0);">digitalWrite</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>switchPin</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> LOW</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>                </span><span class="token" style="color: rgb(254, 254, 254);">}</span><span>
-</span><span>            </span><span class="token" style="color: rgb(254, 254, 254);">}</span><span>
-</span><span>            </span><span class="token" style="color: rgb(0, 224, 224);">break</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span>
-<span>        </span><span class="token" style="color: rgb(212, 208, 171);">// Handle other events...</span><span>
-</span><span>        </span><span class="token" style="color: rgb(212, 208, 171);">// TODO: Add handling for other event types if necessary</span><span>
-</span><span>        </span><span class="token" style="color: rgb(0, 224, 224);">default</span><span class="token" style="color: rgb(0, 224, 224);">:</span><span>
-</span><span>            </span><span class="token" style="color: rgb(0, 224, 224);">break</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>    </span><span class="token" style="color: rgb(254, 254, 254);">}</span><span>
-</span><span></span><span class="token" style="color: rgb(254, 254, 254);">}</span><span>
-</span>
-<span></span><span class="token" style="color: rgb(0, 224, 224);">void</span><span> </span><span class="token" style="color: rgb(255, 215, 0);">setup</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>    Serial</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">begin</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(0, 224, 224);">115200</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>    </span><span class="token" style="color: rgb(255, 215, 0);">pinMode</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>switchPin</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> OUTPUT</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span> </span><span class="token" style="color: rgb(212, 208, 171);">// Set the pin as output</span><span>
-</span>
-<span>    </span><span class="token" style="color: rgb(212, 208, 171);">// Connect to WiFi</span><span>
-</span><span>    WiFi</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">begin</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>ssid</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> password</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span>
-<span>    </span><span class="token" style="color: rgb(212, 208, 171);">// Wait for connection</span><span>
-</span><span>    </span><span class="token" style="color: rgb(0, 224, 224);">while</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>WiFi</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">status</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">!=</span><span> WL_CONNECTED</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>        </span><span class="token" style="color: rgb(255, 215, 0);">delay</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(0, 224, 224);">500</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>        Serial</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">print</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(171, 227, 56);">"."</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>    </span><span class="token" style="color: rgb(254, 254, 254);">}</span><span>
-</span><span>    Serial</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">println</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(171, 227, 56);">"Connected to WiFi"</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span>
-<span>    </span><span class="token" style="color: rgb(212, 208, 171);">// Start MDNS service</span><span>
-</span><span>    </span><span class="token" style="color: rgb(0, 224, 224);">if</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(0, 224, 224);">!</span><span>MDNS</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">begin</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>mdnsHostname</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>        Serial</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">println</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(171, 227, 56);">"Error setting up MDNS responder!"</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>        </span><span class="token" style="color: rgb(0, 224, 224);">while</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(0, 224, 224);">1</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>            </span><span class="token" style="color: rgb(255, 215, 0);">delay</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(0, 224, 224);">1000</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>        </span><span class="token" style="color: rgb(254, 254, 254);">}</span><span>
-</span><span>    </span><span class="token" style="color: rgb(254, 254, 254);">}</span><span>
-</span><span>    Serial</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">println</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(171, 227, 56);">"mDNS responder started"</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>    </span><span class="token" style="color: rgb(212, 208, 171);">// Add service to MDNS-SD (optional and can be removed if not needed)</span><span>
-</span><span>    MDNS</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">addService</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(171, 227, 56);">"http"</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> </span><span class="token" style="color: rgb(171, 227, 56);">"tcp"</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">80</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span>
-<span>    </span><span class="token" style="color: rgb(212, 208, 171);">// Setup WebSocket</span><span>
-</span><span>    webSocket</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">begin</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(171, 227, 56);">"server_address"</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">80</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> </span><span class="token" style="color: rgb(171, 227, 56);">"/path"</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span> </span><span class="token" style="color: rgb(212, 208, 171);">// Replace with your WebSocket server address</span><span>
-</span><span>    webSocket</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">onEvent</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>webSocketEvent</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>    webSocket</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">setReconnectInterval</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(0, 224, 224);">5000</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span></span><span class="token" style="color: rgb(254, 254, 254);">}</span><span>
-</span>
-<span></span><span class="token" style="color: rgb(0, 224, 224);">void</span><span> </span><span class="token" style="color: rgb(255, 215, 0);">loop</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>    webSocket</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">loop</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>    MDNS</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">update</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span> </span><span class="token" style="color: rgb(212, 208, 171);">// Keep MDNS responder updated</span><span>
-</span><span>    </span><span class="token" style="color: rgb(212, 208, 171);">// Rest of your main loop code</span><span>
-</span>
-<span>    </span><span class="token" style="color: rgb(212, 208, 171);">// TODO: Implement your timing logic to turn the switch on/off</span><span>
-</span><span>    </span><span class="token" style="color: rgb(212, 208, 171);">// at the appropriate times based on the schedule</span><span>
-</span><span></span><span class="token" style="color: rgb(254, 254, 254);">}</span></code></div></pre>
-
-
-
-
-
-<hr>
-possible ESP8266 code given by chat gpt4<br>
-<hr>
-
-<div style="color: rgb(248, 248, 242); background: rgb(43, 43, 43); font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; overflow-wrap: normal; line-height: 1.5; tab-size: 4; hyphens: none; padding: 1em; margin: 0.5em 0px; overflow: auto; border-radius: 0.3em;"><code class="language-cpp" style="color: rgb(248, 248, 242); background: none; font-family: Consolas, Monaco, &quot;Andale Mono&quot;, &quot;Ubuntu Mono&quot;, monospace; text-align: left; white-space: pre; word-spacing: normal; word-break: normal; overflow-wrap: normal; line-height: 1.5; tab-size: 4; hyphens: none;"><span class="token macro directive-hash" style="color: rgb(255, 160, 122);">#</span><span class="token macro directive" style="color: rgb(0, 224, 224);">include</span><span class="token macro" style="color: rgb(255, 160, 122);"> </span><span class="token macro" style="color: rgb(171, 227, 56);">&lt;ArduinoJson.h&gt;</span><span>
-</span><span></span><span class="token macro directive-hash" style="color: rgb(255, 160, 122);">#</span><span class="token macro directive" style="color: rgb(0, 224, 224);">include</span><span class="token macro" style="color: rgb(255, 160, 122);"> </span><span class="token macro" style="color: rgb(171, 227, 56);">&lt;ESP8266WiFi.h&gt;</span><span>
-</span><span></span><span class="token macro directive-hash" style="color: rgb(255, 160, 122);">#</span><span class="token macro directive" style="color: rgb(0, 224, 224);">include</span><span class="token macro" style="color: rgb(255, 160, 122);"> </span><span class="token macro" style="color: rgb(171, 227, 56);">&lt;ESP8266mDNS.h&gt;</span><span>
-</span><span></span><span class="token macro directive-hash" style="color: rgb(255, 160, 122);">#</span><span class="token macro directive" style="color: rgb(0, 224, 224);">include</span><span class="token macro" style="color: rgb(255, 160, 122);"> </span><span class="token macro" style="color: rgb(171, 227, 56);">&lt;WebSocketsClient.h&gt;</span><span>
-</span>
-<span></span><span class="token" style="color: rgb(212, 208, 171);">// Your WiFi credentials</span><span>
-</span><span></span><span class="token" style="color: rgb(0, 224, 224);">const</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">char</span><span class="token" style="color: rgb(0, 224, 224);">*</span><span> ssid     </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> </span><span class="token" style="color: rgb(171, 227, 56);">"yourSSID"</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>         </span><span class="token" style="color: rgb(212, 208, 171);">// your wifi name broadcasted in the air</span><span>
-</span><span></span><span class="token" style="color: rgb(0, 224, 224);">const</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">char</span><span class="token" style="color: rgb(0, 224, 224);">*</span><span> password </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> </span><span class="token" style="color: rgb(171, 227, 56);">"yourPASSWORD"</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>     </span><span class="token" style="color: rgb(212, 208, 171);">// your wifi password</span><span>
-</span>
-<span></span><span class="token" style="color: rgb(212, 208, 171);">// MDNS hostname</span><span>
-</span><span></span><span class="token" style="color: rgb(0, 224, 224);">const</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">char</span><span class="token" style="color: rgb(0, 224, 224);">*</span><span> mdnsHostname </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> </span><span class="token" style="color: rgb(171, 227, 56);">"esp8266-switch"</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>   </span><span class="token" style="color: rgb(212, 208, 171);">// easy mdns address</span><span>
-</span>
-<span></span><span class="token" style="color: rgb(212, 208, 171);">// Pin to control the switch</span><span>
-</span><span></span><span class="token" style="color: rgb(0, 224, 224);">const</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">int</span><span> switchPin </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> YOUR_PIN</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>              </span><span class="token" style="color: rgb(212, 208, 171);">// esp8266 relay pin</span><span>
-</span>
-<span>WebSocketsClient webSocket</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>JsonArray onOffTimes</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span> </span><span class="token" style="color: rgb(212, 208, 171);">// Store the array of on/off times</span><span>
-</span>
-<span></span><span class="token" style="color: rgb(0, 224, 224);">void</span><span> </span><span class="token" style="color: rgb(255, 215, 0);">webSocketEvent</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>WStype_t type</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">uint8_t</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">*</span><span> payload</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> size_t length</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>    </span><span class="token" style="color: rgb(0, 224, 224);">switch</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>type</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>        </span><span class="token" style="color: rgb(0, 224, 224);">case</span><span> WStype_TEXT</span><span class="token" style="color: rgb(0, 224, 224);">:</span><span>
-</span><span>            </span><span class="token" style="color: rgb(212, 208, 171);">// Parse JSON array</span><span>
-</span><span>            DynamicJsonDocument </span><span class="token" style="color: rgb(255, 215, 0);">doc</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(0, 224, 224);">1024</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>            </span><span class="token" style="color: rgb(255, 215, 0);">deserializeJson</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>doc</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> payload</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>            onOffTimes </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> doc</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token generic-function" style="color: rgb(255, 215, 0);">as</span><span class="token generic-function generic class-name" style="color: rgb(0, 224, 224);">&lt;</span><span class="token generic-function generic class-name">JsonArray</span><span class="token generic-function generic class-name" style="color: rgb(0, 224, 224);">&gt;</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span> </span><span class="token" style="color: rgb(212, 208, 171);">// Store the on/off times</span><span>
-</span><span>            </span><span class="token" style="color: rgb(0, 224, 224);">break</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span>
-<span>        </span><span class="token" style="color: rgb(212, 208, 171);">// Handle other event types if necessary</span><span>
-</span><span>        </span><span class="token" style="color: rgb(212, 208, 171);">// ...</span><span>
-</span><span>    </span><span class="token" style="color: rgb(254, 254, 254);">}</span><span>
-</span><span></span><span class="token" style="color: rgb(254, 254, 254);">}</span><span>
-</span>
-<span></span><span class="token" style="color: rgb(0, 224, 224);">void</span><span> </span><span class="token" style="color: rgb(255, 215, 0);">checkSwitchState</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>    </span><span class="token" style="color: rgb(0, 224, 224);">long</span><span> currentTimeMillis </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> </span><span class="token" style="color: rgb(255, 215, 0);">millis</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>    </span><span class="token" style="color: rgb(0, 224, 224);">bool</span><span> isOn </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">false</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>    </span><span class="token" style="color: rgb(0, 224, 224);">for</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>JsonObject elem </span><span class="token" style="color: rgb(0, 224, 224);">:</span><span> onOffTimes</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>        </span><span class="token" style="color: rgb(0, 224, 224);">int</span><span> onTime </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> elem</span><span class="token" style="color: rgb(254, 254, 254);">[</span><span class="token" style="color: rgb(171, 227, 56);">"on"</span><span class="token" style="color: rgb(254, 254, 254);">]</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>        </span><span class="token" style="color: rgb(0, 224, 224);">int</span><span> offTime </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> elem</span><span class="token" style="color: rgb(254, 254, 254);">[</span><span class="token" style="color: rgb(171, 227, 56);">"off"</span><span class="token" style="color: rgb(254, 254, 254);">]</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span>
-<span>        </span><span class="token" style="color: rgb(0, 224, 224);">long</span><span> onTimeMillis </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> onTime </span><span class="token" style="color: rgb(0, 224, 224);">*</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">60</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">*</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">1000</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>        </span><span class="token" style="color: rgb(0, 224, 224);">long</span><span> offTimeMillis </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> offTime </span><span class="token" style="color: rgb(0, 224, 224);">*</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">60</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">*</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">1000</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span>
-<span>        </span><span class="token" style="color: rgb(212, 208, 171);">// Check if the current time is within the on/off times</span><span>
-</span><span>        </span><span class="token" style="color: rgb(0, 224, 224);">if</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>currentTimeMillis </span><span class="token" style="color: rgb(0, 224, 224);">&gt;=</span><span> onTimeMillis </span><span class="token" style="color: rgb(0, 224, 224);">&amp;&amp;</span><span> currentTimeMillis </span><span class="token" style="color: rgb(0, 224, 224);">&lt;</span><span> offTimeMillis</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>            isOn </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">true</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>            </span><span class="token" style="color: rgb(0, 224, 224);">break</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span> </span><span class="token" style="color: rgb(212, 208, 171);">// Stop checking if we already know the switch should be on</span><span>
-</span><span>        </span><span class="token" style="color: rgb(254, 254, 254);">}</span><span>
-</span><span>    </span><span class="token" style="color: rgb(254, 254, 254);">}</span><span>
-</span>
-<span>    </span><span class="token" style="color: rgb(212, 208, 171);">// Turn the switch on or off based on the isOn flag</span><span>
-</span><span>    </span><span class="token" style="color: rgb(255, 215, 0);">digitalWrite</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>switchPin</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> isOn </span><span class="token" style="color: rgb(0, 224, 224);">?</span><span> HIGH </span><span class="token" style="color: rgb(0, 224, 224);">:</span><span> LOW</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span></span><span class="token" style="color: rgb(254, 254, 254);">}</span><span>
-</span>
-<span></span><span class="token" style="color: rgb(0, 224, 224);">void</span><span> </span><span class="token" style="color: rgb(255, 215, 0);">setup</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>    Serial</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">begin</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(0, 224, 224);">115200</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>    </span><span class="token" style="color: rgb(255, 215, 0);">pinMode</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>switchPin</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> OUTPUT</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span> </span><span class="token" style="color: rgb(212, 208, 171);">// Set the pin as output</span><span>
-</span>
-<span>    </span><span class="token" style="color: rgb(212, 208, 171);">// Connect to WiFi</span><span>
-</span><span>    WiFi</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">begin</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>ssid</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> password</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span>
-<span>    </span><span class="token" style="color: rgb(212, 208, 171);">// Wait for connection</span><span>
-</span><span>    </span><span class="token" style="color: rgb(0, 224, 224);">while</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>WiFi</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">status</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">!=</span><span> WL_CONNECTED</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>        </span><span class="token" style="color: rgb(255, 215, 0);">delay</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(0, 224, 224);">500</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>        Serial</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">print</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(171, 227, 56);">"."</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>    </span><span class="token" style="color: rgb(254, 254, 254);">}</span><span>
-</span><span>    Serial</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">println</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(171, 227, 56);">"Connected to WiFi"</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span>
-<span>    </span><span class="token" style="color: rgb(212, 208, 171);">// Start MDNS service</span><span>
-</span><span>    </span><span class="token" style="color: rgb(0, 224, 224);">if</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(0, 224, 224);">!</span><span>MDNS</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">begin</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>mdnsHostname</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>        Serial</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">println</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(171, 227, 56);">"Error setting up MDNS responder!"</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>        </span><span class="token" style="color: rgb(0, 224, 224);">while</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(0, 224, 224);">1</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>            </span><span class="token" style="color: rgb(255, 215, 0);">delay</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(0, 224, 224);">1000</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>        </span><span class="token" style="color: rgb(254, 254, 254);">}</span><span>
-</span><span>    </span><span class="token" style="color: rgb(254, 254, 254);">}</span><span>
-</span><span>    Serial</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">println</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(171, 227, 56);">"mDNS responder started"</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span> 
-<span>    </span><span class="token" style="color: rgb(212, 208, 171);">// Setup WebSocket</span><span>
-</span><span>    webSocket</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">begin</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(171, 227, 56);">"server_address"</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">80</span><span class="token" style="color: rgb(254, 254, 254);">,</span><span> </span><span class="token" style="color: rgb(171, 227, 56);">"/path"</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span> </span><span class="token" style="color: rgb(212, 208, 171);">// Replace with your WebSocket server address</span><span>
-</span><span>    webSocket</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">onEvent</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span>webSocketEvent</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>    webSocket</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">setReconnectInterval</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(0, 224, 224);">5000</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span></span><span class="token" style="color: rgb(254, 254, 254);">}</span><span>
-</span>
-<span></span><span class="token" style="color: rgb(0, 224, 224);">void</span><span> </span><span class="token" style="color: rgb(255, 215, 0);">loop</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span>
-</span><span>    webSocket</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">loop</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>    MDNS</span><span class="token" style="color: rgb(254, 254, 254);">.</span><span class="token" style="color: rgb(255, 215, 0);">update</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span> </span><span class="token" style="color: rgb(212, 208, 171);">// Keep MDNS responder updated</span><span>
-</span>
-<span>    </span><span class="token" style="color: rgb(0, 224, 224);">static</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">unsigned</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">long</span><span> lastCheckMillis </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">0</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>    </span><span class="token" style="color: rgb(0, 224, 224);">if</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(255, 215, 0);">millis</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">-</span><span> lastCheckMillis </span><span class="token" style="color: rgb(0, 224, 224);">&gt;=</span><span> </span><span class="token" style="color: rgb(0, 224, 224);">1000</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span> </span><span class="token" style="color: rgb(254, 254, 254);">{</span><span> </span><span class="token" style="color: rgb(212, 208, 171);">// Check every second</span><span>
-</span><span>        lastCheckMillis </span><span class="token" style="color: rgb(0, 224, 224);">=</span><span> </span><span class="token" style="color: rgb(255, 215, 0);">millis</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span>
-</span><span>        </span><span class="token" style="color: rgb(255, 215, 0);">checkSwitchState</span><span class="token" style="color: rgb(254, 254, 254);">(</span><span class="token" style="color: rgb(254, 254, 254);">)</span><span class="token" style="color: rgb(254, 254, 254);">;</span><span> </span><span class="token" style="color: rgb(212, 208, 171);">// Check and set the switch state</span><span>
-</span><span>    </span><span class="token" style="color: rgb(254, 254, 254);">}</span><span>
-</span><span></span><span class="token" style="color: rgb(254, 254, 254);">}</span></code></div>
-
-<hr>
-Monitor inspect WS WebSocket sent and recieved in your browser Dev tools<br>
-in your browser, right click menu, inspect <br>
-tab network, WS <br>
-<hr>
-</center>
-<div class="max-w-[85%] px-3 break-words text-[#191f28] leading-6 rounded-xl py-2.5 mr-auto rounded-tl-md bg-white"><div class="prose max-w-[100%] break-words"><p>To inspect WebSocket messages in Chromium or Google Chrome:</p>
-<ol>
-<li>Open your browser and navigate to the page with the WebSocket connection.</li>
-<li>Press <code>Ctrl+Shift+I</code> (or <code>Cmd+Option+I</code> on macOS) to open the Developer Tools.</li>
-<li>Click on the "Network" tab.</li>
-<li>Refresh the page to capture network traffic.</li>
-<li>Filter the traffic by clicking on the "WS" button, which stands for WebSocket.</li>
-<li>Click on the WebSocket connection (look for a 101 status code) to view its details.</li>
-<li>Switch to the "Messages" sub-tab to monitor sent and received WebSocket messages in real-time.</li>
-</ol></div></div>
-
-
-<pre class="notranslate"><code class="notranslate">// starts as an wifi accespoint AP
-
-
-
-// starts as an wifi accespoint AP
-// wifi name broadcasted in the air "ESP32_AP1234"
-// no password used
-// connect to it 
-// if connected browse to http://8.8.8.8/setup
-// or browse to http://8.8.8.8/edit
-// create a file index or scheduler.html in ace editor FS browsser
-// copy the code from https://codepen.io/ldijkman/pen/LYaOgvW
-// paste and save in ace editor FSbrowser
-// browse to http://8.8.8.8/scheduler.html 
-//   or when made index.html 
-//       browse to http://8.8.8.8/  or http://8.8.8.8/index.html
-// see when times are changed result in serial monitor
-// now need to do someting with the times on the ESP
-
-
-
-#include <FS.h>
-#include <LittleFS.h>
-#include <AsyncFsWebServer.h> // https://github.com/cotestatnt/async-esp-fs-webserver
-                              // Arduino IDE => Sketch => include library => Manage Libraries -> 
-                              // search for "cotestatnt AsyncEspFSWebserver" and install
-
-#include <ArduinoJson.h>
-#include "time.h"
-
-// NTP server settings
-const char* ntpServer = "time.google.com";
-const long  gmtOffset_sec = 0;  // Adjust according to your timezone
-const int   daylightOffset_sec = 3600; // Typically 3600 for 1 hour, or 0 if not using DST
-
-// Define the GPIO pin you want to control
-//const int controlPin = D1; // Example GPIO pin
-
-
-AsyncFsWebServer server(80, LittleFS, "myServer");
-int testInt = 150;
-float testFloat = 123.456;
-
-#ifndef LED_BUILTIN
-#define LED_BUILTIN 2
-#endif
-uint8_t ledPin = LED_BUILTIN;
-
-
-// FILESYSTEM INIT
-bool startFilesystem(){
-  if (LittleFS.begin()){
-      File root = LittleFS.open("/", "r");
-      File file = root.openNextFile();
-      while (file){
-          Serial.printf("FS File: %s, size: %d\n", file.name(), file.size());
-          file = root.openNextFile();
-      }
-      return true;
-  }
-  else {
-      Serial.println("ERROR on mounting filesystem. It will be formmatted!");
-      LittleFS.format();
-      ESP.restart();
-  }
-  return false;
-}
-
-
-/*
-* Getting FS info (total and free bytes) is strictly related to
-* filesystem library used (LittleFS, FFat, SPIFFS etc etc) and ESP framework
-*/
-#ifdef ESP32
-void getFsInfo(fsInfo_t* fsInfo) {
-    fsInfo->totalBytes = LittleFS.totalBytes();
-    fsInfo->usedBytes = LittleFS.usedBytes();
-    strcpy(fsInfo->fsName, "LittleFS");
-}
-#endif
-
-
-//---------------------------------------
-void handleLed(AsyncWebServerRequest *request) {
-  static int value = false;
-  // http://xxx.xxx.xxx.xxx/led?val=1
-  if(request->hasParam("val")) {
-    value = request->arg("val").toInt();
-    digitalWrite(ledPin, value);
-  }
-  String reply = "LED is now ";
-  reply += value ? "ON" : "OFF";
-  request->send(200, "text/plain", reply);
-}
-
-// Global variables to store the on and off times
-unsigned long onTime = 0;
-unsigned long offTime = 0;
-bool ledState = false;
-
-// In this example a custom websocket event handler is used instead default
-void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventType type, void* arg, uint8_t* data, size_t len) {
-  switch (type) {
-    case WS_EVT_CONNECT:
-      client->printf("{\"Websocket connected\": true, \"clients\": %u}", client->id());
-      Serial.printf("luberth Websocket client %u connected\n", client->id());
-      break;
-
-    case WS_EVT_DISCONNECT:
-      Serial.printf("luberth Websocket client %u connected\n", client->id());
-      break;
-
-case WS_EVT_DATA:
-      {
-        AwsFrameInfo* info = (AwsFrameInfo*)arg;
-        if (info->opcode == WS_TEXT) {
-          data[len] = '\0'; // Null-terminate the data to parse as string
-          Serial.printf("luberth Received message \"%s\"\n", data);
-          
-          // Parse JSON message
-          DynamicJsonDocument doc(1024); // Adjust size according to your expected message size
-          DeserializationError error = deserializeJson(doc, data);
-          if (error) {
-            // Handle the error, e.g., send an error message back to the client
-            Serial.println("Failed to parse JSON!");
-            return;
-          }
-          
-          // Assuming the JSON structure is an array of objects like [{"on":60,"off":75}, ...]
-          JsonArray array = doc.as<JsonArray>();
-          for (JsonObject obj : array) {
-            int onTime = obj["on"]; // Get ON time in minutes
-            int offTime = obj["off"]; // Get OFF time in minutes
-            
-            // Now you would use onTime and offTime to schedule the GPIO pin control
-            // This is where you would add your timing logic
-            // For simplicity, let's assume we toggle the pin immediately as an example
-            //digitalWrite(controlPin, HIGH); // Turn ON the GPIO pin
-            //delay(onTime * 60000); // Wait for ON time duration (convert minutes to milliseconds)
-            //digitalWrite(controlPin, LOW); // Turn OFF the GPIO pin
-            //delay(offTime * 60000); // Wait for OFF time duration (convert minutes to milliseconds)
-          }
-        }
-      }
-      break;
-
-    default:
-      break;
-  }
-}  
-
-
-
-void setup() {
-    //pinMode(controlPin, OUTPUT); // Set the GPIO pin as an output
-
-
-    pinMode(ledPin, OUTPUT);
-    Serial.begin(115200);
-    delay(1000);
-    if (startFilesystem()) {
-        Serial.println("LittleFS filesystem ready!");
-        File config = server.getConfigFile("r");
-        if (config) {
-            DynamicJsonDocument doc(config.size() * 1.33);
-            deserializeJson(doc, config);
-            testInt = doc["Test int variable"];
-            testFloat = doc["Test float variable"];
-        }
-        Serial.printf("Stored \"testInt\" value: %d\n", testInt);
-        Serial.printf("Stored \"testFloat\" value: %3.2f\n", testFloat);
-    }
-    else
-        Serial.println("LittleFS error!");
-
-    IPAddress myIP = server.startWiFi(15000, "ESP32_AP1234", "");
-    WiFi.setSleep(WIFI_PS_NONE);
-    server.addOptionBox("Custom options");
-    server.addOption("Test int variable", testInt);
-    server.addOption("Test float variable", testFloat);
-    server.setSetupPageTitle("Simple Async ESP FS WebServer");
-
-    // Enable ACE FS file web editor and add FS info callback fucntion
-    server.enableFsCodeEditor();
-    #ifdef ESP32
-    server.setFsInfoCallback(getFsInfo);
-    #endif
-
-  // Server index.html at the root path
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(LittleFS, "/index.html", "text/html");
-  });
-
-    server.on("/led", HTTP_GET, handleLed);
-
-    // Start server
-   // Init with custom WebSocket event handler and start server
-  server.init(onWsEvent);
-  
-    Serial.print(F("Async ESP Web Server started on IP Address: "));
-    Serial.println(myIP);
-    Serial.println(F(
-        "This is \"simpleServer.ino\" example.\n"
-        "Open /setup page to configure optional parameters.\n"
-        "Open /edit page to view, edit or upload example or your custom webserver source files."
-    ));
-
-  // Check if we are in station mode before starting NTP
-  if (WiFi.getMode() == WIFI_STA) {
-    // Initialize NTP
-    configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
-    Serial.println("NTP client started");
-  }
-
-
-}
-
-void loop() {
-  static unsigned long lastPrintTime = 0;
-  const unsigned long printInterval = 10000; // Print every 10000 milliseconds (10 seconds)
-
-  unsigned long currentTime = millis();
-  if (currentTime - lastPrintTime >= printInterval) {
-    // Save the last time you printed the time
-    lastPrintTime = currentTime;
-
-    // Check WiFi connection and print the time
-    if (WiFi.status() == WL_CONNECTED) {
-      printLocalTime();
-    }
-  }
-
-
-
-}
-
-
-
-void printLocalTime() {
-  struct tm timeinfo;
-  if (!getLocalTime(&timeinfo)) {
-    Serial.println("Failed to obtain time");
-    return;
-  }
-  // Print the local time
-  Serial.println(&timeinfo, "%A, %B %d %Y %H:%M:%S");
-}
-
-
-
-
-</code></pre>
-
-
-
-<script>
-
-if (window.location.protocol === "https:") {
-    console.info("The document location is secure (https).");
-    console.info("HTTPS:// No Good for WS Websocket, needs HTTP:// save page and load from disk?.");
-} else {
-    console.info("The document location is not secure (not https).");
-    console.info("Good for WS Websocket.");
-
-}
-</script>  
-
-<!-- 
-Copyright 2023 Dirk Luberth Dijkman Bangert 30 1619GJ Andijk The Netherlands    
-The Art of Time Controlled. Visual TimeSlots Schedule.
--->
-
+</html>
