@@ -40,7 +40,9 @@ https://codepen.io/ldijkman/pen/LYaOgvW
 https://jsfiddle.net/luberth/9cLvhm5y/
 
 <br>
+
 ![Screenshot from 2024-02-11 08-49-58](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/6a2095b5-aa0f-4a00-99d2-d497e0caa839)
+
 The Art of Time Controlled. Visual TimeSlots Schedule.<br>
 <br>
 https://plnkr.co/edit/ikOuTjDZvqbPR5jr?preview
