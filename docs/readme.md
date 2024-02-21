@@ -36,12 +36,15 @@ The Art of Time Controlled. Visual TimeSlots Schedule.<br>
 <a href="#" onclick="openInPopup('https://plnkr.co/edit/ikOuTjDZvqbPR5jr?preview'); return false;">Plunker</a> | 
 <a href="#" onclick="openInPopup('https://codepen.io/ldijkman/pen/LYaOgvW'); return false;">CodePen</a> | 
 <a href="#" onclick="openInPopup('https://jsfiddle.net/luberth/9cLvhm5y/'); return false;">JSFiddle</a>
+<br>
+![Screenshot from 2024-02-11 08-49-58](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/6a2095b5-aa0f-4a00-99d2-d497e0caa839)
+The Art of Time Controlled. Visual TimeSlots Schedule.<br>
+<br>
+<a href="#" onclick="openInPopup('https://plnkr.co/edit/ikOuTjDZvqbPR5jr?preview'); return false;">Plunker</a> | 
+<a href="#" onclick="openInPopup('https://codepen.io/ldijkman/pen/LYaOgvW'); return false;">CodePen</a> | 
+<a href="#" onclick="openInPopup('https://jsfiddle.net/luberth/9cLvhm5y/'); return false;">JSFiddle</a>
 
 <br>
-
-
-![Screenshot from 2024-02-11 08-49-58](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/6a2095b5-aa0f-4a00-99d2-d497e0caa839)
-
 
 ### also can edit config from ace editor
 http://garage.local/edit
