@@ -340,6 +340,10 @@ void loop() {
       Serial.print("http://");
       Serial.print(myhostname);
       Serial.println(".local");
+      Serial.println("source https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs");
+      Serial.println("flash https://ldijkman.github.io/async-esp-fs-webserver/");
+
+
     }
 
     
@@ -388,12 +392,25 @@ void browseService(const char * service, const char * proto) {
 
         for (int i = 0; i < n; ++i) {
             // Print details for each service found
+
+
             // added http so that it is clickable in webserial monitor https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html
-            Serial.printf("  %d: http://%s - http://%s:%d\n", i + 1, MDNS.hostname(i).c_str(), MDNS.IP(i).toString().c_str(), MDNS.port(i));
-            // make ip clickable weblink addon doenst do second link click
-            Serial.printf("  %d:  http://%s:%d\n", i + 1,  MDNS.IP(i).toString().c_str(), MDNS.port(i));
+            // Obtain the hostname and convert it to lowercase uppercase no clickable link in webserial monitor
             // https://github.com/xtermjs/xterm.js/issues/4964
-Serial.printf("  %d:  http://%s\n", i + 1,  MDNS.IP(i).toString().c_str());
+            // Create a String object from the MDNS hostname and convert it to lowercase
+            String hostnameLower = MDNS.hostname(i); // Obtain the hostname as a String
+            hostnameLower.toLowerCase(); // Convert the hostname to lowercase
+
+            // Now print the details, using the lowercase hostname
+            Serial.printf("  %d: http://%s - http://%s port:%d\n", i + 1, hostnameLower.c_str(), MDNS.IP(i).toString().c_str(), MDNS.port(i));
+
+           // Serial.printf("  %d: http://%s - http://%s port:%d\n", i + 1, (MDNS.hostname(i).c_str()).toLowerCase(), MDNS.IP(i).toString().c_str(), MDNS.port(i));
+            // make ip clickable weblink addon doenst do :port
+            // http://Living.local uppercase L does not work
+            // https://github.com/xtermjs/xterm.js/issues/4964
+
+            
+
             // Add service details to the JSON array
             JsonObject serviceObj = services.createNestedObject();
             serviceObj["mdnsname"] = MDNS.hostname(i);
