@@ -119,7 +119,8 @@ maybe i should start ip and mdns with http:// so that it is clickable
 
 links in webserial monitor are clickable links https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html
 
-![Screenshot from 2024-02-22 05-51-46](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/475158e4-ca25-4af2-814b-ec0cf294b750)
+![Screenshot from 2024-02-22 05-57-31](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/a1f06b58-437e-4113-869b-673bc2487c97)
+
 
 links in webserial monitor are clickable links https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html
 
