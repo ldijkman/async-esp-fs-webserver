@@ -117,15 +117,16 @@ maybe i should start ip and mdns with http:// so that it is clickable
 ## Beat that Arduino Monaco IDE2
 
 
-links in webserial monitor are clickable links 
-
-https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html
+links in webserial monitor are clickable links https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html
 
 ![Screenshot from 2024-02-22 05-51-46](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/475158e4-ca25-4af2-814b-ec0cf294b750)
 
-links in webserial monitor are clickable links 
+links in webserial monitor are clickable links https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html
 
-https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html
+
+
+
+
 --- 
 
 ## Flash 4mb ESP8266 or ESP32 from InBrowser
