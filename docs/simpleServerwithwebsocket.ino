@@ -392,7 +392,8 @@ void browseService(const char * service, const char * proto) {
             Serial.printf("  %d: http://%s - http://%s:%d\n", i + 1, MDNS.hostname(i).c_str(), MDNS.IP(i).toString().c_str(), MDNS.port(i));
             // make ip clickable weblink addon doenst do second link click
             Serial.printf("  %d:  http://%s:%d\n", i + 1,  MDNS.IP(i).toString().c_str(), MDNS.port(i));
-
+            // https://github.com/xtermjs/xterm.js/issues/4964
+Serial.printf("  %d:  http://%s\n", i + 1,  MDNS.IP(i).toString().c_str());
             // Add service details to the JSON array
             JsonObject serviceObj = services.createNestedObject();
             serviceObj["mdnsname"] = MDNS.hostname(i);
