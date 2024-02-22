@@ -381,7 +381,7 @@ void browseService(const char * service, const char * proto) {
     Serial.printf("Browsing for service _%s._%s.local. ... ", service, proto);
     int n = MDNS.queryService(service, proto); // Query mDNS service
     if (n == 0) {
-        Serial.println("no services found");
+        Serial.println("Damn, no services found\n Flash more Devices\nAnd give them a Unique mDNS name in Setup tab Custom");
     } else {
         Serial.print(n);
         Serial.println(" service(s) found");
