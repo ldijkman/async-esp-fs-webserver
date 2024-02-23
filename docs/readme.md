@@ -126,7 +126,36 @@ links in webserial monitor are clickable links https://ldijkman.github.io/async-
 
 
 
+<pre>
 
+  It looks like you're interested in a serverless home automation system using ESP8266 or ESP32 devices. Each device operates its own web server and communicates over the network using mDNS (Multicast DNS), making it possible to interact with them without needing a centralized home automation system like Home Assistant.
+
+Here's a simplified overview of how you can set up such a system:
+
+Step 1: Flashing Your ESP8266/ESP32
+Prepare Your Environment: Ensure you have a Chromium-based browser (Google Chrome, Edge, Opera) ready, and all serial connections to the ESP device are closed.
+
+Flash the Firmware: Visit the provided GitHub repository and follow the instructions to flash your ESP8266/ESP32 with the async-esp-fs-webserver firmware. This step involves using the browser to flash the device directly.
+
+GitHub repository with Arduino .ino source: https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/simpleServerwithwebsocket.ino
+Step 2: Setting Up the Web Server
+After flashing, each device runs an ESPAsyncWebServer and includes a filesystem browser and an Ace Editor interface. This setup allows you to easily modify, upload, or delete files on the ESP's web server.
+
+Access Point (AP) Mode: Initially, your ESP device will create its own Wi-Fi Access Point (e.g., "ESP32_AP1234"). Connect your PC or smartphone to this AP.
+Configuration: Navigate to http://8.8.8.8/setup on your browser while connected to the ESP's Wi-Fi network to configure the ESP to connect to your home Wi-Fi router.
+File Management and Editing: Use http://8.8.8.8/edit to access the built-in Ace Editor, allowing you to edit or upload files directly to the ESP.
+Step 3: Using mDNS for Easy Access
+Once configured to connect to your home network, the ESP device will be accessible via an mDNS address (e.g., http://garage.local). This simplifies accessing the device without needing to remember its IP address.
+
+Troubleshooting
+Wi-Fi Connection Issues: If you encounter issues connecting the ESP to your Wi-Fi network, a reboot of the ESP device might be necessary.
+Accessing the Device: If mDNS does not resolve, you may need to use the ESP's IP address directly. This can typically be found on your router's device list.
+Additional Notes
+Browser-Based Serial Monitor: The project provides a Chromium browser-based serial monitor (WebSerialMonitor) for debugging and monitoring output from the ESP devices.
+In-Browser Flashing: The system supports flashing ESP devices directly from the browser, simplifying the initial setup process.
+This setup offers a flexible and user-friendly approach to DIY home automation, allowing for direct web-based interaction with each device and the ability to easily customize the web server's files and functionality.
+  
+</pre>
 
 --- 
 
