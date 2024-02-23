@@ -134,6 +134,7 @@
 }
 .xterm-underline-1 {
   text-decoration: underline;
+  color:green;
 }
 .xterm-underline-2 {
   text-decoration: double underline;
