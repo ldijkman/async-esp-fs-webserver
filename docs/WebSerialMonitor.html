@@ -131,6 +131,9 @@
   <script>
       // want to change the link color
       // no luck yet
+    // Assuming `terminal` is your xterm.js terminal instance
+const webLinksAddon = new WebLinksAddon();
+terminal.loadAddon(webLinksAddon);
     // Define the function that styles terminal links
 function styleLinks() {
   const rows = document.querySelectorAll('.xterm-rows div');
