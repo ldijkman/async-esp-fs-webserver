@@ -131,6 +131,26 @@
   <script>
       // want to change the link color
       // no luck yet
+    // Define the function that styles terminal links
+function styleTerminalLinks() {
+    const rows = document.querySelectorAll('.xterm-rows > div');
+    const urlRegex = /https?:\/\/[^\s]+/g; // Simple regex for demonstration
+
+    rows.forEach(row => {
+        let innerHTML = row.innerHTML;
+        const urls = innerHTML.match(urlRegex);
+        if (urls) {
+            urls.forEach(url => {
+                // Replace URLs with a span that includes the custom class
+                innerHTML = innerHTML.replace(url, `<span class="xterm-custom-link">${url}</span>`);
+            });
+            row.innerHTML = innerHTML;
+        }
+    });
+}
+
+// Use setInterval to call styleTerminalLinks every 1000 milliseconds (1 second)
+setInterval(styleTerminalLinks, 1000);
   </script>
   
 </body>
