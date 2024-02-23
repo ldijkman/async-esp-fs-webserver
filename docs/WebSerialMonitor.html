@@ -131,24 +131,7 @@
   <script>
       // want to change the link color
       // no luck yet
-function colorHttpLinksGreen() {
-    // Select all div and span elements on the page
-    const elements = document.querySelectorAll('div, span');
 
-    // Regular expression to match http:// links
-    const httpRegex = /http:\/\/[^\s]+/g;
-
-    elements.forEach(element => {
-        // If the element's text matches the regex for http:// links
-        if (httpRegex.test(element.textContent)) {
-            // Replace the innerHTML of the element with the same content but wrapping http:// links in a span with green color
-            element.innerHTML = element.innerHTML.replace(httpRegex, (match) => `<span style="color: green;">${match}</span>`);
-        }
-    });
-}
-
-// Run the function every 1 second
-setInterval(colorHttpLinksGreen, 1000);
   </script>
   
 </body>
