@@ -280,10 +280,12 @@ void AsyncFsWebServer::notFound(AsyncWebServerRequest *request) {
   
   Serial.println(F(
     "\nif ip 8.8.8.8 AccessPoint connect wifi direct to \"ESP32_AP1234\"\nand configure wifi in http://8.8.8.8/setup\n"
-    "\n"
-    "This is \"simpleServer.ino\" example.\n"
+    "\n" 
     "Open /setup page to configure optional parameters.\n"
     "Open /edit for Ace editor FileSystem Browser./n"
+    "/n"
+    "This is \"a simple Server .ino\" example.\n"
+    "https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/simpleServerwithwebsocket.ino\n"
     "\n"  
     "for a scheduler copy paste source from https://codepen.io/ldijkman/pen/LYaOgvW"
   ));
@@ -339,8 +341,8 @@ void loop() {
       Serial.print("mDNS at ");
       Serial.print("http://");
       Serial.print(myhostname);
-      Serial.println(".local");
-      Serial.println("source https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs");
+      Serial.print(".local   http://");
+      Serial.println(WiFi.localIP());
       Serial.println("flash https://ldijkman.github.io/async-esp-fs-webserver/");
 
 
@@ -381,7 +383,7 @@ void browseService(const char * service, const char * proto) {
     Serial.printf("Browsing for service _%s._%s.local. ... ", service, proto);
     int n = MDNS.queryService(service, proto); // Query mDNS service
     if (n == 0) {
-        Serial.println("Damn, no services found\n Flash more Devices\nAnd give them a Unique mDNS name in Setup tab Custom");
+        Serial.println("\nDamn, no services found\n Flash more Devices\n  And give each a Unique mDNS name in Setup tab Custom");
     } else {
         Serial.print(n);
         Serial.println(" service(s) found");
