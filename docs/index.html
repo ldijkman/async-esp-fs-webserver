@@ -10,6 +10,30 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
   <title>ESP Web Flashing Example ESP8266 ESP32 ESP Web Tools Browser Install</title>
   <!-- Load ESP Web Tools -->
   <script type="module" src="https://unpkg.com/esp-web-tools@9/dist/web/install-button.js?module"></script>
+
+  <style>
+button::before {
+    content: " ";
+    position: absolute;
+    inset: 0px;
+    opacity: 0.2;
+    border-radius: 4px;
+}
+
+constructed stylesheet
+button {
+    position: relative;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 8px 28px;
+    color: var(--esp-tools-button-text-color, #fff);
+    background-color: var(--esp-tools-button-color, #03a9f4);
+    border: none;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 3px 1px -2px, rgba(0, 0, 0, 0.2) 0px 1px 5px 0px;
+}
+    </style>
+  
 </head>
 
 <body>
@@ -113,11 +137,11 @@ document.addEventListener('DOMContentLoaded', function() {
       <!-- ESP Web Install Button -->
       Dev. boards with ESP8266 4Mb 12E/12F
       <esp-web-install-button manifest="https://ldijkman.github.io/async-esp-fs-webserver/manifest_ESP8266.json">
-      <!--
+      
         <button slot="activate">Install on 4Mb ESp8266 12E / 12F</button>
   <span slot="unsupported">Ah snap, your browser doesn't work!</span>
   <span slot="not-allowed">Ah snap, you are not allowed to use this on HTTP!</span>
-  -->
+  
       </esp-web-install-button><br>
       <br>
    
