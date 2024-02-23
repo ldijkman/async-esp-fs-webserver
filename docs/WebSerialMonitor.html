@@ -131,22 +131,33 @@
   <script>
       // want to change the link color
       // no luck yet
-    // Assuming `terminal` is your xterm.js terminal instance
-const webLinksAddon = new WebLinksAddon();
-terminal.loadAddon(webLinksAddon);
-    // Define the function that styles terminal links
-function styleLinks() {
-  const rows = document.querySelectorAll('.xterm-rows div');
-  rows.forEach((row) => {
-    // This example uses a simple regex to identify "http://" URLs.
-    // For more complex URL patterns, you'll need a more comprehensive regex.
-    const innerHTML = row.innerHTML.replace(/(http:\/\/[^\s]+)/g, '<span style="color: green;">$1</span>');
-    row.innerHTML = innerHTML;
-  });
-}
+script>
+        function colorLinksGreen() {
+            // Assuming the provided HTML structure is within a container with the ID 'terminal-container'
+            const container = document.getElementById('terminal');
+            
+            // Using a regular expression to find all instances of http:// and https://
+            const regex = /http[s]?:\/\/[^\s]+/g;
 
-// Use setInterval to call styleTerminalLinks every 1000 milliseconds (1 second)
-setInterval(styleLinks, 1000);
+            // Getting all text nodes within the container
+            const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
+            let node;
+            while (node = walker.nextNode()) {
+                const matches = node.nodeValue.match(regex);
+                if (matches) {
+                    const span = document.createElement('span');
+                    const textBefore = node.nodeValue.substring(0, node.nodeValue.indexOf(matches[0]));
+                    const linkText = matches[0];
+                    const textAfter = node.nodeValue.substring(node.nodeValue.indexOf(matches[0]) + matches[0].length);
+
+                    span.innerHTML = textBefore + `<a href="${linkText}" style="color: green;">${linkText}</a>` + textAfter;
+                    node.parentNode.replaceChild(span, node);
+                }
+            }
+        }
+
+        // Running the function every 1 second
+        setInterval(colorLinksGreen, 1000);
   </script>
   
 </body>
