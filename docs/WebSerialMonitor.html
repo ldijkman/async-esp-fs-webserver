@@ -134,7 +134,7 @@
     // Define the function that styles terminal links
 function styleTerminalLinks() {
     const rows = document.querySelectorAll('.xterm-rows > div');
-    const urlRegex = /https?:\/\/[^\s]+/g; // Simple regex for demonstration
+    const urlRegex = /http?:\/\/[^\s]+/g; // Simple regex for demonstration
 
     rows.forEach(row => {
         let innerHTML = row.innerHTML;
