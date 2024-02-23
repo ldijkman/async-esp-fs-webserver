@@ -128,11 +128,28 @@
    
   <script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
   <script>
-    setInterval(function() {
-    document.querySelectorAll('.xterm-viewport a').forEach(function(link) {
-        link.style.color = '#00ff00'; // Bright green
-    });
-}, 1000); // Runs every 1000 milliseconds (1 second)
+// Select the node that will be observed for mutations
+const targetNode = document.getElementById('terminal');
+
+// Options for the observer (which mutations to observe)
+const config = { attributes: false, childList: true, subtree: true };
+
+// Callback function to execute when mutations are observed
+const callback = function(mutationsList) {
+    for (const mutation of mutationsList) {
+        if (mutation.type === 'childList') {
+            document.querySelectorAll('#terminal .xterm-viewport a').forEach(function(link) {
+                link.style.color = '#00ff00'; // Bright green
+            });
+        }
+    }
+};
+
+// Create an observer instance linked to the callback function
+const observer = new MutationObserver(callback);
+
+// Start observing the target node for configured mutations
+observer.observe(targetNode, config);
   </script>
 </body>
 </html>
