@@ -131,33 +131,24 @@
   <script>
       // want to change the link color
       // no luck yet
+function colorHttpLinksGreen() {
+    // Select all div and span elements on the page
+    const elements = document.querySelectorAll('div, span');
 
-        function colorLinksGreen() {
-            // Assuming the provided HTML structure is within a container with the ID 'terminal-container'
-            const container = document.getElementById('terminal');
-            
-            // Using a regular expression to find all instances of http:// and https://
-            const regex = /http[s]?:\/\/[^\s]+/g;
+    // Regular expression to match http:// links
+    const httpRegex = /http:\/\/[^\s]+/g;
 
-            // Getting all text nodes within the container
-            const walker = document.createTreeWalker(container, NodeFilter.SHOW_TEXT, null, false);
-            let node;
-            while (node = walker.nextNode()) {
-                const matches = node.nodeValue.match(regex);
-                if (matches) {
-                    const span = document.createElement('span');
-                    const textBefore = node.nodeValue.substring(0, node.nodeValue.indexOf(matches[0]));
-                    const linkText = matches[0];
-                    const textAfter = node.nodeValue.substring(node.nodeValue.indexOf(matches[0]) + matches[0].length);
-
-                    span.innerHTML = textBefore + `<a href="${linkText}" style="color: green;">${linkText}</a>` + textAfter;
-                    node.parentNode.replaceChild(span, node);
-                }
-            }
+    elements.forEach(element => {
+        // If the element's text matches the regex for http:// links
+        if (httpRegex.test(element.textContent)) {
+            // Replace the innerHTML of the element with the same content but wrapping http:// links in a span with green color
+            element.innerHTML = element.innerHTML.replace(httpRegex, (match) => `<span style="color: green;">${match}</span>`);
         }
+    });
+}
 
-        // Running the function every 1 second
-        setInterval(colorLinksGreen, 1000);
+// Run the function every 1 second
+setInterval(colorHttpLinksGreen, 1000);
   </script>
   
 </body>
