@@ -737,7 +737,7 @@ import{l as e,o as t,_ as i,n,B as o,t as r,i as a,a as d,e as s,b as l,R as c,x
       ></ewt-button>
       <button onclick="deleteLines()">Delete All Lines</button>
 
-
+<script>
 function deleteLines() {
     // Select all <span> elements with the class 'line'
     const lines = document.querySelectorAll('.line');
@@ -748,7 +748,7 @@ function deleteLines() {
     });
 }
 
-
+</script>
 
       
       <ewt-button
