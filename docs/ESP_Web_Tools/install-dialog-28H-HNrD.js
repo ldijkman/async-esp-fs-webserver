@@ -729,6 +729,7 @@ import{l as e,o as t,_ as i,n,B as o,t as r,i as a,a as d,e as s,b as l,R as c,x
         label="Back"
         @click=${async()=>{await this.shadowRoot.querySelector("ewt-console").disconnect(),this._state="DASHBOARD",this._initialize()}}
       ></ewt-button>
+      <button onclick="document.querySelector('.log').innerHTML = '';">Clear Log</button>
       <ewt-button
         slot="secondaryAction"
         label="Download Logs"
