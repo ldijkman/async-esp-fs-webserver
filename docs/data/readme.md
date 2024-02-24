@@ -1,5 +1,64 @@
 content for littlefs
 
+```
+dld@dld-Think:~/mklittlefs$ ./mklittlefs --help
+
+USAGE: 
+
+   ./mklittlefs  {-c <pack_dir>|-u <dest_dir>|-l} [-T <from_file>] [-d
+                 <0-5>] [-a] [-b <number>] [-p <number>] [-s <number>] [--]
+                 [--version] [-h] <image_file>
+
+
+Where: 
+
+   -c <pack_dir>,  --create <pack_dir>
+     (OR required)  create littlefs image from a directory
+         -- OR --
+   -u <dest_dir>,  --unpack <dest_dir>
+     (OR required)  unpack littlefs image to a directory
+         -- OR --
+   -l,  --list
+     (OR required)  list files in littlefs image
+
+
+   -T <from_file>,  --from-file <from_file>
+     when creating an image, include paths in from_file instead of scanning
+     pack_dir
+
+   -d <0-5>,  --debug <0-5>
+     Debug level. 0 means no debug output.
+
+   -a,  --all-files
+     when creating an image, include files which are normally ignored;
+     currently only applies to '.DS_Store' files and '.git' directories
+
+   -b <number>,  --block <number>
+     fs block size, in bytes
+
+   -p <number>,  --page <number>
+     fs page size, in bytes
+
+   -s <number>,  --size <number>
+     fs image size, in bytes
+
+   --,  --ignore_rest
+     Ignores the rest of the labeled arguments following this flag.
+
+   --version
+     Displays version information and exits.
+
+   -h,  --help
+     Displays usage information and exits.
+
+   <image_file>
+     (required)  littlefs image file
+
+
+   
+
+```
+
 ---
 
 think this  for esp32
