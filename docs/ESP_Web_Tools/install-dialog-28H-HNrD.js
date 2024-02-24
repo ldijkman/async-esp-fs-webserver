@@ -677,9 +677,10 @@ import{l as e,o as t,_ as i,n,B as o,t as r,i as a,a as d,e as s,b as l,R as c,x
             <ewt-page-message
         .icon=${"🎉"}
         label="Installation complete!"
-    ></ewt-page-message>
-    <a href="https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html" target="_blank">WebSerial Monitor!</a> <!-- Add this line for the link -->
-  
+    >-</ewt-page-message><br>
+    Close and Connect wifi to AccesPoint ESP32_AP1234<br>
+    Then Browse to http://8.8.8.8/setup<br>
+    <br>  
     <ewt-button
         slot="primaryAction"
         label="Next"
