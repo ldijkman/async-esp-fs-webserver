@@ -20,6 +20,12 @@ arduino ide source
 
 https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/simpleServerwithwebsocket.ino
 
+---
+
+changed the flash tool finnisch succes screen a little
+
+![Screenshot from 2024-02-24 10-05-33](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/4ea18632-3be4-4e4b-a78c-bd6ed14f29d9)
+
 
 ![Screenshot from 2024-02-11 11-16-47](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/607b52b9-51d9-41c2-8d0a-fd53413513da)
 
