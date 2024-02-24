@@ -160,7 +160,7 @@ links in webserial monitor are clickable links https://ldijkman.github.io/async-
 <li><strong>Wi-Fi Connection Issues</strong>: If you encounter issues connecting the ESP to your Wi-Fi network, a reboot of the ESP device might be necessary.</li>
 <li><strong>Accessing the Device</strong>: If mDNS does not resolve, you may need to use the ESP's IP address directly. This can typically be found on your router's device list.</li>
 </ul>
-<h3>Additional Notes</h3>
+<h3>Additional Notes</h3> 
 <ul>
 <li><strong>Browser-Based Serial Monitor</strong>: The project provides a Chromium browser-based serial monitor (<a href="https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html" target="_blank">WebSerialMonitor</a>) for debugging and monitoring output from the ESP devices.</li>
 <li><strong>In-Browser Flashing</strong>: The system supports flashing ESP devices directly from the browser, simplifying the initial setup process.</li>
