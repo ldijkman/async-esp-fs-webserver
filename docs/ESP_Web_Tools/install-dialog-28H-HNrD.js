@@ -676,28 +676,16 @@ import{l as e,o as t,_ as i,n,B as o,t as r,i as a,a as d,e as s,b as l,R as c,x
     ></ewt-page-message>
     <a href="https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html" target="_blank">WebSerial Monitor!</a> <!-- Add this line for the link -->
     <ewt-button
+        slot="secondaryAction"
+        label="Download Logs"
+        @click=${()=>{Wr(this.shadowRoot.querySelector("ewt-console").logs(),"esp-web-tools-logs.txt"),this.shadowRoot.querySelector("ewt-console").reset()}}
+      ></ewt-button>
+    <ewt-button
         slot="primaryAction"
         label="Next"
         @click=${() => { this._state = i && this._installErase ? "PROVISION" : "DASHBOARD" }}
     ></ewt-button>
-        
-        
-        
-        
-        
-        
-        
-        
-     /*   <ewt-page-message
-          .icon=${"🎉"}
-          label="Installation complete!"
-        ></ewt-page-message>
-        <ewt-button
-          slot="primaryAction"
-          label="Next"
-          @click=${()=>{this._state=i&&this._installErase?"PROVISION":"DASHBOARD"}}
-        ></ewt-button>
-        */
+ 
       `}else"error"===this._installState.state&&(e="Installation failed",t=h`
         <ewt-page-message
           .icon=${"⚠️"}
