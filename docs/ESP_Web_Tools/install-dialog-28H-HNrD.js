@@ -736,7 +736,7 @@ import{l as e,o as t,_ as i,n,B as o,t as r,i as a,a as d,e as s,b as l,R as c,x
         @click=${()=>{Wr(this.shadowRoot.querySelector("ewt-console").logs(),"esp-web-tools-logs.txt"),this.shadowRoot.querySelector("ewt-console").reset()}}
       ></ewt-button>
       <button id="delete-lines-btn" onclick="deleteLines()">Delete All Lines</button>
-      does not work, clear and make links clickable in monitor?
+      does not work, clear and make links colored and clickable in monitor?
 
 <script>
 function deleteLines() {
