@@ -33,27 +33,6 @@ esptool : /home/pi/.arduino15/packages/esp32/hardware/esp32/1.0.6/tools/esptool.
 
 ->esptool.py v2.9-dev
 ->Serial port /dev/ttyUSB0
-_>Traceback (most recent call last):
-_>  File "/usr/lib/python3/dist-packages/serial/serialposix.py", line 265, in open
-_>    self.fd = os.open(self.portstr, os.O_RDWR | os.O_NOCTTY | os.O_NONBLOCK)
-_>FileNotFoundError: [Errno 2] No such file or directory: '/dev/ttyUSB0'
-_>
-_>During handling of the above exception, another exception occurred:
-_>
-_>Traceback (most recent call last):
-_>  File "/home/pi/.arduino15/packages/esp32/hardware/esp32/1.0.6/tools/esptool.py", line 3470, in <module>
-_>    _main()
-_>  File "/home/pi/.arduino15/packages/esp32/hardware/esp32/1.0.6/tools/esptool.py", line 3463, in _main
-_>    main()
-_>  File "/home/pi/.arduino15/packages/esp32/hardware/esp32/1.0.6/tools/esptool.py", line 3127, in main
-_>    esp = chip_class(each_port, initial_baud, args.trace)
-_>  File "/home/pi/.arduino15/packages/esp32/hardware/esp32/1.0.6/tools/esptool.py", line 268, in __init__
-_>    self._port = serial.serial_for_url(port)
-_>  File "/usr/lib/python3/dist-packages/serial/__init__.py", line 88, in serial_for_url
-_>    instance.open()
-_>  File "/usr/lib/python3/dist-packages/serial/serialposix.py", line 268, in open
-_>    raise SerialException(msg.errno, "could not open port {}: {}".format(self._port, msg))
-_>serial.serialutil.SerialException: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
 ```
 
 
