@@ -320,6 +320,55 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
 -->
     */
 
+
+
+
+
+
+
+<!-- Post-Flash Instructions Section (Initially Hidden) -->
+  <div id="postFlashInstructions" style="display: none; margin-top: 20px;">
+    <h2>Next Steps After Flashing</h2>
+    <ol>
+      <li>Connect your computer or smartphone to the ESP device's WiFi network (look for "ESP-Setup" network).</li>
+      <li>Open a web browser and navigate to <a href="http://192.168.4.1/setup">http://192.168.4.1/setup</a> to access the configuration page.</li>
+      <li>Follow the on-screen instructions to connect your ESP device to your home WiFi network.</li>
+    </ol>
+    <p>If you encounter any issues, please refer to the troubleshooting section or contact support.</p>
+  </div>
+
+  <script>
+    // Example function that simulates revealing the post-flash instructions after a successful flash
+    function onFlashSuccess() {
+      document.getElementById('postFlashInstructions').style.display = 'block';
+      // Optionally, scroll to the instructions section
+      document.getElementById('postFlashInstructions').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Simulate the onFlashSuccess function call (you should call this when the flashing process is confirmed successful)
+    // For demonstration purposes, we'll call it after the DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      // Simulating successful flash after 3 seconds (replace with actual success callback from ESP Web Tools)
+      setTimeout(onFlashSuccess, 3000);
+    });
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+
        <script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
 
 
