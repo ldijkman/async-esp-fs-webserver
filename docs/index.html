@@ -321,6 +321,57 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
     */
 
        <script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
+
+
+
+      <script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    const owner = 'ldijkman';
+    const repo = 'async-esp-fs-webserver';
+    const filePaths = [
+        { path: 'docs/simpleServerwithwebsocket.ino.bin', elementId: 'fileDate11' },
+        { path: 'docs/feb10a.littlefs.bin', elementId: 'fileDate22' },
+        { path: 'docs/simpleServerwithwebsocket_esp8266.ino.bin', elementId: 'fileDate1' },
+        { path: 'docs/ESP8266_feb10a.mklittlefs.bin', elementId: 'fileDate2' }
+    ];
+
+    filePaths.forEach(file => {
+        const apiUrl = `https://api.github.com/repos/${owner}/${repo}/commits?path=${file.path}`;
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    const lastCommitDate = new Date(data[0].commit.committer.date);
+                    document.getElementById(file.elementId).textContent = `Last Updated: ${formatDateDifference(lastCommitDate)} ago.`;
+                } else {
+                    document.getElementById(file.elementId).textContent = `Last Updated: No updates found for ${file.path}.`;
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching file date:', error);
+                document.getElementById(file.elementId).textContent = `Last Updated: Failed to fetch date for ${file.path}.`;
+            });
+    });
+});
+
+// Function to calculate and format the date difference
+function formatDateDifference(date) {
+    const now = new Date();
+    const diffTime = Math.abs(now - date);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays < 30) {
+        return `${diffDays} day(s)`;
+    } else if (diffDays < 365) {
+        return `${Math.floor(diffDays / 30)} month(s)`;
+    } else {
+        return `${Math.floor(diffDays / 365)} year(s)`;
+    }
+}
+        
+      </script>
 </body>
 
 </html>
