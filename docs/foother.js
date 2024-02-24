@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const dropupButton = document.createElement('button');
     dropupButton.textContent = 'Nerd';
     dropupButton.className = 'dropbtn';
-    dropupButton.style.cssText = 'background-color: #04AA6D; color: white; padding: 10px; font-size: 16px; border: none;';
+    dropupButton.style.cssText = 'background-color: ; color: yellow; padding: 10px; font-size: 16px; border: none;';
 
     const dropupContent = document.createElement('div');
     dropupContent.className = 'dropdown-content';
