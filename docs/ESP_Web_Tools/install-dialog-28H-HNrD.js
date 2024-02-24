@@ -669,7 +669,7 @@ import{l as e,o as t,_ as i,n,B as o,t as r,i as a,a as d,e as s,b as l,R as c,x
           ${"ESP8266"===this._installState.chipFamily?"a minute":"2 minutes"}.<br />
           Keep this page visible to prevent slow down
         `,n),i=!0}else if("finished"===this._installState.state){e=void 0;const i=null!==this._client;t=h`
-            <ewt-button
+           <center>U are the Master!<br></center> <ewt-button
         slot="primaryAction"
         dialogAction="ok"
         label="Close"
@@ -678,9 +678,12 @@ import{l as e,o as t,_ as i,n,B as o,t as r,i as a,a as d,e as s,b as l,R as c,x
         .icon=${"🎉"}
         label="Installation complete!"
     >-</ewt-page-message><br>
-    Close and Connect wifi to AccesPoint ESP32_AP1234<br>
+    <center>
+    Close and Connect WiFi to AccesPoint<br>
+    ESP32_AP1234<br>
     Then Browse to http://8.8.8.8/setup<br>
     <br>  
+    </center>
     <ewt-button
         slot="primaryAction"
         label="Next"
