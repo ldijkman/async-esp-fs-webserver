@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>mDNS Services via WebSocket</title>
+</head>
+<body>
+      <div style="background-color: #f1f1f1; padding: 20px; text-align: center;">
+    <div id="urlDisplay" style="margin: 10px 0; font-size: 20px; font-weight: bold;"></div>
+    <a href="/setup" target="_blank" style="color: #007bff; text-decoration: none; margin: 0 10px;"> Setup </a>
+    <a href="/edit" target="_blank" style="color: #007bff; text-decoration: none; margin: 0 10px;"> Edit </a>
+    <a href="/ace" target="_blank" style="color: #007bff; text-decoration: none; margin: 0 10px;" title="serves /ace.html added a hide esp tree menu button to editor"> Ace </a>
+   <a href="/mdns.html" target="_blank" style="color: #007bff; text-decoration: none; margin: 0 10px;" title="mdns scan list other devices in network"> mDNS Scan List </a>
+   
+    <a href="/time.html" target="_blank" style="color: #007bff; text-decoration: none; margin: 0 10px;"> time.html </a>
+    <a href="/restart" target="_blank" style="color: #007bff; text-decoration: none; margin: 0 10px;"> Restart </a>
+    <a href="https://ldijkman.github.io/async-esp-fs-webserver/" target="_blank" style="color: #007bff; text-decoration: none; margin: 0 10px;"> Flash ESP8266 / ESP32 </a>
+</div>
+
+<script>
+    // Display the current page URL
+    document.getElementById('urlDisplay').textContent = document.location.href;
+</script>
+
+    <h1>Available mDNS Services</h1>
+    lists other mdns devices in the network (if you have more esp8266 / esp32 mdns.local devices)<br>
+    may take a few seconds to load list<br>
+    <ul id="servicesList"></ul>
+
+    <script>
+        const servicesList = document.getElementById('servicesList');
+
+        // Assuming the WebSocket server sends mDNS service info in JSON format
+        // Example of expected format: [{"mdnsname": "example1", "ip": "192.168.1.10", "port": 8080}, ...]
+
+        // Replace 'ws://your-websocket-server-address' with your actual WebSocket server address
+          const ws = new WebSocket('ws://' + window.location.hostname + '/ws');
+     
+
+        ws.onopen = function(event) {
+            console.log('Connected to WebSocket');
+            // Optionally send a message to the server to request the mDNS service information
+            // ws.send('request-mdns-services');
+        };
+
+        ws.onmessage = function(event) {
+            console.log('Message from server ', event.data);
+            const services = JSON.parse(event.data); // Assuming the server sends the data in JSON format
+
+            // Clear existing list items
+            servicesList.innerHTML = '';
+
+            // Iterate through the services and create list items with clickable links
+            services.forEach(service => {
+                const li = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = `http://${service.ip}:${service.port}/`;
+                link.innerText = `${service.mdnsname} (${service.ip}:${service.port})`;
+                link.target = "_blank"; // Open in a new tab/window
+
+                li.appendChild(link);
+                servicesList.appendChild(li);
+            });
+        };
+
+        ws.onerror = function(error) {
+            console.log('WebSocket Error: ', error);
+        };
+
+        ws.onclose = function(event) {
+            console.log('WebSocket connection closed');
+        };
+    </script>
+    
+      <h1><br><br><br>
+       <a href="https://ldijkman.github.io/async-esp-fs-webserver/" target="_blank">Flash your 4mb ESP8266 / ESP32 inBrowser online </a>
+      </h1>
+      <script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
+</body>
+</html>
