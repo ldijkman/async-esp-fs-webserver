@@ -18,7 +18,7 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
 // even cheaper
 // ESP8266 12E/12F 4mb Version (only little changes needed)
 
-// need to make the on/off json websocket implemented 
+// need to make the on/off json websocket implemented
 // chat gpt4 knows it all howto do it
 
 // do not use delay() in the code, it will result in reboot loop
@@ -53,13 +53,13 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
 #include <ESPmDNS.h>
 #endif
 
-int gpio_relais_pin = 2;      //wemos d1 esp32 led pin                 // for future relais gpio pin
-int gpio_input_button_pin=17;                   // for future override
+int gpio_relais_pin = 2;         //wemos d1 esp32 led pin                 // for future relais gpio pin
+int gpio_input_button_pin = 17;  // for future override
 
-const  char* hostname = "garage";       // .local is added by esp32 mdns   http://garage.local
-String myhostname=hostname;
-    
-    AsyncWebSocket ws("/ws");
+const char* hostname = "garage";  // .local is added by esp32 mdns   http://garage.local
+String myhostname = hostname;
+
+AsyncWebSocket ws("/ws");
 
 AsyncFsWebServer server(80, LittleFS, "webserver");
 
@@ -70,7 +70,7 @@ AsyncFsWebServer server(80, LittleFS, "webserver");
 // NTP server settings
 const char* ntpServer = "time.google.com";
 // can be set from setup custom
-long GMT_Time_Offset_sec = 0;      // Adjust according to your timezoneGMT_Time_Offset_sec = 0; 
+long GMT_Time_Offset_sec = 0;  // Adjust according to your timezoneGMT_Time_Offset_sec = 0;
 
 const int daylightOffset_sec = 0;  // Typically 3600 for 1 hour, or 0 if not using DST
 
@@ -106,11 +106,11 @@ void getFsInfo(fsInfo_t* fsInfo) {
 #endif
 
 //---------------------------------------
-// for the demo ledtest.html on ESP8266 version litlefs, not very useful, page does not now state 
-void handleLed(AsyncWebServerRequest *request) {
+// for the demo ledtest.html on ESP8266 version litlefs, not very useful, page does not now state
+void handleLed(AsyncWebServerRequest* request) {
   static int value = false;
   // http://xxx.xxx.xxx.xxx/led?val=1
-  if(request->hasParam("val")) {
+  if (request->hasParam("val")) {
     value = request->arg("val").toInt();
     digitalWrite(gpio_relais_pin, value);
   }
@@ -174,12 +174,16 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
 
 
 void setup() {
- 
+
 
 
 
   Serial.begin(115200);
   delay(1000);
+  // Print 20 empty lines
+  for (int i = 0; i < 20; i++) {
+    Serial.println(".");
+  }
 
   if (startFilesystem()) {
     Serial.println("LittleFS filesystem ready!");
@@ -197,10 +201,10 @@ void setup() {
     Serial.printf("Stored \"gpio_input_button_pin\" value: %d\n", gpio_input_button_pin);
     Serial.printf("Stored \"mDNS hostname\" value: %s\n", hostname);
     Serial.printf("Stored \"GMT_Time_Offset_sec\" value: %d\n", GMT_Time_Offset_sec);
-  } else 
+  } else
     Serial.println("LittleFS error!");
-  
-pinMode(gpio_relais_pin, OUTPUT);
+
+  pinMode(gpio_relais_pin, OUTPUT);
 
   IPAddress myIP = server.startWiFi(15000, "ESP32_AP1234", "");
   WiFi.setSleep(WIFI_PS_NONE);
@@ -209,7 +213,7 @@ pinMode(gpio_relais_pin, OUTPUT);
 
   server.addOption("gpio_relais_pin", gpio_relais_pin);
   server.addOption("gpio_input_button_pin", gpio_input_button_pin);
-  server.addHTML("mDNS .local is added by ESP<br><br><a href=\"https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs\" target=\"_blank\">https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs</a>","mDNS_text_id",0);
+  server.addHTML("mDNS .local is added by ESP<br><br><a href=\"https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs\" target=\"_blank\">https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs</a>", "mDNS_text_id", 0);
   server.addOption("mDNS", hostname);
   server.addOption("GMT_Time_Offset_sec", GMT_Time_Offset_sec);
 
@@ -224,26 +228,26 @@ pinMode(gpio_relais_pin, OUTPUT);
   server.setFsInfoCallback(getFsInfo);
 #endif
 
- 
- 
- // if i activate next
- // there is no custom tab anymore on setup page for mdns and relais gpio pin setting
- // Server index.html at the root path
- // server.on("/index.html", HTTP_GET, [](AsyncWebServerRequest* request) {
- //   request->send(LittleFS, "/index.html", "text/html");
- // });
 
-server.onNotFound([](AsyncWebServerRequest *request){
-  Serial.println("Handling Not Found");
-  if(LittleFS.exists("/index.html")) {
-    Serial.println("index.html exists. Serving it now...");
-    request->send(LittleFS, "/index.html", "text/html");
-  } else {
-    Serial.println("index.html not found in LittleFS");
-    request->send(404, "text/plain", "404: Not Found");
-  }
-});
-/*
+
+  // if i activate next
+  // there is no custom tab anymore on setup page for mdns and relais gpio pin setting
+  // Server index.html at the root path
+  // server.on("/index.html", HTTP_GET, [](AsyncWebServerRequest* request) {
+  //   request->send(LittleFS, "/index.html", "text/html");
+  // });
+
+  server.onNotFound([](AsyncWebServerRequest* request) {
+    Serial.println("Handling Not Found");
+    if (LittleFS.exists("/index.html")) {
+      Serial.println("index.html exists. Serving it now...");
+      request->send(LittleFS, "/index.html", "text/html");
+    } else {
+      Serial.println("index.html not found in LittleFS");
+      request->send(404, "text/plain", "404: Not Found");
+    }
+  });
+  /*
 void AsyncFsWebServer::notFound(AsyncWebServerRequest *request) {
     String pathTo404 = "/404.html"; // Path to your custom 404 page
     if (m_filesystem->exists(pathTo404)) {
@@ -255,67 +259,64 @@ void AsyncFsWebServer::notFound(AsyncWebServerRequest *request) {
 }
 */
 
- server.on("/led", HTTP_GET, handleLed);
+  server.on("/led", HTTP_GET, handleLed);
 
- // Define route for "/ace" to serve "ace.html"
-  server.on("/ace", HTTP_GET, [](AsyncWebServerRequest *request) {
-    if(LittleFS.exists("/ace.html")) {
+  // Define route for "/ace" to serve "ace.html"
+  server.on("/ace", HTTP_GET, [](AsyncWebServerRequest* request) {
+    if (LittleFS.exists("/ace.html")) {
       Serial.println("/ace requested. Serving ace.html now...");
       request->send(LittleFS, "/ace.html", "text/html");
-    } 
+    }
   });
 
   // Start server
   // Init with custom WebSocket event handler and start server
-  
+
   ws.onEvent(onWsEvent);
   server.addHandler(&ws);
 
   server.init(onWsEvent);
- //server.init();
+  //server.init();
 
   Serial.println("");
-  Serial.print(F("Async ESP Web Server started on IP Address: http://")); // added http for webserial clickable link
+  Serial.print(F("Async ESP Web Server started on IP Address: http://"));  // added http for webserial clickable link
   Serial.println(myIP);
-  
+
   Serial.println(F(
     "\nif ip 8.8.8.8 AccessPoint connect wifi direct to \"ESP32_AP1234\"\nand configure wifi in http://8.8.8.8/setup\n"
-    "\n" 
+    "\n"
     "Open /setup page to configure optional parameters.\n"
     "Open /edit for Ace editor FileSystem Browser.\n"
     "\n"
     "This is \"a simple Server .ino\" example.\n"
     "https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/simpleServerwithwebsocket.ino\n"
-    "\n"  
-    "for a scheduler copy paste source from https://codepen.io/ldijkman/pen/LYaOgvW"
-  ));
+    "\n"
+    "for a scheduler copy paste source from https://codepen.io/ldijkman/pen/LYaOgvW"));
 
   // Check if we are in station mode before starting NTP
   if (WiFi.getMode() == WIFI_STA) {
     // Initialize NTP
     configTime(GMT_Time_Offset_sec, daylightOffset_sec, ntpServer);
-    Serial.println("NTP client started"); 
-    
-  // ESP32 Start MDSN responder
+    Serial.println("NTP client started");
+
+    // ESP32 Start MDSN responder
 
 
 
-// there is sometihng with strings an chars i do not understand
-// thats why hostname and myhostname 
-// otherwise i cannot get it to work
-if (MDNS.begin(myhostname)) {                        
-    Serial.println("MDNS responder started.");
-    Serial.print("You should be able to connect with address http://");
-    Serial.print(myhostname); 
-    Serial.println(".local/");
-    MDNS.addService("http", "tcp", 80);
-    MDNS.setInstanceName(myhostname); // Change "new-service-name" to your desired name
-} else {
-    Serial.println("Error setting up MDNS responder!");
-}
+    // there is sometihng with strings an chars i do not understand
+    // thats why hostname and myhostname
+    // otherwise i cannot get it to work
+    if (MDNS.begin(myhostname)) {
+      Serial.println("MDNS responder started.");
+      Serial.print("You should be able to connect with address http://");
+      Serial.print(myhostname);
+      Serial.println(".local/");
+      MDNS.addService("http", "tcp", 80);
+      MDNS.setInstanceName(myhostname);  // Change "new-service-name" to your desired name
+    } else {
+      Serial.println("Error setting up MDNS responder!");
+    }
   }
-
-
 }
 
 void loop() {
@@ -324,36 +325,30 @@ void loop() {
     MDNS.update();
 #endif
   }
-  
+
   static unsigned long lastPrintTime = 0;
   const unsigned long printInterval = 10000;  // Print every 10000 milliseconds (10 seconds)
+  if (WiFi.getMode() == WIFI_STA && WiFi.status() == WL_CONNECTED) {
+    unsigned long currentTime = millis();
 
-  unsigned long currentTime = millis();
-  if (currentTime - lastPrintTime >= printInterval) {
-    // Save the last time you printed the time
-    lastPrintTime = currentTime;
+    if (currentTime - lastPrintTime >= printInterval) {
+      // Save the last time you printed the time
+      lastPrintTime = currentTime;
 
-     browseService("http", "tcp"); // find other mdns devices in network
+      browseService("http", "tcp");  // find other mdns devices in network
 
-    // Check WiFi connection and print the time
-    if (WiFi.status() == WL_CONNECTED) {
-      printLocalTime();
-      Serial.print("mDNS at ");
-      Serial.print("http://");
-      Serial.print(myhostname);
-      Serial.print(".local   http://");
-      Serial.println(WiFi.localIP());
-      Serial.println("flash https://ldijkman.github.io/async-esp-fs-webserver/");
-
-
+      // Check WiFi connection and print the time
+      if (WiFi.status() == WL_CONNECTED) {
+        printLocalTime();
+        Serial.print("mDNS at ");
+        Serial.print("http://");
+        Serial.print(myhostname);
+        Serial.print(".local   http://");
+        Serial.println(WiFi.localIP());
+        Serial.println("flash https://ldijkman.github.io/async-esp-fs-webserver/");
+      }
     }
-
-    
-
   }
-
-
-  
 }
 
 
@@ -366,76 +361,76 @@ void printLocalTime() {
     return;
   }
   // Buffer to hold the formatted time. Adjust size if needed.
-  char buffer[64]; 
+  char buffer[64];
   // Format the time and store it in buffer. The format string can be adjusted as per your needs.
   strftime(buffer, sizeof(buffer), "%A, %B %d %Y %H:%M:%S", &timeinfo);
   // Print the formatted time
   Serial.println(buffer);
-    
-    // Broadcast current time to all connected WebSocket clients
-    ws.textAll(buffer);
+
+  // Broadcast current time to all connected WebSocket clients
+  ws.textAll(buffer);
 }
 
 
 
 
-void browseService(const char * service, const char * proto) {
-    Serial.printf("Browsing for service _%s._%s.local. ... ", service, proto);
-    int n = MDNS.queryService(service, proto); // Query mDNS service
-    if (n == 0) {
-        Serial.println("\nDamn, no services found\n Flash more Devices\n  And give each a Unique mDNS name in Setup tab Custom");
-    } else {
-        Serial.print(n);
-        Serial.println(" service(s) found");
+void browseService(const char* service, const char* proto) {
+  Serial.printf("Browsing for service _%s._%s.local. ... ", service, proto);
+  int n = MDNS.queryService(service, proto);  // Query mDNS service
+  if (n == 0) {
+    Serial.println("\nDamn, no services found\n Flash more Devices\n  And give each a Unique mDNS name in Setup tab Custom");
+  } else {
+    Serial.print(n);
+    Serial.println(" service(s) found");
 
-        // Create a JSON array to hold service details
-        DynamicJsonDocument doc(1024);
-        JsonArray services = doc.to<JsonArray>();
+    // Create a JSON array to hold service details
+    DynamicJsonDocument doc(1024);
+    JsonArray services = doc.to<JsonArray>();
 
-        for (int i = 0; i < n; ++i) {
-            // Print details for each service found
+    for (int i = 0; i < n; ++i) {
+      // Print details for each service found
 
 
-            // added http so that it is clickable in webserial monitor https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html
-            // Obtain the hostname and convert it to lowercase uppercase no clickable link in webserial monitor
-            // https://github.com/xtermjs/xterm.js/issues/4964
-            // Create a String object from the MDNS hostname and convert it to lowercase
-            String hostnameLower = MDNS.hostname(i); // Obtain the hostname as a String
-            hostnameLower.toLowerCase(); // Convert the hostname to lowercase
-            #ifdef ESP32
-                 hostnameLower = String(MDNS.hostname(i)) + ".local"; // Concatenate ".local" to the hostname
-            #endif
+      // added http so that it is clickable in webserial monitor https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html
+      // Obtain the hostname and convert it to lowercase uppercase no clickable link in webserial monitor
+      // https://github.com/xtermjs/xterm.js/issues/4964
+      // Create a String object from the MDNS hostname and convert it to lowercase
+      String hostnameLower = MDNS.hostname(i);  // Obtain the hostname as a String
+      hostnameLower.toLowerCase();              // Convert the hostname to lowercase
+#ifdef ESP32
+      hostnameLower = String(MDNS.hostname(i)) + ".local";  // Concatenate ".local" to the hostname
+#endif
 
-            // Now print the details, using the lowercase hostname
-            Serial.printf("  %d: http://%s - http://%s port:%d\n", i + 1, hostnameLower.c_str(), MDNS.IP(i).toString().c_str(), MDNS.port(i));
+      // Now print the details, using the lowercase hostname
+      Serial.printf("  %d: http://%s - http://%s port:%d\n", i + 1, hostnameLower.c_str(), MDNS.IP(i).toString().c_str(), MDNS.port(i));
 
-           // Serial.printf("  %d: http://%s - http://%s port:%d\n", i + 1, (MDNS.hostname(i).c_str()).toLowerCase(), MDNS.IP(i).toString().c_str(), MDNS.port(i));
-            // make ip clickable weblink addon doenst do :port
-            // http://Living.local uppercase L does not work
-            // https://github.com/xtermjs/xterm.js/issues/4964
+      // Serial.printf("  %d: http://%s - http://%s port:%d\n", i + 1, (MDNS.hostname(i).c_str()).toLowerCase(), MDNS.IP(i).toString().c_str(), MDNS.port(i));
+      // make ip clickable weblink addon doenst do :port
+      // http://Living.local uppercase L does not work
+      // https://github.com/xtermjs/xterm.js/issues/4964
 
-            
 
-            // Add service details to the JSON array
-            JsonObject serviceObj = services.createNestedObject();
-            #ifdef ESP8266
-              serviceObj["mdnsname"] = MDNS.hostname(i);
-            #endif
-            #ifdef ESP32
-              serviceObj["mdnsname"] = String(MDNS.hostname(i)) + ".local";
-            #endif
-            serviceObj["ip"] = MDNS.IP(i).toString();
-            serviceObj["port"] = MDNS.port(i);
-        }
 
-        // Serialize the JSON array to a string
-        String message;
-        serializeJson(doc, message);
-
-        // Send the JSON string to all connected WebSocket clients
-        ws.textAll(message.c_str());
+      // Add service details to the JSON array
+      JsonObject serviceObj = services.createNestedObject();
+#ifdef ESP8266
+      serviceObj["mdnsname"] = MDNS.hostname(i);
+#endif
+#ifdef ESP32
+      serviceObj["mdnsname"] = String(MDNS.hostname(i)) + ".local";
+#endif
+      serviceObj["ip"] = MDNS.IP(i).toString();
+      serviceObj["port"] = MDNS.port(i);
     }
-    Serial.println();
+
+    // Serialize the JSON array to a string
+    String message;
+    serializeJson(doc, message);
+
+    // Send the JSON string to all connected WebSocket clients
+    ws.textAll(message.c_str());
+  }
+  Serial.println();
 }
 
 /*
