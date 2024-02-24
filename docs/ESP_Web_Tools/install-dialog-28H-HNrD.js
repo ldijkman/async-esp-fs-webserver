@@ -685,7 +685,11 @@ import{l as e,o as t,_ as i,n,B as o,t as r,i as a,a as d,e as s,b as l,R as c,x
     ESP32_AP1234<br>
     Then Browse to http://8.8.8.8/setup<br>
     <br>  
-    </center>
+    or press Next<br>
+    and use Console for info<br>
+    press reset to see from start
+<br>
+<br></center>
     <ewt-button
         slot="primaryAction"
         label="Next"
