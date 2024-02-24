@@ -169,6 +169,10 @@ links in webserial monitor are clickable links https://ldijkman.github.io/async-
 
 --- 
 
+why 1 board with 2 garden.local 1 unset ip
+
+![Screenshot from 2024-02-24 10-23-52](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/09e54cbb-6243-4b11-8647-1471c1384427)
+
 ## Flash 4mb ESP8266 or ESP32 from InBrowser
 
 ## https://ldijkman.github.io/async-esp-fs-webserver/
