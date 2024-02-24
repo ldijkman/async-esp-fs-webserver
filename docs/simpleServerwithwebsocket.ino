@@ -282,8 +282,8 @@ void AsyncFsWebServer::notFound(AsyncWebServerRequest *request) {
     "\nif ip 8.8.8.8 AccessPoint connect wifi direct to \"ESP32_AP1234\"\nand configure wifi in http://8.8.8.8/setup\n"
     "\n" 
     "Open /setup page to configure optional parameters.\n"
-    "Open /edit for Ace editor FileSystem Browser./n"
-    "/n"
+    "Open /edit for Ace editor FileSystem Browser.\n"
+    "\n"
     "This is \"a simple Server .ino\" example.\n"
     "https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/simpleServerwithwebsocket.ino\n"
     "\n"  
@@ -402,6 +402,9 @@ void browseService(const char * service, const char * proto) {
             // Create a String object from the MDNS hostname and convert it to lowercase
             String hostnameLower = MDNS.hostname(i); // Obtain the hostname as a String
             hostnameLower.toLowerCase(); // Convert the hostname to lowercase
+            #ifdef ESP32
+                 hostnameLower = String(MDNS.hostname(i)) + ".local"; // Concatenate ".local" to the hostname
+            #endif
 
             // Now print the details, using the lowercase hostname
             Serial.printf("  %d: http://%s - http://%s port:%d\n", i + 1, hostnameLower.c_str(), MDNS.IP(i).toString().c_str(), MDNS.port(i));
@@ -415,7 +418,12 @@ void browseService(const char * service, const char * proto) {
 
             // Add service details to the JSON array
             JsonObject serviceObj = services.createNestedObject();
-            serviceObj["mdnsname"] = MDNS.hostname(i);
+            #ifdef ESP8266
+              serviceObj["mdnsname"] = MDNS.hostname(i);
+            #endif
+            #ifdef ESP32
+              serviceObj["mdnsname"] = String(MDNS.hostname(i)) + ".local";
+            #endif
             serviceObj["ip"] = MDNS.IP(i).toString();
             serviceObj["port"] = MDNS.port(i);
         }
