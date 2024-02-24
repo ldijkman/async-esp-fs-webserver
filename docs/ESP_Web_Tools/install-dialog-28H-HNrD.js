@@ -735,6 +735,22 @@ import{l as e,o as t,_ as i,n,B as o,t as r,i as a,a as d,e as s,b as l,R as c,x
         label="Download Logs"
         @click=${()=>{Wr(this.shadowRoot.querySelector("ewt-console").logs(),"esp-web-tools-logs.txt"),this.shadowRoot.querySelector("ewt-console").reset()}}
       ></ewt-button>
+      <button onclick="deleteLines()">Delete All Lines</button>
+
+
+function deleteLines() {
+    // Select all <span> elements with the class 'line'
+    const lines = document.querySelectorAll('.line');
+    
+    // Loop through the NodeList and remove each element
+    lines.forEach(function(line) {
+        line.remove();
+    });
+}
+
+
+
+      
       <ewt-button
         slot="secondaryAction"
         label="Reset Device"
