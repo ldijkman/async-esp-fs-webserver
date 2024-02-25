@@ -2,7 +2,27 @@
 .
 # https://ldijkman.github.io/async-esp-fs-webserver/Oh_Melissa/index.html
 
-.
+maybe if you connect you can see what your ESP is
+
+```
+ESP Web Flasher loaded.
+Connecting...
+Connected successfully.
+Try hard reset.
+Chip type ESP32
+Connected to ESP32
+MAC Address: 7C:9E:BD:F2:F7:4C
+Uploading stub...
+Running stub...
+Stub is now running...
+Detecting Flash Size
+FlashId: 0x1640D8
+Flash Manufacturer: d8
+Flash Device: 4016
+Auto-detected Flash size: 4MB
+
+```
+![Screenshot from 2024-02-25 15-37-03](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/0776df87-f724-4234-aa16-6cc28e1c31ed)
 
 .
 .
