@@ -20,12 +20,35 @@
   <body>        <!-- Button to clear the contents of the section -->
   
    <!-- Button to delete all <pre> elements -->
-    <button style=""z-index:50000; id="deletePre">Delete All &lt;pre&gt; Elements</button>
+  
     <div id="app"></div>
 
 
 
     <script>
+
+        function addDeletePreButton() {
+            // Create the new button element
+            const button = document.createElement('button');
+            button.id = 'deletePre'; // Set the button's ID
+            button.innerHTML = 'Delete All &lt;pre&gt; Elements'; // Set the button's display text
+
+            // Optionally, add an event listener for the button's click event
+            button.addEventListener('click', function() {
+                // Code to delete all <pre> elements (or any other action)
+                console.log('Button clicked. Implement the deletion logic here.');
+            });
+
+            // Find the header element by its ID
+            const header = document.getElementById('pageHeader');
+
+            // Append the newly created button to the header
+            header.appendChild(button);
+        }
+
+        // Call the function to dynamically add the button to the header
+        addDeletePreButton();
+      
         // Function to delete all <pre> elements in the section#output
         function deleteAllPreElements() {
             const outputSection = document.getElementById('output');
