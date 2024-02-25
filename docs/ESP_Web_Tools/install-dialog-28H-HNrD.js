@@ -802,7 +802,7 @@ import{l as e,o as t,_ as i,n,B as o,t as r,i as a,a as d,e as s,b as l,R as c,x
       }
       ewt-console {
         width: calc(80vw - 48px);
-        height: 80vh;
+        height: 70vh;
       }
       ewt-list-item[value="-1"] {
         border-top: 1px solid #ccc;
