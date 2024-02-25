@@ -1,0 +1,26 @@
+{
+        "name": "Firmware ESP webserve filebrowser ace editor mDNS  Visual TimeSlots Scheduler",
+        "version": "25 Februari 2024",
+        "new_install_prompt_erase": true,
+        "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+       { "path": "bootloader_qio_80m.bin", "offset": 4096 },
+        { "path": "simpleServerwithwebsocket.ino.partitions.bin", "offset": 32768 },
+        { "path": "simpleServerwithwebsocket.ino.bootloader.bin", "offset": 57344 },
+        { "path": "simpleServerwithwebsocket.ino.bin", "offset": 65536 },
+        { "path": "feb10a.littlefs.bin", "offset": "0x290000", "size": "0x160000" }    
+      ]
+    },
+
+ 
+    {
+      "chipFamily": "ESP8266",
+      "parts": [
+        { "path": "simpleServerwithwebsocket_esp8266.ino.bin", "offset": 0 },
+        { "path": "ESP8266_feb10a.mklittlefs.bin", "offset": 2097152 }
+      ]
+    }
+  ]
+}
