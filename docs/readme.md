@@ -179,6 +179,11 @@ makermelissa Melissa LeBlanc-Williams
 makermelissa Melissa LeBlanc-Williams
 ESP Web Tools HA Nabu Casa balloob Paulus Schoutsen, clear button and make links colored clickable?
 
+
+clickable links in Ace Editor
+![Screenshot from 2024-02-25 06-36-22](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/57bc7c1b-a301-4c90-b6a6-aec2534a698f)
+clickable links in Ace Editor
+
 ## Flash 4mb ESP8266 or ESP32 from InBrowser
 
 ## https://ldijkman.github.io/async-esp-fs-webserver/
