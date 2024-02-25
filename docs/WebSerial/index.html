@@ -109,7 +109,7 @@ setTimeout(() => {
   observer.observe(outputSection, { childList: true });
 
   // Initial call to process any <pre> elements already present
-  makeLinksClickable();
+    setTimeout(makeLinksClickable(), 5000);
     </script>
   <!-- Button to delete all <pre> elements -->
     <br><button id="deletePre">Delete All &lt;pre&gt; Elements</button><br>
