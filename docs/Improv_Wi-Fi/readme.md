@@ -1,5 +1,7 @@
 https://github.com/jnthas/improv-wifi-demo
 
+https://jnthas.github.io/improv-wifi-demo/
+
 
 ok maybe can get it to work
 
