@@ -1,5 +1,33 @@
+<!--
+changes made by Dirk Luberth Dijkman
+https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/ace.html
+draggable searchbox
+clickable links
+toggle tree menu
+-->
+
 <html lang=en>
-<title>File manager The Art of Time Controlled</title>
+<title>File Manager 4 Time Manager, The Art of Time Controlled</title>
+  <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.32.6/src-noconflict/ace.js"></script>
+<!--<link href="https://cdn.jsdelivr.net/npm/ace-builds@1.32.6/css/ace.min.css" rel="stylesheet"><script>-->
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.29.0/ace.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.29.0/ext-keybinding_menu.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.29.0/ext-prompt.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.29.0/ext-language_tools.min.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.29.0/ext-searchbox.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.29.0/worker-base.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.29.0/ext-settings_menu.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.29.0/ext-keybinding_menu.min.js"></script>
+
+<script src="https://ldijkman.github.io/Ace-Editor-Click-Link-window.open-URL/hoverlink.js"></script>
 <style media=screen>
   body {
     font-size: 12px;
@@ -814,11 +842,59 @@ document.addEventListener("DOMContentLoaded", function() {
         
    makeDraggable(".ace_search.right");
    
+///////////////
+
+ // Create a <style> tag
+    var style = document.createElement('style');
+    style.type = 'text/css';
+
+    // CSS rules to insert
+    var css = `.ace_searchbtn.prev:after, .ace_searchbtn.next:after {
+                transform: rotate(45deg);
+              }`;
+
+    // For most browsers
+    if (style.styleSheet) {
+        style.styleSheet.cssText = css;
+    } else {
+        style.appendChild(document.createTextNode(css));
+    }
+
+    // Append the <style> element to the <head> of the document
+    document.head.appendChild(style);
+
+//////////////
+
+
  
+    var editor=ace.edit("editor");
+  
+
+  HoverLink = require("hoverlink").HoverLink
+    editor.hoverLink = new HoverLink(editor);
+
+
+
+// click on URL link in editor
+editor.hoverLink.on("open", function() {
+      // alert("trying to open")
+      console.log("trying to open",editor.hoverLink.link.value);
+
+      if(editor.hoverLink.isOpen){
+          window.open(editor.hoverLink.link.value);
+      }
+      console.log("this.link",editor.hoverLink.isOpen);
+})
+
+
+
+
+
+
+        
    }, 2500);
 
-  
- 
+
 });
 
 
