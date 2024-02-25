@@ -18,22 +18,27 @@
     <link rel="stylesheet" href="index.9b736b96.css">
   </head>
   <body>        <!-- Button to clear the contents of the section -->
-    <button id="clearOutput">Clear Output</button>
+  
     <div id="app"></div>
 
 
-  
+   <!-- Button to delete all <pre> elements -->
+    <button id="deletePre">Delete All &lt;pre&gt; Elements</button>
 
+    <script>
+        // Function to delete all <pre> elements in the section#output
+        function deleteAllPreElements() {
+            const outputSection = document.getElementById('output');
+            const preElements = outputSection.querySelectorAll('pre');
+            
+            preElements.forEach(pre => {
+                pre.remove(); // Removes the <pre> element from the document
+            });
+        }
 
-    <script>      
-      // Function to clear the contents of the section
-      function clearOutput() {
-        const outputSection = document.getElementById('output');
-        outputSection.innerHTML = ''; // Set the innerHTML to an empty string
-      }
-
-      // Add event listener to the "Clear Output" button
-      document.getElementById('clearOutput').addEventListener('click', clearOutput);
+        // Add event listener to the "Delete All <pre> Elements" button
+        document.getElementById('deletePre').addEventListener('click', deleteAllPreElements);
+      
       function makeLinksClickable() {
         // Select all <pre> elements within the section#output
         const preElements = document.querySelectorAll('#output pre:not([data-processed])');
