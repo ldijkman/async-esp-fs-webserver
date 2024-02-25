@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const dropupLinks = [
         {href: 'https://youtu.be/xPlN_Tk3VLQ?si=tUbkiZnYWNE_9c3S', text: 'ESP32'},
         {href: 'https://youtu.be/u5unB24lhC4?t=833', text: 'DroneBot Workshop ESP Tool JS video'},
-        {href: '#', text: 'Link 3'}
+        {href: 'https://youtu.be/E8bdATqXM8c?si=jYuSPcyqIFQII45s', text: 'ESP Web Tools with Improv wifi connect, i should make it like this'}
     ];
 
     dropupLinks.forEach(link => {
