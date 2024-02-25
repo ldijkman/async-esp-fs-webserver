@@ -94,8 +94,10 @@ button {
       <br>
       <!-- ESP Web Install Button -->
       Dev. boards with ESP32 4Mb <br>
-      
+      <!--
       <esp-web-install-button manifest="https://ldijkman.github.io/async-esp-fs-webserver/manifest_ESP32.json">
+       -->
+      <esp-web-install-button manifest="https://ldijkman.github.io/async-esp-fs-webserver/both.json">
           <button slot="activate">Connect & Install on 4Mb ESP32</button>
           <span style="color: red; font-size: 24px; font-weight: bold;" slot="unsupported">Ah Damn, your browser doesn't work! <br>Open this Page in a Chromium Based PC Browser!<br>and an Connect Install button will be here!</span>
           <span style="color: red; font-size: 24px; font-weight: bold;" slot="not-allowed">Ah Damn, you are not allowed to use this on HTTP!</span>
@@ -170,7 +172,10 @@ document.addEventListener('DOMContentLoaded', function() {
       <br>
       <!-- ESP Web Install Button -->
       Dev. boards with ESP8266 4Mb 12E/12F<br>
-      <esp-web-install-button manifest="https://ldijkman.github.io/async-esp-fs-webserver/manifest_ESP8266.json">
+      <!--
+      <esp-web-install-button manifest="https://ldijkman.github.io/async-esp-fs-webserver/manifest_ESP32.json">
+       -->
+      <esp-web-install-button manifest="https://ldijkman.github.io/async-esp-fs-webserver/both.json">
       
         <button slot="activate">Connect & Install on 4Mb ESP8266 12E / 12F</button>
   <span style="color: red; font-size: 24px; font-weight: bold;" slot="unsupported">Ah Damn, your browser doesn't work!Open this Page in a Chromium Based PC Browser!<br>and an Connect Install button will be here!</span>
