@@ -210,4 +210,4 @@ WannaBe a Nerd
 https://www.arduino.cc/en/software
 
 
-
+<center> Me no HA Configurator</center>
