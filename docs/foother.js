@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
         {href: 'https://github.com/ldijkman/async-esp-fs-webserver/discussions', color: 'yellowgreen', text: 'Discuss'},
         {href: 'https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html', color: 'lightblue', text: 'Serial-1'},
         {href: 'https://ldijkman.github.io/async-esp-fs-webserver/WebSerial/index.html', color: 'lightblue', text: 'Serial-2'},
+        {href: 'https://ldijkman.github.io/async-esp-fs-webserver/ESP_Tool_JS/esptool-js/index.html', color: 'lightblue', text: 'Serial-3'},
         {href: 'https://ldijkman.github.io/async-esp-fs-webserver/', color: 'limegreen', text: 'Flash 4mb ESP'}
     ];
 
