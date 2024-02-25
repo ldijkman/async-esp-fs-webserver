@@ -1,5 +1,23 @@
 # Adafruit WebSerial ESPTool
+.
+# https://ldijkman.github.io/async-esp-fs-webserver/Oh_Melissa/index.html
 
+.
+
+.
+.
+.
+
+.
+
+
+.
+.
+.
+
+.
+.
+.
 JavaScript package to install firmware on ESP devices via the browser using WebSerial.
 
 ## Used by
