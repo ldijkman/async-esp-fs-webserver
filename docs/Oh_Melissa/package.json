@@ -1,0 +1,36 @@
+{
+  "name": "@adafruit/adafruit-webserial-esptool",
+  "version": "6.0.0",
+  "description": "Flash ESP devices using WebSerial",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/adafruit/Adafruit_WebSerial_ESPTool.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "author": "Melissa LeBlanc-Williams",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "prepublishOnly": "script/build"
+  },
+  "devDependencies": {
+    "@rollup/plugin-json": "^6.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.5",
+    "@types/pako": "^2.0.1",
+    "@types/w3c-web-serial": "^1.0.4",
+    "prettier": "^3.0.3",
+    "rollup": "^4.0.2",
+    "serve": "^14.2.1",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@types/node": "^20.8.0",
+    "pako": "^2.1.0",
+    "tslib": "^2.6.2"
+  }
+}
