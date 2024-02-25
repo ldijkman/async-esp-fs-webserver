@@ -209,6 +209,10 @@ WannaBe a Nerd
 
 https://www.arduino.cc/en/software
 
-Here's some regular text.
-<p style="text-align: center;">Me no HA Configurator</p>
-<center> Me no HA Configurator</center>
+
+
+<p align="center">
+Me no HA Configurato
+</p>
+
+
