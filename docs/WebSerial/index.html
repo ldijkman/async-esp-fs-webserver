@@ -19,7 +19,21 @@
   </head>
   <body>
     <div id="app"></div>
-    <script>
+        <!-- Button to clear the contents of the section -->
+    <button id="clearOutput">Clear Output</button>
+
+  
+
+
+    <script>      
+      // Function to clear the contents of the section
+      function clearOutput() {
+        const outputSection = document.getElementById('output');
+        outputSection.innerHTML = ''; // Set the innerHTML to an empty string
+      }
+
+      // Add event listener to the "Clear Output" button
+      document.getElementById('clearOutput').addEventListener('click', clearOutput);
       function makeLinksClickable() {
         // Select all <pre> elements within the section#output
         const preElements = document.querySelectorAll('#output pre:not([data-processed])');
