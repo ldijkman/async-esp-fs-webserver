@@ -212,7 +212,7 @@ https://www.arduino.cc/en/software
 
 
 <p align="center">
-Me no HA Configurato
+Me no HA Configurator
 </p>
 
 
