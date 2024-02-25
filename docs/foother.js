@@ -66,14 +66,15 @@ document.addEventListener('DOMContentLoaded', function() {
     aiPopupContent.style.cssText = 'display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: #f9f9f9; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;';
 
     const aiLinks = [
-        {href: '#', text: 'AI Link 1'},
-        {href: '#', text: 'AI Link 2'},
-        {href: '#', text: 'AI Link 3'}
+        {href: 'https://copilot.microsoft.com/', text: 'Ai Microsoft CoPilot'},
+        {href: 'https://gemini.google.com/app', text: 'Ai Google Gemini'},
+        {href: 'https://chat.openai.com/auth/login', text: 'Ai OpenAi ChatGPT '}
     ];
 
     aiLinks.forEach(link => {
         const a = document.createElement('a');
         a.href = link.href;
+        a.target = '_blank';
         a.textContent = link.text;
         a.style.cssText = 'color: black; padding: 12px 16px; text-decoration: none; display: block;';
         aiPopupContent.appendChild(a);
