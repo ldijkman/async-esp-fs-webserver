@@ -184,6 +184,19 @@ clickable links in Ace Editor
 ![Screenshot from 2024-02-25 06-36-22](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/57bc7c1b-a301-4c90-b6a6-aec2534a698f)
 clickable links in Ace Editor
 
+later scan and configure wifi from browser, Improv wifi
+![Screenshot from 2024-02-25 10-00-37](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/9a48d0c9-c448-4cc1-8886-63d3ef4e432f)
+
+
+later scan and configure wifi from browser, Improv wifi
+![Screenshot from 2024-02-25 10-00-55](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/ee439781-c6a9-4f0b-b248-4c41af4e3084)
+
+
+
+later scan and configure wifi from browser
+
+
+
 ## Flash 4mb ESP8266 or ESP32 from InBrowser
 
 ## https://ldijkman.github.io/async-esp-fs-webserver/
