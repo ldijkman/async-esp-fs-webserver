@@ -65,8 +65,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const aiPopupContent = document.createElement('div');
     aiPopupContent.className = 'popup-content';
-    aiPopupContent.style.cssText = 'display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: #f9f9f9; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;';
+    //aiPopupContent.style.cssText = 'display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: #f9f9f9; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;';
 
+aiPopupContent.style.cssText = 'display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: greenyellow; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;';
+    
     const aiLinks = [
         {href: 'https://www.blackbox.ai/', text: 'BlackBox.Ai'},
         {href: 'https://copilot.microsoft.com', text: 'Ai Microsoft CoPilot'},
