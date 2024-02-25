@@ -68,7 +68,7 @@ setTimeout(() => {
     // Function to replace URLs with clickable links within a given element
     function processElement(element) {
       // URL Regular Expression
-      const urlRegex = /(https?:\/\/[^\s]+)/g;
+      const urlRegex = /(http[s]?:\/\/[^\s]+)/g;
 
       // Check if the element is already processed to avoid re-processing
       if (!element.hasAttribute('data-processed')) {
