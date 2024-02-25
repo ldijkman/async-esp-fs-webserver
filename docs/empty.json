@@ -1,6 +1,6 @@
 {
-        "name": "Empty",
-        "version": "25 Februari 2024",
+        "name": "",
+        "version": "",
         "builds": [
     {
       "chipFamily": "ESP32",
