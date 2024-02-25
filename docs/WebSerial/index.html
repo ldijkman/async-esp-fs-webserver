@@ -62,34 +62,54 @@ setTimeout(() => {
         // Add event listener to the "Delete All <pre> Elements" button
         document.getElementById('deletePre').addEventListener('click', deleteAllPreElements);
       }, 5000);
-      function makeLinksClickable() {
-        // Select all <pre> elements within the section#output
-        const preElements = document.querySelectorAll('#output pre:not([data-processed])');
+ 
 
-        // URL Regular Expression
-        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        function makeLinksClickable() {
+    // Function to replace URLs with clickable links within a given element
+    function processElement(element) {
+      // URL Regular Expression
+      const urlRegex = /(https?:\/\/[^\s]+)/g;
 
-        // Loop through each <pre> element
-        preElements.forEach((pre) => {
-            // Mark the <pre> element as processed to avoid re-processing
-            pre.setAttribute('data-processed', 'true');
+      // Check if the element is already processed to avoid re-processing
+      if (!element.hasAttribute('data-processed')) {
+        let htmlContent = element.innerHTML;
 
-            // Get the current HTML content of the <pre> element
-            let htmlContent = pre.innerHTML;
-
-            // Replace URLs with clickable links in the HTML content
-            htmlContent = htmlContent.replace(urlRegex, (url) => {
-                // Return the HTML anchor element string
-                return `<a href="${url}" target="_blank">${url}</a>`;
-            });
-
-            // Update the <pre> element's HTML content with the modified content
-            pre.innerHTML = htmlContent;
+        // Replace URLs with clickable links in the HTML content
+        htmlContent = htmlContent.replace(urlRegex, (url) => {
+          return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
         });
-      }
 
-      // Call makeLinksClickable every second
-      setInterval(makeLinksClickable, 1000);
+        // Update the element's HTML content with the modified content
+        element.innerHTML = htmlContent;
+
+        // Mark the element as processed
+        element.setAttribute('data-processed', 'true');
+      }
+    }
+
+    // Select all <pre> elements within the section#output that are not processed
+    const preElements = document.querySelectorAll('#output pre:not([data-processed])');
+    preElements.forEach(processElement);
+  }
+
+  // Use MutationObserver to observe changes in the #output section
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      // For each added node, check if it's a <pre> element and process it
+      mutation.addedNodes.forEach((node) => {
+        if (node.nodeName.toLowerCase() === 'pre') {
+          makeLinksClickable();
+        }
+      });
+    });
+  });
+
+  // Start observing the #output section for child additions
+  const outputSection = document.querySelector('#output');
+  observer.observe(outputSection, { childList: true });
+
+  // Initial call to process any <pre> elements already present
+  makeLinksClickable();
     </script>
   <!-- Button to delete all <pre> elements -->
     <br><button id="deletePre">Delete All &lt;pre&gt; Elements</button><br>
