@@ -19,6 +19,33 @@
   </head>
   <body>
     <div id="app"></div>
-    
+    <script>
+function makeLinksClickable() {
+    // Select all <pre> elements within the section#output
+    const preElements = document.querySelectorAll('#output pre');
+
+    // URL Regular Expression
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+    // Loop through each <pre> element
+    preElements.forEach((pre) => {
+        // Get the current HTML content of the <pre> element
+        let htmlContent = pre.innerHTML;
+
+        // Replace URLs with clickable links in the HTML content
+        htmlContent = htmlContent.replace(urlRegex, (url) => {
+            // Return the HTML anchor element string
+            return `<a href="${url}" target="_blank">${url}</a>`;
+        });
+
+        // Update the <pre> element's HTML content with the modified content
+        pre.innerHTML = htmlContent;
+    });
+}
+
+// Call makeLinksClickable every second
+setInterval(makeLinksClickable, 1000);
+</script>
+
   </body>
 </html>
