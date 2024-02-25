@@ -68,7 +68,8 @@ document.addEventListener('DOMContentLoaded', function() {
     aiPopupContent.style.cssText = 'display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: #f9f9f9; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;';
 
     const aiLinks = [
-        {href: 'https://copilot.microsoft.com/', text: 'Ai Microsoft CoPilot'},
+        {href: 'https://www.blackbox.ai/', text: 'BlackBox.Ai'},
+        {href: 'https://copilot.microsoft.com', text: 'Ai Microsoft CoPilot'},
         {href: 'https://gemini.google.com/app', text: 'Ai Google Gemini'},
         {href: 'https://chat.openai.com/auth/login', text: 'Ai OpenAi ChatGPT '}
     ];
