@@ -735,21 +735,10 @@ import{l as e,o as t,_ as i,n,B as o,t as r,i as a,a as d,e as s,b as l,R as c,x
         label="Download Logs"
         @click=${()=>{Wr(this.shadowRoot.querySelector("ewt-console").logs(),"esp-web-tools-logs.txt"),this.shadowRoot.querySelector("ewt-console").reset()}}
       ></ewt-button>
-      <button id="delete-lines-btn" onclick="deleteLines()">Delete All Lines</button>
+      <button id="delete-lines-btn" onclick="this.shadowRoot.querySelector("ewt-console").logs()=\"\"">Delete All Lines</button>
       buttons do not work, clear button and make links colored and clickable in monitor?
 
-<script>
-function deleteLines() {
-    // Select all <span> elements with the class 'line'
-    const lines = document.querySelectorAll('.line');
-    
-    // Loop through the NodeList and remove each element
-    lines.forEach(function(line) {
-        line.remove();
-    });
-}
 
-</script>
 
       
       <ewt-button
