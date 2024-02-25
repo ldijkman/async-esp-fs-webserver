@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
     dropupContent.style.cssText = 'display: none; position: absolute; bottom: 100%; left: 0; background-color: yellow; min-width: 160px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;';
 
     const dropupLinks = [
+        {href: 'https://youtu.be/xjTACT1qO_8', text: 'Nice Explanation ESP wifi configuration'},
         {href: 'https://youtu.be/xPlN_Tk3VLQ?si=tUbkiZnYWNE_9c3S', text: 'ESP32'},
         {href: 'https://youtu.be/u5unB24lhC4?t=833', text: 'DroneBot Workshop ESP Tool JS video'},
         {href: 'https://youtu.be/E8bdATqXM8c?si=jYuSPcyqIFQII45s', text: 'ESP Web Tools with Improv wifi connect, i should make it like this'}
