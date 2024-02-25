@@ -3,12 +3,12 @@ document.addEventListener('DOMContentLoaded', function() {
     floatingDiv.style.cssText = 'position: fixed; bottom: 0; left: 0; width: 100%; background-color: #333; color: white; text-align: center; padding: 20px 0; font-size: 18px;';
 
     const links = [
-        {href: 'https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs', color: 'blue', text: 'Github DOCS Source'},
+        {href: 'https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs', color: 'blue', text: 'Github DOCS'},
         {href: 'https://github.com/ldijkman/async-esp-fs-webserver/issues', color: 'yellowgreen', text: 'Issues'},
-        {href: 'https://github.com/ldijkman/async-esp-fs-webserver/discussions', color: 'yellowgreen', text: 'Discussions'},
+        {href: 'https://github.com/ldijkman/async-esp-fs-webserver/discussions', color: 'yellowgreen', text: 'Discuss'},
         {href: 'https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html', color: 'lightblue', text: 'Serial-1'},
         {href: 'https://ldijkman.github.io/async-esp-fs-webserver/WebSerial/index.html', color: 'lightblue', text: 'Serial-2'},
-        {href: 'https://ldijkman.github.io/async-esp-fs-webserver/', color: 'limegreen', text: 'Flash 4mb ESP inBrowser'}
+        {href: 'https://ldijkman.github.io/async-esp-fs-webserver/', color: 'limegreen', text: 'Flash 4mb ESP'}
     ];
 
     links.forEach(link => {
