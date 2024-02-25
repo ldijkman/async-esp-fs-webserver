@@ -20,32 +20,86 @@
   <body>
     <div id="app"></div>
     <script>
-function makeLinksClickable() {
-    // Select all <pre> elements within the section#output
-    const preElements = document.querySelectorAll('#output pre');
+      function makeLinksClickable() {
+        // Select all <pre> elements within the section#output
+        const preElements = document.querySelectorAll('#output pre:not([data-processed])');
 
-    // URL Regular Expression
-    const urlRegex = /(https?:\/\/[^\s]+)/g;
+        // URL Regular Expression
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
 
-    // Loop through each <pre> element
-    preElements.forEach((pre) => {
-        // Get the current HTML content of the <pre> element
-        let htmlContent = pre.innerHTML;
+        // Loop through each <pre> element
+        preElements.forEach((pre) => {
+            // Mark the <pre> element as processed to avoid re-processing
+            pre.setAttribute('data-processed', 'true');
 
-        // Replace URLs with clickable links in the HTML content
-        htmlContent = htmlContent.replace(urlRegex, (url) => {
-            // Return the HTML anchor element string
-            return `<a href="${url}" target="_blank">${url}</a>`;
+            // Get the current HTML content of the <pre> element
+            let htmlContent = pre.innerHTML;
+
+            // Replace URLs with clickable links in the HTML content
+            htmlContent = htmlContent.replace(urlRegex, (url) => {
+                // Return the HTML anchor element string
+                return `<a href="${url}" target="_blank">${url}</a>`;
+            });
+
+            // Update the <pre> element's HTML content with the modified content
+            pre.innerHTML = htmlContent;
         });
+      }
 
-        // Update the <pre> element's HTML content with the modified content
-        pre.innerHTML = htmlContent;
-    });
-}
+      // Call makeLinksClickable every second
+      setInterval(makeLinksClickable, 1000);
+    </script>
+  </body>
+</html><!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="./WS_icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebSerial: A browser based Serial Port application</title>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-92R1P3X8S1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-// Call makeLinksClickable every second
-setInterval(makeLinksClickable, 1000);
-</script>
+      gtag('config', 'G-92R1P3X8S1');
+    </script>
+    <script type="module" crossorigin src="index.83ca0466.js"></script>
+    <link rel="stylesheet" href="index.9b736b96.css">
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      function makeLinksClickable() {
+        // Select all <pre> elements within the section#output
+        const preElements = document.querySelectorAll('#output pre:not([data-processed])');
 
+        // URL Regular Expression
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+        // Loop through each <pre> element
+        preElements.forEach((pre) => {
+            // Mark the <pre> element as processed to avoid re-processing
+            pre.setAttribute('data-processed', 'true');
+
+            // Get the current HTML content of the <pre> element
+            let htmlContent = pre.innerHTML;
+
+            // Replace URLs with clickable links in the HTML content
+            htmlContent = htmlContent.replace(urlRegex, (url) => {
+                // Return the HTML anchor element string
+                return `<a href="${url}" target="_blank">${url}</a>`;
+            });
+
+            // Update the <pre> element's HTML content with the modified content
+            pre.innerHTML = htmlContent;
+        });
+      }
+
+      // Call makeLinksClickable every second
+      setInterval(makeLinksClickable, 1000);
+    </script>
   </body>
 </html>
