@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "ES2020",
+    "target": "ES2019",
+    "declaration": true,
+    "allowSyntheticDefaultImports": true,
+    "outDir": "./lib",
+    "moduleResolution": "node",
+    "noUnusedLocals": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["ES2020", "DOM"],
+    "importHelpers": true,
+    "resolveJsonModule": true,
+    "strict": true
+  },
+  "include": ["src/**/*"]
+}
