@@ -7,9 +7,13 @@ https://github.com/williamkapke/webserial
 playing a bit with it
 
 not perfect
+
 want a diconnect button
+
 want a clear button
+
 want black terminal
+
 want links better
 
 https://ldijkman.github.io/async-esp-fs-webserver/WebSerial/index.html
