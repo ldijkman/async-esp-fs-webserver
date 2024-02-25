@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
     dropupLinks.forEach(link => {
         const a = document.createElement('a');
         a.href = link.href;
+        a.target = '_blank';
         a.textContent = link.text;
         a.style.cssText = 'color: black; padding: 12px 16px; text-decoration: none; display: block;';
         dropupContent.appendChild(a);
