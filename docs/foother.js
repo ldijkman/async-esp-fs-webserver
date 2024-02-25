@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
         floatingDiv.appendChild(a);
     });
 
+    // Nerd Dropup Menu Setup (existing code)
     const dropupContainer = document.createElement('div');
     dropupContainer.className = 'dropdown';
     dropupContainer.style.cssText = 'position: relative; display: inline-block; cursor: pointer;';
@@ -32,7 +33,6 @@ document.addEventListener('DOMContentLoaded', function() {
     dropupContent.className = 'dropdown-content';
     dropupContent.style.cssText = 'display: none; position: absolute; bottom: 100%; left: 0; background-color: #f1f1f1; min-width: 160px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;';
 
-    // Example links for the dropup menu
     const dropupLinks = [
         {href: '#', text: 'Link 1'},
         {href: 'https://youtu.be/u5unB24lhC4?t=833', text: 'DroneBot Workshop ESP Tool JS video'},
@@ -52,21 +52,64 @@ document.addEventListener('DOMContentLoaded', function() {
     dropupContainer.appendChild(dropupContent);
     floatingDiv.appendChild(dropupContainer);
 
+    // Ai Popup Menu Setup
+    const aiPopupContainer = document.createElement('div');
+    aiPopupContainer.className = 'popup';
+    aiPopupContainer.style.cssText = 'display: inline-block; position: relative; cursor: pointer;';
+
+    const aiButton = document.createElement('button');
+    aiButton.textContent = 'Ai';
+    aiButton.style.cssText = 'background-color: #333; color: aqua; padding: 10px; font-size: 16px; border: none; margin: 0 20px;';
+
+    const aiPopupContent = document.createElement('div');
+    aiPopupContent.className = 'popup-content';
+    aiPopupContent.style.cssText = 'display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: #f9f9f9; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;';
+
+    const aiLinks = [
+        {href: '#', text: 'AI Link 1'},
+        {href: '#', text: 'AI Link 2'},
+        {href: '#', text: 'AI Link 3'}
+    ];
+
+    aiLinks.forEach(link => {
+        const a = document.createElement('a');
+        a.href = link.href;
+        a.textContent = link.text;
+        a.style.cssText = 'color: black; padding: 12px 16px; text-decoration: none; display: block;';
+        aiPopupContent.appendChild(a);
+    });
+
+    aiPopupContainer.appendChild(aiButton);
+    aiPopupContainer.appendChild(aiPopupContent);
+    floatingDiv.appendChild(aiPopupContainer);
+
     document.body.appendChild(floatingDiv);
 
+    // Toggle functions for menus
     dropupButton.onclick = function() {
         dropupContent.style.display = dropupContent.style.display === 'block' ? 'none' : 'block';
-    }
+    };
 
-    // Close the dropup menu if the user clicks outside of it
+    aiButton.onclick = function() {
+        aiPopupContent.style.display = aiPopupContent.style.display === 'block' ? 'none' : 'block';
+    };
+
+    // Close the menus if the user clicks outside of them
     window.onclick = function(event) {
-        if (!event.target.matches('.dropbtn')) {
+        if (!event.target.matches('.dropbtn') && !event.target.matches('.popup button')) {
             var dropdowns = document.getElementsByClassName("dropdown-content");
+            var popups = document.getElementsByClassName("popup-content");
             var i;
             for (i = 0; i < dropdowns.length; i++) {
                 var openDropdown = dropdowns[i];
                 if (openDropdown.style.display === 'block') {
                     openDropdown.style.display = 'none';
+                }
+            }
+            for (i = 0; i < popups.length; i++) {
+                var openPopup = popups[i];
+                if (openPopup.style.display === 'block') {
+                    openPopup.style.display = 'none';
                 }
             }
         }
