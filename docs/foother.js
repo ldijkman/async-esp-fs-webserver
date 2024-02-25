@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const aiButton = document.createElement('button');
     aiButton.textContent = 'Ai';
-    aiButton.style.cssText = 'background-color: #333; color: aqua; padding: 10px; font-size: 16px; border: none; margin: 0 20px;';
+    aiButton.style.cssText = 'background-color: #333; color: greenyellow; padding: 10px; font-size: 16px; border: none; margin: 0 20px;';
 
     const aiPopupContent = document.createElement('div');
     aiPopupContent.className = 'popup-content';
