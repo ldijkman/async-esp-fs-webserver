@@ -1,7 +1,7 @@
 https://github.com/jnthas/improv-wifi-demo
 
 
-ok mayybe can get it to work
+ok maybe can get it to work
 
 ![Screenshot from 2024-02-25 09-29-27](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/3570d1d4-6306-4f25-8e25-1db3693b7ad9)
 
