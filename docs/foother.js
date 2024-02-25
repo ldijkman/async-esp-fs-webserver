@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Example links for the dropup menu
     const dropupLinks = [
         {href: '#', text: 'Link 1'},
-        {href: 'https://youtu.be/u5unB24lhC4?t=833', text: 'DroneBot Workshop <br>ESP Tool JS video'},
+        {href: 'https://youtu.be/u5unB24lhC4?t=833', text: 'DroneBot Workshop ESP Tool JS video'},
         {href: '#', text: 'Link 3'}
     ];
 
