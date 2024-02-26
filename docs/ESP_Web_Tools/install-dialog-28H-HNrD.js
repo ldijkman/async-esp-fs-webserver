@@ -499,7 +499,7 @@ import{l as e,o as t,_ as i,n,B as o,t as r,i as a,a as d,e as s,b as l,R as c,x
         </div>
         <div>
           <ewt-button
-            label="Logs & Console"
+            label="Logs & Console & Reset"
             @click=${async()=>{const e=this._client;e&&(await this._closeClientWithoutEvents(e),await V(100)),this._client=void 0,this._state="LOGS"}}
           ></ewt-button>
         </div>
@@ -681,14 +681,7 @@ import{l as e,o as t,_ as i,n,B as o,t as r,i as a,a as d,e as s,b as l,R as c,x
         label="Installation complete!"
     >-</ewt-page-message><br>
     <center>
-    Close and Connect WiFi to AccesPoint<br>
-    ESP32_AP1234<br>
-    Then Browse to http://8.8.8.8/setup<br>
-    <br>  
-    or press Next<br>
-    and use Console for info<br>
-    press reset to see from start
-<br>
+    ESP8266 Next to configure WiFi<br>
 <br></center>
     <ewt-button
         slot="primaryAction"
