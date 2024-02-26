@@ -503,7 +503,7 @@ import{l as e,o as t,_ as i,n,B as o,t as r,i as a,a as d,e as s,b as l,R as c,x
             @click=${async()=>{const e=this._client;e&&(await this._closeClientWithoutEvents(e),await V(100)),this._client=void 0,this._state="LOGS"}}
           ></ewt-button>
         </div>
-        ${this._isSameFirmware&&this._manifest.funding_url?h`
+        ${this._manifest.funding_url?h`
               <div>
                 <a
                   class="button"
