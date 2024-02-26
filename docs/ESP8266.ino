@@ -648,8 +648,6 @@ void blink_led(int d, int times)
 
 
 
-*/
-/*
 <!-- 
 Copyright 2023 Dirk Luberth Dijkman Bangert 30 1619GJ Andijk The Netherlands    
 The Art of Time Controlled. Visual TimeSlots Schedule.
