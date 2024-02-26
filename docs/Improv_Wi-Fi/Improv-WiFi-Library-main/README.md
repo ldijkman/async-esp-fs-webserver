@@ -13,7 +13,11 @@ treid this in the past from improv wifi info but could not get it working
 
 ### https://github.com/jnthas/Improv-WiFi-Library/tree/main
 
-Improv is a free and open standard with ready-made SDKs that offer a great user experience to configure Wi-Fi on devices. More details [here](https://www.improv-wifi.com/).
+Improv is a free and open standard with ready-made SDKs 
+
+that offer a great user experience to configure Wi-Fi on devices. 
+
+More details [here](https://www.improv-wifi.com/).
 
 This library provides an easier way to handle the Improv serial protocol in your firmware,
 - allowing you to flash and configure the WiFi via web browser
