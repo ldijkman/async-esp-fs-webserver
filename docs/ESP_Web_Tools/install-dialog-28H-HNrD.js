@@ -471,12 +471,13 @@ import{l as e,o as t,_ as i,n,B as o,t as r,i as a,a as d,e as s,b as l,R as c,x
             `}
         ${void 0===this._client.nextUrl?"":h`
               <div>
+                Don't Forget to Set a Unique mDNS adres in /setup<br>
                 <a
                   href=${this._client.nextUrl}
                   class="has-button"
                   target="_blank"
                 >
-                  <ewt-button label="Visit Device"></ewt-button>
+                  <ewt-button label="Visit Device HomePage"></ewt-button>
                 </a>
               </div>
             `}
