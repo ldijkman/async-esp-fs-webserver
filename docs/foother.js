@@ -3,14 +3,14 @@ document.addEventListener('DOMContentLoaded', function() {
     floatingDiv.style.cssText = 'position: fixed; bottom: 0; left: 0; width: 100%; background-color: #333; color: white; text-align: center; padding: 20px 0; font-size: 18px;';
 
     const links = [
-        {href: 'https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs', color: 'blue', text: 'Github DOCS'},
-        {href: 'https://github.com/ldijkman/async-esp-fs-webserver/issues', color: 'yellowgreen', text: 'Issues'},
-        {href: 'https://github.com/ldijkman/async-esp-fs-webserver/discussions', color: 'yellowgreen', text: 'Discuss'},
-        {href: 'https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html', color: 'lightblue', text: 'Serial-1'},
-        {href: 'https://ldijkman.github.io/async-esp-fs-webserver/WebSerial/index.html', color: 'lightblue', text: 'Serial-2'},
-        {href: 'https://ldijkman.github.io/async-esp-fs-webserver/ESP_Tool_JS/esptool-js/index.html', color: 'lightblue', text: 'Serial-3'},
-        {href: 'https://ldijkman.github.io/async-esp-fs-webserver/', color: 'limegreen', text: 'Flash 4mb ESP'}
-    ];
+            {href: 'https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs', color: 'blue', text: 'Github DOCS', title: 'Visit my GitHub Documentation'},
+            {href: 'https://github.com/ldijkman/async-esp-fs-webserver/issues', color: 'yellowgreen', text: 'Issues', title: 'See GitHub Issues'},
+            {href: 'https://github.com/ldijkman/async-esp-fs-webserver/discussions', color: 'yellowgreen', text: 'Discuss', title: 'Join the Discussion'},
+            {href: 'https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html', color: 'lightblue', text: 'Serial-1', title: 'Serial Monitor with clickable links'},
+            {href: 'https://ldijkman.github.io/async-esp-fs-webserver/WebSerial/index.html', color: 'lightblue', text: 'Serial-2', title: 'Serial Monitor 2'},
+            {href: 'https://ldijkman.github.io/async-esp-fs-webserver/ESP_Tool_JS/esptool-js/index.html', color: 'lightblue', text: 'Serial-3', title: 'Serial Monitor 3'},
+            {href: 'https://ldijkman.github.io/async-esp-fs-webserver/', color: 'limegreen', text: 'Flash 4mb ESP', title: 'Flash ESP8266 ESP32'}
+       ];
 
     links.forEach(link => {
         const a = document.createElement('a');
@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         a.target = '_blank';
         a.style.cssText = `color: ${link.color}; text-decoration: none; margin: 0 20px; font-size: inherit;`;
         a.textContent = link.text;
+        a.title = link.title; // Set the title attribute
         floatingDiv.appendChild(a);
     });
 
@@ -36,11 +37,11 @@ document.addEventListener('DOMContentLoaded', function() {
     dropupContent.style.cssText = 'display: none; position: absolute; bottom: 100%; left: 0; background-color: yellow; min-width: 160px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;';
 
     const dropupLinks = [
-        {href: 'https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs/Improv_Wi-Fi/Improv-WiFi-Library-main', text: 'IMPROV WiFi Arduino Library'},
-        {href: 'https://youtu.be/xjTACT1qO_8', text: 'Nice Explanation ESP wifi configuration'},
-        {href: 'https://youtu.be/xPlN_Tk3VLQ?si=tUbkiZnYWNE_9c3S', text: 'ESP32'},
-        {href: 'https://youtu.be/u5unB24lhC4?t=833', text: 'DroneBot Workshop ESP Tool JS video'},
-        {href: 'https://youtu.be/E8bdATqXM8c?si=jYuSPcyqIFQII45s', text: 'ESP Web Tools with Improv wifi connect, i should make it like this'}
+            {href: 'https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs/Improv_Wi-Fi/Improv-WiFi-Library-main', text: 'IMPROV WiFi Arduino Library', title: 'IMPROV WiFi Arduino Library Info'},
+            {href: 'https://youtu.be/xjTACT1qO_8', text: 'Nice Explanation ESP wifi configuration', title: 'ESP WiFi Configuration Explanation'},
+            {href: 'https://youtu.be/xPlN_Tk3VLQ?si=tUbkiZnYWNE_9c3S', text: 'ESP32', title: 'ESP32 Information'},
+            {href: 'https://youtu.be/u5unB24lhC4?t=833', text: 'DroneBot Workshop ESP Tool JS video', title: 'ESP Tool JS Video'},
+            {href: 'https://youtu.be/E8bdATqXM8c?si=jYuSPcyqIFQII45s', text: 'ESP Web Tools with Improv wifi connect, i should make it like this', title: 'ESP Web Tools with Improv WiFi Connect'}
     ];
 
     dropupLinks.forEach(link => {
@@ -48,6 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
         a.href = link.href;
         a.target = '_blank';
         a.textContent = link.text;
+        a.title = link.title; // Set the title attribute
         a.style.cssText = 'color: black; padding: 12px 16px; text-decoration: none; display: block;';
         dropupContent.appendChild(a);
     });
@@ -83,6 +85,7 @@ aiPopupContent.style.cssText = 'display: none; position: absolute; bottom: 100%;
         a.href = link.href;
         a.target = '_blank';
         a.textContent = link.text;
+         a.title = link.title; // Set the title attribute
         a.style.cssText = 'color: black; padding: 12px 16px; text-decoration: none; display: block;';
         aiPopupContent.appendChild(a);
     });
