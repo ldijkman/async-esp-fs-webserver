@@ -510,7 +510,7 @@ import{l as e,o as t,_ as i,n,B as o,t as r,i as a,a as d,e as s,b as l,R as c,x
                   href=${this._manifest.funding_url}
                   target="_blank"
                 >
-                  <ewt-button label="Fund Development"></ewt-button>
+                  <ewt-button label="Fund Development of this Project"></ewt-button>
                 </a>
               </div>
             `:""}
