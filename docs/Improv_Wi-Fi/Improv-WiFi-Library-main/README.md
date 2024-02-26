@@ -23,7 +23,7 @@ void loop() {
 
 ## Documentation
 
-The full library documentation can be seen in [docs/](docs/ImprovWiFiLibrary.md) folder.
+The full library documentation can be seen in [docs/](docs/readme.md) folder.
 
 
 ## License
