@@ -625,7 +625,7 @@ import{l as e,o as t,_ as i,n,B as o,t as r,i as a,a as d,e as s,b as l,R as c,x
                     `:""}
                 <div>
                   <ewt-button
-                    label="Bsck to Menu"
+                    label="Back to Menu"
                     @click=${()=>{this._state="DASHBOARD"}}
                   ></ewt-button>
                 </div>
