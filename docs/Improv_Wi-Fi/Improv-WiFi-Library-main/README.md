@@ -7,9 +7,6 @@ i should implement this in my sourcecde
 
 to make it easy for the enduser
 
-download zip for arduino library
-- [ https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/Improv_Wi-Fi/Improv-WiFi-Library-main/Improv-WiFi-Library-main.zip](https://github.com/ldijkman/async-esp-fs-webserver/raw/master/docs/Improv_Wi-Fi/Improv-WiFi-Library-main/Improv-WiFi-Library-main.zip)
-
 # Improv WiFi Library
 Luberth => finaly an Arduino INO example,  
 treid this in the past from improv wifi info but could not get it working 
