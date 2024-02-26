@@ -8,8 +8,8 @@ i should implement this in my sourcecde
 to make it easy for the enduser
 
 # Improv WiFi Library
-finaly an Arduino INO example 
-treid this in the past from improv wifi info but could not gt it working 
+Luberth => finaly an Arduino INO example,  
+treid this in the past from improv wifi info but could not get it working 
 
 ### https://github.com/jnthas/Improv-WiFi-Library/tree/main
 
