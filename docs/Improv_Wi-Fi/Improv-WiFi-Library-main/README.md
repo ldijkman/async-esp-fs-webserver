@@ -53,6 +53,11 @@ for details).
 download zip for arduino library
 - [ https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/Improv_Wi-Fi/Improv-WiFi-Library-main/Improv-WiFi-Library-main.zip](https://github.com/ldijkman/async-esp-fs-webserver/raw/master/docs/Improv_Wi-Fi/Improv-WiFi-Library-main/Improv-WiFi-Library-main.zip)
 
+library is also in arduino library manager 
+- search for "Improv WiFi Jonathas Barbosa"
+![Screenshot from 2024-02-26 19-04-12](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/3dbacd77-955b-47c2-8ac3-e330d4ff0f48)
+
+
 ![2024-02-26-022712_1024x768_scrot](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/7d49222c-73e5-43be-8897-1b8bd03a3287)
 
 ![2024-02-26-022951_1024x768_scrot](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/309390e5-b293-4fc7-8f89-94b27f70cdad)
