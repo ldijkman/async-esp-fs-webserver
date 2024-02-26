@@ -8,6 +8,9 @@ i should implement this in my sourcecde
 to make it easy for the enduser
 
 # Improv WiFi Library
+finaly an Arduino INO example 
+treid this in the past from improv wifi info but could not gt it working 
+
 ### https://github.com/jnthas/Improv-WiFi-Library/tree/main
 
 Improv is a free and open standard with ready-made SDKs that offer a great user experience to configure Wi-Fi on devices. More details [here](https://www.improv-wifi.com/).
