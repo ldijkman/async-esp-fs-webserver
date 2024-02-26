@@ -15,7 +15,7 @@ treid this in the past from improv wifi info but could not get it working
 
 Improv is a free and open standard with ready-made SDKs that offer a great user experience to configure Wi-Fi on devices. More details [here](https://www.improv-wifi.com/).
 
-This library provides an easier way to handle the Improv serial protocol in your firmware, allowing you to configure the WiFi via web browser as in the followingonly ESP32  [example](https://jnthas.github.io/improv-wifi-demo/). NOT ESP8266
+This library provides an easier way to handle the Improv serial protocol in your firmware, allowing you to configure the WiFi via web browser as in the following  [only ESP32 example flash and config from browser](https://jnthas.github.io/improv-wifi-demo/). NOT ESP8266
 
 Simplest use example:
 
