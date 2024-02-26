@@ -8,18 +8,17 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
 -->
 */
 
-// does ESP8266 4mb 12E / 12F  (switch AP to station not flawless with setup messages)
-// does ESP32 4mb Wroom
+// does ESP8266 4mb 12E / 12F  maybe 12S
 
-// mdns is working like it should
+
+// mdns is working 
 // my android phone bonjourbrowser app lists it
 //                       https://play.google.com/store/apps/details?id=de.wellenvogel.bonjourbrowser
 //     ok now shows the correct set mdns adres http://garage.local
 // choose a unique mdns adres for each ESP device like garden, living, toilet, hallway, stairs, kitchen, etcetera
 // set mdns in /setup page tab custom
 
-// even cheaper
-// ESP8266 12E/12F 4mb Version (only little changes needed)
+
 
 // need to make the on/off json websocket implemented
 // chat gpt4 knows it all howto do it
@@ -29,13 +28,6 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
 // when in wifi ap or apsta mode no date time displayed in serial monitor 115200
 // only in wifi station mode  date time displayed  in serial monitor
 
-
-// starts as an wifi accespoint AP
-// wifi name broadcasted in the air "ESP32_AP1234"
-// no password used
-// connect wifi to it
-// if connected browse to http://8.8.8.8/setup
-// or browse to http://8.8.8.8/edit
 
 // see when times are changed result in serial monitor 115200
 // now need to do someting with the times on the ESP
@@ -54,10 +46,7 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
 #include <ESP8266mDNS.h>
 #include <ESP8266WiFi.h>
 #endif
-#if defined(ESP32)
-#include <ESPmDNS.h>
-#include "WiFi.h"
-#endif
+
 
 #define LED_BUILTIN 2
 
@@ -277,12 +266,12 @@ void setup() {
   //WiFi.mode(WIFI_STA);
   //WiFi.disconnect();
 
-  improvSerial.setDeviceInfo(ImprovTypes::ChipFamily::CF_ESP8266, "ImprovWiFiLib", "1.0.0", "BasicWebServer", "http://{LOCAL_IPV4}/index.html");
+  improvSerial.setDeviceInfo(ImprovTypes::ChipFamily::CF_ESP8266, "Improv WiFi Config", "1.0", "WebServer", "http://{LOCAL_IPV4}/index.html");
   improvSerial.onImprovError(onImprovWiFiErrorCb);
   improvSerial.onImprovConnected(onImprovWiFiConnectedCb);
   improvSerial.setCustomConnectWiFi(connectWifi);  // Optional
 
-  blink_led(100, 5);
+  blink_led(50, 5);
 
 
 
@@ -528,7 +517,7 @@ void loop() {
 void printLocalTime() {
   struct tm timeinfo;
   if (!getLocalTime(&timeinfo)) {
-    Serial.println("Failed to obtain time");
+    Serial.println("Failed to obtain time (reboot reset ESP to fix)");
     return;
   }
   // Buffer to hold the formatted time. Adjust size if needed.
@@ -648,17 +637,10 @@ void blink_led(int d, int times)
 
 
 
+
+/*
 <!-- 
 Copyright 2023 Dirk Luberth Dijkman Bangert 30 1619GJ Andijk The Netherlands    
 The Art of Time Controlled. Visual TimeSlots Schedule.
 -->
 */
-
-
-
-
-
-
-
-
-
