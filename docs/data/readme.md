@@ -8,6 +8,10 @@ https://ldijkman.github.io/async-esp-fs-webserver/data/index.html
 
 ---
 
+pitty the littlefs upload is not working in my arduino ide 2 linux
+
+must find another way
+
 ```
 dld@dld-Think:~/mklittlefs$ ./mklittlefs --help
 
