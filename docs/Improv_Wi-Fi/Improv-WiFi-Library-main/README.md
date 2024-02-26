@@ -3,6 +3,9 @@ improv wifi serial usb is an easy way to
 - SSID is the name that your wifi router broadcasts in the Air
 - password is your password to connect the ESP to the home wifi network
 
+i should implement this in my surcecde
+
+to make it easy for the enduser
 
 # Improv WiFi Library
 ### https://github.com/jnthas/Improv-WiFi-Library/tree/main
