@@ -31,6 +31,13 @@ The full library documentation can be seen in [docs/](docs/readme.md) folder.
 This open source code is licensed under the MIT license (see [LICENSE](LICENSE)
 for details).
 
+
+
+![2024-02-26-022712_1024x768_scrot](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/7d49222c-73e5-43be-8897-1b8bd03a3287)
+
+![2024-02-26-022951_1024x768_scrot](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/309390e5-b293-4fc7-8f89-94b27f70cdad)
+
+
 ![Screenshot from 2024-02-26 02-09-11](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/5f3921d0-9d66-462f-9608-af1fb569b03f)
 
 ![Screenshot from 2024-02-26 02-10-08](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/d4941eb3-327e-4dd1-bc79-0207c836b64c)
