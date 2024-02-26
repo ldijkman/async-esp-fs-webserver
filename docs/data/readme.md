@@ -1,6 +1,8 @@
 content for littlefs
 
-you could try my scheduler page that is served from ESP webserver
+you could try my scheduler page 
+- that should be served from ESP webserver
+- to have working websocket json messages to the ESP
 
 https://ldijkman.github.io/async-esp-fs-webserver/data/index.html
 
