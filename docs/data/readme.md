@@ -8,7 +8,8 @@ https://ldijkman.github.io/async-esp-fs-webserver/data/index.html
 
 ---
 
-pitty the littlefs upload is not working in my arduino ide 2 linux
+pitty the littlefs upload is not working in my arduino ide 2 linux x84 64bit
+- have to switch to my raspberry pi400 arduino ide 1 for littlefs create bin files
 
 must find another way
 
