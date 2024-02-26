@@ -1,6 +1,6 @@
 {
         "name": "Visual TimeSlots Scheduler",
-        "version": "25 Februari 2024",
+        "version": "26 Februari 2024",
           "funding_url": "https://www.paypal.com/paypalme/LDijkman",
         "new_install_prompt_erase": true,
         "builds": [
