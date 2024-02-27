@@ -484,7 +484,7 @@ void loop() {
         dotpreviousMillis = dotcurrentMillis;
 
         // Print a dot to the serial monitor
-        Serial.print(".");
+        Serial.print("."); // print a hartbeat dot, not all serial monitors show it nice
       }
     }
   }
