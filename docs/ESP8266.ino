@@ -11,7 +11,7 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
 // does ESP8266 4mb 12E / 12F  maybe 12S
 
 
-// mdns is working 
+// mdns is working
 // my android phone bonjourbrowser app lists it
 //                       https://play.google.com/store/apps/details?id=de.wellenvogel.bonjourbrowser
 //     ok now shows the correct set mdns adres http://garage.local
@@ -52,7 +52,7 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
 
 #include <ESP8266WiFi.h>
 #include <Esp.h>
-#include <ImprovWiFiLibrary.h> //https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs/Improv_Wi-Fi/Improv-WiFi-Library-main
+#include <ImprovWiFiLibrary.h>  //https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs/Improv_Wi-Fi/Improv-WiFi-Library-main
 
 //WiFiServer server(80);
 ImprovWiFi improvSerial(&Serial);
@@ -85,49 +85,45 @@ const int daylightOffset_sec = 0;  // Typically 3600 for 1 hour, or 0 if not usi
 
 
 
-void onImprovWiFiErrorCb(ImprovTypes::Error err)
-{
+void onImprovWiFiErrorCb(ImprovTypes::Error err) {
   //server.stop();
   blink_led(2000, 3);
 }
 
-#include <string.h> // For memset and memcpy
-#include "user_interface.h" // For station_config, wifi_station_get_config_default, etc.
+#include <string.h>          // For memset and memcpy
+#include "user_interface.h"  // For station_config, wifi_station_get_config_default, etc.
 
-void onImprovWiFiConnectedCb(const char *ssid, const char *password)
-{
-    // Declare station configuration structure
-    struct station_config stationConf;
-    
-    // Get the current configuration (if needed to keep some settings)
-    wifi_station_get_config_default(&stationConf);
-    
-    // Clear previous configuration
-    memset(&stationConf, 0, sizeof(stationConf));
-    
-    // Copy new SSID and password into station configuration
-    // Note: ssid and password are assumed to be null-terminated strings
-    // os_memcpy(destination, source, numBytes);
-    os_memcpy(&stationConf.ssid, ssid, strlen(ssid));
-    os_memcpy(&stationConf.password, password, strlen(password));
-    
-    // Set WiFi operation mode to station mode
-    wifi_set_opmode(STATION_MODE);
-    
-    // Apply the new configuration
-    wifi_station_set_config(&stationConf);
+void onImprovWiFiConnectedCb(const char* ssid, const char* password) {
+  // Declare station configuration structure
+  struct station_config stationConf;
 
-    // Assuming server.begin() and blink_led() are defined elsewhere correctly
-    // server.begin(); // Start server (make sure this is appropriate here)
-    // blink_led(100, 3); // Blink LED as a signal (make sure this is appropriate here)
+  // Get the current configuration (if needed to keep some settings)
+  wifi_station_get_config_default(&stationConf);
+
+  // Clear previous configuration
+  memset(&stationConf, 0, sizeof(stationConf));
+
+  // Copy new SSID and password into station configuration
+  // Note: ssid and password are assumed to be null-terminated strings
+  // os_memcpy(destination, source, numBytes);
+  os_memcpy(&stationConf.ssid, ssid, strlen(ssid));
+  os_memcpy(&stationConf.password, password, strlen(password));
+
+  // Set WiFi operation mode to station mode
+  wifi_set_opmode(STATION_MODE);
+
+  // Apply the new configuration
+  wifi_station_set_config(&stationConf);
+
+  // Assuming server.begin() and blink_led() are defined elsewhere correctly
+  // server.begin(); // Start server (make sure this is appropriate here)
+  // blink_led(100, 3); // Blink LED as a signal (make sure this is appropriate here)
 }
 
-bool connectWifi(const char *ssid, const char *password)
-{
+bool connectWifi(const char* ssid, const char* password) {
   WiFi.begin(ssid, password);
 
-  while (!improvSerial.isConnected())
-  {
+  while (!improvSerial.isConnected()) {
     blink_led(500, 1);
   }
 
@@ -261,12 +257,12 @@ void setup() {
   }
 
 
- pinMode(LED_BUILTIN, OUTPUT);
+  pinMode(LED_BUILTIN, OUTPUT);
 
   //WiFi.mode(WIFI_STA);
   //WiFi.disconnect();
 
-  improvSerial.setDeviceInfo(ImprovTypes::ChipFamily::CF_ESP8266, "Improv WiFi Config", "1.0", "WebServer", "http://{LOCAL_IPV4}/index.html");
+  improvSerial.setDeviceInfo(ImprovTypes::ChipFamily::CF_ESP8266, "Improv WiFi Config", "1.0", "Visual TimeSlots Scheduler", "http://{LOCAL_IPV4}/index.html");
   improvSerial.onImprovError(onImprovWiFiErrorCb);
   improvSerial.onImprovConnected(onImprovWiFiConnectedCb);
   improvSerial.setCustomConnectWiFi(connectWifi);  // Optional
@@ -407,31 +403,29 @@ void AsyncFsWebServer::notFound(AsyncWebServerRequest *request) {
     } else {
       Serial.println("Error setting up MDNS responder!");
     }
-
-    
   }
   Serial.println("WiFi scan start");
 
-    // WiFi.scanNetworks will return the number of networks found
-    int n = WiFi.scanNetworks();
-    if (n == 0) {
-      Serial.println("no networks found");
-    } else {
-      Serial.print(n);
-      Serial.println(" networks found");
-      for (int i = 0; i < n; ++i) {
-        // Print SSID and RSSI for each network found
-        Serial.print(i + 1);
-        Serial.print(": ");
-        Serial.print(WiFi.SSID(i));
-        Serial.print(" (");
-        Serial.print(WiFi.RSSI(i));
-        Serial.print(" dBm)");
-        Serial.println((WiFi.encryptionType(i) == ENC_TYPE_NONE) ? " " : "*");
-        delay(10);
-      }
+  // WiFi.scanNetworks will return the number of networks found
+  int n = WiFi.scanNetworks();
+  if (n == 0) {
+    Serial.println("no networks found");
+  } else {
+    Serial.print(n);
+    Serial.println(" networks found");
+    for (int i = 0; i < n; ++i) {
+      // Print SSID and RSSI for each network found
+      Serial.print(i + 1);
+      Serial.print(": ");
+      Serial.print(WiFi.SSID(i));
+      Serial.print(" (");
+      Serial.print(WiFi.RSSI(i));
+      Serial.print(" dBm)");
+      Serial.println((WiFi.encryptionType(i) == ENC_TYPE_NONE) ? " " : "*");
+      delay(10);
     }
-    Serial.println("");
+  }
+  Serial.println("");
 }
 
 
@@ -441,28 +435,22 @@ void AsyncFsWebServer::notFound(AsyncWebServerRequest *request) {
 
 
 
+unsigned long dotpreviousMillis = 0;  // Stores last time a dot was printed
+const long dotinterval = 1000;        // Interval at which to print dot (milliseconds)
 
 
 
 void loop() {
 
 
-  improvSerial.handleSerial(); // 
+  improvSerial.handleSerial();  //
 
-  if (improvSerial.isConnected()){
-    //handleHttpRequest(); //removed luberth
-  }
-
-
-
-
-
-
+  //if (improvSerial.isConnected()){
+  //handleHttpRequest(); //removed luberth
+  // }
 
   if (WiFi.status() == WL_CONNECTED) {
-#ifdef ESP8266
     MDNS.update();
-#endif
   }
 
   static unsigned long lastPrintTime = 0;
@@ -486,13 +474,21 @@ void loop() {
         Serial.println(WiFi.localIP());
         Serial.println("flash https://ldijkman.github.io/async-esp-fs-webserver/");
       }
-    }
-    // else {
-     // if (millis() / 1000) % 2){
-     //     print(".");
-    //    }
+    } else {
+
+      signed long dotcurrentMillis = millis();  // Grab the current time
+
+      // Check if a second has passed; more precisely, if the interval has passed
+      if (dotcurrentMillis - dotpreviousMillis >= dotinterval) {
+        // Save the last time a dot was printed
+        dotpreviousMillis = dotcurrentMillis;
+
+        // Print a dot to the serial monitor
+        Serial.print(".");
+      }
     }
   }
+}
 
 
 
@@ -535,6 +531,7 @@ void printLocalTime() {
 
 
 void browseService(const char* service, const char* proto) {
+  Serial.println("");
   Serial.printf("Browsing for service _%s._%s.local. ... ", service, proto);
   int n = MDNS.queryService(service, proto);  // Query mDNS service
   if (n == 0) {
@@ -562,7 +559,7 @@ void browseService(const char* service, const char* proto) {
 #endif
 
       // Now print the details, using the lowercase hostname
-      Serial.printf("[W]  %d: http://%s - http://%s port:%d\n", i + 1, hostnameLower.c_str(), MDNS.IP(i).toString().c_str(), MDNS.port(i));
+      Serial.printf("␛[0;32mI  %d: http://%s - http://%s port:%d\n", i + 1, hostnameLower.c_str(), MDNS.IP(i).toString().c_str(), MDNS.port(i));
 
       // Serial.printf("  %d: http://%s - http://%s port:%d\n", i + 1, (MDNS.hostname(i).c_str()).toLowerCase(), MDNS.IP(i).toString().c_str(), MDNS.port(i));
       // make ip clickable weblink addon doenst do :port
@@ -615,10 +612,8 @@ void browseService(const char* service, const char* proto) {
 
 
 
-void blink_led(int d, int times)
-{
-  for (int j = 0; j < times; j++)
-  {
+void blink_led(int d, int times) {
+  for (int j = 0; j < times; j++) {
     digitalWrite(LED_BUILTIN, HIGH);
     delay(d);
     digitalWrite(LED_BUILTIN, LOW);
