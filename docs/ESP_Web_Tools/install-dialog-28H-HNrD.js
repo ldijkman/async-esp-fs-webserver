@@ -10100,7 +10100,7 @@ class Gr extends x {
         label="Installation complete!"
     >-</ewt-page-message><br>
     <center>
-    ESP8266 Next to configure WiFi<br>
+    Next to configure WiFi<br>
 <br></center>
     <ewt-button
         slot="primaryAction"
