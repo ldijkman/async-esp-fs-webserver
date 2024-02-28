@@ -9775,7 +9775,7 @@ class Gr extends x {
                   class="has-button"
                   target="_blank"
                 >
-                  <ewt-button label="Visit Device HomePage"></ewt-button>
+                  <ewt-button label="Visit Device HomePage" title="Don's forget to set Unique mDNS adress in /setup tab custom"></ewt-button>
                 </a>
               </div>
             `}
