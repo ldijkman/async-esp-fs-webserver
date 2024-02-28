@@ -10082,7 +10082,7 @@ class Gr extends x {
           ${o ? h`${o}<br />` : ""}
           <br />
           This will take
-          ${"ESP8266" === this._installState.chipFamily ? "a minute" : "2 minutes"}.<br />
+          ${"ESP8266" === this._installState.chipFamily ? "a Moment" : "2 Moments"}.<br />
           Keep this page visible
         `, n),
                     i = !0
