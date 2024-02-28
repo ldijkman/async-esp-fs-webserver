@@ -9819,7 +9819,7 @@ class Gr extends x {
                   class="button"
                   href=${this._manifest.funding_url}
                   target="_blank"
-                  title="Fund this project BY Coding or Coins?"
+                  title="Fund this project By Talk About it, Sharing it, Coding or Coins?"
                 >
                   <ewt-button label="Support Our Project's Growth?!"></ewt-button>
                 </a>
