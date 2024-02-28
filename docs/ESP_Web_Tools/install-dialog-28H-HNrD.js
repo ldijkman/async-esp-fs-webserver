@@ -9821,7 +9821,7 @@ class Gr extends x {
                   target="_blank"
                   title="Fund this project?"
                 >
-                  <ewt-button label="Fund Development of this Project"></ewt-button>
+                  <ewt-button label="Support Our Project's Growth?!"></ewt-button>
                 </a>
               </div>
             ` : ""}
