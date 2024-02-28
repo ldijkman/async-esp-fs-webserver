@@ -1,4 +1,8 @@
 // changes by Dirk Luberth Dijkman, u are the master 
+// original is written in typescript and transpiled to js
+// i do not know yet how that works
+// messing around in the js files
+// https://github.com/esphome/esp-web-tools
 
 import {l as e, o as t, _ as i, n, B as o, t as r, i as a, a as d, e as s, b as l, R as c, x as h, c as m, d as p, f as u, g as f, h as g, M as _, j as b, s as x, k as y, m as v, p as w, q as k, r as E, T as I, A, u as S, v as R, w as T, y as C, z as O, C as L, D as F} from "./styles-QAqj_a9t.js";
 function D(i, n, o) {
