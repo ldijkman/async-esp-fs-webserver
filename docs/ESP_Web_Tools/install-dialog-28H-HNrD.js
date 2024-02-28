@@ -9970,6 +9970,19 @@ class Gr extends x {
                           <ewt-button label="Visit Device"></ewt-button>
                         </a>
                       </div>
+                              <div>
+          <ewt-button
+            label="Logs & Console & Reset"
+            @click=${async()=>{
+            const e = this._client;
+            e && (await this._closeClientWithoutEvents(e),
+            await V(100)),
+            this._client = void 0,
+            this._state = "LOGS"
+        }
+        }
+          ></ewt-button>
+        </div>
                     `}
                 ${this._manifest.home_assistant_domain ? h`
                       <div>
