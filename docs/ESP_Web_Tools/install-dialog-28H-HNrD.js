@@ -10076,14 +10076,14 @@ class Gr extends x {
                     i = !0;
                 else if ("writing" === this._installState.state || "finished" === this._installState.state && void 0 === this._client) {
                     let n, o;
-                    e = "Installing",
+                    e = "Installing Flashing the Bits",
                     "finished" === this._installState.state ? o = "Wrapping up" : this._installState.details.percentage < 4 ? o = "Installing" : n = this._installState.details.percentage,
                     t = this._renderProgress(h`
           ${o ? h`${o}<br />` : ""}
           <br />
           This will take
           ${"ESP8266" === this._installState.chipFamily ? "a minute" : "2 minutes"}.<br />
-          Keep this page visible to prevent slow down
+          Keep this page visible
         `, n),
                     i = !0
                 } else if ("finished" === this._installState.state) {
