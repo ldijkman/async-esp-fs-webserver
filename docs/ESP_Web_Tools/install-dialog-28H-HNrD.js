@@ -10185,7 +10185,7 @@ class Gr extends x {
       ></ewt-button>
       <button id="delete-lines-btn" onclick="this.shadowRoot.querySelector("ewt-console").logs()=\"\"">Delete All Lines</button>
       buttons do not work, clear button and make links colored and clickable in monitor?<br>
-      Can you do that in TypeScript?
+      Can you do that in TypeScript? <a href="https://github.com/ldijkman/async-esp-fs-webserver/discussions/7" target="_blank">Wishlist link</a><br>
 
 
 
