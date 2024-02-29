@@ -10102,16 +10102,13 @@ class Gr extends x {
     <center>
     Next to configure WiFi<br>
 <br></center>
-    <ewt-button
+  <ewt-button
         slot="primaryAction"
         label="Next"
-        @click=${()=>{this._state = i && this._installErase ? "PROVISION" : "DASHBOARD" }}
+        @click=${() => { this._state = i && this._installErase ? "PROVISION" : "DASHBOARD" }}
     ></ewt-button>
  
-      `
-                } else
-                    "error" === this._installState.state && (e = "Installation failed",
-                    t = h
+      `}else"error"===this._installState.state&&(e="Installation failed",t=h`
         <ewt-page-message
           .icon=${"⚠️"}
           .label=${this._installState.message}
