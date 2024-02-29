@@ -8,7 +8,7 @@
   -->
 */
 
-// does ESP8266 4mb 12E / 12F  maybe 12S
+// does ESP32 4mb wroom
 
 
 // mdns is working
