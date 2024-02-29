@@ -9871,7 +9871,7 @@ class Gr extends x {
         var e;
         let t, i = "Configure Wi-Fi", n = !1;
         if (this._busy)
-            return [i, this._renderProgress(void 0 === this._ssids ? "Scanning for networks" : "Trying to connect"), !0];
+            return [i, this._renderProgress(void 0 === this._ssids ? "Scanning for networks" : "Connecting"), !0];
         if (this._provisionForce || this._client.state !== ci.PROVISIONED) {
             let i;
             switch (this._client.error) {
@@ -10184,12 +10184,8 @@ class Gr extends x {
         }
       ></ewt-button>
       <button id="delete-lines-btn" onclick="this.shadowRoot.querySelector("ewt-console").logs()=\"\"">Delete All Lines</button>
-      buttons do not work, clear button and make links colored and clickable in monitor?<br>
+      buttons do not work, clear button and make links clickable in monitor?<br>
       Can you do that in TypeScript? <a href="https://github.com/ldijkman/async-esp-fs-webserver/discussions/7" target="_blank">Wishlist link</a><br>
-
-
-
-      
       <ewt-button
         slot="secondaryAction"
         label="Reset Device"
