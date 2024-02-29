@@ -10105,16 +10105,13 @@ class Gr extends x {
     <ewt-button
         slot="primaryAction"
         label="Next"
-        @click=${()=>{
-                        this._state = i && this._installErase ? "PROVISION" : "DASHBOARD"
-                    }
-                    }
+        @click=${()=>{this._state = i && this._installErase ? "PROVISION" : "DASHBOARD" }}
     ></ewt-button>
  
       `
                 } else
                     "error" === this._installState.state && (e = "Installation failed",
-                    t = h`
+                    t = h
         <ewt-page-message
           .icon=${"⚠️"}
           .label=${this._installState.message}
