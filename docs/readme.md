@@ -191,7 +191,8 @@ later scan and configure wifi from browser, Improv wifi
 later scan and configure wifi from browser, Improv wifi
 ![Screenshot from 2024-02-25 10-00-55](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/ee439781-c6a9-4f0b-b248-4c41af4e3084)
 
-
+ESP32 does some color on links now
+![Screenshot from 2024-02-29 05-22-13](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/a8019878-6712-42ba-8b9a-7864e46cf5ef)
 
 later scan and configure wifi from browser
 
