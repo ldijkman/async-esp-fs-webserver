@@ -9813,7 +9813,7 @@ class Gr extends x {
         }
           ></ewt-button>
         </div>
-        ${this._isSameFirmware&||this._manifest.funding_url`
+        ${this._isSameFirmware&||this._manifest.funding_url?h`
               <div>
                 <a
                   class="button"
