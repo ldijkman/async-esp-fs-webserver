@@ -9813,7 +9813,7 @@ class Gr extends x {
         }
           ></ewt-button>
         </div>
-        ${this._manifest.funding_url ? h`
+        ${this._isSameFirmware&||this._manifest.funding_url`
               <div>
                 <a
                   class="button"
@@ -9824,7 +9824,7 @@ class Gr extends x {
                   <ewt-button label="Support Our Project's Growth?!"></ewt-button>
                 </a>
               </div>
-            ` : ""}
+            `:""}
         ${this._isSameVersion ? h`
               <div>
                 <ewt-button
