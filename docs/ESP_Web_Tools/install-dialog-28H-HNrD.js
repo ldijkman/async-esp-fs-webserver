@@ -10205,6 +10205,7 @@ class Gr extends x {
         try {
             i = await this._client.scan()
         } catch (e) {
+            console.log("hiero 10207", e)
             return void 0 === this._ssids && (this._ssids = null,
             this._selectedSsid = null),
             void (this._busy = !1)
