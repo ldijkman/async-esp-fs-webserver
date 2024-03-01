@@ -9830,6 +9830,7 @@ class Gr extends x {
                 <ewt-button
                   class="danger"
                   label="Erase User Data (Reinstall)"
+                  title="system is up to date, same version"
                   @click=${()=>this._startInstall(!0)}
                 ></ewt-button>
               </div>
