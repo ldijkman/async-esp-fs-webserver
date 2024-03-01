@@ -8,7 +8,7 @@
   -->
 */
 
-// does ESP32 4mb wroom
+// does ESP32
 
 
 // mdns is working
@@ -91,11 +91,12 @@ void onImprovWiFiErrorCb(ImprovTypes::Error err) {
 //#include "user_interface.h"  // For station_config, wifi_station_get_config_default, etc.
 
 void onImprovWiFiConnectedCb(const char* ssid, const char* password) {
+  
   // Declare station configuration structure
   //struct station_config stationConf;
 
   // Get the current configuration (if needed to keep some settings)
-  //wifi_station_get_config_default(&stationConf);
+  // wifi_station_get_config_default(&stationConf);
 
   // Clear previous configuration
   //memset(&stationConf, 0, sizeof(stationConf));
@@ -113,8 +114,8 @@ void onImprovWiFiConnectedCb(const char* ssid, const char* password) {
   // wifi_station_set_config(&stationConf);
 
   // Assuming server.begin() and blink_led() are defined elsewhere correctly
-  // server.begin(); // Start server (make sure this is appropriate here)
-  // blink_led(100, 3); // Blink LED as a signal (make sure this is appropriate here)
+   server.begin(); // Start server (make sure this is appropriate here)
+   blink_led(100, 3); // Blink LED as a signal (make sure this is appropriate here)
 }
 
 bool connectWifi(const char* ssid, const char* password) {
@@ -248,7 +249,7 @@ void setup() {
 
 
   Serial.begin(115200);
-  delay(500);
+  delay(20);
   // Print 20 empty lines
   for (int i = 0; i < 20; i++) {
     Serial.println(".");
@@ -260,7 +261,7 @@ void setup() {
   //WiFi.mode(WIFI_STA);
   //WiFi.disconnect();
 
-  improvSerial.setDeviceInfo(ImprovTypes::ChipFamily::CF_ESP32, "Improv WiFi Config", "1.0", "Visual TimeSlots Scheduler", "http://{LOCAL_IPV4}/index.html");
+  improvSerial.setDeviceInfo(ImprovTypes::ChipFamily::CF_ESP32, "Visual TimeSlots Scheduler", "1-march-24", "Visual TimeSlots Scheduler", "http://{LOCAL_IPV4}/index.html");
   improvSerial.onImprovError(onImprovWiFiErrorCb);
   improvSerial.onImprovConnected(onImprovWiFiConnectedCb);
   improvSerial.setCustomConnectWiFi(connectWifi);  // Optional
@@ -368,8 +369,9 @@ void setup() {
 
   Serial.println("");
   Serial.print(F("Server started on IP Address: http://"));  // added http for webserial clickable link
+  Serial.print("\033[32m"); // Set green color (other color codes available)
   Serial.println(myIP);
-
+  Serial.print("\033[0m"); // Reset color
   Serial.println(F(
 
                    "\n"
@@ -378,7 +380,10 @@ void setup() {
                    "This is \"a simple Server .ino\" example.\n"
                    "https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/simpleServerwithwebsocket.ino\n"
                    "\n"));
-
+    Serial.print("\033[36m"); //red
+    Serial.println("\nESP32 Does not show wifi config on Next button\n click [ Logs Console Reset ] and back to menu\nmaybe now a correct menu with wifi config button  \n");
+    Serial.print("\033[0m"); // Reset color
+ 
 
   // Check if we are in station mode before starting NTP
 
@@ -396,10 +401,13 @@ void setup() {
   if (MDNS.begin(myhostname)) {
     Serial.println("MDNS responder started.");
     Serial.print("You should be able to connect with address http://");
+          Serial.print("\033[32m"); // Set green color (other color codes available)
+   
     Serial.print(myhostname);
     Serial.println(".local/");
     MDNS.addService("http", "tcp", 80);
     MDNS.setInstanceName(myhostname);  // Change "new-service-name" to your desired name
+    Serial.print("\033[0m"); // Reset color
   } else {
     Serial.println("Error setting up MDNS responder!");
   }
@@ -450,11 +458,14 @@ void loop() {
     if (WiFi.status() == WL_CONNECTED) {
       printLocalTime();
       Serial.print("This Server ");
+      Serial.print("\033[32m"); // Set green color (other color codes available)
       Serial.print("http://");
       Serial.print(myhostname);
       Serial.print(".local   http://");
       Serial.println(WiFi.localIP());
+      Serial.print("\033[0m"); // Reset color
       //Serial.println("flash https://ldijkman.github.io/async-esp-fs-webserver/");
+      improvSerial.handleSerial();  //
     }
   }
 
@@ -506,7 +517,9 @@ void browseService(const char* service, const char* proto) {
   Serial.printf("Scan mDNS... ");//_%s._%s.local. ... ", service, proto);
   int n = MDNS.queryService(service, proto);  // Query mDNS service
   if (n == 0) {
+    Serial.print("\033[31m"); //red
     Serial.println("\nDamn, no services found\n Flash more Devices\n  And give each a Unique mDNS name in Setup tab Custom");
+    Serial.print("\033[0m"); // Reset color
   } else {
     Serial.print(n);
     Serial.println(" service(s) found");
@@ -543,7 +556,7 @@ void browseService(const char* service, const char* proto) {
       // http://Living.local uppercase L does not work
       // https://github.com/xtermjs/xterm.js/issues/4964
 
-
+improvSerial.handleSerial();  //
 
       // Add service details to the JSON array
       JsonObject serviceObj = services.createNestedObject();
@@ -606,7 +619,40 @@ void blink_led(int d, int times) {
 
 
 
+/*
+ * 
+While ANSI escape sequences are not directly supported by the Arduino serial monitor, here are some of the common color codes you might encounter:
 
+Foreground Colors:
+
+Black: \033[30m
+Red: \033[31m
+Green: \033[32m (Attempted in your code)
+Yellow: \033[33m
+Blue: \033[34m
+Magenta: \033[35m
+Cyan: \033[36m
+White: \033[37m
+Background Colors:
+
+Black: \033[40m
+Red: \033[41m
+Green: \033[42m
+Yellow: \033[43m
+Blue: \033[44m
+Magenta: \033[45m
+Cyan: \033[46m
+White: \033[47m
+The ANSI escape sequence for orange text is:
+
+\033[38;5;208m
+Additional Formatting:
+Use descriptive text: You could print "[Orange]" or a similar phrase to indicate orange data without relying on color.
+Reset all formatting: \033[0m
+Bold: \033[1m
+Italic: \033[3m (Not widely supported)
+Underline: \033[4m (Not widely supported)
+ */
 
 
 
