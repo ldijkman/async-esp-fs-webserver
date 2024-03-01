@@ -9829,7 +9829,7 @@ class Gr extends x {
               <div>
                 <ewt-button
                   class="danger"
-                  label="Erase User Data"
+                  label="Erase User Data (Reinstall)"
                   @click=${()=>this._startInstall(!0)}
                 ></ewt-button>
               </div>
@@ -10057,9 +10057,9 @@ class Gr extends x {
         let e, t, i = !1;
         const n = !this._installErase && this._isSameFirmware;
         if (!this._installConfirmed && this._isSameVersion)
-            e = "Erase User Data",
+            e = "Erase User Data (Reinstall)",
             t = h`
-        Do you want to reset your device and erase all user data from your
+        Do you want to Reinstall your device and erase all user data from your
         device?
         <ewt-button
           class="danger"
