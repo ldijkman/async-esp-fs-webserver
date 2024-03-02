@@ -1,5 +1,5 @@
 const connect = async button => {
-  import('./install-dialog-CsdBS_an.js');
+  import('./install-dialog-Bt_4J-LH.js');
   let port;
   try {
     port = await navigator.serial.requestPort();
