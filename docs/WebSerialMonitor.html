@@ -151,6 +151,33 @@ https://github.com/GoogleChromeLabs/serial-terminal
     console.error("Links are Clickable!");
 }, 5000); // Delay is in milliseconds, so 5000 ms is equal to 5 seconds
 
+
+var faviconState = 0;
+var faviconA = 'path/to/your/standard/favicon.ico';
+var faviconB = 'path/to/your/red/favicon.ico';
+
+function changeFavicon(src) {
+    var link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+    link.type = 'image/x-icon';
+    link.rel = 'shortcut icon';
+    link.href = src;
+    document.getElementsByTagName('head')[0].appendChild(link);
+}
+
+function blinkFavicon() {
+    if(faviconState === 0) {
+        changeFavicon(faviconB); // Change to the red or alternate favicon
+        faviconState = 1;
+    } else {
+        changeFavicon(faviconA); // Change back to the standard favicon
+        faviconState = 0;
+    }
+}
+
+// Start blinking effect
+setInterval(blinkFavicon, 1000); // Adjust the interval as needed
+
+    
   </script>
   
 </body>
