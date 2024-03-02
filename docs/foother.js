@@ -127,3 +127,15 @@ aiPopupContent.style.cssText = 'display: none; position: absolute; bottom: 100%;
         }
     };
 });
+
+/*
+  <script type="module" src="https://ldijkman.github.io/async-esp-fs-webserver/ESP_Web_Tools/install-button.js?module"></script>
+  
+      <esp-web-install-button manifest="https://ldijkman.github.io/async-esp-fs-webserver/both.json">
+          <button slot="activate">Flash 4mb ESP8266 / ESP32</button>
+          <span style="color: red; font-size: 24px; font-weight: bold;" slot="unsupported">Ah Damn, your browser doesn't work! <br>Open this Page in a Chromium Based PC Browser!<br>and an Connect Install button will be here!</span>
+          <span style="color: red; font-size: 24px; font-weight: bold;" slot="not-allowed">Ah Damn, you are not allowed to use this on HTTP!</span>
+       </esp-web-install-button>
+
+
+*/
