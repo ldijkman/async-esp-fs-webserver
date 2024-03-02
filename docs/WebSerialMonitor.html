@@ -119,17 +119,19 @@ https://github.com/GoogleChromeLabs/serial-terminal
   <input id="autoconnect" type="checkbox">
   <label class="checkbox" for="autoconnect">Automatically connect</label>
   <br>
-    <font style="color: green;">Links in Terminal are Clickable!  <font style="color: orange;">(links should have an offset color)</font></font><br>
+    <font style="color: green;">Links in Terminal are Clickable!  <font style="color: orange;">(links should have an offset color)</font></font>
+   <esp-web-install-button manifest="https://ldijkman.github.io/async-esp-fs-webserver/both.json">
+          <button slot="activate">Flash 4mb ESP8266 / ESP32</button>
+          <span style="color: red; font-size: 24px; font-weight: bold;" slot="unsupported">Ah Damn, your browser doesn't work! <br>Open this Page in a Chromium Based PC Browser!<br>and an Connect Install button will be here!</span>
+          <span style="color: red; font-size: 24px; font-weight: bold;" slot="not-allowed">Ah Damn, you are not allowed to use this on HTTP!</span>
+       </esp-web-install-button>
+  <br>
   <div class="info">
     <a href="https://github.com/GoogleChromeLabs/serial-terminal" target="_blank">GoogleChromeLabs</a><br>
     <a href="https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/WebSerialMonitor.html" target="_blank">This Terminal Source</a>
   </div>
 </div>
- <esp-web-install-button manifest="https://ldijkman.github.io/async-esp-fs-webserver/both.json">
-          <button slot="activate">Flash 4mb ESP8266 / ESP32</button>
-          <span style="color: red; font-size: 24px; font-weight: bold;" slot="unsupported">Ah Damn, your browser doesn't work! <br>Open this Page in a Chromium Based PC Browser!<br>and an Connect Install button will be here!</span>
-          <span style="color: red; font-size: 24px; font-weight: bold;" slot="not-allowed">Ah Damn, you are not allowed to use this on HTTP!</span>
-       </esp-web-install-button><br>
+
 <div id="terminal"></div>
 
   
