@@ -1,40 +1,73 @@
-import { connect } from "./connect";
-export class InstallButton extends HTMLElement {
-    connectedCallback() {
-        if (this.renderRoot) {
-            return;
-        }
-        this.renderRoot = this.attachShadow({ mode: "open" });
-        if (!InstallButton.isSupported || !InstallButton.isAllowed) {
-            this.toggleAttribute("install-unsupported", true);
-            this.renderRoot.innerHTML = !InstallButton.isAllowed
-                ? "<slot name='not-allowed'>You can only install ESP devices on HTTPS websites or on the localhost.</slot>"
-                : "<slot name='unsupported'>Your browser does not support installing things on ESP devices. Use Google Chrome or Microsoft Edge.</slot>";
-            return;
-        }
-        this.toggleAttribute("install-supported", true);
-        const slot = document.createElement("slot");
-        slot.addEventListener("click", async (ev) => {
-            ev.preventDefault();
-            connect(this);
-        });
-        slot.name = "activate";
-        const button = document.createElement("button");
-        button.innerText = "Connect";
-        slot.append(button);
-        if ("adoptedStyleSheets" in Document.prototype &&
-            "replaceSync" in CSSStyleSheet.prototype) {
-            const sheet = new CSSStyleSheet();
-            sheet.replaceSync(InstallButton.style);
-            this.renderRoot.adoptedStyleSheets = [sheet];
-        }
-        else {
-            const styleSheet = document.createElement("style");
-            styleSheet.innerText = InstallButton.style;
-            this.renderRoot.append(styleSheet);
-        }
-        this.renderRoot.append(slot);
+const connect = async button => {
+  import('./install-dialog-CsdBS_an.js');
+  let port;
+  try {
+    port = await navigator.serial.requestPort();
+  } catch (err) {
+    if (err.name === "NotFoundError") {
+      import('./index-D_k7Pxth.js').then(mod => mod.openNoPortPickedDialog(() => connect(button)));
+      return;
     }
+    alert(`Error: ${err.message}`);
+    return;
+  }
+  if (!port) {
+    return;
+  }
+  try {
+    await port.open({
+      baudRate: 115200
+    });
+  } catch (err) {
+    alert(err.message);
+    return;
+  }
+  const el = document.createElement("ewt-install-dialog");
+  el.port = port;
+  el.manifestPath = button.manifest || button.getAttribute("manifest");
+  el.overrides = button.overrides;
+  el.addEventListener("closed", () => {
+    port.close();
+  }, {
+    once: true
+  });
+  document.body.appendChild(el);
+};
+
+class InstallButton extends HTMLElement {
+  connectedCallback() {
+    if (this.renderRoot) {
+      return;
+    }
+    this.renderRoot = this.attachShadow({
+      mode: "open"
+    });
+    if (!InstallButton.isSupported || !InstallButton.isAllowed) {
+      this.toggleAttribute("install-unsupported", true);
+      this.renderRoot.innerHTML = !InstallButton.isAllowed ? "<slot name='not-allowed'>You can only install ESP devices on HTTPS websites or on the localhost.</slot>" : "<slot name='unsupported'>Your browser does not support installing things on ESP devices. Use Google Chrome or Microsoft Edge.</slot>";
+      return;
+    }
+    this.toggleAttribute("install-supported", true);
+    const slot = document.createElement("slot");
+    slot.addEventListener("click", async ev => {
+      ev.preventDefault();
+      connect(this);
+    });
+    slot.name = "activate";
+    const button = document.createElement("button");
+    button.innerText = "Connect";
+    slot.append(button);
+    if ("adoptedStyleSheets" in Document.prototype && "replaceSync" in CSSStyleSheet.prototype) {
+      const sheet = new CSSStyleSheet();
+      sheet.replaceSync(InstallButton.style);
+      this.renderRoot.adoptedStyleSheets = [sheet];
+    } else {
+      const styleSheet = document.createElement("style");
+      styleSheet.innerText = InstallButton.style;
+      this.renderRoot.append(styleSheet);
+    }
+    this.renderRoot.append(slot);
+  }
 }
 InstallButton.isSupported = "serial" in navigator;
 InstallButton.isAllowed = window.isSecureContext;
