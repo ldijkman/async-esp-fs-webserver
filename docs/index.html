@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
     const owner = 'ldijkman';
     const repo = 'async-esp-fs-webserver';
-    const filePath = 'docs/ESP8266.bin';
+    const filePath = 'docs/ESP8266.ino.generic.bin';
 
     // GitHub API endpoint for commits affecting the specified file
     const apiUrl = `https://api.github.com/repos/${owner}/${repo}/commits?path=${filePath}`;
@@ -442,9 +442,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const owner = 'ldijkman';
     const repo = 'async-esp-fs-webserver';
     const filePaths = [
-        { path: 'docs/simpleServerwithwebsocket.ino.bin', elementId: 'fileDate11' },
+        { path: 'docs/ESP32.ino.esp32.bin', elementId: 'fileDate11' },
         { path: 'docs/feb10a.littlefs.bin', elementId: 'fileDate22' },
-        { path: 'docs/simpleServerwithwebsocket_esp8266.ino.bin', elementId: 'fileDate1' },
+        { path: 'docs/ESP8266.ino.generic.bin', elementId: 'fileDate1' },
         { path: 'docs/ESP8266_feb10a.mklittlefs.bin', elementId: 'fileDate2' }
     ];
 
