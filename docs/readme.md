@@ -197,7 +197,9 @@ ESP32 does some color on links now
 later scan and configure wifi from browser
 
 
-![Screenshot from 2024-03-07 18-08-18](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/c232794d-9a14-42a2-a802-7bab7029f9e1)
+Approval_Sign.png
+
+![Screenshot from 2024-03-07 18-23-27](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/31357ad9-d358-445f-9480-ed1c53475d32)
 
 
 
