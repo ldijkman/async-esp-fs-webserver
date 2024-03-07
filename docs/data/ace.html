@@ -770,6 +770,7 @@ toggle tree menu
 <input type="button" value="&nbsp;F1&nbsp;" onClick='ace.edit("editor").execCommand("openCommandPallete")' 
  title="Show F1 Better KeyBoard ShortCuts popup Menu&#010;if use F1 button, must have focus on Editor"  onmouseover="this.focus()">
 
+     <input type="button"  id="fullscreenbutton" onclick="toggleFullScreen()" title="Toggle FullScreen" style="" onmouseover="this.focus()" value="&#x26F6;">
   
   </div>
 
@@ -934,7 +935,21 @@ document.getElementById('downloadBtn').addEventListener('click', function() {
 
 
 
-
+function toggleFullScreen() {
+  if (top.location!= self.location) {
+    top.location = self.location.href;
+  }
+  if (window.location !== window.top.location) {
+    window.top.location = window.location;
+  }
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    }
+  }
+}
 
 </script>
 
