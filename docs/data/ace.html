@@ -727,6 +727,12 @@ toggle tree menu
   }, 50);
 
   }
+  
+  
+ 
+
+
+  
 </script>
 
 <script>
@@ -760,7 +766,9 @@ toggle tree menu
   
   <button id="decreaseFontBtn">-</button>
   <button id="increaseFontBtn">+</button>
-    
+    <button id="settings-button" onClick='ace.edit("editor").execCommand("showSettingsMenu");' title="Ace settings menu">S</button>
+
+
   
   </div>
 
@@ -922,6 +930,11 @@ document.getElementById('downloadBtn').addEventListener('click', function() {
     // Clean up by removing the temporary anchor element
     document.body.removeChild(downloadLink);
 });
+
+
+
+
+
 </script>
 
   
