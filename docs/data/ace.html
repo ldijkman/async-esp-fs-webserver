@@ -767,7 +767,8 @@ toggle tree menu
   <button id="decreaseFontBtn">-</button>
   <button id="increaseFontBtn">+</button>
     <button id="settings-button" onClick='ace.edit("editor").execCommand("showSettingsMenu");' title="Ace settings menu">S</button>
-
+<input type="button" value="&nbsp;F1&nbsp;" onClick='ace.edit("editor").execCommand("openCommandPallete")' 
+ title="Show F1 Better KeyBoard ShortCuts popup Menu&#010;if use F1 button, must have focus on Editor"  onmouseover="this.focus()">
 
   
   </div>
