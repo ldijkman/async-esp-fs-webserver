@@ -29,6 +29,13 @@ toggle tree menu
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.29.0/ext-keybinding_menu.min.js"></script>
 
 <script src="https://ldijkman.github.io/Ace-Editor-Click-Link-window.open-URL/hoverlink.js"></script>
+
+  <script type="text/javascript" src="https://ldijkman.github.io/randomnerd_esp32_wifi_manager/mrs/Ace_color/ace-colorpicker.js" ></script>
+<link rel="stylesheet" href="https://ldijkman.github.io/randomnerd_esp32_wifi_manager/mrs/Ace_color/ace-colorpicker.css" />
+
+
+
+  
 <style media=screen>
   body {
     font-size: 12px;
@@ -900,6 +907,15 @@ editor.hoverLink.on("open", function() {
 
 
 
+
+editor.session.setMode("ace/mode/html", function() {
+	LoadColorPicker()
+})
+  function LoadColorPicker() {
+    console.log("load colorpicker now in function LoadColorPicker");
+    window.editor = ace.edit("editor");
+    AceColorPicker.load(ace, editor);
+  }
 
 
 
