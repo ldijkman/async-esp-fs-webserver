@@ -1,6 +1,6 @@
 {
         "name": "Visual TimeSlots Scheduler",
-        "version": "1-march-24",
+        "version": "8-march-24",
           "funding_url": "https://www.paypal.com/paypalme/LDijkman",
         "new_install_improv_wait_time":"10",
         "builds": [
@@ -11,7 +11,7 @@
         { "path": "simpleServerwithwebsocket.ino.partitions.bin", "offset": 32768 },
         { "path": "simpleServerwithwebsocket.ino.bootloader.bin", "offset": 57344 },
         { "path": "ESP32.ino.esp32.bin", "offset": 65536 },
-        { "path": "feb10a.littlefs.bin", "offset": "0x290000", "size": "0x160000" }    
+        { "path": "ESP32.littlefs.bin", "offset": "0x290000", "size": "0x160000" }    
       ]
     },
 
@@ -20,7 +20,7 @@
       "chipFamily": "ESP8266",
       "parts": [
         { "path": "ESP8266.ino.generic.bin", "offset": 0 },
-        { "path": "ESP8266_feb10a.mklittlefs.bin", "offset": 2097152 }
+        { "path": "ESP8266.littlefs.bin", "offset": 2097152 }
       ]
     }
   ]
