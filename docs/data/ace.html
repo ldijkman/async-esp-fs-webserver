@@ -939,8 +939,12 @@ editor.session.setMode("ace/mode/html", function() {
         editor.setOptions({
             enableBasicAutocompletion: !isEnabled,
             enableSnippets: !isEnabled,
-            enableLiveAutocompletion: !isEnabled // Adjust based on your requirements
-        });
+            enableLiveAutocompletion: !isEnabled, // Adjust based on your requirements
+     	scrollPastEnd: .5,
+      dragEnabled: true, // boolean: enable dragging
+  	});
+
+	editor.renderer.setScrollMargin(200, 200, 0, 0); // Adds 50px padding at the top and bottom
         console.log('Auto-completion enabled:', !isEnabled);
     });
 
