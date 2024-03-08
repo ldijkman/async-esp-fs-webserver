@@ -779,7 +779,9 @@ toggle tree menu
  title="Show F1 Better KeyBoard ShortCuts popup Menu&#010;if use F1 button, must have focus on Editor"  onmouseover="this.focus()">
 
      <input type="button"  id="fullscreenbutton" onclick="toggleFullScreen()" title="Toggle FullScreen" style="" onmouseover="this.focus()" value="FullScreen">
-  <br>
+  <button id="toggle-autocomplete">Toggle Autocomplete</button>
+	  
+	  <br>
   </div>
 
   <div id=tree></div>
@@ -919,9 +921,28 @@ editor.session.setMode("ace/mode/html", function() {
 
 
 
+     // Enable basic options for auto-completion
+    editor.setOptions({
+        enableBasicAutocompletion: true,
+        enableSnippets: true,
+        enableLiveAutocompletion: false, // Triggered by typing, you can enable it if needed
+    });
+
+
         
    }, 2500);
-
+   
+   
+    document.getElementById('toggle-autocomplete').addEventListener('click', function() {
+        var isEnabled = editor.getOptions().enableBasicAutocompletion;
+        // Toggle the state
+        editor.setOptions({
+            enableBasicAutocompletion: !isEnabled,
+            enableSnippets: !isEnabled,
+            enableLiveAutocompletion: !isEnabled // Adjust based on your requirements
+        });
+        console.log('Auto-completion enabled:', !isEnabled);
+    });
 
 });
 
