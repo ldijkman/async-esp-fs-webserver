@@ -104,66 +104,12 @@ button {
           <span style="color: red; font-size: 24px; font-weight: bold;" slot="not-allowed">Ah Damn, you are not allowed to use this on HTTP!</span>
        </esp-web-install-button><br>
       <br>
-      <span id="fileDate11">Fetching...</span><br>
-      <span id="fileDate22">Fetching...</span><br>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const owner = 'ldijkman';
-    const repo = 'async-esp-fs-webserver';
-    const filePath = 'docs/ESP32.ino.esp32.bin';
 
-    // GitHub API endpoint for commits affecting the specified file
-    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/commits?path=${filePath}`;
+      
+         <span >Last updated 8 march.</span><br>
 
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            if (data.length > 0) {
-                // The date of the last commit affecting the file
-                const lastCommitDate = new Date(data[0].commit.committer.date);
-                // Format date and time
-                const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short' };
-                const formattedDateTime = lastCommitDate.toLocaleDateString('en-US', options);
-                document.getElementById('fileDate11').textContent = `Firmware Last Updated: ${formattedDateTime}`;
-            } else {
-                document.getElementById('fileDate11').textContent = `Last Updated: No updates found for ${filePath}.`;
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching file date:', error);
-            document.getElementById('fileDate11').textContent = `Last Updated: Failed to fetch date for ${filePath}.`;
-        });
-});
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const owner = 'ldijkman';
-    const repo = 'async-esp-fs-webserver';
-    const filePath = 'docs/ESP32.littlefs.bin';
 
-    // GitHub API endpoint for commits affecting the specified file
-    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/commits?path=${filePath}`;
-
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            if (data.length > 0) {
-                // The date of the last commit affecting the file
-                const lastCommitDate = new Date(data[0].commit.committer.date);
-                // Format date and time
-                const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short' };
-                const formattedDateTime = lastCommitDate.toLocaleDateString('en-US', options);
-                document.getElementById('fileDate22').textContent = `LittleFS Last Updated: ${formattedDateTime}`;
-            } else {
-                document.getElementById('fileDate22').textContent = `Last Updated: No updates found for ${filePath}.`;
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching file date:', error);
-            document.getElementById('fileDate22').textContent = `Last Updated: Failed to fetch date for ${filePath}.`;
-        });
-});
-</script>
+      
       <br>
     </p>
     <br><br>
@@ -185,68 +131,15 @@ document.addEventListener('DOMContentLoaded', function() {
   
       </esp-web-install-button><br>
       <br>
+
+      
    
-        <span id="fileDate1">Fetching...</span><br>
-         <span id="fileDate2">Fetching...</span><br>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const owner = 'ldijkman';
-    const repo = 'async-esp-fs-webserver';
-    const filePath = 'docs/ESP8266.ino.generic.bin';
+        <span >Last updated 8 march.</span><br>
+       
 
-    // GitHub API endpoint for commits affecting the specified file
-    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/commits?path=${filePath}`;
 
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            if (data.length > 0) {
-                // The date of the last commit affecting the file
-                const lastCommitDate = new Date(data[0].commit.committer.date);
-                // Format date and time
-                const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short' };
-                const formattedDateTime = lastCommitDate.toLocaleDateString('en-US', options);
-                document.getElementById('fileDate1').textContent = `Firmware Last Updated: ${formattedDateTime}`;
-            } else {
-                document.getElementById('fileDate1').textContent = `Last Updated: No updates found for ${filePath}.`;
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching file date:', error);
-            document.getElementById('fileDate1').textContent = `Last Updated: Failed to fetch date for ${filePath}.`;
-        });
-});
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const owner = 'ldijkman';
-    const repo = 'async-esp-fs-webserver';
-    const filePath = 'docs/ESP8266.littlefs.bin';
 
-    // GitHub API endpoint for commits affecting the specified file
-    const apiUrl = `https://api.github.com/repos/${owner}/${repo}/commits?path=${filePath}`;
-
-    fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
-            if (data.length > 0) {
-                // The date of the last commit affecting the file
-                const lastCommitDate = new Date(data[0].commit.committer.date);
-                // Format date and time
-                const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', timeZoneName: 'short' };
-                const formattedDateTime = lastCommitDate.toLocaleDateString('en-US', options);
-                document.getElementById('fileDate2').textContent = `LittleFS Last Updated: ${formattedDateTime}`;
-            } else {
-                document.getElementById('fileDate2').textContent = `Last Updated: No updates found for ${filePath}.`;
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching file date:', error);
-            document.getElementById('fileDate2').textContent = `Last Updated: Failed to fetch date for ${filePath}.`;
-        });
-});
-</script>
-
+      
       <br>
     improv wifi version quick test<br>
       <a href="https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/ESP8266.ino" target="_blank">ESP8266.ino Arduino IDE INO source</a><br>
@@ -436,54 +329,7 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
 
 
 
-      <script>
-
-document.addEventListener('DOMContentLoaded', function() {
-    const owner = 'ldijkman';
-    const repo = 'async-esp-fs-webserver';
-    const filePaths = [
-        { path: 'docs/ESP32.ino.esp32.bin', elementId: 'fileDate11' },
-        { path: 'docs/feb10a.littlefs.bin', elementId: 'fileDate22' },
-        { path: 'docs/ESP8266.ino.generic.bin', elementId: 'fileDate1' },
-        { path: 'docs/ESP8266_feb10a.mklittlefs.bin', elementId: 'fileDate2' }
-    ];
-
-    filePaths.forEach(file => {
-        const apiUrl = `https://api.github.com/repos/${owner}/${repo}/commits?path=${file.path}`;
-
-        fetch(apiUrl)
-            .then(response => response.json())
-            .then(data => {
-                if (data.length > 0) {
-                    const lastCommitDate = new Date(data[0].commit.committer.date);
-                    document.getElementById(file.elementId).textContent += ` Last Updated: ${formatDateDifference(lastCommitDate)} ago.`;
-                } else {
-                    document.getElementById(file.elementId).textContent += ` Last Updated: No updates found for ${file.path}.`;
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching file date:', error);
-                document.getElementById(file.elementId).textContent += ` Last Updated: Failed to fetch date for ${file.path}.`;
-            });
-    });
-});
-
-// Function to calculate and format the date difference
-function formatDateDifference(date) {
-    const now = new Date();
-    const diffTime = Math.abs(now - date);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays < 30) {
-        return `${diffDays} day(s)`;
-    } else if (diffDays < 365) {
-        return `${Math.floor(diffDays / 30)} month(s)`;
-    } else {
-        return `${Math.floor(diffDays / 365)} year(s)`;
-    }
-}
-        
-      </script>
+     
 
 
 
