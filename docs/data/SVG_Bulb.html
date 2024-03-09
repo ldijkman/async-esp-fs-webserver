@@ -1,0 +1,144 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" type="image/png" href="https://cpwebassets.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png">
+
+  <meta name="apple-mobile-web-app-title" content="CodePen">
+
+  <link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+
+  <link rel="mask-icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111">
+
+  <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-2c7831bb44f98c1391d6a4ffda0e1fd302503391ca806e7fcc7b9b87197aec26.js"></script>
+
+  <title>CodePen - Hand coded SVG light bulb</title>
+
+  <link rel="canonical" href="https://codepen.io/ldijkman/pen/xxeZBNZ">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.25em;
+      background-color: #444;
+      transition: background-color 0.5s;
+    }
+
+    svg {
+      position: relative;
+      width: calc(5em + 40vw);
+      height: calc(5em + 40vw);
+    }
+
+    .glow {
+      opacity: 0;
+      transition: opacity 0.4s ease-out;
+    }
+
+    .bulb {
+      transition: fill 0.2s ease-out;
+    }
+
+    .on {
+      //background-color: #e4d9cd;
+    }
+
+    .on .glow {
+      opacity: 0.75;
+    }
+
+    .on .bulb {
+      fill: gold;
+    }
+
+    .on button {
+      color: #333;
+      background-color: gold;
+    }
+
+    .on button:hover {
+      color: white;
+      background-color: #70665c;
+    }
+
+    .on button:focus {
+      outline-color: #70665c;
+    }
+
+    button {
+      position: fixed;
+      bbbbottom: 1em;
+      bbbright: 1em;
+      padding: 0.5em 0.75em;
+      font-size: inherit;
+      font-family: inherit;
+      color: white;
+      background: #70665c;
+      border: none;
+      border-radius: 2px;
+      transition: color 0.2s, background-color 0.2s;
+    }
+
+    button:hover {
+      color: #333;
+      background-color: gold;
+    }
+
+    button:focus {
+      outline: 2px solid gold;
+      outline-offset: 4px;
+    }
+  </style>
+
+  <script>
+    window.console = window.console || function(t) {};
+  </script>
+
+</head>
+
+<body translate="no" class="">
+  <svg viewBox="0 0 100 100" stroke-linecap="round" stroke-linejoin="round">
+    <symbol id="base" viewBox="0 0 100 100">
+      <path d="M10 10 C 25 20, 75 20, 90 10"></path>
+      <path d="M10 35 C 25 45, 75 45, 90 35"></path>
+      <path d="M10 60 C 25 70, 75 70, 90 60"></path>
+      <path d="M30 85 C 40 88, 60 88, 70 85" stroke-width="12"></path>
+    </symbol>
+    <filter id="blur">
+      <feGaussianBlur stdDeviation="2"></feGaussianBlur>
+    </filter>
+    <g class="glow" fill="gold" stroke="none" filter="url(#blur)">
+      <circle cx="50" cy="30" r="28"></circle>
+      <path d="M50 74 Q 62 74, 62 66 Q 63 60, 73 46 L 50 46 z"></path>
+      <path d="M50 74 Q 62 74, 62 66 Q 63 60, 73 46 L 50 46 z" transform="translate(100, 0), scale(-1,1)"></path>
+    </g>
+    <g class="bulb" fill="silver" stroke="none">
+      <circle cx="50" cy="30" r="28"></circle>
+      <path d="M50 74 Q 62 74, 62 66 Q 63 60, 73 46 L 50 46 z"></path>
+      <path d="M50 74 Q 62 74, 62 66 Q 63 60, 73 46 L 50 46 z" transform="translate(100, 0), scale(-1,1)"></path>
+    </g>
+    <use href="#base" x="0" y="75" height="25" stroke="silver" stroke-width="18" fill="none"></use>
+  </svg>
+  <button id="js-btn">Turn on</button>
+
+  <script id="rendered-js">
+    const btn = document.getElementById('js-btn');
+    btn.addEventListener('click', toggleLight);
+
+    function toggleLight() {
+      document.body.classList.toggle('on');
+      this.textContent = document.body.classList.contains('on') ? 'Turn off' : 'Turn on';
+    }
+    //# sourceURL=pen.js
+  </script>
+
+</body>
+
+</html>
