@@ -779,8 +779,8 @@ toggle tree menu
  title="Show F1 Better KeyBoard ShortCuts popup Menu&#010;if use F1 button, must have focus on Editor"  onmouseover="this.focus()">
 
      <input type="button"  id="fullscreenbutton" onclick="toggleFullScreen()" title="Toggle FullScreen" style="" onmouseover="this.focus()" value="FullScreen">
-  <button id="toggle-autocomplete">Toggle Autocomplete</button>
-	  
+   <button id="toggle-autocomplete" style="color:green;">Toggle Autocomplete</button>
+	    
 	  <br>
   </div>
 
@@ -947,6 +947,11 @@ editor.session.setMode("ace/mode/html", function() {
 
   	});
 
+    if (!isEnabled) {
+        this.style.color = 'green';
+    } else {
+        this.style.color = 'red';
+    }
 
         console.log('Auto-completion enabled:', !isEnabled);
     });
