@@ -68,6 +68,14 @@ may be wrong at start
   </style>
 </head>
 <body>
+    <script type="module" src="https://ldijkman.github.io/async-esp-fs-webserver/ESP_Web_Tools/install-button.js?module"></script>
+  <br> 
+  <esp-web-install-button manifest="https://ldijkman.github.io/async-esp-fs-webserver/both.json">
+          <button slot="activate">Flash 4mb ESP8266 / ESP32</button>
+          <span style="color: red; font-size: 24px; font-weight: bold;" slot="unsupported">Ah Damn, your browser doesn't work! <br>Open this Page in a Chromium Based PC Browser!<br>and an Connect Install button will be here!</span>
+          <span style="color: red; font-size: 24px; font-weight: bold;" slot="not-allowed">Ah Damn, you are not allowed to use this on HTTP!</span>
+       </esp-web-install-button>
+  <br>
   <svg viewBox="0 0 100 100" stroke-linecap="round" stroke-linejoin="round">
     <symbol id="base" viewBox="0 0 100 100">
       <path d="M10 10 C 25 20, 75 20, 90 10"></path>
@@ -92,8 +100,9 @@ may be wrong at start
   </svg>
 
   
-  <button id="js-btn" hidden>Turn on</button>
-
+  <button id="js-btn" hidden>Turn on</button><br>
+  
+<iframe width="439" height="781" src="https://www.youtube.com/embed/pxG-PVzutl8" title="9 maart 2024" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
   
 <script>
   const btn = document.getElementById('js-btn');
