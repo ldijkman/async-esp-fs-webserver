@@ -62,6 +62,7 @@ int charcount = 0;
 
 int gpio_relais_pin = 2;         //wemos d1 esp32 led pin                 // for future relais gpio pin
 int gpio_input_button_pin = 17;  // for future override
+bool ledState = 0;
 
 const char* hostname = "garage";  // .local is added by esp32 mdns   http://garage.local
 String myhostname = hostname;
@@ -204,7 +205,13 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
         if (info->opcode == WS_TEXT) {
           data[len] = '\0';  // Null-terminate the data to parse as string
           Serial.printf("luberth Received message \"%s\"\n", data);
-
+            
+    if (strcmp((char*)data, "toggle") == 0) {
+      ledState = !ledState;
+      //notifyClients();
+        ws.textAll(String(ledState));
+        digitalWrite(gpio_relais_pin, ledState);
+    }
           // Parse JSON message
           DynamicJsonDocument doc(1024);  // Adjust size according to your expected message size
           DeserializationError error = deserializeJson(doc, data);
@@ -263,7 +270,7 @@ void setup() {
   //WiFi.mode(WIFI_STA);
   //WiFi.disconnect();
 
-  improvSerial.setDeviceInfo(ImprovTypes::ChipFamily::CF_ESP8266, "Improv WiFi Config", "1.0", "Visual TimeSlots Scheduler", "http://{LOCAL_IPV4}/index.html");
+  improvSerial.setDeviceInfo(ImprovTypes::ChipFamily::CF_ESP8266, "Visual TimeSlots Scheduler", "8-march-24", "Visual TimeSlots Scheduler", "http://{LOCAL_IPV4}/index.html");
   improvSerial.onImprovError(onImprovWiFiErrorCb);
   improvSerial.onImprovConnected(onImprovWiFiConnectedCb);
   improvSerial.setCustomConnectWiFi(connectWifi);  // Optional
