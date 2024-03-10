@@ -945,15 +945,24 @@ editor.session.setMode("ace/mode/html", function() {
         const navigateButton = document.getElementById('navigateButton');
         const pathInput = document.getElementById('pathInput');
         
-        // Add click event listener to the button
-        navigateButton.addEventListener('click', function() {
-            // Read the value from the input
-            const path = pathInput.value;
-            
-            // Open the URL in a new tab or window
-            // Note: Replace 'yourwebsite.com' with your actual domain, or adjust as needed
-            window.open(`${path}`, '_blank');
-        });
+     
+// Add click event listener to the button
+navigateButton.addEventListener('click', function() {
+    // Read the value from the input
+    const path = pathInput.value;
+    
+    // Calculate 75% of the screen size
+    const width = screen.width * 0.75;
+    const height = screen.height * 0.75;
+    
+    // Calculate the position to center the window
+    const left = (screen.width - width) / 2;
+    const top = (screen.height - height) / 2;
+
+    // Open the URL in a new window with specified size and position
+    // Note: Replace 'yourwebsite.com' with your actual domain, or adjust as needed
+    window.open(`${path}`, '_blank', `width=${width},height=${height},left=${left},top=${top}`);
+});
         
    }, 2500);
    
