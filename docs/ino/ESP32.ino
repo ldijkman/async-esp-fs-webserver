@@ -59,6 +59,7 @@ int charcount = 0;
 
 int gpio_relais_pin = 2;         //wemos d1 esp32 led pin                 // for future relais gpio pin
 int gpio_input_button_pin = 17;  // for future override
+bool ledState = 0;
 
 const char* hostname = "garage";  // .local is added by esp32 mdns   http://garage.local
 String myhostname = hostname;
@@ -91,7 +92,7 @@ void onImprovWiFiErrorCb(ImprovTypes::Error err) {
 //#include "user_interface.h"  // For station_config, wifi_station_get_config_default, etc.
 
 void onImprovWiFiConnectedCb(const char* ssid, const char* password) {
-  
+
   // Declare station configuration structure
   //struct station_config stationConf;
 
@@ -114,8 +115,8 @@ void onImprovWiFiConnectedCb(const char* ssid, const char* password) {
   // wifi_station_set_config(&stationConf);
 
   // Assuming server.begin() and blink_led() are defined elsewhere correctly
-   server.begin(); // Start server (make sure this is appropriate here)
-   blink_led(100, 3); // Blink LED as a signal (make sure this is appropriate here)
+  server.begin(); // Start server (make sure this is appropriate here)
+  blink_led(100, 3); // Blink LED as a signal (make sure this is appropriate here)
 }
 
 bool connectWifi(const char* ssid, const char* password) {
@@ -203,6 +204,13 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
           data[len] = '\0';  // Null-terminate the data to parse as string
           Serial.printf("luberth Received message \"%s\"\n", data);
 
+    if (strcmp((char*)data, "toggle") == 0) {
+      ledState = !ledState;
+      //notifyClients();
+        ws.textAll(String(ledState));
+        digitalWrite(gpio_relais_pin, ledState);
+    }
+
           // Parse JSON message
           DynamicJsonDocument doc(1024);  // Adjust size according to your expected message size
           DeserializationError error = deserializeJson(doc, data);
@@ -249,8 +257,11 @@ void setup() {
 
 
   Serial.begin(115200);
-  delay(20);
-  // Print 20 empty lines
+  while (!Serial) {           // Wait until serial communication is established
+    // Do nothing, just wait
+  }
+
+  // Print 20 empty dot lines
   for (int i = 0; i < 20; i++) {
     Serial.println(".");
   }
@@ -261,7 +272,7 @@ void setup() {
   //WiFi.mode(WIFI_STA);
   //WiFi.disconnect();
 
-  improvSerial.setDeviceInfo(ImprovTypes::ChipFamily::CF_ESP32, "Visual TimeSlots Scheduler", "1-march-24", "Visual TimeSlots Scheduler", "http://{LOCAL_IPV4}/index.html");
+  improvSerial.setDeviceInfo(ImprovTypes::ChipFamily::CF_ESP32, "Visual TimeSlots Scheduler", "8-march-24", "Visual TimeSlots Scheduler", "http://{LOCAL_IPV4}/index.html");
   improvSerial.onImprovError(onImprovWiFiErrorCb);
   improvSerial.onImprovConnected(onImprovWiFiConnectedCb);
   improvSerial.setCustomConnectWiFi(connectWifi);  // Optional
@@ -366,6 +377,7 @@ void setup() {
 
   server.init(onWsEvent);
   //server.init();
+  improvSerial.handleSerial();  //
 
   Serial.println("");
   Serial.print(F("Server started on IP Address: http://"));  // added http for webserial clickable link
@@ -380,10 +392,10 @@ void setup() {
                    "This is \"a simple Server .ino\" example.\n"
                    "https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/simpleServerwithwebsocket.ino\n"
                    "\n"));
-    Serial.print("\033[36m"); //red
-    Serial.println("\nESP32 Does not show wifi config on Next button\n click [ Logs Console Reset ] and back to menu\nmaybe now a correct menu with wifi config button  \n");
-    Serial.print("\033[0m"); // Reset color
- 
+  Serial.print("\033[36m"); //red
+  Serial.println("\nESP32 Does not show wifi config on Next button\n click [ Logs Console Reset ] and back to menu\nmaybe now a correct menu with wifi config button  \n");
+  Serial.print("\033[0m"); // Reset color
+
 
   // Check if we are in station mode before starting NTP
 
@@ -401,8 +413,8 @@ void setup() {
   if (MDNS.begin(myhostname)) {
     Serial.println("MDNS responder started.");
     Serial.print("You should be able to connect with address http://");
-          Serial.print("\033[32m"); // Set green color (other color codes available)
-   
+    Serial.print("\033[32m"); // Set green color (other color codes available)
+
     Serial.print(myhostname);
     Serial.println(".local/");
     MDNS.addService("http", "tcp", 80);
@@ -450,6 +462,8 @@ void loop() {
     lastPrintTime = currentTime;
 
     browseService("http", "tcp");  // find other mdns devices in network
+
+      ws.textAll(String(ledState));
 
     improvSerial.handleSerial();  //
 
@@ -556,7 +570,7 @@ void browseService(const char* service, const char* proto) {
       // http://Living.local uppercase L does not work
       // https://github.com/xtermjs/xterm.js/issues/4964
 
-improvSerial.handleSerial();  //
+      improvSerial.handleSerial();  //
 
       // Add service details to the JSON array
       JsonObject serviceObj = services.createNestedObject();
@@ -620,39 +634,39 @@ void blink_led(int d, int times) {
 
 
 /*
- * 
-While ANSI escape sequences are not directly supported by the Arduino serial monitor, here are some of the common color codes you might encounter:
 
-Foreground Colors:
+  While ANSI escape sequences are not directly supported by the Arduino serial monitor, here are some of the common color codes you might encounter:
 
-Black: \033[30m
-Red: \033[31m
-Green: \033[32m (Attempted in your code)
-Yellow: \033[33m
-Blue: \033[34m
-Magenta: \033[35m
-Cyan: \033[36m
-White: \033[37m
-Background Colors:
+  Foreground Colors:
 
-Black: \033[40m
-Red: \033[41m
-Green: \033[42m
-Yellow: \033[43m
-Blue: \033[44m
-Magenta: \033[45m
-Cyan: \033[46m
-White: \033[47m
-The ANSI escape sequence for orange text is:
+  Black: \033[30m
+  Red: \033[31m
+  Green: \033[32m (Attempted in your code)
+  Yellow: \033[33m
+  Blue: \033[34m
+  Magenta: \033[35m
+  Cyan: \033[36m
+  White: \033[37m
+  Background Colors:
 
-\033[38;5;208m
-Additional Formatting:
-Use descriptive text: You could print "[Orange]" or a similar phrase to indicate orange data without relying on color.
-Reset all formatting: \033[0m
-Bold: \033[1m
-Italic: \033[3m (Not widely supported)
-Underline: \033[4m (Not widely supported)
- */
+  Black: \033[40m
+  Red: \033[41m
+  Green: \033[42m
+  Yellow: \033[43m
+  Blue: \033[44m
+  Magenta: \033[45m
+  Cyan: \033[46m
+  White: \033[47m
+  The ANSI escape sequence for orange text is:
+
+  \033[38;5;208m
+  Additional Formatting:
+  Use descriptive text: You could print "[Orange]" or a similar phrase to indicate orange data without relying on color.
+  Reset all formatting: \033[0m
+  Bold: \033[1m
+  Italic: \033[3m (Not widely supported)
+  Underline: \033[4m (Not widely supported)
+*/
 
 
 
