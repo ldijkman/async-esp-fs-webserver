@@ -787,7 +787,8 @@ and more
 
      <input type="button"  id="fullscreenbutton" onclick="toggleFullScreen()" title="Toggle FullScreen" style="" onmouseover="this.focus()" value="FullScreen">
    <button id="toggle-autocomplete" style="color:green;">AutoComplete</button>
-	    
+		
+    <button id="navigateButton">Preview this file</button>    
 	  <br>
   </div>
 
@@ -939,7 +940,19 @@ editor.session.setMode("ace/mode/html", function() {
 
 	editor.renderer.setScrollMargin(200, 200, 0, 0); // Adds 50px padding at the top and bottom
 
-
+      // Get the button and input elements
+        const navigateButton = document.getElementById('navigateButton');
+        const pathInput = document.getElementById('pathInput');
+        
+        // Add click event listener to the button
+        navigateButton.addEventListener('click', function() {
+            // Read the value from the input
+            const path = pathInput.value;
+            
+            // Open the URL in a new tab or window
+            // Note: Replace 'yourwebsite.com' with your actual domain, or adjust as needed
+            window.open(`${path}`, '_blank');
+        });
         
    }, 2500);
    
