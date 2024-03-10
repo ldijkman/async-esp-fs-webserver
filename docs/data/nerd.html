@@ -110,6 +110,7 @@
       state = "OFF";
     }
     document.getElementById('state').innerHTML = state;
+    console.log("recieved state ", state);
   }
   function onLoad(event) {
     initWebSocket();
@@ -120,6 +121,7 @@
   }
   function toggle(){
     websocket.send('toggle');
+    console.log("send toggle");
   }
 </script>
 
@@ -129,7 +131,7 @@
 <a href="https://randomnerdtutorials.com/esp32-websocket-server-arduino" target="_blank">  https://randomnerdtutorials.com/esp32-websocket-server-arduino</a><br>
  
 <br>
-
+</center>
 <script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
 
 
