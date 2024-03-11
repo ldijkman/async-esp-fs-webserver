@@ -89,12 +89,12 @@ document.addEventListener('DOMContentLoaded', function() {
     SerialPopupContainer.style.cssText = 'display: inline-block; position: relative; cursor: pointer;';
 
     const SerialButton = document.createElement('button');
-    SerialButton.textContent = 'Source';
-    SerialButton.style.cssText = 'background-color: #333; color: cyan; padding: 10px; font-size: 16px; border: none; margin: 0 20px;';
+    SerialButton.textContent = 'Serial';
+    SerialButton.style.cssText = 'background-color: #333; color: orange; padding: 10px; font-size: 16px; border: none; margin: 0 20px;';
 
     const SerialPopupContent = document.createElement('div');
     SerialPopupContent.className = 'popup-content';
-    SerialPopupContent.style.cssText = 'display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: cyan; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;';
+    SerialPopupContent.style.cssText = 'display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: orange; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;';
 
 
 // Serial Links Setup
