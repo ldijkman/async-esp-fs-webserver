@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
     toolsPopupContainer.style.cssText = 'display: inline-block; position: relative; cursor: pointer;';
 
     const toolsButton = document.createElement('button');
-    toolsButton.textContent = 'Tools';
+    toolsButton.textContent = 'Source';
     toolsButton.style.cssText = 'background-color: #333; color: cyan; padding: 10px; font-size: 16px; border: none; margin: 0 20px;';
 
     const toolsPopupContent = document.createElement('div');
