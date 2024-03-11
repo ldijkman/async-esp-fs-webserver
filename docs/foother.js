@@ -81,21 +81,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-// Tools Popup Menu Setup
-const serial = new Serial(); // Create a new Serial instance
 
-// Serial Button Setup
-const serialButton = document.createElement('button');
-serialButton.textContent = 'Serial';
-serialButton.style.cssText = 'background-color: #333; color: cyan; padding: 10px; font-size: 16px; border: none; margin: 0 20px;';
 
-// Serial Popup Content Setup
-const serialPopupContent = document.createElement('div');
-serialPopupContent.className = 'popup-content';
-serialPopupContent.style.cssText = 'display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: cyan; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;';
+    // Serial Popup Menu Setup
+    const SerialPopupContainer = document.createElement('div');
+    SerialPopupContainer.className = 'popup';
+    SerialPopupContainer.style.cssText = 'display: inline-block; position: relative; cursor: pointer;';
+
+    const SerialButton = document.createElement('button');
+    SerialButton.textContent = 'Source';
+    SerialButton.style.cssText = 'background-color: #333; color: cyan; padding: 10px; font-size: 16px; border: none; margin: 0 20px;';
+
+    const SerialPopupContent = document.createElement('div');
+    SerialPopupContent.className = 'popup-content';
+    SerialPopupContent.style.cssText = 'display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: cyan; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;';
+
 
 // Serial Links Setup
-const serialLinks = [
+const SerialLinks = [
 
              {href: 'https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html', color: 'lightblue', text: 'Serial & send & clickable links ', title: 'Serial Monitor with clickable links'},
             {href: 'https://ldijkman.github.io/async-esp-fs-webserver/WebSerial/index.html', color: 'lightblue', text: 'Serial-2', title: 'Serial Monitor 2'},
@@ -103,38 +106,33 @@ const serialLinks = [
           
 ];
 
-serialLinks.forEach(link => {
-    const a = document.createElement('a');
-    a.href = link.href;
-    a.target = '_blank';
-    a.textContent = link.text;
-    a.title = link.title; // Set the title attribute
-    a.style.cssText = 'color: black; padding: 12px 16px; text-decoration: none; display: block;';
-    serialPopupContent.appendChild(a);
-});
+    SerialLinks.forEach(link => {
+        const a = document.createElement('a');
+        a.href = link.href;
+        a.target = '_blank';
+        a.textContent = link.text;
+        a.title = link.title; // Set the title attribute
+        a.style.cssText = 'color: black; padding: 12px 16px; text-decoration: none; display: block;';
+        SerialPopupContent.appendChild(a);
+    });
 
-// Serial Button and Popup Content Setup
-const serialPopupContainer = document.createElement('div');
-serialPopupContainer.className = 'popup';
-serialPopupContainer.style.cssText = 'display: inline-block; position: relative; cursor: pointer;';
-serialPopupContainer.appendChild(serialButton);
-serialPopupContainer.appendChild(serialPopupContent);
-floatingDiv.appendChild(serialPopupContainer);
+    SerialPopupContainer.appendChild(SerialButton);
+    SerialPopupContainer.appendChild(SerialPopupContent);
+    floatingDiv.appendChild(SerialPopupContainer);
 
-// ... (same as before for Nerd and Ai menus)
+    // ... (same as before for Nerd and Ai menus)
 
-document.body.appendChild(floatingDiv);
+    document.body.appendChild(floatingDiv);
 
-// Toggle functions for menus
-// ... (same as before for Nerd and Ai menus)
+    // Toggle functions for menus
+    // ... (same as before for Nerd and Ai menus)
 
-serialButton.onclick = function() {
-    serialPopupContent.style.display = serialPopupContent.style.display === 'block' ? 'none' : 'block';
-};
+    SerialButton.onclick = function() {
+        SerialPopupContent.style.display = SerialPopupContent.style.display === 'block' ? 'none' : 'block';
+    };
 
-// Close the menus if the user clicks outside of them
-// ... (same as before)
-
+    // Close the menus if the user clicks outside of them
+    // ... (same as before)
 
 
 
