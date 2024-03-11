@@ -101,8 +101,8 @@ document.addEventListener('DOMContentLoaded', function() {
 const SerialLinks = [
 
              {href: 'https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html', color: 'lightblue', text: 'Serial & send & clickable links ', title: 'Serial Monitor with clickable links'},
-            {href: 'https://ldijkman.github.io/async-esp-fs-webserver/WebSerial/index.html', color: 'lightblue', text: 'Serial-2', title: 'Serial Monitor 2'},
-            {href: 'https://ldijkman.github.io/async-esp-fs-webserver/ESP_Tool_JS/esptool-js/index.html', color: 'lightblue', text: 'Serial-3', title: 'Serial Monitor 3'},
+            {href: 'https://ldijkman.github.io/async-esp-fs-webserver/WebSerial/index.html', color: 'lightblue', text: 'Serial & send', title: 'Serial Monitor 2'},
+            {href: 'https://ldijkman.github.io/async-esp-fs-webserver/ESP_Tool_JS/esptool-js/index.html', color: 'lightblue', text: 'Serial ESP-Tool', title: 'Serial Monitor 3'},
           
 ];
 
