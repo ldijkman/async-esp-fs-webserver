@@ -286,30 +286,9 @@ document.addEventListener("DOMContentLoaded", function () {
       aiPopupContent.style.display === "block" ? "none" : "block";
   };
 
-  // Close the menus if the user clicks outside of them
-  window.onclick = function (event) {
-    if (
-      !event.target.matches(".dropbtn") &&
-      !event.target.matches(".popup button")
-    ) {
-      var dropdowns = document.getElementsByClassName("dropdown-content");
-      var popups = document.getElementsByClassName("popup-content");
-      var i;
-      for (i = 0; i < dropdowns.length; i++) {
-        var openDropdown = dropdowns[i];
-        if (openDropdown.style.display === "block") {
-          openDropdown.style.display = "none";
-        }
-      }
-      for (i = 0; i < popups.length; i++) {
-        var openPopup = popups[i];
-        if (openPopup.style.display === "block") {
-          openPopup.style.display = "none";
-        }
-      }
-    }
-  };
 
+  // Check if the current protocol is HTTPS
+  if (window.location.protocol === "https:") {
 // Dynamically load and append the script to the document
   const script = document.createElement('script');
   script.type = 'module';
@@ -339,8 +318,34 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Append the esp-web-install-button to the body or to a specific element on the page
   document.body.appendChild(espWebInstallButton);
+  }
 
   
+
+  // Close the menus if the user clicks outside of them
+  window.onclick = function (event) {
+    if (
+      !event.target.matches(".dropbtn") &&
+      !event.target.matches(".popup button")
+    ) {
+      var dropdowns = document.getElementsByClassName("dropdown-content");
+      var popups = document.getElementsByClassName("popup-content");
+      var i;
+      for (i = 0; i < dropdowns.length; i++) {
+        var openDropdown = dropdowns[i];
+        if (openDropdown.style.display === "block") {
+          openDropdown.style.display = "none";
+        }
+      }
+      for (i = 0; i < popups.length; i++) {
+        var openPopup = popups[i];
+        if (openPopup.style.display === "block") {
+          openPopup.style.display = "none";
+        }
+      }
+    }
+  };
+ 
 });
 
 /*
