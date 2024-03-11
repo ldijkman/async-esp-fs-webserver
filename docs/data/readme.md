@@ -1,7 +1,7 @@
 content for WebServer LittleFS ESP filesystem
 
 
-files may be newer as on your ESP
+files may be changed / newer as on your ESP FileSystem
 
 you could copy paste the code to your ESP witch Ace editor
 
