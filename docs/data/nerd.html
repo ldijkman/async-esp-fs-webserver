@@ -100,17 +100,20 @@
     console.log('Connection closed');
     setTimeout(initWebSocket, 2000);
   }
-  function onMessage(event) {
+ function onMessage(event) {
     var state;
     console.log("event.data ", event.data);
     if (event.data == "1"){
       state = "ON";
+      document.getElementById('state').innerHTML = state;
+      console.log("recieved state ", state);
     }
-    else{
+    if (event.data == "0"){
       state = "OFF";
+      document.getElementById('state').innerHTML = state;
+      console.log("recieved state ", state);
     }
-    document.getElementById('state').innerHTML = state;
-    console.log("recieved state ", state);
+  
   }
   function onLoad(event) {
     initWebSocket();
