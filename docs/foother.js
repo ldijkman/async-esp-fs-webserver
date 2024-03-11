@@ -287,40 +287,7 @@ document.addEventListener("DOMContentLoaded", function () {
   };
 
 
-  // Check if the current protocol is HTTPS
-  if (window.location.protocol === "https:") {
-// Dynamically load and append the script to the document
-  const script = document.createElement('script');
-  script.type = 'module';
-  script.src = 'https://ldijkman.github.io/async-esp-fs-webserver/ESP_Web_Tools/install-button.js?module';
-  document.head.appendChild(script);
-  // Use setTimeout to delay the button creation
-    setTimeout(function () {
-  // Create the esp-web-install-button and its content
-  const espWebInstallButton = document.createElement('esp-web-install-button');
-  espWebInstallButton.setAttribute('manifest', 'https://ldijkman.github.io/async-esp-fs-webserver/both.json');
 
-  const buttonSlot = document.createElement('button');
-  buttonSlot.setAttribute('slot', 'activate');
-  buttonSlot.textContent = 'Flash 4mb ESP8266 / ESP32';
-  espWebInstallButton.appendChild(buttonSlot);
-
-  const unsupportedSpan = document.createElement('span');
-  unsupportedSpan.setAttribute('slot', 'unsupported');
-  unsupportedSpan.style.cssText = 'color: red; font-size: 24px; font-weight: bold;';
-  unsupportedSpan.innerHTML = "Ah Damn Browser";
-  espWebInstallButton.appendChild(unsupportedSpan);
-
-  const notAllowedSpan = document.createElement('span');
-  notAllowedSpan.setAttribute('slot', 'not-allowed');
-  notAllowedSpan.style.cssText = 'color: red; font-size: 24px; font-weight: bold;';
-  notAllowedSpan.textContent = "Ah Damn HTTP!";
-  espWebInstallButton.appendChild(notAllowedSpan);
-
-  // Append the esp-web-install-button to the body or to a specific element on the page
-  document.body.appendChild(espWebInstallButton);
-      }, 5000); // Delay in milliseconds, 5000ms = 5 seconds
-  }
 
   
 
@@ -358,6 +325,39 @@ document.addEventListener("DOMContentLoaded", function () {
           <span style="color: red; font-size: 24px; font-weight: bold;" slot="unsupported">Ah Damn, your browser doesn't work! <br>Open this Page in a Chromium Based PC Browser!<br>and an Connect Install button will be here!</span>
           <span style="color: red; font-size: 24px; font-weight: bold;" slot="not-allowed">Ah Damn, you are not allowed to use this on HTTP!</span>
        </esp-web-install-button>
+  // Check if the current protocol is HTTPS
+  if (window.location.protocol === "https:") {
+// Dynamically load and append the script to the document
+  const script = document.createElement('script');
+  script.type = 'module';
+  script.src = 'https://ldijkman.github.io/async-esp-fs-webserver/ESP_Web_Tools/install-button.js?module';
+  document.head.appendChild(script);
+  // Use setTimeout to delay the button creation
+    setTimeout(function () {
+  // Create the esp-web-install-button and its content
+  const espWebInstallButton = document.createElement('esp-web-install-button');
+  espWebInstallButton.setAttribute('manifest', 'https://ldijkman.github.io/async-esp-fs-webserver/both.json');
 
+  const buttonSlot = document.createElement('button');
+  buttonSlot.setAttribute('slot', 'activate');
+  buttonSlot.textContent = 'Flash 4mb ESP8266 / ESP32';
+  espWebInstallButton.appendChild(buttonSlot);
+
+  const unsupportedSpan = document.createElement('span');
+  unsupportedSpan.setAttribute('slot', 'unsupported');
+  unsupportedSpan.style.cssText = 'color: red; font-size: 24px; font-weight: bold;';
+  unsupportedSpan.innerHTML = "Ah Damn Browser";
+  espWebInstallButton.appendChild(unsupportedSpan);
+
+  const notAllowedSpan = document.createElement('span');
+  notAllowedSpan.setAttribute('slot', 'not-allowed');
+  notAllowedSpan.style.cssText = 'color: red; font-size: 24px; font-weight: bold;';
+  notAllowedSpan.textContent = "Ah Damn HTTP!";
+  espWebInstallButton.appendChild(notAllowedSpan);
+
+  // Append the esp-web-install-button to the body or to a specific element on the page
+  document.body.appendChild(espWebInstallButton);
+      }, 5000); // Delay in milliseconds, 5000ms = 5 seconds
+  }
 
 */
