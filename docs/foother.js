@@ -307,13 +307,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const unsupportedSpan = document.createElement('span');
   unsupportedSpan.setAttribute('slot', 'unsupported');
   unsupportedSpan.style.cssText = 'color: red; font-size: 24px; font-weight: bold;';
-  unsupportedSpan.innerHTML = "Ah Damn, your browser doesn't work! <br>Open this Page in a Chromium Based PC Browser!<br>and an Connect Install button will be here!";
+  unsupportedSpan.innerHTML = "Ah Damn Browser";
   espWebInstallButton.appendChild(unsupportedSpan);
 
   const notAllowedSpan = document.createElement('span');
   notAllowedSpan.setAttribute('slot', 'not-allowed');
   notAllowedSpan.style.cssText = 'color: red; font-size: 24px; font-weight: bold;';
-  notAllowedSpan.textContent = "Ah Damn, you are not allowed to use this on HTTP!";
+  notAllowedSpan.textContent = "Ah Damn HTTP!";
   espWebInstallButton.appendChild(notAllowedSpan);
 
   // Append the esp-web-install-button to the body or to a specific element on the page
