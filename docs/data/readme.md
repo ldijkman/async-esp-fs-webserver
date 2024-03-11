@@ -1,2 +1,2 @@
-content for littlefs ESP filesystem
+content for WebServer LittleFS ESP filesystem
 
