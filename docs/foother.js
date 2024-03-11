@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
+
+
+
+
+
+    
     const floatingDiv = document.createElement('div');
     floatingDiv.style.cssText = 'position: fixed; bottom: 0; left: 0; width: 100%; background-color: #333; color: white; text-align: center; padding: 20px 0; font-size: 18px;';
 
@@ -21,6 +27,64 @@ document.addEventListener('DOMContentLoaded', function() {
         a.title = link.title; // Set the title attribute
         floatingDiv.appendChild(a);
     });
+
+
+
+
+
+    
+    // Tools Popup Menu Setup
+    const toolsPopupContainer = document.createElement('div');
+    toolsPopupContainer.className = 'popup';
+    toolsPopupContainer.style.cssText = 'display: inline-block; position: relative; cursor: pointer;';
+
+    const toolsButton = document.createElement('button');
+    toolsButton.textContent = 'Tools';
+    toolsButton.style.cssText = 'background-color: #333; color: cyan; padding: 10px; font-size: 16px; border: none; margin: 0 20px;';
+
+    const toolsPopupContent = document.createElement('div');
+    toolsPopupContent.className = 'popup-content';
+    toolsPopupContent.style.cssText = 'display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: cyan; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;';
+
+    const toolsLinks = [
+        {href: 'https://js2ts.com', text: 'JavaScript to TypeScript'},
+        {href: 'https://www.blackbox.ai/', text: 'BlackBox.Ai'},
+        {href: 'https://copilot.microsoft.com', text: 'Ai Microsoft CoPilot'},
+        {href: 'https://gemini.google.com/app', text: 'Ai Google Gemini'},
+        {href: 'https://chat.openai.com/auth/login', text: 'Ai OpenAi ChatGPT '}
+    ];
+
+    toolsLinks.forEach(link => {
+        const a = document.createElement('a');
+        a.href = link.href;
+        a.target = '_blank';
+        a.textContent = link.text;
+        a.title = link.title; // Set the title attribute
+        a.style.cssText = 'color: black; padding: 12px 16px; text-decoration: none; display: block;';
+        toolsPopupContent.appendChild(a);
+    });
+
+    toolsPopupContainer.appendChild(toolsButton);
+    toolsPopupContainer.appendChild(toolsPopupContent);
+    floatingDiv.appendChild(toolsPopupContainer);
+
+    // ... (same as before for Nerd and Ai menus)
+
+    document.body.appendChild(floatingDiv);
+
+    // Toggle functions for menus
+    // ... (same as before for Nerd and Ai menus)
+
+    toolsButton.onclick = function() {
+        toolsPopupContent.style.display = toolsPopupContent.style.display === 'block' ? 'none' : 'block';
+    };
+
+    // Close the menus if the user clicks outside of them
+    // ... (same as before)
+
+
+
+    
 
     // Nerd Dropup Menu Setup (existing code)
     const dropupContainer = document.createElement('div');
