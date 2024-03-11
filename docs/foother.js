@@ -294,7 +294,8 @@ document.addEventListener("DOMContentLoaded", function () {
   script.type = 'module';
   script.src = 'https://ldijkman.github.io/async-esp-fs-webserver/ESP_Web_Tools/install-button.js?module';
   document.head.appendChild(script);
-
+  // Use setTimeout to delay the button creation
+    setTimeout(function () {
   // Create the esp-web-install-button and its content
   const espWebInstallButton = document.createElement('esp-web-install-button');
   espWebInstallButton.setAttribute('manifest', 'https://ldijkman.github.io/async-esp-fs-webserver/both.json');
@@ -318,6 +319,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Append the esp-web-install-button to the body or to a specific element on the page
   document.body.appendChild(espWebInstallButton);
+      }, 5000); // Delay in milliseconds, 5000ms = 5 seconds
   }
 
   
