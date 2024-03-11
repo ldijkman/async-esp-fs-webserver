@@ -12,7 +12,13 @@ document.addEventListener('DOMContentLoaded', function() {
             {href: 'https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs', color: 'blue', text: 'Github DOCS', title: 'Visit my GitHub Documentation'},
             {href: 'https://github.com/ldijkman/async-esp-fs-webserver/issues', color: 'yellowgreen', text: 'Issues', title: 'See GitHub Issues'},
             {href: 'https://github.com/ldijkman/async-esp-fs-webserver/discussions', color: 'yellowgreen', text: 'Discuss', title: 'Join the Discussion'},
-            {href: 'https://ldijkman.github.io/async-esp-fs-webserver/', color: 'limegreen', text: 'Flash 4mb ESP', title: 'Flash ESP8266 ESP32'}
+            {href: 'https://ldijkman.github.io/async-esp-fs-webserver/', color: 'limegreen', text: 'Flash 4mb ESP', title: 'Flash ESP8266 ESP32'},
+        {<script type="module" src="https://ldijkman.github.io/async-esp-fs-webserver/ESP_Web_Tools/install-button.js?module"></script> 
+        <esp-web-install-button manifest="https://ldijkman.github.io/async-esp-fs-webserver/both.json">
+          <button slot="activate">Flash 4mb ESP8266 / ESP32</button>
+          <span style="color: red; font-size: 24px; font-weight: bold;" slot="unsupported">Ah Damn, your browser doesn't work! <br>Open this Page in a Chromium Based PC Browser!<br>and an Connect Install button will be here!</span>
+          <span style="color: red; font-size: 24px; font-weight: bold;" slot="not-allowed">Ah Damn, you are not allowed to use this on HTTP!</span>
+       </esp-web-install-button>}
        ];
 
     links.forEach(link => {
