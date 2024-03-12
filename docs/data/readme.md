@@ -7,3 +7,5 @@ you could copy paste the code to your ESP witch Ace editor
 
 https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs/data
 
+https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs/data/Your_Input
+
