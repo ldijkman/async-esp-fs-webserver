@@ -379,6 +379,18 @@ void AsyncFsWebServer::notFound(AsyncWebServerRequest *request) {
     request->send(200, "text/html", htmlContent);
   });
 
+    server.on("/bulb.html", HTTP_GET, [](AsyncWebServerRequest *request){
+    String htmlContent;
+    File file = LittleFS.open("/bulb.html", "r");
+    if(file){
+      htmlContent = file.readString();
+      file.close();
+    }
+
+    htmlContent.replace("%STATE%", ledState ? "ON" : "OFF"); // Assuming your HTML contains a {STATE} placeholder
+    request->send(200, "text/html", htmlContent);
+  });
+
 
 
   
