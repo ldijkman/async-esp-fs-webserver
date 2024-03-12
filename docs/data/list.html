@@ -1,1 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dynamic Iframes from mDNS WebSocket Data</title>
+    <style>
+        .iframe-container {
+            margin-bottom: 20px;
+        }
+        iframe {
+            width: 40%;
+            height: 250px; /* Adjust height as needed */
+        }
+    </style>
+</head>
+<body>
+    <h2>Dynamic Iframes based on mDNS WebSocket Data</h2>
+    automaticly lists other devices in iframe on the network<br>
+    <div id="iframeContainer"></div>
 
+    <script>
+        // Modify this URL to your WebSocket server
+         const ws = new WebSocket('ws://' + window.location.hostname + '/ws');
+       
+
+        ws.onopen = function() {
+            console.log('WebSocket connection established');
+            // Optionally send a message to the server
+            // ws.send('Hello Server');
+        };
+
+        ws.onerror = function(error) {
+            console.error('WebSocket Error: ', error);
+        };
+
+ws.onmessage = function(event) {
+    console.log('WebSocket message received:', event.data);
+    try {
+        const data = JSON.parse(event.data);
+        // Check if the parsed data is in the expected format (an array with objects containing `mdnsname`, `ip`, `port`)
+        if (Array.isArray(data) && data.length > 0 && data[0].hasOwnProperty('mdnsname') && data[0].hasOwnProperty('ip') && data[0].hasOwnProperty('port')) {
+            createIframes(data); // Call function to create iframes with received data
+        } else {
+            console.log('Received data does not contain expected structure:', event.data);
+        }
+    } catch(e) {
+        console.error('Error parsing WebSocket data:', e, 'Data:', event.data);
+    }
+};
+
+        // Function to dynamically create iframes based on the WebSocket data
+        function createIframes(data) {
+            const container = document.getElementById('iframeContainer');
+            container.innerHTML = ''; // Clear previous data
+
+            data.forEach(item => {
+                const iframeContainer = document.createElement('div');
+                iframeContainer.classList.add('iframe-container');
+
+                const title = document.createElement('h3');
+                title.textContent = item.mdnsname;
+
+                const iframe = document.createElement('iframe');
+                // Construct the URL assuming http protocol and using the provided ip and port
+                iframe.src = `http://${item.ip}:${item.port}/nerd.html`;
+                iframe.title = item.mdnsname;
+
+                iframeContainer.appendChild(title);
+                iframeContainer.appendChild(iframe);
+                container.appendChild(iframeContainer);
+            });
+        }
+    </script>
+<script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
+
+<br><br><br><br><br><br><br><br><br><br><br><br>
+<script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
+
+</body>
+</html>
