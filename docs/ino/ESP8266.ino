@@ -375,7 +375,7 @@ void AsyncFsWebServer::notFound(AsyncWebServerRequest *request) {
       file.close();
     }
 
-    htmlContent.replace("{STATE}", ledState ? "ON" : "OFF"); // Assuming your HTML contains a {STATE} placeholder
+    htmlContent.replace("%STATE%", ledState ? "ON" : "OFF"); // Assuming your HTML contains a {STATE} placeholder
     request->send(200, "text/html", htmlContent);
   });
 
