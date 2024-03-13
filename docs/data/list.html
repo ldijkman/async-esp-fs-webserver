@@ -55,8 +55,15 @@ function createIframes(data) {
     data.forEach(item => {
         const iframeContainer = document.createElement('div');
         iframeContainer.classList.add('iframe-container');
+        iframeContainer.style.border = '2px solid #ccc'; // Thin, grey border
+        iframeContainer.style.borderRadius = '10px'; // Rounded corners
+        iframeContainer.style.padding = '10px'; // Padding inside the border
+        iframeContainer.style.marginBottom = '20px'; // Space between each set
+        iframeContainer.style.display = 'inline-block'; // Adjust as needed for layout
+        iframeContainer.style.width = 'calc(40% - 20px)'; // Adjust width as needed, accounting for padding
+        iframeContainer.style.boxSizing = 'border-box'; // Include padding and border in the element's width
 
-        // Create an h1 element
+        // Create an h1 element for the title
         const title = document.createElement('h1');
         title.style.textAlign = 'center'; // Center the title
 
@@ -71,15 +78,17 @@ function createIframes(data) {
         title.appendChild(mdnsLink);
 
         const iframe = document.createElement('iframe');
-        // Continue to point the iframe to the specific URL as before
         iframe.src = `http://${item.ip}:${item.port}/nerd.html`;
         iframe.title = item.mdnsname;
-        iframe.style.display = 'block'; // Ensure it's properly displayed
-        iframe.style.marginLeft = 'auto'; // Together with marginRight, centers the iframe
-        iframe.style.marginRight = 'auto';
+        iframe.style.width = '100%'; // Make iframe fill the container width
+        iframe.style.height = '250px'; // Adjust height as needed
+        iframe.style.border = 'none'; // Remove iframe default border
 
-        iframeContainer.appendChild(title); // Append the centered title above the iframe
+        // Append the title and iframe to the container
+        iframeContainer.appendChild(title);
         iframeContainer.appendChild(iframe);
+        
+        // Append the container to the main container
         container.appendChild(iframeContainer);
     });
 }
