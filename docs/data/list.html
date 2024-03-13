@@ -48,27 +48,41 @@ ws.onmessage = function(event) {
 };
 
         // Function to dynamically create iframes based on the WebSocket data
-        function createIframes(data) {
-            const container = document.getElementById('iframeContainer');
-            container.innerHTML = ''; // Clear previous data
+function createIframes(data) {
+    const container = document.getElementById('iframeContainer');
+    container.innerHTML = ''; // Clear previous iframes
 
-            data.forEach(item => {
-                const iframeContainer = document.createElement('div');
-                iframeContainer.classList.add('iframe-container');
+    data.forEach(item => {
+        const iframeContainer = document.createElement('div');
+        iframeContainer.classList.add('iframe-container');
 
-                const title = document.createElement('h3');
-                title.textContent = item.mdnsname;
+        // Create an h1 element
+        const title = document.createElement('h1');
+        title.style.textAlign = 'center'; // Center the title
 
-                const iframe = document.createElement('iframe');
-                // Construct the URL assuming http protocol and using the provided ip and port
-                iframe.src = `http://${item.ip}:${item.port}/nerd.html`;
-                iframe.title = item.mdnsname;
+        // Create an anchor element for the mdnsname that opens in a new window/tab
+        const mdnsLink = document.createElement('a');
+        mdnsLink.href = `http://${item.ip}/index.html`; // Assuming the page is index.html at the device IP
+        mdnsLink.textContent = item.mdnsname;
+        mdnsLink.target = "_blank"; // Open in new window/tab
+        mdnsLink.style.color = 'inherit'; // Optional: Ensures link color matches the surrounding text
 
-                iframeContainer.appendChild(title);
-                iframeContainer.appendChild(iframe);
-                container.appendChild(iframeContainer);
-            });
-        }
+        // Append the link to the h1 element
+        title.appendChild(mdnsLink);
+
+        const iframe = document.createElement('iframe');
+        // Continue to point the iframe to the specific URL as before
+        iframe.src = `http://${item.ip}:${item.port}/nerd.html`;
+        iframe.title = item.mdnsname;
+        iframe.style.display = 'block'; // Ensure it's properly displayed
+        iframe.style.marginLeft = 'auto'; // Together with marginRight, centers the iframe
+        iframe.style.marginRight = 'auto';
+
+        iframeContainer.appendChild(title); // Append the centered title above the iframe
+        iframeContainer.appendChild(iframe);
+        container.appendChild(iframeContainer);
+    });
+}
     </script>
 <script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
 
