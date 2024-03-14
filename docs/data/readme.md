@@ -11,7 +11,7 @@ https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs/data/Your_In
 
 ---
 
-some template processing on uplad webserver html files
+some template processing on upload webserver html files
 
 text in html like %MDNS% changed on upload
 ```
