@@ -1,11 +1,11 @@
 /*
 
-Quick an dirty test of Improv wifi configuration
+  Quick an dirty test of Improv wifi configuration
 
-<!-- 
-Copyright 2023 Dirk Luberth Dijkman Bangert 30 1619GJ Andijk The Netherlands    
-The Art of Time Controlled. Visual TimeSlots Schedule.
--->
+  <!--
+  Copyright 2023 Dirk Luberth Dijkman Bangert 30 1619GJ Andijk The Netherlands
+  The Art of Time Controlled. Visual TimeSlots Schedule.
+  -->
 */
 
 // does ESP8266 4mb 12E / 12F  maybe 12S
@@ -37,8 +37,8 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
 #include <FS.h>
 #include <LittleFS.h>
 #include <AsyncFsWebServer.h>  // https://github.com/cotestatnt/async-esp-fs-webserver
-                               // Arduino IDE => Sketch => include library => Manage Libraries ->
-                               // search for "cotestatnt AsyncEspFSWebserver" and install
+// Arduino IDE => Sketch => include library => Manage Libraries ->
+// search for "cotestatnt AsyncEspFSWebserver" and install
 
 #include <ArduinoJson.h>
 #include "time.h"
@@ -161,8 +161,8 @@ bool startFilesystem() {
 
 
 /*
-* Getting FS info (total and free bytes) is strictly related to
-* filesystem library used (LittleFS, FFat, SPIFFS etc etc) and ESP framework
+  Getting FS info (total and free bytes) is strictly related to
+  filesystem library used (LittleFS, FFat, SPIFFS etc etc) and ESP framework
 */
 #ifdef ESP32
 void getFsInfo(fsInfo_t* fsInfo) {
@@ -205,13 +205,13 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
         if (info->opcode == WS_TEXT) {
           data[len] = '\0';  // Null-terminate the data to parse as string
           Serial.printf("luberth Received message \"%s\"\n", data);
-            
-    if (strcmp((char*)data, "toggle") == 0) {
-      ledState = !ledState;
-      //notifyClients();
-        ws.textAll(String(ledState));
-        digitalWrite(gpio_relais_pin, ledState);
-    }
+
+          if (strcmp((char*)data, "toggle") == 0) {
+            ledState = !ledState;
+            //notifyClients();
+            ws.textAll(String(ledState));
+            digitalWrite(gpio_relais_pin, ledState);
+          }
           // Parse JSON message
           DynamicJsonDocument doc(1024);  // Adjust size according to your expected message size
           DeserializationError error = deserializeJson(doc, data);
@@ -247,7 +247,24 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
 
 
 
-
+String processor(const String& var) {
+  // Check which placeholder needs to be replaced
+  if (var == "STATE") {
+    // Replace "%STATE%" with "ON" or "OFF" based on the ledState variable
+    return ledState ? "ON" : "OFF";
+  }
+  else if (var == "MDNS") {
+    // Replace "%MDNS%" with the device's mDNS hostname
+    return String(myhostname) + ".local";
+  }
+  else if (var == "IP") {
+    // Replace "%IP%" with the device's IP address
+    return WiFi.localIP().toString();
+  }
+  // Add more placeholders as needed
+  // If the placeholder does not match any known identifier, return an empty string
+  return String();
+}
 
 
 
@@ -297,10 +314,10 @@ void setup() {
     Serial.printf("Stored \"gpio_input_button_pin\" value: %d\n", gpio_input_button_pin);
     Serial.printf("Stored \"mDNS hostname\" value: %s\n", hostname);
     Serial.printf("Stored \"GMT_Time_Offset_sec\" value: %d\n", GMT_Time_Offset_sec);
-  } else{
+  } else {
     Serial.println("LittleFS error!");
-}
-Serial.println("");
+  }
+  Serial.println("");
 
   pinMode(gpio_relais_pin, OUTPUT);
 
@@ -326,7 +343,8 @@ Serial.println("");
   server.setFsInfoCallback(getFsInfo);
 #endif
 
-
+  // Default headers for all responses
+  DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
 
   // if i activate next
   // there is no custom tab anymore on setup page for mdns and relais gpio pin setting
@@ -334,8 +352,8 @@ Serial.println("");
   // server.on("/index.html", HTTP_GET, [](AsyncWebServerRequest* request) {
   //   request->send(LittleFS, "/index.html", "text/html");
   // });
-
-  server.onNotFound([](AsyncWebServerRequest* request) {
+/*
+  server.onNotFound([](AsyncWebServerRequest * request) {
     Serial.println("Handling Not Found");
     if (LittleFS.exists("/index.html")) {
       Serial.println("index.html exists. Serving it now...");
@@ -345,8 +363,10 @@ Serial.println("");
       request->send(404, "text/plain", "404: Not Found");
     }
   });
+
+  */
   /*
-void AsyncFsWebServer::notFound(AsyncWebServerRequest *request) {
+    void AsyncFsWebServer::notFound(AsyncWebServerRequest *request) {
     String pathTo404 = "/404.html"; // Path to your custom 404 page
     if (m_filesystem->exists(pathTo404)) {
         request->send(m_filesystem, pathTo404, "text/html");
@@ -354,46 +374,45 @@ void AsyncFsWebServer::notFound(AsyncWebServerRequest *request) {
         request->send(404, "text/plain", "Not found");
     }
     log_debug("Resource %s not found\n", request->url().c_str());
-}
-*/
+    }
+  */
 
   server.on("/led", HTTP_GET, handleLed);
 
   // Define route for "/ace" to serve "ace.html"
-  server.on("/ace", HTTP_GET, [](AsyncWebServerRequest* request) {
+  server.on("/ace", HTTP_GET, [](AsyncWebServerRequest * request) {
     if (LittleFS.exists("/ace.html")) {
       Serial.println("/ace requested. Serving ace.html now...");
       request->send(LittleFS, "/ace.html", "text/html");
     }
   });
 
-  server.on("/nerd.html", HTTP_GET, [](AsyncWebServerRequest *request){
-    String htmlContent;
-    File file = LittleFS.open("/nerd.html", "r");
-    if(file){
-      htmlContent = file.readString();
-      file.close();
-    }
-
-    htmlContent.replace("%STATE%", ledState ? "ON" : "OFF"); // Assuming your HTML contains a {STATE} placeholder
-    request->send(200, "text/html", htmlContent);
-  });
-
-    server.on("/bulb.html", HTTP_GET, [](AsyncWebServerRequest *request){
-    String htmlContent;
-    File file = LittleFS.open("/bulb.html", "r");
-    if(file){
-      htmlContent = file.readString();
-      file.close();
-    }
-
-    htmlContent.replace("%STATE%", ledState ? "ON" : "OFF"); // Assuming your HTML contains a {STATE} placeholder
-    request->send(200, "text/html", htmlContent);
-  });
 
 
 
+server.onNotFound([](AsyncWebServerRequest *request) {
+  String path = request->url();
   
+  // Add trailing "index.html" if the path ends with a slash
+  if (path.endsWith("/")) {
+    path += "index.html";
+  }
+  
+  // Check if the request is for an HTML file
+  if (path.endsWith(".htm") || path.endsWith(".html")) {
+    String contentType = "text/html";
+    // Use the processor function when serving the file
+    request->send(LittleFS, path, contentType, false, processor);
+  } else {
+    // If not an HTML file, send 404 Not Found
+    request->send(404, "text/plain", "no Not found");
+  }
+});
+
+
+
+
+
 
   // Start server
   // Init with custom WebSocket event handler and start server
@@ -409,14 +428,14 @@ void AsyncFsWebServer::notFound(AsyncWebServerRequest *request) {
   Serial.println(myIP);
 
   Serial.println(F(
-    
-    "\n"
-    "Open /setup page tab custom to configure optional parameters.\n"
-    "\n"
-    "This is \"a simple Server .ino\" example.\n"
-    "https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/simpleServerwithwebsocket.ino\n"
-    "\n"));
-   
+
+                   "\n"
+                   "Open /setup page tab custom to configure optional parameters.\n"
+                   "\n"
+                   "This is \"a simple Server .ino\" example.\n"
+                   "https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/simpleServerwithwebsocket.ino\n"
+                   "\n"));
+
 
   // Check if we are in station mode before starting NTP
   if (WiFi.getMode() == WIFI_STA) {
@@ -424,7 +443,7 @@ void AsyncFsWebServer::notFound(AsyncWebServerRequest *request) {
     configTime(GMT_Time_Offset_sec, daylightOffset_sec, ntpServer);
     Serial.println("NTP client started");
 
-   
+
 
 
 
@@ -433,9 +452,10 @@ void AsyncFsWebServer::notFound(AsyncWebServerRequest *request) {
     // otherwise i cannot get it to work
     if (MDNS.begin(myhostname)) {
       Serial.println("MDNS responder started.");
-      Serial.print("You should be able to connect with address http://");
+      Serial.print(F("Server started on IP Address: \033[32m http://"));
       Serial.print(myhostname);
       Serial.println(".local/");
+      Serial.print("\033[0m"); // Reset color
       MDNS.addService("http", "tcp", 80);
       MDNS.setInstanceName(myhostname);  // Change "new-service-name" to your desired name
     } else {
@@ -505,17 +525,20 @@ void loop() {
 
       ws.textAll(String(ledState));
 
- improvSerial.handleSerial();  //
+      improvSerial.handleSerial();  //
 
 
       // Check WiFi connection and print the time
       if (WiFi.status() == WL_CONNECTED) {
         printLocalTime();
         Serial.print("This Server ");
+        Serial.print("\033[32m"); // Set green color (other color codes available)
+
         Serial.print("http://");
         Serial.print(myhostname);
         Serial.print(".local   http://");
         Serial.println(WiFi.localIP());
+        Serial.print("\033[0m"); // Reset color
         //Serial.println("flash https://ldijkman.github.io/async-esp-fs-webserver/");
       }
     } /*else {
@@ -580,7 +603,9 @@ void browseService(const char* service, const char* proto) {
   Serial.printf("Scan mDNS... ");//_%s._%s.local. ... ", service, proto);
   int n = MDNS.queryService(service, proto);  // Query mDNS service
   if (n == 0) {
+    Serial.print("\033[31m"); //red
     Serial.println("\nDamn, no services found\n Flash more Devices\n  And give each a Unique mDNS name in Setup tab Custom");
+    Serial.print("\033[0m"); // Reset color
   } else {
     Serial.print(n);
     Serial.println(" service(s) found");
@@ -605,8 +630,9 @@ void browseService(const char* service, const char* proto) {
 
       // Now print the details, using the lowercase hostname
       //Serial.printf("   %d: http://%s - http://%s port:%d\n", i + 1, hostnameLower.c_str(), MDNS.IP(i).toString().c_str(), MDNS.port(i));
-
-Serial.printf("   %d: http://%s - http://%s\n", i + 1, hostnameLower.c_str(), MDNS.IP(i).toString().c_str());
+      Serial.print("\033[32m"); // Set green color (other color codes available)
+      Serial.printf("   %d: http://%s - http://%s\n", i + 1, hostnameLower.c_str(), MDNS.IP(i).toString().c_str());
+      Serial.print("\033[0m"); // Reset color
 
 
 
@@ -684,8 +710,8 @@ void blink_led(int d, int times) {
 
 
 /*
-<!-- 
-Copyright 2023 Dirk Luberth Dijkman Bangert 30 1619GJ Andijk The Netherlands    
-The Art of Time Controlled. Visual TimeSlots Schedule.
--->
+  <!--
+  Copyright 2023 Dirk Luberth Dijkman Bangert 30 1619GJ Andijk The Netherlands
+  The Art of Time Controlled. Visual TimeSlots Schedule.
+  -->
 */
