@@ -13,6 +13,12 @@ https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs/data/Your_In
 
 some template processing on upload webserver html files
 
+%% is giving problems think i changed it to {{ }}
+
+need to rewrite some things 
+
+{{STATE}} {{MDNS}}
+
 text in html like %MDNS% changed on upload
 ```
 String processor(const String& var) {
