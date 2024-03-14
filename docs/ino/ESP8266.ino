@@ -405,7 +405,7 @@ server.onNotFound([](AsyncWebServerRequest *request) {
     request->send(LittleFS, path, contentType, false, processor);
   } else {
     // If not an HTML file, send 404 Not Found
-    request->send(404, "text/plain", "Oh No, Not found <a href=\"/\">/ home");
+    request->send(404, "text/plain", "Oh No, Not found <a href=\"/\">/ home</a>");
   }
 });
 
