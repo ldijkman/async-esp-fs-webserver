@@ -11,6 +11,8 @@ https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs/data/Your_In
 
 ---
 
+### Problem %MDNS% %STATE% %IP% is changed in Editor Also
+
 some template processing on upload webserver html files
 
 on nerd.html bulb.html and bulbs.html 
