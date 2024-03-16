@@ -63,6 +63,9 @@ function createIframes(data) {
     const container = document.getElementById('iframeContainer');
     container.innerHTML = ''; // Clear previous iframes
 
+    // Sort the data array by mdnsname property, alphabetically
+    data.sort((a, b) => a.mdnsname.localeCompare(b.mdnsname));
+
     data.forEach(item => {
         const iframeContainer = document.createElement('div');
         iframeContainer.classList.add('iframe-container');
@@ -71,7 +74,7 @@ function createIframes(data) {
         iframeContainer.style.padding = '10px'; // Padding inside the border
         iframeContainer.style.marginBottom = '20px'; // Space between each set
         iframeContainer.style.display = 'inline-block'; // Adjust as needed for layout
-        iframeContainer.style.width = '24%';//'calc(40% - 20px)'; // Adjust width as needed, accounting for padding
+        iframeContainer.style.width = '24%'; // Adjust width as needed, accounting for padding
         iframeContainer.style.boxSizing = 'border-box'; // Include padding and border in the element's width
 
         // Create an h1 element for the title
