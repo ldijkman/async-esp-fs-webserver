@@ -86,7 +86,7 @@ function createIframes(data) {
         mdnsLink.href = `http://${item.ip}/index.html`; // Assuming the page is index.html at the device IP
         mdnsLink.textContent = item.mdnsname;
         mdnsLink.target = "_blank"; // Open in new window/tab
-        mdnsLink.style.color = 'inherit'; // Optional: Ensures link color matches the surrounding text
+        //mdnsLink.style.color = 'inherit'; // Optional: Ensures link color matches the surrounding text
 
         // Append the link to the h1 element
         title.appendChild(mdnsLink);
