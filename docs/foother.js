@@ -315,6 +315,21 @@ document.addEventListener("DOMContentLoaded", function () {
   const ESPLinks = [
      {
       href:
+        "/nerd.html",
+      text: "/nerd.html"
+    },
+     {
+      href:
+        "/bulb.html",
+      text: "/bulb.html"
+    },
+     {
+      href:
+        "/bulbs.html",
+      text: "/bulbs.html"
+    },
+     {
+      href:
         "/edit",
       text: "/edit"
     },
