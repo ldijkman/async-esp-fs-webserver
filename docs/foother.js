@@ -313,6 +313,26 @@ document.addEventListener("DOMContentLoaded", function () {
     "display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: cyan; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;";
 
   const ESPLinks = [
+    {
+      href:
+        "/scan",
+      text: "/scan"
+    },
+        {
+      href:
+        "/reset",
+      text: "/reset"
+    },
+    {
+      href:
+        "/wifistatus",
+      text: "/wifistatus"
+    },
+    {
+      href:
+        "/wifi",
+      text: "/wifi"
+    },
      {
       href:
         "/nerd.html",
