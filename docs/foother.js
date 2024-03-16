@@ -289,6 +289,85 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+
+
+
+
+
+
+
+ // ESP Popup Menu Setup
+  const ESPPopupContainer = document.createElement("div");
+  ESPPopupContainer.className = "popup";
+  ESPPopupContainer.style.cssText =
+    "display: inline-block; position: relative; cursor: pointer;";
+
+  const ESPButton = document.createElement("button");
+  ESPButton.textContent = "ESP Links";
+  ESPButton.style.cssText =
+    "background-color: #333; color: cyan; padding: 10px; font-size: 16px; border: none; margin: 0 20px;";
+
+  const ESPPopupContent = document.createElement("div");
+  ESPPopupContent.className = "popup-content";
+  ESPPopupContent.style.cssText =
+    "display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: cyan; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;";
+
+  const ESPLinks = [
+    {
+      href:
+        "/setup",
+      text: "/setup"
+    },
+    {
+      href:
+        "/index.html",
+      text: "/index.html"
+    }
+  ];
+
+  ESPLinks.forEach((link) => {
+    const a = document.createElement("a");
+    a.href = link.href;
+    a.target = "_blank";
+    a.textContent = link.text;
+    a.title = link.title; // Set the title attribute
+    a.style.cssText =
+      "color: black; padding: 12px 16px; text-decoration: none; display: block;";
+    ESPPopupContent.appendChild(a);
+  });
+
+  ESPPopupContainer.appendChild(ESPButton);
+  ESPPopupContainer.appendChild(ESPPopupContent);
+  floatingDiv.appendChild(ESPPopupContainer);
+
+  // ... (same as before for Nerd and Ai menus)
+
+  document.body.appendChild(floatingDiv);
+
+  // Toggle functions for menus
+  // ... (same as before for Nerd and Ai menus)
+
+  ESPButton.onclick = function () {
+    ESPPopupContent.style.display =
+      ESPPopupContent.style.display === "block" ? "none" : "block";
+  };
+
+  // Close the menus if the user clicks outside of them
+  // ... (same as before)
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
   
 
   // Close the menus if the user clicks outside of them
