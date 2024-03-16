@@ -13,10 +13,18 @@
         body {
       background-color: #2D2A2A;
     }
+        /* Add this section for links styling */
+        a {
+            color: gray; /* This makes links light gray */
+            text-decoration: none; /* Optional: removes underline from links */
+        }
+        a:hover {
+            color: lightgray; /* Optional: changes link color on hover for better visibility */
+        }
     </style>
 </head>
 <body>
-    <h2>%MDNS%<br>Dynamic Iframes based on mDNS WebSocket Data</h2>
+    <h2><a href="http://%IP%/bulb.html">%MDNS%</a><br>Dynamic Iframes based on mDNS WebSocket Data</h2>
     automaticly lists other devices in iframe on the network<br>
     <div id="iframeContainer"></div>
 
