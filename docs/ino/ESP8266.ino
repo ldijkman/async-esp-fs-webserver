@@ -331,18 +331,18 @@ void setup() {
   // Default headers for all responses
   DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
 
-
-  server.onNotFound([](AsyncWebServerRequest * request) {
-    Serial.println("Handling Not Found");
-    if (LittleFS.exists("/index.html")) {
-      Serial.println("index.html exists. Serving it now...");
-      request->send(LittleFS, "/index.html", "text/html");
-    } else {
-      Serial.println("index.html not found in LittleFS");
-      request->send(404, "text/plain", "404: Not Found");
-    }
-  });
-
+  /*
+    server.onNotFound([](AsyncWebServerRequest * request) {
+      Serial.println("Handling Not Found");
+      if (LittleFS.exists("/index.html")) {
+        Serial.println("index.html exists. Serving it now...");
+        request->send(LittleFS, "/index.html", "text/html");
+      } else {
+        Serial.println("index.html not found in LittleFS");
+        request->send(404, "text/plain", "404: Not Found");
+      }
+    });
+  */
   server.on("/led", HTTP_GET, handleLed);
 
   // Define route for "/ace" to serve "ace.html"
@@ -352,10 +352,6 @@ void setup() {
       request->send(LittleFS, "/ace.html", "text/html");
     }
   });
-  
-
-
- 
 
 
 
@@ -366,89 +362,99 @@ void setup() {
 
 
 
- server.on("/bulb.html", HTTP_GET, [](AsyncWebServerRequest *request) {
-    String path = "/bulb.html"; // Directly specify the file path
-    String contentType = "text/html"; // We know it's an HTML file
 
-    File file = LittleFS.open(path, "r");
-    if(!file) {
+
+
+
+  server.on("/bulb.html", HTTP_GET, [](AsyncWebServerRequest * request) {
+    if (request->url() != "/ace") {
+      String path = "/bulb.html"; // Directly specify the file path
+      String contentType = "text/html"; // We know it's an HTML file
+
+      File file = LittleFS.open(path, "r");
+      if (!file) {
         request->send(404, "text/html", "Oh No, Not found <a href=\"/\">/ home</a>");
         return;
-    }
+      }
 
-    String fileContent = file.readString();
-    file.close();
+      String fileContent = file.readString();
+      file.close();
 
-    // Perform dynamic content replacement
-    fileContent.replace("%STATE%", ledState ? "ON" : "OFF");
-    fileContent.replace("%MDNS%", String(myhostname) + ".local");
-    fileContent.replace("%IP%", WiFi.localIP().toString());
+      // Perform dynamic content replacement
+      fileContent.replace("%STATE%", ledState ? "ON" : "OFF");
+      fileContent.replace("%MDNS%", String(myhostname) + ".local");
+      fileContent.replace("%IP%", WiFi.localIP().toString());
 
-    request->send(200, contentType, fileContent);
-});
- 
-
- server.on("/bulbs.html", HTTP_GET, [](AsyncWebServerRequest *request) {
-    String path = "/bulbs.html"; // Directly specify the file path
-    String contentType = "text/html"; // We know it's an HTML file
-
-    File file = LittleFS.open(path, "r");
-    if(!file) {
-        request->send(404, "text/html", "Oh No, Not found <a href=\"/\">/ home</a>");
-        return;
-    }
-
-    String fileContent = file.readString();
-    file.close();
-
-    // Perform dynamic content replacement
-    fileContent.replace("%STATE%", ledState ? "ON" : "OFF");
-    fileContent.replace("%MDNS%", String(myhostname) + ".local");
-    fileContent.replace("%IP%", WiFi.localIP().toString());
-
-    request->send(200, contentType, fileContent);
-});
-
-
- server.on("/nerd.html", HTTP_GET, [](AsyncWebServerRequest *request) {
-    String path = "/nerd.html"; // Directly specify the file path
-    String contentType = "text/html"; // We know it's an HTML file
-
-    File file = LittleFS.open(path, "r");
-    if(!file) {
-        request->send(404, "text/html", "Oh No, Not found <a href=\"/\">/ home</a>");
-        return;
-    }
-
-    String fileContent = file.readString();
-    file.close();
-
-    // Perform dynamic content replacement
-    fileContent.replace("%STATE%", ledState ? "ON" : "OFF");
-    fileContent.replace("%MDNS%", String(myhostname) + ".local");
-    fileContent.replace("%IP%", WiFi.localIP().toString());
-
-    request->send(200, contentType, fileContent);
-});
-
-
-
-
-
-
-/*
-  server.onNotFound([](AsyncWebServerRequest * request) {
-    Serial.println("Handling Not Found");
-    if (LittleFS.exists("/index.html")) {
-      Serial.println("index.html exists. Serving it now...");
-      request->send(LittleFS, "/index.html", "text/html");
-    } else {
-      Serial.println("index.html not found in LittleFS");
-      request->send(404, "text/plain", "404: Not Found");
+      request->send(200, contentType, fileContent);
     }
   });
 
-*/
+
+  server.on("/bulbs.html", HTTP_GET, [](AsyncWebServerRequest * request) {
+    if (request->url() != "/ace") {
+      String path = "/bulbs.html"; // Directly specify the file path
+      String contentType = "text/html"; // We know it's an HTML file
+
+      File file = LittleFS.open(path, "r");
+      if (!file) {
+        request->send(404, "text/html", "Oh No, Not found <a href=\"/\">/ home</a>");
+        return;
+      }
+
+      String fileContent = file.readString();
+      file.close();
+
+      // Perform dynamic content replacement
+      fileContent.replace("%STATE%", ledState ? "ON" : "OFF");
+      fileContent.replace("%MDNS%", String(myhostname) + ".local");
+      fileContent.replace("%IP%", WiFi.localIP().toString());
+
+      request->send(200, contentType, fileContent);
+    }
+  });
+
+
+  server.on("/nerd.html", HTTP_GET, [](AsyncWebServerRequest * request) {
+    if (request->url() != "/ace") {
+      String path = "/nerd.html"; // Directly specify the file path
+      String contentType = "text/html"; // We know it's an HTML file
+
+      File file = LittleFS.open(path, "r");
+      if (!file) {
+        request->send(404, "text/html", "Oh No, Not found <a href=\"/\">/ home</a>");
+        return;
+      }
+
+      String fileContent = file.readString();
+      file.close();
+
+      // Perform dynamic content replacement
+      fileContent.replace("%STATE%", ledState ? "ON" : "OFF");
+      fileContent.replace("%MDNS%", String(myhostname) + ".local");
+      fileContent.replace("%IP%", WiFi.localIP().toString());
+
+      request->send(200, contentType, fileContent);
+    }
+  });
+
+
+
+
+
+
+  /*
+    server.onNotFound([](AsyncWebServerRequest * request) {
+      Serial.println("Handling Not Found");
+      if (LittleFS.exists("/index.html")) {
+        Serial.println("index.html exists. Serving it now...");
+        request->send(LittleFS, "/index.html", "text/html");
+      } else {
+        Serial.println("index.html not found in LittleFS");
+        request->send(404, "text/plain", "404: Not Found");
+      }
+    });
+
+  */
 
 
 
@@ -556,7 +562,7 @@ void loop() {
   }
 
   static unsigned long lastPrintTime = 0;
-  const unsigned long printInterval = 10000;  // Print every 10000 milliseconds (10 seconds)
+  const unsigned long printInterval = 5000;  // Print every 10000 milliseconds (10 seconds)
   if (WiFi.getMode() == WIFI_STA && WiFi.status() == WL_CONNECTED) {
     unsigned long currentTime = millis();
 
