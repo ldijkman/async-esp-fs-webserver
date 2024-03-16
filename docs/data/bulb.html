@@ -11,6 +11,7 @@
     body {
       margin: 0;
       display: flex;
+      flex-direction: column; /* Adjusted for vertical alignment */
       justify-content: center;
       align-items: center;
       min-height: 100vh;
@@ -46,6 +47,14 @@
       from { stroke-width: 2; stroke-opacity: 0.6; }
       to { stroke-width: 8; stroke-opacity: 1; }
     }
+    a {
+      color: #CCCCCC; /* Light gray color for visibility */
+      text-decoration: none; /* Removes underline */
+      margin-top: 20px; /* Adds space between the SVG and the link */
+    }
+    a:hover {
+      color: white; /* Changes color on hover for interactivity */
+    }
   </style>
 </head>
 <body data-initial-state="%STATE%">
@@ -71,6 +80,17 @@
     </g>
     <use href="#base" x="0" y="75" height="25" stroke="silver" stroke-width="18" fill="none"></use>
 </svg>
+
+
+<!-- Link directly under the bulb SVG, centered -->
+<a href="http://%IP%/bulbs.html">%MDNS%/bulbs.html</a>
+
+
+
+
+
+
+
 
 <script>
 
@@ -144,5 +164,7 @@ function setInitialState() {
 
 
 </script>
+
+
 </body>
 </html>
