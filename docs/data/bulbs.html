@@ -67,6 +67,10 @@ function createIframes(data) {
     data.sort((a, b) => a.mdnsname.localeCompare(b.mdnsname));
 
     data.forEach(item => {
+        // Skip creating an iframe for items with the '0.0.0.0' IP address
+        if (item.ip === '0.0.0.0') {
+            return; // Skip the rest of this iteration, effectively filtering out this item
+        }
         const iframeContainer = document.createElement('div');
         iframeContainer.classList.add('iframe-container');
         iframeContainer.style.border = '2px solid #ccc'; // Thin, grey border
