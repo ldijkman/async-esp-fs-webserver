@@ -29,4 +29,19 @@ then the variables  %MDNS% %STATE% %IP% in html are not Changed
 
 should exclude template processing for ace editor content
 
+```
+<!DOCTYPE html>
+<html>
+<head>
+    <title>garage.local Dynamic Iframes from mDNS WebSocket Data</title>
+
+should be in editor 
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>%MDNS% Dynamic Iframes from mDNS WebSocket Data</title>
+```
+
+
 # Simple Beat Smart
