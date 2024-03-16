@@ -22,3 +22,9 @@ on nerd.html bulb.html and bulbs.html
 but bit of a problem that 
 
 it is also replaced in the ace editor 
+
+if mdns adres is later changed in setup custom or in json
+
+then the variables  %MDNS% %STATE% %IP% in html are not Changed
+
+should exclude template processing for ace editor content
