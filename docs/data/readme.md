@@ -17,6 +17,6 @@ on nerd.html bulb.html and bulbs.html
 
 %STATE% %MDNS% %IP%
 
-but bit of a proble that 
+but bit of a problem that 
 
 it is also replaced in the ace editor 
