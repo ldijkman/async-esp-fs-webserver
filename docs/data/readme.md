@@ -45,3 +45,7 @@ should be in editor
 
 
 # Simple Beat Smart
+
+just HTML CSS javaScript
+
+Free to Edit, no closed source Chinese App.
