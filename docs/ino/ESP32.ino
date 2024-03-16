@@ -337,28 +337,21 @@ void setup() {
   //   request->send(LittleFS, "/index.html", "text/html");
   // });
 
-  server.onNotFound([](AsyncWebServerRequest * request) {
-    Serial.println("Handling Not Found");
-    if (LittleFS.exists("/index.html")) {
-      Serial.println("index.html exists. Serving it now...");
-      request->send(LittleFS, "/index.html", "text/html");
-    } else {
-      Serial.println("index.html not found in LittleFS");
-      request->send(404, "text/plain", "404: Not Found");
-    }
-  });
-  /*
-    void AsyncFsWebServer::notFound(AsyncWebServerRequest *request) {
-    String pathTo404 = "/404.html"; // Path to your custom 404 page
-    if (m_filesystem->exists(pathTo404)) {
-        request->send(m_filesystem, pathTo404, "text/html");
-    } else {
-        request->send(404, "text/plain", "Not found");
-    }
-    log_debug("Resource %s not found\n", request->url().c_str());
-    }
-  */
+  // Default headers for all responses
+  DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
 
+  /*
+    server.onNotFound([](AsyncWebServerRequest * request) {
+      Serial.println("Handling Not Found");
+      if (LittleFS.exists("/index.html")) {
+        Serial.println("index.html exists. Serving it now...");
+        request->send(LittleFS, "/index.html", "text/html");
+      } else {
+        Serial.println("index.html not found in LittleFS");
+        request->send(404, "text/plain", "404: Not Found");
+      }
+    });
+  */
   server.on("/led", HTTP_GET, handleLed);
 
   // Define route for "/ace" to serve "ace.html"
@@ -370,29 +363,115 @@ void setup() {
   });
 
 
-    server.on("/nerd.html", HTTP_GET, [](AsyncWebServerRequest *request){
-    String htmlContent;
-    File file = LittleFS.open("/nerd.html", "r");
-    if(file){
-      htmlContent = file.readString();
-      file.close();
-    }
 
-    htmlContent.replace("%STATE%", ledState ? "ON" : "OFF"); // Assuming your HTML contains a {STATE} placeholder
-    request->send(200, "text/html", htmlContent);
+
+
+
+
+
+
+
+
+
+
+
+  server.on("/bulb.html", HTTP_GET, [](AsyncWebServerRequest * request) {
+    if (request->url() != "/ace") {
+      String path = "/bulb.html"; // Directly specify the file path
+      String contentType = "text/html"; // We know it's an HTML file
+
+      File file = LittleFS.open(path, "r");
+      if (!file) {
+        request->send(404, "text/html", "Oh No, Not found <a href=\"/\">/ home</a>");
+        return;
+      }
+
+      String fileContent = file.readString();
+      file.close();
+
+      // Perform dynamic content replacement
+      fileContent.replace("%STATE%", ledState ? "ON" : "OFF");
+      fileContent.replace("%MDNS%", String(myhostname) + ".local");
+      fileContent.replace("%IP%", WiFi.localIP().toString());
+
+      request->send(200, contentType, fileContent);
+    }
   });
 
-    server.on("/bulb.html", HTTP_GET, [](AsyncWebServerRequest *request){
-    String htmlContent;
-    File file = LittleFS.open("/bulb.html", "r");
-    if(file){
-      htmlContent = file.readString();
-      file.close();
-    }
 
-    htmlContent.replace("%STATE%", ledState ? "ON" : "OFF"); // Assuming your HTML contains a {STATE} placeholder
-    request->send(200, "text/html", htmlContent);
+  server.on("/bulbs.html", HTTP_GET, [](AsyncWebServerRequest * request) {
+    if (request->url() != "/ace") {
+      String path = "/bulbs.html"; // Directly specify the file path
+      String contentType = "text/html"; // We know it's an HTML file
+
+      File file = LittleFS.open(path, "r");
+      if (!file) {
+        request->send(404, "text/html", "Oh No, Not found <a href=\"/\">/ home</a>");
+        return;
+      }
+
+      String fileContent = file.readString();
+      file.close();
+
+      // Perform dynamic content replacement
+      fileContent.replace("%STATE%", ledState ? "ON" : "OFF");
+      fileContent.replace("%MDNS%", String(myhostname) + ".local");
+      fileContent.replace("%IP%", WiFi.localIP().toString());
+
+      request->send(200, contentType, fileContent);
+    }
   });
+
+
+  server.on("/nerd.html", HTTP_GET, [](AsyncWebServerRequest * request) {
+    if (request->url() != "/ace") {
+      String path = "/nerd.html"; // Directly specify the file path
+      String contentType = "text/html"; // We know it's an HTML file
+
+      File file = LittleFS.open(path, "r");
+      if (!file) {
+        request->send(404, "text/html", "Oh No, Not found <a href=\"/\">/ home</a>");
+        return;
+      }
+
+      String fileContent = file.readString();
+      file.close();
+
+      // Perform dynamic content replacement
+      fileContent.replace("%STATE%", ledState ? "ON" : "OFF");
+      fileContent.replace("%MDNS%", String(myhostname) + ".local");
+      fileContent.replace("%IP%", WiFi.localIP().toString());
+
+      request->send(200, contentType, fileContent);
+    }
+  });
+
+
+
+
+
+
+  /*
+    server.onNotFound([](AsyncWebServerRequest * request) {
+      Serial.println("Handling Not Found");
+      if (LittleFS.exists("/index.html")) {
+        Serial.println("index.html exists. Serving it now...");
+        request->send(LittleFS, "/index.html", "text/html");
+      } else {
+        Serial.println("index.html not found in LittleFS");
+        request->send(404, "text/plain", "404: Not Found");
+      }
+    });
+
+  */
+
+
+
+
+
+
+
+
 
   // Start server
   // Init with custom WebSocket event handler and start server
@@ -405,9 +484,8 @@ void setup() {
   improvSerial.handleSerial();  //
 
   Serial.println("");
-  Serial.print(F("Server started on IP Address: http://"));  // added http for webserial clickable link
-  Serial.print("\033[32m"); // Set green color (other color codes available)
-  Serial.println(myIP);
+  Serial.print(F("Server started on IP Address:\033[32m http://"));  // added http for webserial clickable link
+   Serial.println(myIP);
   Serial.print("\033[0m"); // Reset color
   Serial.println(F(
 
@@ -478,7 +556,7 @@ void loop() {
   // }
 
   static unsigned long lastPrintTime = 0;
-  const unsigned long printInterval = 10000;  // Print every 10000 milliseconds (10 seconds)
+  const unsigned long printInterval = 5000;  // Print every 10000 milliseconds (10 seconds)
 
   unsigned long currentTime = millis();
 
