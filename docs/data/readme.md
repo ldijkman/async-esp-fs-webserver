@@ -13,31 +13,10 @@ https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs/data/Your_In
 
 some template processing on upload webserver html files
 
-%% is giving problems think i changed it to {{ }}
+on nerd.html bulb.html and bulbs.html 
 
-need to rewrite some things 
+%STATE% %MDNS% %IP%
 
-{{STATE}} {{MDNS}}
+but bit of a proble that 
 
-text in html like %MDNS% changed on upload
-```
-String processor(const String& var) {
-  // Check which placeholder needs to be replaced
-  if (var == "STATE") {
-    // Replace "%STATE%" with "ON" or "OFF" based on the ledState variable
-    return ledState ? "ON" : "OFF";
-  }
-  else if (var == "MDNS") {
-    // Replace "%MDNS%" with the device's mDNS hostname
-    return String(myhostname) + ".local";
-  }
-  else if (var == "IP") {
-    // Replace "%IP%" with the device's IP address
-    return WiFi.localIP().toString();
-  }
-  // Add more placeholders as needed
-  // If the placeholder does not match any known identifier, return an empty string
-  return String();
-}
-
-```
+it is also replaced in the ace editor 
