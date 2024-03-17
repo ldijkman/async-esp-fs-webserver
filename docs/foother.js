@@ -190,36 +190,33 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const dropupLinks = [
     {
-      href:
-        "https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs/Improv_Wi-Fi/Improv-WiFi-Library-main",
+      href: "https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs/Improv_Wi-Fi/Improv-WiFi-Library-main",
       text: "IMPROV WiFi Arduino Library",
       title: "IMPROV WiFi Arduino Library Info"
     },
     {
-      href: "https://youtu.be/xjTACT1qO_8",
-      text: "Nice Explanation ESP wifi configuration",
-      title: "ESP WiFi Configuration Explanation"
+      href: "",
+      text: "",
+      title: ""
     },
     {
-      href: "https://youtu.be/xPlN_Tk3VLQ?si=tUbkiZnYWNE_9c3S",
-      text: "ESP32",
-      title: "ESP32 Information"
+      href: "",
+      text: "",
+      title: ""
     },
     {
-      href: "https://youtu.be/u5unB24lhC4?t=833",
-      text: "DroneBot Workshop ESP Tool JS video",
-      title: "ESP Tool JS Video"
+      href: "",
+      text: "",
+      title: ""
     },
     {
-      href: "https://youtu.be/E8bdATqXM8c?si=jYuSPcyqIFQII45s",
-      text:
-        "ESP Web Tools with Improv wifi connect, i should make it like this",
-      title: "ESP Web Tools with Improv WiFi Connect"
+      href: "",
+      text: "",
+      title: ""
     },
     {
       href: "https://youtu.be/pCBfz8GAJSk?si=3POK7dtZ8A75gWIl",
-      text:
-        "video bulbs.html auto show other devices in network",
+      text: "video bulbs.html auto show other devices in network",
       title: "video bulbs.html auto show other devices in network"
     }
     
