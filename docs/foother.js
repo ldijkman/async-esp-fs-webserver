@@ -219,7 +219,7 @@ document.addEventListener("DOMContentLoaded", function () {
     {
       href: "https://youtu.be/pCBfz8GAJSk?si=3POK7dtZ8A75gWIl",
       text:
-        "",
+        "video bulbs.html auto show other devices in network",
       title: "video bulbs.html auto show other devices in network"
     }
     
