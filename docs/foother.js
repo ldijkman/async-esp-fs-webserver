@@ -215,7 +215,14 @@ document.addEventListener("DOMContentLoaded", function () {
       text:
         "ESP Web Tools with Improv wifi connect, i should make it like this",
       title: "ESP Web Tools with Improv WiFi Connect"
+    },
+    {
+      href: "https://youtu.be/pCBfz8GAJSk?si=3POK7dtZ8A75gWIl",
+      text:
+        "",
+      title: "video bulbs.html auto show other devices in network"
     }
+    
   ];
 
   dropupLinks.forEach((link) => {
