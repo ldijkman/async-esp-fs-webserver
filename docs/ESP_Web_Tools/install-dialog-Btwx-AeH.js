@@ -18134,8 +18134,11 @@ Do not fortget to set a unique mDNS adres in setup tab custom<br><br>
             ${listItemConsole}
             <div slot="headline">Logs & Console</div>
           </ew-list-item>
-        </ew-list>does not always show correct menu<br>
-        switch to console and back until may give correct menu<br>with wifi connect
+        </ew-list>This is not the correct menu<br>
+        Improv Serial Failed to Connect<br>
+        Switch to Console and Back <br>
+        Until it may give correct menu<br>
+        with wifi config/connect
       </div>
     `;
     return [heading, content, allowClosing];
