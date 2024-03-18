@@ -1,1040 +1,131 @@
 <!--
-changes made by Dirk Luberth Dijkman
-https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/ace.html
-draggable search replace box
-rotated the previous and next <> to up and down
-clickable links, color picker popup,
-toggle tree menu, underscroll/overscroll, 
-and more
-    // Enable distraction-free mode on page load
-    editor.setOption("distractionFree", true);
+ace editor on ESP fills in the %% variables on this html
+should not do that
+if mDNS name is changed to other name it will not work
+
+page iframes reloads every websocket
+should only reload when websocket is changed
+
+paste this page code in Ai and ask
 -->
 
-<html lang=en>
-<title>File Manager 4 Time Manager, The Art of Time Controlled</title>
-  <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.32.6/src-noconflict/ace.js"></script>
-<!--<link href="https://cdn.jsdelivr.net/npm/ace-builds@1.32.6/css/ace.min.css" rel="stylesheet"><script>-->
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.29.0/ace.js"></script>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.29.0/ext-keybinding_menu.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.29.0/ext-prompt.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.29.0/ext-language_tools.min.js"></script>
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.29.0/ext-searchbox.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.29.0/worker-base.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.29.0/ext-settings_menu.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.29.0/ext-keybinding_menu.min.js"></script>
-
-<script src="https://ldijkman.github.io/Ace-Editor-Click-Link-window.open-URL/hoverlink.js"></script>
-
-  <script type="text/javascript" src="https://ldijkman.github.io/randomnerd_esp32_wifi_manager/mrs/Ace_color/ace-colorpicker.js" ></script>
-<link rel="stylesheet" href="https://ldijkman.github.io/randomnerd_esp32_wifi_manager/mrs/Ace_color/ace-colorpicker.css" />
-
-
-
-  
-<style media=screen>
-  body {
-    font-size: 12px;
-    font-family: Verdana, Arial, Sans-serif
-  }
-
-  .contextMenu {
-    z-index: 300;
-    position: absolute;
-    left: 5px;
-    border: 1px solid #444;
-    background-color: #f5f5f5;
-    display: none;
-    box-shadow: 0 0 10px rgba(0, 0, 0, .4);
-    font-size: 11px;
-    font-weight: 700
-  }
-
-  .contextMenu ul {
-    list-style: none;
-    top: 0;
-    left: 0;
-    margin: 0;
-    padding: 0
-  }
-
-  .contextMenu li {
-    position: relative;
-    min-width: 60px;
-    cursor: pointer
-  }
-
-  .contextMenu span {
-    color: #444;
-    display: inline-block;
-    padding: 6px
-  }
-
-  .contextMenu li:hover {
-    background: #444
-  }
-
-  .contextMenu li:hover span {
-    color: #eee
-  }
-
-  .css-treeview li,
-  .css-treeview ul {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    padding-top: 2px
-  }
-
-  .css-treeview input {
-    position: absolute;
-    opacity: 0
-  }
-
-  .css-treeview {
-    font-size: 11px;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    user-select: none
-  }
-
-  .css-treeview span {
-    color: #00f;
-    cursor: pointer
-  }
-
-  .css-treeview span:hover {
-    text-decoration: underline
-  }
-
-  .css-treeview input+label+ul {
-    margin: 0 0 0 22px
-  }
-
-  .css-treeview input~ul {
-    display: none
-  }
-
-  .css-treeview label,
-  .css-treeview label::before {
-    cursor: pointer
-  }
-
-  .css-treeview input:disabled+label {
-    cursor: default;
-    opacity: .6
-  }
-
-  .css-treeview input:checked:not(:disabled)~ul {
-    display: block
-  }
-
-  .css-treeview label,
-  .css-treeview label::before,
-  .css-treeview span {
-    background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAACgCAYAAAAFOewUAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAAZdEVYdFNvZnR3YXJlAEFkb2JlIEltYWdlUmVhZHlxyWU8AAAEHElEQVRoQ+2XXWgcVRTH/7tpdrNtarqoXZe06EpTCyJiFYmKHw0UKwj2UfHBB1+KYECwUEFI8pA8SKEPiraIPlsphOIXIoJ5sFgpolRFBEke0som2Thx0+7u7M6M59y5d/bOzuw26SY0yP3ByT1z7z3/OefMzCWb8AgQv3zxGv2twas7fIl0Xx+277pT+DoDe45g154n5BWQlCNSGRcPHjqA7GBWmN2ow1pexrbb7sLdw0cDm//5IxnhEwiA8nBdD3sP5IU98PR+3HP/7bjy2w/A72cD4z06TQHCo0XXdX1zPOwY2C7ma7YDh66ZtgLcCdfxA3VjGjTPxrh+ywK0EmRQwzeHAtiYRoOzWkMGjhaohJhqna75BnTZsQeiBL4bmSONqdYc2HUWJ5H2GdAGEcSj8n2BSq2BKjXSpvnC/odx4ZOXxTwTbqIWWClXUS6tirVrFQf8ftWolNxDb4SyaGkiBdMmtvk/r2D+ryLdPYF0uhc9PT2UhXwScQKqiaoHjFV2sLLaoNS5DBfXyUa/Gw09Si0Dv4l67TaXQg20yjYqdHcWeWW5iuS2HWKdCQSSqRwW5xdDApb1LxYWS1gqLaG4sChs931H8dRLze8h+BoVf3z7uhivrZRxfecRPHn4RXHdjmYJip68b8n0DYOZSAbrJZrBOulaIFTCxMSE9NozNjYmPQkLKMbHx6UXT9z6re9BrEAikYhYO2IFqLSItePW96Dr9+B/8C0YgS1/HnT6ChWb00T9DOjqPGj149icEhSd7qww58EGCAQ94JelUCjAtu3Ii+M4DoaGhjAzMyNnmgQCffQDo1qtisk48vk8/XvnolgsyhmfoIRarSa9eFg8l8sJ01lzD4aHh1EqlZDJZJDNZuUswSUwmntDRkZGpOd5oSayy2M6nQ4ayanLLQFqr/BbBdaCvndj3wN2edRLUPAaPym1R4ZtxRJ6e3uRTCaF6ajfk/V6fYuVEAhw59eKvjdUAjM4OBj4rfDWVCqF2dnZaA9ulo3rwc3StUCkiZ2Ia1coA97QaorHDz0bfxPaJFAuHSBiVPA82/T5zzwSkbNNQgLnP//Se+75F7z3PjgjTM2z/Xjpp8DXCZXwzddfYfrcWVy88L2wubk5uQKcPPUuXj02ioOPPRMqZfMf49sTk8L6d/ZT/h723VuQKxJZSlAb9+D9Dz8WFofqhSIi0Ao/FbbJyUnv6tW/IwIdDxQ+RN88flz4v16+jOwdu/HWiRN49JGDwd5ID6ampmBZljAO5kA25p+lBaxYy8JXhDKg9wCnTr6DTP+AWKysrohRh7OYPvdpfAanT58RIwfGBTOchU5IoF1QJ7p+kdb1OeuoHpgz0QgwRsAIMEbACDBGwAgwRsAIMEbACDBGwAgwRsAIMEbACDBGAPgPluQbnYFDf0MAAAAASUVORK5CYII=) no-repeat
-  }
-
-  .css-treeview label,
-  .css-treeview label::before,
-  .css-treeview span,
-  .css-treeview span::before {
-    display: inline-block;
-    height: 16px;
-    line-height: 16px;
-    vertical-align: middle
-  }
-
-  .css-treeview label {
-    background-position: 18px 0
-  }
-
-  .css-treeview span.txt {
-    background-position: 18px -48px
-  }
-
-  .css-treeview span.img {
-    background-position: 18px -68px
-  }
-
-  .css-treeview label::before {
-    content: "";
-    width: 16px;
-    margin: 0 22px 0 0;
-    vertical-align: middle;
-    background-position: 0 -32px
-  }
-
-  .css-treeview span::before {
-    content: "";
-    width: 16px;
-    margin: 0 22px 0 0
-  }
-
-  .css-treeview input:checked+label::before {
-    background-position: 0 -16px
-  }
-
-  @media screen and (-webkit-min-device-pixel-ratio:0) {
-    .css-treeview {
-      -webkit-animation: webkit-adjacent-element-selector-bugfix infinite 1s
-    }
-  }
-
-  @-webkit-keyframes webkit-adjacent-element-selector-bugfix {
-    from {
-      padding: 0
-    }
-
-    to {
-      padding: 0
-    }
-  }
-
-  #header {
-    position: absolute;
-    top: 0;
-    right: 0;
-    left: 0;
-    height: 42px;
-    padding: 1px 1px 0 10px;
-    background-color: #444;
-    color: #eee
-  }
-
-  #tree {
-    position: absolute;
-    top: 42px;
-    bottom: 0;
-    left: 0;
-    width: 20%;
-    padding: 8px
-  }
-
-  #editor,
-  #preview {
-    position: absolute;
-    top: 42px;
-    right: 0;
-    bottom: 0;
-    left: 15%
-  }
-
-  #preview {
-    background-color: #eee;
-    padding: 5px
-  }
-
-  #status {
-    position: absolute;
-    top: 3px;
-    right: 10px;
-    font-size: 15px
-  }
-
-  #fsMeter {
-    width: 100px;
-    padding-bottom: 2px
-  }
-
-  #warning {
-    height: 100%;
-    background-color: orange;
-    color: #000
-  }
-
-  .tooltip {
-    position: absolute;
-    z-index: 2;
-    right: 0;
-    top: 20px;
-    visibility: hidden;
-    background-color: #fff;
-    color: #000;
-    text-align: center;
-    border: 1px solid #000;
-    padding: 3px;
-    font-size: 10px
-  }
-
-  #warning:hover .tooltip {
-    visibility: visible
-  }
-
-  #loading {
-    position: absolute;
-    top: -100vh;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 100;
-    background-color: rgba(0, 0, 0, .5);
-    opacity: 0;
-    transition: opacity .5s ease-in-out
-  }
-
-  #loading.shown {
-    top: 0;
-    opacity: 1
-  }
-
-  #loading-msg {
-    display: inline-block;
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    color: #fff;
-    font-size: 32px
-  }
-
-  @keyframes spinner-anim {
-    0% {
-      transform: rotate(0)
-    }
-
-    100% {
-      transform: rotate(360deg)
-    }
-  }
-
-  .spinner-anim:not(:required) {
-    display: inline-block;
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    animation: spinner-anim 1s infinite linear;
-    border: 16px solid #eee;
-    border-right-color: transparent;
-    border-radius: 32px;
-    box-sizing: border-box;
-    overflow: hidden;
-    text-indent: -9999px;
-    width: 64px;
-    height: 64px
-  }
-
-  .ace_editor .ace_marker-layer .ace_selection {
-  background-color: rgba(0,241,191,0.7);
-  bbbborder:2px solid orange;
-}
-
-.ace_editor .ace_marker-layer .ace_selected-word {
-  background-color: rgba(0,241,191,0.7);;
-  bbborder:2px solid yellow;
-}
-
-
-
-
-.ace_link_marker {                  /*red underline when over url link in editore*/
-  position: absolute;
-  border-bottom: 5px solid red;
-  opacity: 50%;
-}
-
-.ace_search.right {                      /*find search popup box*/
-  position: absolute;
-  border-radius: 8px 8px 8px 8px;
-  border-right: 0 none;
-  left: 5%;
-  top: 2%;
-  font-size: 15px; /*otherwise it scales with fontsize of editor inherit*/
-  right: auto;
-  cursor: move;
-  /*color-scheme: dark;
-  background-color: #444444;
-  color: lightgray;*/
-}
-
-
-.ace_editor .ace_marker-layer .ace_bracket {  /*better visible {} pair*/
-  
-   background: rgba(255,255,0,0.25);
-   border: .1px solid greenyellow;
-   //padding-left: 2px;padding-right: 2px;padding-top: 2px;padding-bottom: 2px;
-   //border-collapse: 10px;
-    
-  }
-
-#pathInput{
-    color:green;
-  }
-
-</style>
-
-
-
-
-
-
-
-
-
-<script>
-  var tree, fsInfo;
-  const $ = function(e) {
-      return document.getElementById(e)
-    },
-    newEm = function(e) {
-      return document.createElement(e)
-    };
-
-  function setLoading(e, n) {
-    $("loading-msg").innerHTML = n || "", e ? $("loading").classList.add("shown") : $("loading").classList.remove("shown"), document.body.style.cursor = e ? "wait" : "default"
-  }
-
-  function readableSize(e) {
-    if (e < 1024) return e + " B";
-    for (var n = -1; n++, 1024 < (e /= 1024););
-    return e.toFixed(2) + [" KiB", " MiB", " GiB", " TiB", "PiB"][n]
-  }
-
-  function refreshStatus() {
-    $("status").innerHTML = "(refreshing...)";
-    var e = new XMLHttpRequest;
-    e.onload = function() {
-      var n, t;
-      200 != e.status ? showHttpError(e) : (n = (fsInfo = JSON.parse(e.responseText)).type + " - ", fsInfo.isOk ? (n += "<meter id='fsMeter' min='0' optimum='0'low='90' high='95' max='100' value='" + (1 + Math.round(99 * fsInfo.usedBytes / fsInfo.totalBytes)) + "' title='" + (t = readableSize(fsInfo.totalBytes - fsInfo.usedBytes) + " free of " + readableSize(fsInfo.totalBytes)) + "'>" + t + "</meter>", fsInfo.unsupportedFiles && (n += " <span id='warning'>WARNING<span class='tooltip'>Filesystem contains unsupported filenames:<br/>" + fsInfo.unsupportedFiles + "</span></span>")) : n += "<span style='background-color:red;color:white;font-weight:bold'>INIT ERROR !</span>", $("status").innerHTML = n, "SPIFFS" != fsInfo.type && ($("mkdir").style.display = "inline"))
-    }, e.open("GET", "/status", !0), e.send(null)
-  }
-
-  function showHttpError(e) {
-    alert("ERROR: [" + e.status + "] " + e.responseText)
-  }
-
-  function canLoadNewContents() {
-    return !!$("saveBtn").disabled || !!confirm("Changes to your document will be lost if you continue") && (enableSaveDiscardBtns(!1), !0)
-  }
-
-  function enableSaveDiscardBtns(e) {
-    $("saveBtn").disabled = !e, $("discardBtn").disabled = !e
-  }
-
-  function getParentFolder(e) {
-    return (e = (e = e.startsWith("/") ? e : "/" + e).endsWith("/") ? e.slice(0, -1) : e).substring(0, e.lastIndexOf("/"))
-  }
-
-  function createHeader(e, n, t) {
-    var a = $(e),
-      i = newEm("input");
-    i.type = "file", i.multiple = !1, i.name = "data", a.appendChild(i);
-    var o = newEm("input");
-    o.id = "pathInput", o.type = "text", o.name = "path", o.defaultValue = "/", a.appendChild(o);
-    var s = newEm("button");
-    s.innerHTML = "Upload", a.appendChild(s);
-    var l = newEm("button");
-    l.id = "mkdir", l.style.display = "none", l.innerHTML = "MkDir", a.appendChild(l);
-    var d = newEm("button");
-    d.innerHTML = "MkFile", a.appendChild(d);
-    var r = newEm("span");
-    r.id = "editorButtons", r.style.display = "none", a.appendChild(r);
-    var c = newEm("button");
-    c.id = "saveBtn", c.innerHTML = "Save", c.style.marginLeft = "30px", c.disabled = !0, r.appendChild(c);
-    var p = newEm("button");
-    p.id = "discardBtn", p.innerHTML = "Discard", p.disabled = !0, r.appendChild(p), (e = newEm("button")).id = "helpBtn", e.innerHTML = "?", r.appendChild(e), (r = newEm("span")).id = "status", r.innerHTML = "(loading)", a.appendChild(r), i.onchange = function(e) {
-      var n;
-      0 !== i.files.length && (n = i.files[0].name, o.value.startsWith("/") || (o.value = "/" + o.value), o.value = getParentFolder(o.value) + "/" + n)
-    }, s.onclick = function(e) {
-      0 !== i.files.length && n.httpUpload(i.files[0], o.value)
-    }, d.onclick = function(e) {
-      var t = o.value.trim();
-      "" === t ? alert("A filename must be given") : t.endsWith("/") ? alert("Filenames must not end with a '/' character") : n.httpCreate(t)
-    }, l.onclick = function(e) {
-      var t = o.value.trim();
-      "" === t ? alert("A folder name must be given") : (t.endsWith("/") || (t += "/"), n.httpCreate(t))
-    }, c.onclick = function(e) {
-      t.save()
-    }, p.onclick = function(e) {
-      t.discard()
-    }, e.onclick = function(e) {
-      t.showShortcuts()
-    }
-  }
-
-  function createTree(e, n) {
-    var t = $("preview"),
-      a = newEm("div");
-
-    function i(e) {
-      if (void 0 !== (e = /(?:\.([^.]+))?$/.exec(e)[1])) switch (e.toLowerCase()) {
-        case "txt":
-        case "htm":
-        case "html":
-		      case "md":
-        case "js":
-        case "json":
-        case "cpp":
-        case "css":
-        case "xml":
-        case "yaml":
-        case "csv":
-        case "gz":
-          return 1
-      }
-    }
-
-    function o(e) {
-      if (void 0 !== (e = /(?:\.([^.]+))?$/.exec(e)[1])) switch (e.toLowerCase()) {
-        case "png":
-        case "jpg":
-        case "jpeg":
-        case "gif":
-        case "ico":
-        case "svg":
-          return 1
-      }
-    }
-
-    function s(e, n) {
-      var t = newEm("ul");
-      e.appendChild(t);
-      var a = newEm("li");
-      t.appendChild(a), a = newEm("li"), t.appendChild(a), a.innerHTML = "<span>Rename/Move</span>", a.onclick = function(t) {
-        0 < document.body.getElementsByClassName("contextMenu").length && document.body.removeChild(e);
-        var a = prompt("Rename " + n + " to", n);
-        null != a && a != n && p(n, a)
-      }, a = newEm("li"), t.appendChild(a), a.innerHTML = "<span>Download</span>", a.onclick = function(t) {
-        var a, i;
-        0 < document.body.getElementsByClassName("contextMenu").length && document.body.removeChild(e), a = n, (i = new XMLHttpRequest).open("GET", a, !0), i.responseType = "blob", i.onload = function() {
-          var e = new Blob([i.response], {
-              type: "application/octetstream"
-            }),
-            n = (window.URL || window.webkitURL).createObjectURL(e),
-            t = document.createElement("a");
-          t.setAttribute("download", a.replace(/^.*[\\/]/, "")), t.setAttribute("href", n), document.body.appendChild(t), t.click(), document.body.removeChild(t)
-        }, i.send()
-      }, a = newEm("li"), t.appendChild(a), a.innerHTML = "<hr>", a = newEm("li"), t.appendChild(a), a.innerHTML = "<span>Delete</span>", a.onclick = function(t) {
-        0 < document.body.getElementsByClassName("contextMenu").length && document.body.removeChild(e), confirm("Delete file " + n + "?") && u(n)
-      }
-    }
-
-    function l(e, n, t) {
-      var a = newEm("div"),
-        i = document.body.scrollTop || document.documentElement.scrollTop,
-        o = document.body.scrollLeft || document.documentElement.scrollLeft,
-        l = e.clientX + o,
-        d = e.clientY + i;
-      a.className = "contextMenu", a.style.display = "block", a.style.left = l + "px", a.style.top = d + "px", (t ? s : function(e, n) {
-        var t = newEm("ul");
-        e.appendChild(t);
-        var a = newEm("li");
-        t.appendChild(a);
-        var i = $(n).childNodes[0].checked,
-          a = newEm("li");
-        t.appendChild(a), i ? (a.innerHTML = "<span>Collapse</span>", a.onclick = function(t) {
-          0 < document.body.getElementsByClassName("contextMenu").length && document.body.removeChild(e), $(n).childNodes[0].checked = !1
-        }, i = newEm("li"), t.appendChild(i), i.innerHTML = "<span>Refresh</span>", i.onclick = function(t) {
-          0 < document.body.getElementsByClassName("contextMenu").length && document.body.removeChild(e), r(n, t)
-        }) : (a.innerHTML = "<span>Expand</span>", a.onclick = function(t) {
-          0 < document.body.getElementsByClassName("contextMenu").length && document.body.removeChild(e), $(n).childNodes[0].checked = !0, r(n, t)
-        }), a = newEm("li"), t.appendChild(a), a.innerHTML = "<span>Rename/Move</span>", a.onclick = function(t) {
-          0 < document.body.getElementsByClassName("contextMenu").length && document.body.removeChild(e);
-          var a = prompt("Rename " + n + " to", n);
-          null != a && a != n && p(n, a)
-        }, a = newEm("li"), t.appendChild(a), a.innerHTML = "<span>Delete</span>", a.onclick = function(t) {
-          0 < document.body.getElementsByClassName("contextMenu").length && document.body.removeChild(e), confirm("Delete folder " + n + "?") && u(n)
+<!DOCTYPE html>
+<html>
+<head>
+    <title>%MDNS% Dynamic Iframes from mDNS WebSocket Data</title>
+    <style>
+        .iframe-container {
+            margin-bottom: 20px;
         }
-      })(a, n), document.body.appendChild(a);
-      var c = a.offsetWidth,
-        h = a.offsetHeight;
-      a.onmouseout = function(e) {
-        (e.clientX < l || e.clientX > l + c || e.clientY < d || e.clientY > d + h) && 0 < document.body.getElementsByClassName("contextMenu").length && document.body.removeChild(a)
-      }
-    }
-
-    function d(e, n) {
-      return function() {
-        var t;
-        setLoading(!1), 200 != e.status ? showHttpError(e) : n ? (t = getParentFolder(n), e.responseText && e.responseText != t && refreshPath(e.responseText), refreshPath(t), attemptLoad(n)) : refreshPath(e.responseText), refreshStatus()
-      }
-    }
-
-    function r(e, n) {
-      var t, a, s;
-      setLoading(!0, "Listing '" + e + "'..."), (xmlHttp = new XMLHttpRequest).onload = (t = xmlHttp, a = e, s = n, function() {
-        var e, n;
-        setLoading(!1), 200 != t.status ? showHttpError(t) : (!(e = $(a)) || (n = e.lastElementChild) && "UL" == n.tagName && e.removeChild(n), function(e, n) {
-          n.sort(function(e, n) {
-            return e.type == n.type ? e.name.localeCompare(n.name) : e.type.localeCompare(n.type)
-          });
-          var t = newEm("ul");
-          $(e).appendChild(t);
-          for (var a = n.length, s = 0; s < a; s++) {
-            var d = "file" === (d = n[s]).type ? function(e, n, t) {
-              var a = newEm("li");
-              return a.id = ("/" == e ? "" : e) + "/" + n, e = newEm("span"), i(n) ? e.classList.add("txt") : o(n) && e.classList.add("img"), e.innerHTML = n + " <i>(" + readableSize(t) + ")</i>", a.appendChild(e), a.onclick = function(e) {
-                attemptLoad(a.id)
-              }, a.oncontextmenu = function(e) {
-                e.preventDefault(), e.stopPropagation(), l(e, a.id, !0)
-              }, a
-            }(e, d.name, d.size) : function(e, n, t) {
-              var a = newEm("li");
-              a.id = ("/" == e ? "" : e) + "/" + n;
-              var i = newEm("input");
-              return i.type = "checkbox", void 0 !== t && t && (i.disabled = "disabled"), a.appendChild(i), (t = newEm("label")).textContent = n, a.appendChild(t), i.onchange = function(e) {
-                i.checked && r(a.id)
-              }, t.onclick = function(e) {
-                i.checked ? i.checked = !1 : (i.checked = !0, r(a.id))
-              }, a.oncontextmenu = function(e) {
-                e.preventDefault(), e.stopPropagation(), l(e, a.id, !1)
-              }, a
-            }(e, d.name);
-            t.appendChild(d)
-          }
-          $("pathInput").value = e
-        }(a, JSON.parse(t.responseText)), void 0 !== $(a).childNodes[0].checked && ($(a).childNodes[0].checked = !0), s && s.length && c(s))
-      }), xmlHttp.open("GET", "/list?dir=" + e, !0), xmlHttp.send(null)
-    }
-
-    function c(e) {
-      var n = e.pop();
-      n && r(n, e)
-    }
-
-    function p(e, n) {
-      setLoading(!0, "Renaming '" + e + "' to '" + n + "'..."), n.startsWith("/") || (n = "/" + n), (xmlHttp = new XMLHttpRequest).onload = d(xmlHttp, n);
-      var t = new FormData;
-      t.append("path", n), t.append("src", e), xmlHttp.open("PUT", "/edit"), xmlHttp.send(t)
-    }
-
-    function u(e) {
-      setLoading(!0, "Deleting '" + e + "'..."), (xmlHttp = new XMLHttpRequest).onload = d(xmlHttp, e);
-      var n = new FormData;
-      n.append("path", e), xmlHttp.open("DELETE", "/edit"), xmlHttp.send(n)
-    }
-    return a.className = "css-treeview", a.id = "/", $(e).appendChild(a), this.clearMainPanel = function() {
-      $("editor").style.display = "none", $("editorButtons").style.display = "none", t.style.display = "block", t.innerHTML = "<div style='text-align:center'>(file not found or format not supported)</div>"
-    }, this.attemptLoad = function(e) {
-      var a, s, l;
-      $("pathInput").value = e, canLoadNewContents() && (i(e) ? "undefined" == typeof ace ? (a = e, $("pathInput").value = a, $("editor").style.display = "none", $("editorButtons").style.display = "none", t.style.display = "block", t.innerHTML = "<span style='color:red;'>Ace editor could not be loaded from the internet nor from /edit/ace.js . Defaulting to text viewer...</span><pre id='txtContents' style='overflow: auto;'></pre>", (s = new XMLHttpRequest).onload = function() {
-        $("txtContents").textContent = this.responseText
-      }, s.open("GET", a), s.send()) : n.loadUrl(e) : o(e) ? (l = e, $("pathInput").value = l, $("editor").style.display = "none", $("editorButtons").style.display = "none", t.style.display = "block", t.innerHTML = "<img src='" + l + "' style='max-width:100%; max-height:100%; margin:auto; display:block;' />") : clearMainPanel())
-    }, this.refreshPath = function(e) {
-      if ("SPIFFS" == fsInfo.type) r("/");
-      else if (-1 == e.lastIndexOf("/")) r("/");
-      else {
-        for (var n = [], t = e; - 1 != t.lastIndexOf("/") && !$(t);) n.push(t), t = getParentFolder(t);
-        "" == t ? n.push("/") : n.push(t), c(n)
-      }
-    }, this.httpUpload = function(e, n) {
-      setLoading(!0, "Uploading '" + n + "'..."), n.startsWith("/") || (n = "/" + n), (xmlHttp = new XMLHttpRequest).onload = d(xmlHttp, n);
-      var t = new FormData;
-      t.append("data", e, n), xmlHttp.open("POST", "/edit"), xmlHttp.send(t)
-    }, this.httpCreate = function(e) {
-      setLoading(!0, "Creating '" + e + "'..."), e.startsWith("/") || (e = "/" + e), (xmlHttp = new XMLHttpRequest).onload = d(xmlHttp, e);
-      var n = new FormData;
-      n.append("path", e), xmlHttp.open("PUT", "/edit"), xmlHttp.send(n)
-    }, r("/"), this
-  }
-
-  function createEditor(e, n, t, a, i) {
-    function o(e) {
-      var n = "plain",
-        t = /(?:\.([^.]+))?$/.exec(e)[1];
-      if (void 0 !== t) switch (t) {
-        case "txt":
-          n = "plain";
-          break;
-        case "htm":
-          n = "html";
-          break;
-        case "js":
-          n = "javascript";
-          break;
-        case "css":
-        case "scss":
-        case "php":
-        case "html":
-        case "json":
-        case "xml":
-        case "yaml":
-        case "csv":
-          n = t
-      }
-      return n
-    }
-    void 0 === n && (n = "/index.htm"), void 0 === t && (t = o(n)), void 0 === a && (a = "textmate"), void 0 === i && (i = "c_cpp" === t ? "text/plain" : "text/" + t);
-    var s = null,
-      l = ace.edit(e);
-
-    function d() {
-      setLoading(!1), 200 != s.status && showHttpError(s), tree.refreshPath(getParentFolder(n)), refreshStatus()
-    }
-
-    function r() {
-      setLoading(!1), $("preview").style.display = "none", $("editor").style.display = "block", $("editorButtons").style.display = "inline", 200 == s.status ? (l.setValue(s.responseText), l.clearSelection(), enableSaveDiscardBtns(!1)) : tree.clearMainPanel()
-    }
-
-    function c(e) {
-      setLoading(!0, "Loading '" + e + "'..."), (s = new XMLHttpRequest).onload = r, s.open("GET", e, !0), s.send(null)
-    }
-    return "plain" !== t && l.getSession().setMode("ace/mode/" + t), l.setFontSize("18"),l.setTheme("ace/theme/monokai"/* + a*/), l.$blockScrolling = 1 / 0, l.getSession().setUseSoftTabs(!0), l.getSession().setTabSize(2), l.setHighlightActiveLine(!0), l.setShowPrintMargin(!1), l.commands.addCommand({
-      name: "save",
-      bindKey: {
-        win: "Ctrl-S",
-        mac: "Command-S"
-      },
-      exec: function(e) {
-        e.save()
-      },
-      readOnly: !1
-    }), l.commands.addCommand({
-      name: "showKeyboardShortcuts",
-      bindKey: {
-        win: "Ctrl-Alt-h",
-        mac: "Command-Alt-h"
-      },
-      exec: function(e) {
-        e.showShortcuts()
-      }
-    }), l.session.on("change", function(e) {
-      enableSaveDiscardBtns(!0)
-    }), l.loadUrl = function(e) {
-      $("pathInput").value = e, enableSaveDiscardBtns(!1), i = "text/" + (t = o(n = e)), "plain" !== t && l.getSession().setMode("ace/mode/" + t), c(n)
-    }, l.save = function() {
-      var e, t, a, o;
-      enableSaveDiscardBtns(!1), e = n, t = l.getValue() + "", a = i, setLoading(!0, "Saving '" + e + "'..."), (s = new XMLHttpRequest).onload = d, (o = new FormData).append("data", new Blob([t], {
-        type: a
-      }), e), s.open("POST", "/edit"), s.send(o)
-    }, l.discard = function() {
-      l.loadUrl(n), enableSaveDiscardBtns(!1)
-    }, l.showShortcuts = function() {
-      ace.config.loadModule("ace/ext/keybinding_menu", function(e) {
-        e.init(l), l.showKeyboardShortcuts()
-      })
-    }, c(n), l
-  }
-
-  function onBodyLoad() {
-    var e, n = {};
-    window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(e, t, a) {
-      n[t] = a
-    }), "undefined" != typeof ace && (e = createEditor("editor", n.file, n.lang, n.theme)), createHeader("header", tree = createTree("tree", e), e), refreshStatus()
- 
- 
- ace.edit("editor").setTheme('ace/theme/monokai');
-     document.getElementById('themeSelector').addEventListener('change', function() {
-        ace.edit("editor").setTheme(this.value);
-    });
-    
-        document.getElementById('increaseFontBtn').addEventListener('click', function() {
-        var currentSize = parseInt(ace.edit("editor").getFontSize(), 10);
-        ace.edit("editor").setFontSize(currentSize + 1); // Increase font size by 2
-    });
-
-    document.getElementById('decreaseFontBtn').addEventListener('click', function() {
-        var currentSize = parseInt(ace.edit("editor").getFontSize(), 10);
-        if(currentSize > 8) { // Prevent font size from becoming too small
-            ace.edit("editor").setFontSize(currentSize - 1); // Decrease font size by 2
+        iframe {
+            width: 40%;
+            height: 250px; /* Adjust height as needed */
         }
-    });
-   setTimeout(function(){
-     ace.edit("editor").execCommand('find');         // create the search find replace popup
-                                    // think draggable wants to add code to div class="ace_search"
-  }, 50);
-
-  }
-  
-  
- 
-
-
-  
-</script>
-
-<script>
-  //toggle tree menu
-  function toggleEditorPosition() {
-    var editor = document.getElementById('editor');
-    if (editor.style.left === '0%') {
-      editor.style.left = '12%';
-    } else {
-      editor.style.left = '0%';
+        body {
+      background-color: #2D2A2A;
     }
-  }
-</script>
+        /* Add this section for links styling */
+        a {
+            color: gray; /* This makes links light gray */
+            text-decoration: none; /* Optional: removes underline from links */
+        }
+        a:hover {
+            color: lightgray; /* Optional: changes link color on hover for better visibility */
+        }
+    </style>
+</head>
+<body>
+    <h2><a href="http://%IP%/bulb.html">%MDNS%</a><br>Dynamic Iframes based on mDNS WebSocket Data</h2>
+    automaticly lists other devices in iframe on the network<br>
+    <div id="iframeContainer"></div>
 
-<script src="https://cdn.jsdelivr.net/npm/ace-builds@1.32.6/src-noconflict/ace.js"></script>
-<!--<link href="https://cdn.jsdelivr.net/npm/ace-builds@1.32.6/css/ace.min.css" rel="stylesheet"><script>-->
-<script>
-  var script;
-  "undefined" == typeof ace && (console.log("Cannot load ace.js from the web, trying local copy"), (script = newEm("script")).src = "/edit/ace.js", script.async = !1, document.head.appendChild(script))
-</script>
+    <script>
+        // Modify this URL to your WebSocket server
+         const ws = new WebSocket('ws://' + window.location.hostname + '/ws');
+       
 
-<body onload=onBodyLoad()>
-  <div id=header> 
-  <a href="/" style="color: #eee; text-decoration: none; margin-right: 0px;">Home</a>
-  <button onclick="toggleEditorPosition()">Toggle</button>
-  <button id="downloadBtn">Download</button>
-  
-  <select id="themeSelector" style="width:60px;">
-  <optgroup label="Bright"><option value="ace/theme/chrome">Chrome</option><option value="ace/theme/clouds">Clouds</option><option value="ace/theme/crimson_editor">Crimson Editor</option><option value="ace/theme/dawn">Dawn</option><option value="ace/theme/dreamweaver">Dreamweaver</option><option value="ace/theme/eclipse">Eclipse</option><option value="ace/theme/github">GitHub</option><option value="ace/theme/iplastic">IPlastic</option><option value="ace/theme/solarized_light">Solarized Light</option><option value="ace/theme/textmate">TextMate</option><option value="ace/theme/tomorrow">Tomorrow</option><option value="ace/theme/xcode">XCode</option><option value="ace/theme/kuroir">Kuroir</option><option value="ace/theme/katzenmilch">KatzenMilch</option><option value="ace/theme/sqlserver">SQL Server</option><option value="ace/theme/cloud_editor">CloudEditor</option></optgroup><optgroup label="Dark"><option value="ace/theme/ambiance">Ambiance</option><option value="ace/theme/chaos">Chaos</option><option value="ace/theme/clouds_midnight">Clouds Midnight</option><option value="ace/theme/dracula">Dracula</option><option value="ace/theme/cobalt">Cobalt</option><option value="ace/theme/gruvbox">Gruvbox</option><option value="ace/theme/gob">Green on Black</option><option value="ace/theme/idle_fingers">idle Fingers</option><option value="ace/theme/kr_theme">krTheme</option><option value="ace/theme/merbivore">Merbivore</option><option value="ace/theme/merbivore_soft">Merbivore Soft</option><option value="ace/theme/mono_industrial">Mono Industrial</option><option value="ace/theme/monokai">Monokai</option><option value="ace/theme/nord_dark">Nord Dark</option><option value="ace/theme/one_dark">One Dark</option><option value="ace/theme/pastel_on_dark">Pastel on dark</option><option value="ace/theme/solarized_dark">Solarized Dark</option><option value="ace/theme/terminal">Terminal</option><option value="ace/theme/tomorrow_night">Tomorrow Night</option><option value="ace/theme/tomorrow_night_blue">Tomorrow Night Blue</option><option value="ace/theme/tomorrow_night_bright">Tomorrow Night Bright</option><option value="ace/theme/tomorrow_night_eighties">Tomorrow Night 80s</option><option value="ace/theme/twilight">Twilight</option><option value="ace/theme/vibrant_ink">Vibrant Ink</option><option value="ace/theme/github_dark">GitHub Dark</option><option value="ace/theme/cloud_editor_dark">CloudEditor Dark</option></optgroup><
-  </select>
-  
-  <button id="decreaseFontBtn">-</button>
-  <button id="increaseFontBtn">+</button>
-    <button id="settings-button" onClick='ace.edit("editor").execCommand("showSettingsMenu");' title="Ace settings menu">Settings</button>
-<input type="button" value="&nbsp;F1&nbsp;" onClick='ace.edit("editor").execCommand("openCommandPallete")' 
- title="Show F1 Better KeyBoard ShortCuts popup Menu&#010;if use F1 button, must have focus on Editor"  onmouseover="this.focus()">
+        ws.onopen = function() {
+            console.log('WebSocket connection established');
+            // Optionally send a message to the server
+            // ws.send('Hello Server');
+        };
 
-     <input type="button"  id="fullscreenbutton" onclick="toggleFullScreen()" title="Toggle FullScreen" style="" onmouseover="this.focus()" value="FullScreen">
-   <button id="toggle-autocomplete" style="color:green;">AutoComplete</button>
-		
-   
-	  <br>
-  </div>
+        ws.onerror = function(error) {
+            console.error('WebSocket Error: ', error);
+        };
 
-  <div id=tree> <button id="navigateButton">Preview this file</button>    </div>
-  <div id=editor></div>
-  <div id=preview style=display:none></div>
-  <div id=loading><span id=loading-msg></span>
-    <br>
-    <div class=spinner-anim>Loading...</div>
-  </div>
-
-
-
-<script>
-
-  // make search div draggable
-document.addEventListener("DOMContentLoaded", function() {
-  
-    // Function to make an element draggable
-    function makeDraggable(dragElement) {
-        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-
-        if (document.querySelector(dragElement)) {
-            var elmnt = document.querySelector(dragElement);
-            // if present, the header is where you move the DIV from:
-            elmnt.onmousedown = dragMouseDown;
+ws.onmessage = function(event) {
+    console.log('WebSocket message received:', event.data);
+    try {
+        const data = JSON.parse(event.data);
+        // Check if the parsed data is in the expected format (an array with objects containing `mdnsname`, `ip`, `port`)
+        if (Array.isArray(data) && data.length > 0 && data[0].hasOwnProperty('mdnsname') && data[0].hasOwnProperty('ip') && data[0].hasOwnProperty('port')) {
+            createIframes(data); // Call function to create iframes with received data
         } else {
-            // otherwise, move the DIV from anywhere inside the DIV:
-            elmnt.onmousedown = dragMouseDown;
+            console.log('Received data does not contain expected structure:', event.data);
         }
+    } catch(e) {
+        console.error('Error parsing WebSocket data:', e, 'Data:', event.data);
+    }
+};
 
-        function dragMouseDown(e) {
-            e = e || window.event;
-            //e.preventDefault();
-            // get the mouse cursor position at startup:
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            document.onmouseup = closeDragElement;
-            // call a function whenever the cursor moves:
-            document.onmousemove = elementDrag;
+        // Function to dynamically create iframes based on the WebSocket data
+function createIframes(data) {
+    const container = document.getElementById('iframeContainer');
+    container.innerHTML = ''; // Clear previous iframes
+
+    // Sort the data array by mdnsname property, alphabetically
+    data.sort((a, b) => a.mdnsname.localeCompare(b.mdnsname));
+
+    data.forEach(item => {
+        // Skip creating an iframe for items with the '0.0.0.0' IP address
+        if (item.ip === '0.0.0.0' || item.ip === '(IP unset)') {
+            return; // Skip the rest of this iteration, effectively filtering out this item
         }
+        const iframeContainer = document.createElement('div');
+        iframeContainer.classList.add('iframe-container');
+        iframeContainer.style.border = '2px solid #ccc'; // Thin, grey border
+        iframeContainer.style.borderRadius = '10px'; // Rounded corners
+        iframeContainer.style.padding = '10px'; // Padding inside the border
+        iframeContainer.style.marginBottom = '20px'; // Space between each set
+        iframeContainer.style.display = 'inline-block'; // Adjust as needed for layout
+        iframeContainer.style.width = '24%'; // Adjust width as needed, accounting for padding
+        iframeContainer.style.boxSizing = 'border-box'; // Include padding and border in the element's width
 
-        function elementDrag(e) {
-            e = e || window.event;
-            //e.preventDefault();
-            // calculate the new cursor position:
-            pos1 = pos3 - e.clientX;
-            pos2 = pos4 - e.clientY;
-            pos3 = e.clientX;
-            pos4 = e.clientY;
-            // set the element's new position:
-            elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-            elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-        }
+        // Create an h1 element for the title
+        const title = document.createElement('h1');
+        title.style.textAlign = 'center'; // Center the title
 
-        function closeDragElement() {
-            // stop moving when mouse button is released:
-            document.onmouseup = null;
-            document.onmousemove = null;
-        }
-    }
+        // Create an anchor element for the mdnsname that opens in a new window/tab
+        const mdnsLink = document.createElement('a');
+        mdnsLink.href = `http://${item.ip}/index.html`; // Assuming the page is index.html at the device IP
+        mdnsLink.textContent = item.mdnsname;
+        mdnsLink.target = "_blank"; // Open in new window/tab
+        //mdnsLink.style.color = 'inherit'; // Optional: Ensures link color matches the surrounding text
 
+        // Append the link to the h1 element
+        title.appendChild(mdnsLink);
 
+        const iframe = document.createElement('iframe');
+        iframe.src = `http://${item.ip}:${item.port}/bulb.html`;
+        iframe.title = item.mdnsname;
+        iframe.style.width = '100%'; // Make iframe fill the container width
+        iframe.style.height = '250px'; // Adjust height as needed
+        iframe.style.border = 'none'; // Remove iframe default border
 
-    // Making the specific element draggable
-      setTimeout(function(){
-    // Locate the .ace_search.right div
-    var searchDiv = document.querySelector('.ace_search.right');
-    
-    if (searchDiv) {
-        // Create a new div element
-        var newDiv = document.createElement('div');
-        newDiv.textContent = 'You can drag me';
+        // Append the title and iframe to the container
+        iframeContainer.appendChild(title);
+        iframeContainer.appendChild(iframe);
         
-        // Append the new div as a child of the .ace_search.right div
-        searchDiv.appendChild(newDiv);
-    } else {
-        console.log('.ace_search.right div not found');
-    }
-        
-   makeDraggable(".ace_search.right");
-   
-///////////////
-
- // Create a <style> tag
-    var style = document.createElement('style');
-    style.type = 'text/css';
-
-    // CSS rules to insert
-    var css = `.ace_searchbtn.prev:after, .ace_searchbtn.next:after {
-                transform: rotate(45deg);
-              }`;
-
-    // For most browsers
-    if (style.styleSheet) {
-        style.styleSheet.cssText = css;
-    } else {
-        style.appendChild(document.createTextNode(css));
-    }
-
-    // Append the <style> element to the <head> of the document
-    document.head.appendChild(style);
-
-//////////////
-
-
- 
-    var editor=ace.edit("editor");
-  
-
-  HoverLink = require("hoverlink").HoverLink
-    editor.hoverLink = new HoverLink(editor);
-
-
-
-// click on URL link in editor
-editor.hoverLink.on("open", function() {
-      // alert("trying to open")
-      console.log("trying to open",editor.hoverLink.link.value);
-
-      if(editor.hoverLink.isOpen){
-          window.open(editor.hoverLink.link.value);
-      }
-      console.log("this.link",editor.hoverLink.isOpen);
-})
-
-
-
-
-editor.session.setMode("ace/mode/html", function() {
-	LoadColorPicker()
-})
-  function LoadColorPicker() {
-    console.log("load colorpicker now in function LoadColorPicker");
-    window.editor = ace.edit("editor");
-    AceColorPicker.load(ace, editor);
-  }
-
-
-
-     // Enable basic options for auto-completion
-    editor.setOptions({
-        enableBasicAutocompletion: true,
-        enableSnippets: true,
-        enableLiveAutocompletion: true, // Triggered by typing, you can enable it if needed
-      	scrollPastEnd: .5,
-      dragEnabled: true, // boolean: enable dragging
-	    customScrollbar: true,
-  	});
-
-	editor.renderer.setScrollMargin(200, 200, 0, 0); // Adds 50px padding at the top and bottom
-
-      // Get the button and input elements
-        const navigateButton = document.getElementById('navigateButton');
-        const pathInput = document.getElementById('pathInput');
-        
-     
-// Add click event listener to the button
-navigateButton.addEventListener('click', function() {
-    // Read the value from the input
-    const path = pathInput.value;
-    
-    // Calculate 75% of the screen size
-    const width = screen.width * 0.75;
-    const height = screen.height * 0.75;
-    
-    // Calculate the position to center the window
-    const left = (screen.width - width) / 2;
-    const top = (screen.height - height) / 2;
-
-    // Open the URL in a new window with specified size and position
-    // Note: Replace 'yourwebsite.com' with your actual domain, or adjust as needed
-    window.open(`${path}`, '_blank', `width=${width},height=${height},left=${left},top=${top}`);
-});
-        
-   }, 2500);
-   
-   
-    document.getElementById('toggle-autocomplete').addEventListener('click', function() {
-        var isEnabled = editor.getOptions().enableBasicAutocompletion;
-        // Toggle the state
-        editor.setOptions({
-            enableBasicAutocompletion: !isEnabled,
-            enableSnippets: !isEnabled,
-            enableLiveAutocompletion: !isEnabled, // Adjust based on your requirements
-
-  	});
-
-    if (!isEnabled) {
-        this.style.color = 'green';
-    } else {
-        this.style.color = 'red';
-    }
-
-        console.log('Auto-completion enabled:', !isEnabled);
+        // Append the container to the main container
+        container.appendChild(iframeContainer);
     });
-
-});
-
-
-
-
-
-document.getElementById('downloadBtn').addEventListener('click', function() {
-    // Get the content from the Ace Editor
-    var editorContent = ace.edit("editor").getValue();
-
-    // Create a Blob with the editor content, you can change the type to 'text/plain' or 'application/json' etc. based on your content
-    var fileToDownload = new Blob([editorContent], {type: 'text/plain'});
-
-    // Create an anchor (<a>) element to facilitate the download
-    var downloadLink = document.createElement('a');
-    downloadLink.download = 'AceEditorContent.html'; // Name of the file to download
-    downloadLink.href = window.URL.createObjectURL(fileToDownload);
-    downloadLink.style.display = 'none';
-
-    // Append the anchor to the body to make it clickable and click it to initiate download
-    document.body.appendChild(downloadLink);
-    downloadLink.click();
-
-    // Clean up by removing the temporary anchor element
-    document.body.removeChild(downloadLink);
-});
-
-
-
-function toggleFullScreen() {
-  if (top.location!= self.location) {
-    top.location = self.location.href;
-  }
-  if (window.location !== window.top.location) {
-    window.top.location = window.location;
-  }
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen();
-  } else {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    }
-  }
 }
+    </script>
+<script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
 
-</script>
+<br><br><br><br><br><br><br><br><br><br><br><br>
+<script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
 
-  
 </body>
-
 </html>
