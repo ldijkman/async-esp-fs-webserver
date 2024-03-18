@@ -200,9 +200,9 @@ document.addEventListener("DOMContentLoaded", function () {
       title: ""
     },
     {
-      href: "",
-      text: "",
-      title: ""
+      href: "https://randomnerdtutorials.com/esp32-esp8266-thermostat-web-server/",
+      text: "add a randomnerd esp-thermostat-web-server?",
+      title: "add a randomnerd esp-thermostat-web-server?"
     },
     {
       href: "",
