@@ -367,73 +367,126 @@ void setup() {
 
 
   server.on("/bulb.html", HTTP_GET, [](AsyncWebServerRequest * request) {
-    if (request->url() != "/ace") {
-      String path = "/bulb.html"; // Directly specify the file path
-      String contentType = "text/html"; // We know it's an HTML file
+    if (request->hasHeader("Referer")) {
+      AsyncWebHeader* refererHeader = request->getHeader("Referer");
+      String refererValue = refererHeader->value();
+      Serial.print("Referer: ");
+      Serial.println(refererValue);
 
-      File file = LittleFS.open(path, "r");
-      if (!file) {
-        request->send(404, "text/html", "Oh No, Not found <a href=\"/\">/ home</a>");
-        return;
+      // Check if the Referer does not contain "/ace"
+      if (refererValue.indexOf("/ace") != -1) {
+        if (LittleFS.exists("/bulb.html")) {
+          Serial.println("bulb.html exists. Serving it now...");
+          request->send(LittleFS, "/bulb.html", "text/html");
+        }
+      } else {
+
+
+        String path = "/bulb.html"; // Directly specify the file path
+        String contentType = "text/html"; // We know it's an HTML file
+
+        File file = LittleFS.open(path, "r");
+        if (!file) {
+          request->send(404, "text/html", "Oh No, Not found <a href=\"/\">/ home</a>");
+          return;
+        }
+
+        String fileContent = file.readString();
+        file.close();
+
+        // Perform dynamic content replacement
+        fileContent.replace("%STATE%", ledState ? "ON" : "OFF");
+        fileContent.replace("%MDNS%", String(myhostname) + ".local");
+        fileContent.replace("%IP%", WiFi.localIP().toString());
+
+        request->send(200, contentType, fileContent);
       }
-
-      String fileContent = file.readString();
-      file.close();
-
-      // Perform dynamic content replacement
-      fileContent.replace("%STATE%", ledState ? "ON" : "OFF");
-      fileContent.replace("%MDNS%", String(myhostname) + ".local");
-      fileContent.replace("%IP%", WiFi.localIP().toString());
-
-      request->send(200, contentType, fileContent);
     }
   });
+
+
+
+
 
 
   server.on("/bulbs.html", HTTP_GET, [](AsyncWebServerRequest * request) {
-    if (request->url() != "/ace") {
-      String path = "/bulbs.html"; // Directly specify the file path
-      String contentType = "text/html"; // We know it's an HTML file
+    if (request->hasHeader("Referer")) {
+      AsyncWebHeader* refererHeader = request->getHeader("Referer");
+      String refererValue = refererHeader->value();
+      Serial.print("Referer: ");
+      Serial.println(refererValue);
 
-      File file = LittleFS.open(path, "r");
-      if (!file) {
-        request->send(404, "text/html", "Oh No, Not found <a href=\"/\">/ home</a>");
-        return;
+      // Check if the Referer does not contain "/ace"
+      if (refererValue.indexOf("/ace") != -1) {
+        if (LittleFS.exists("/bulbs.html")) {
+          Serial.println("bulbs.html exists. Serving it now...");
+          request->send(LittleFS, "/bulbs.html", "text/html");
+        }
+      } else {
+        String path = "/bulbs.html"; // Directly specify the file path
+        String contentType = "text/html"; // We know it's an HTML file
+
+        File file = LittleFS.open(path, "r");
+        if (!file) {
+          request->send(404, "text/html", "Oh No, Not found <a href=\"/\">/ home</a>");
+          return;
+        }
+
+        String fileContent = file.readString();
+        file.close();
+
+        // Perform dynamic content replacement
+        fileContent.replace("%STATE%", ledState ? "ON" : "OFF");
+        fileContent.replace("%MDNS%", String(myhostname) + ".local");
+        fileContent.replace("%IP%", WiFi.localIP().toString());
+
+        request->send(200, contentType, fileContent);
       }
-
-      String fileContent = file.readString();
-      file.close();
-
-      // Perform dynamic content replacement
-      fileContent.replace("%STATE%", ledState ? "ON" : "OFF");
-      fileContent.replace("%MDNS%", String(myhostname) + ".local");
-      fileContent.replace("%IP%", WiFi.localIP().toString());
-
-      request->send(200, contentType, fileContent);
     }
+
   });
 
 
+
+
+
+
+
+
   server.on("/nerd.html", HTTP_GET, [](AsyncWebServerRequest * request) {
-    if (request->url() != "/ace") {
-      String path = "/nerd.html"; // Directly specify the file path
-      String contentType = "text/html"; // We know it's an HTML file
+    if (request->hasHeader("Referer")) {
+      AsyncWebHeader* refererHeader = request->getHeader("Referer");
+      String refererValue = refererHeader->value();
+      Serial.print("Referer: ");
+      Serial.println(refererValue);
 
-      File file = LittleFS.open(path, "r");
-      if (!file) {
-        request->send(404, "text/html", "Oh No, Not found <a href=\"/\">/ home</a>");
-        return;
+      // Check if the Referer does not contain "/ace"
+      if (refererValue.indexOf("/ace") != -1) {
+        if (LittleFS.exists("/nerd.html")) {
+          Serial.println("nerd.html exists. Serving it now...");
+          request->send(LittleFS, "/nerd.html", "text/html");
+        }
+
+      } else {
+        String path = "/nerd.html"; // Directly specify the file path
+        String contentType = "text/html"; // We know it's an HTML file
+
+        File file = LittleFS.open(path, "r");
+        if (!file) {
+          request->send(404, "text/html", "Oh No, Not found <a href=\"/\">/ home</a>");
+          return;
+        }
+
+        String fileContent = file.readString();
+        file.close();
+
+        // Perform dynamic content replacement
+        fileContent.replace("%STATE%", ledState ? "ON" : "OFF");
+        fileContent.replace("%MDNS%", String(myhostname) + ".local");
+        fileContent.replace("%IP%", WiFi.localIP().toString());
+
+        request->send(200, contentType, fileContent);
       }
-
-      String fileContent = file.readString();
-      file.close();
-
-      // Perform dynamic content replacement
-      fileContent.replace("%STATE%", ledState ? "ON" : "OFF");
-      fileContent.replace("%MDNS%", String(myhostname) + ".local");
-      fileContent.replace("%IP%", WiFi.localIP().toString());
-
-      request->send(200, contentType, fileContent);
     }
   });
 
