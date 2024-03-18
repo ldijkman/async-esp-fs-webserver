@@ -93,28 +93,6 @@ void onImprovWiFiErrorCb(ImprovTypes::Error err) {
 
 void onImprovWiFiConnectedCb(const char* ssid, const char* password) {
 
-  // Declare station configuration structure
-  //struct station_config stationConf;
-
-  // Get the current configuration (if needed to keep some settings)
-  // wifi_station_get_config_default(&stationConf);
-
-  // Clear previous configuration
-  //memset(&stationConf, 0, sizeof(stationConf));
-
-  // Copy new SSID and password into station configuration
-  // Note: ssid and password are assumed to be null-terminated strings
-  // os_memcpy(destination, source, numBytes);
-  //os_memcpy(&stationConf.ssid, ssid, strlen(ssid));
-  //os_memcpy(&stationConf.password, password, strlen(password));
-
-  // Set WiFi operation mode to station mode
-  // wifi_set_opmode(STATION_MODE);
-
-  // Apply the new configuration
-  // wifi_station_set_config(&stationConf);
-
-  // Assuming server.begin() and blink_led() are defined elsewhere correctly
   server.begin(); // Start server (make sure this is appropriate here)
   blink_led(100, 3); // Blink LED as a signal (make sure this is appropriate here)
 }
@@ -275,9 +253,9 @@ void setup() {
   improvSerial.setDeviceInfo(ImprovTypes::ChipFamily::CF_ESP32, "Visual TimeSlots Scheduler", "8-march-24", "Visual TimeSlots Scheduler", "http://{LOCAL_IPV4}/index.html");
   improvSerial.onImprovError(onImprovWiFiErrorCb);
   improvSerial.onImprovConnected(onImprovWiFiConnectedCb);
-  improvSerial.setCustomConnectWiFi(connectWifi);  // Optional
+  //improvSerial.setCustomConnectWiFi(connectWifi);  // Optional
 
-  blink_led(50, 5);
+  blink_led(100, 5);
 
 
 
@@ -376,7 +354,7 @@ void setup() {
 
 
   server.on("/bulb.html", HTTP_GET, [](AsyncWebServerRequest * request) {
-    if (request->url() != "/ace") {
+    if (request->url() != "/edit") {
       String path = "/bulb.html"; // Directly specify the file path
       String contentType = "text/html"; // We know it's an HTML file
 
@@ -527,7 +505,7 @@ void setup() {
     Serial.println("Error setting up MDNS responder!");
   }
 
-
+blink_led(50, 10);
 }
 
 
@@ -554,11 +532,12 @@ void loop() {
   // if (WiFi.status() == WL_CONNECTED) {
   //   MDNS.update();
   // }
-
+   if (WiFi.status() == WL_CONNECTED) {
   static unsigned long lastPrintTime = 0;
   const unsigned long printInterval = 5000;  // Print every 10000 milliseconds (10 seconds)
 
   unsigned long currentTime = millis();
+
 
   if (currentTime - lastPrintTime >= printInterval) {
     // Save the last time you printed the time
@@ -585,7 +564,7 @@ void loop() {
       improvSerial.handleSerial();  //
     }
   }
-
+}
 }
 
 
