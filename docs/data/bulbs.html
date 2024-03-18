@@ -79,7 +79,7 @@ function createIframes(data) {
 
     data.forEach(item => {
         // Skip creating an iframe for items with the '0.0.0.0' IP address
-        if (item.ip === '0.0.0.0') {
+        if (item.ip === '0.0.0.0' || item.ip === '(IP unset)') {
             return; // Skip the rest of this iteration, effectively filtering out this item
         }
         const iframeContainer = document.createElement('div');
