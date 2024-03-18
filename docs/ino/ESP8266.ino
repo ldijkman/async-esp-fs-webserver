@@ -374,7 +374,7 @@ void setup() {
       Serial.println(refererValue);
 
       // Check if the Referer does not contain "/ace"
-      if (refererValue.indexOf("/ace") != -1) {
+      if (refererValue.indexOf("/ace") != -1 || refererValue.indexOf("/edit") != -1) {
         if (LittleFS.exists("/bulb.html")) {
           Serial.println("bulb.html exists. Serving it now...");
           request->send(LittleFS, "/bulb.html", "text/html");
@@ -417,7 +417,7 @@ void setup() {
       Serial.println(refererValue);
 
       // Check if the Referer does not contain "/ace"
-      if (refererValue.indexOf("/ace") != -1) {
+      if (refererValue.indexOf("/ace") != -1 || refererValue.indexOf("/edit") != -1) {
         if (LittleFS.exists("/bulbs.html")) {
           Serial.println("bulbs.html exists. Serving it now...");
           request->send(LittleFS, "/bulbs.html", "text/html");
@@ -461,7 +461,7 @@ void setup() {
       Serial.println(refererValue);
 
       // Check if the Referer does not contain "/ace"
-      if (refererValue.indexOf("/ace") != -1) {
+      if (refererValue.indexOf("/ace") != -1 || refererValue.indexOf("/edit") != -1) {
         if (LittleFS.exists("/nerd.html")) {
           Serial.println("nerd.html exists. Serving it now...");
           request->send(LittleFS, "/nerd.html", "text/html");
