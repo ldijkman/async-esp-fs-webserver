@@ -205,9 +205,9 @@ document.addEventListener("DOMContentLoaded", function () {
       title: "add a randomnerd esp-thermostat-web-server?"
     },
     {
-      href: "",
-      text: "",
-      title: ""
+      href: "https://randomnerdtutorials.com/esp32-esp8266-rgb-led-strip-web-server/",
+      text: "add a randomnerd esp-rgb-led-strip-web-server?",
+      title: "add a randomnerd esp-rgb-led-strip-web-server?"
     },
     {
       href: "",
