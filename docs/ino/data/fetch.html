@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dynamic Content from mDNS WebSocket Data</title>
+    <style>
+        .content-container {
+            margin-bottom: 20px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+            display: inline-block;
+            width: calc(40% - 20px);
+            box-sizing: border-box;
+        }
+    </style>
+</head>
+<body>
+    <h2>Dynamic Content based on mDNS WebSocket Data</h2>
+    Automatically lists other devices' content on the network<br>
+    <div id="contentContainer"></div>
+
+    <script>
+        // WebSocket connection setup
+        const ws = new WebSocket('ws://' + window.location.hostname + '/ws');
+
+        ws.onopen = () => console.log('WebSocket connection established');
+        ws.onerror = (error) => console.error('WebSocket Error: ', error);
+
+ws.onmessage = async (event) => {
+    const message = event.data.trim(); // Trim whitespaces
+    console.log('WebSocket message received:', message);
+
+    // Try to differentiate and handle JSON vs plain text messages
+    try {
+        const data = JSON.parse(message);
+        
+        // Check if the parsed data is the expected array of objects
+        if (Array.isArray(data) && data.every(item => 
+            item.hasOwnProperty('mdnsname') && item.hasOwnProperty('ip') && item.hasOwnProperty('port'))) {
+            
+            // Proceed to process the correctly structured JSON data
+            await fetchAndDisplayContent(data);
+        } else {
+            // JSON is valid but doesn't match the expected structure
+            console.log('Received JSON data does not contain expected structure:', message);
+        }
+    } catch (e) {
+        // Parsing failed, indicating this is likely plain text or malformed JSON
+        console.error('Error parsing WebSocket data or data not in JSON format:', e, 'Data:', message);
+        handlePlainTextMessage(message);
+    }
+};
+
+// Handle plain text or unexpected WebSocket messages
+function handlePlainTextMessage(message) {
+    // Decide what to do with the plain text message
+    // For example, logging it or displaying it in a specific part of the webpage
+    console.log('Plain text message received:', message);
+}
+
+// Validate the data structure
+function isValidData(data) {
+    return Array.isArray(data) && data.length > 0 && data.every(item => 
+        item.hasOwnProperty('mdnsname') && item.hasOwnProperty('ip') && item.hasOwnProperty('port'));
+}
+
+
+
+        async function fetchAndDisplayContent(devices) {
+            const container = document.getElementById('contentContainer');
+            container.innerHTML = ''; // Clear previous content
+
+            for (const device of devices) {
+                const contentURL = `http://${device.ip}:${device.port}/bulb.html`;
+
+                try {
+                    const response = await fetch(contentURL);
+                    const content = await response.text();
+
+                    const contentContainer = document.createElement('div');
+                    contentContainer.classList.add('content-container');
+
+                    // Assuming the content is safe and can be directly inserted
+                    contentContainer.innerHTML = content;
+
+                    container.appendChild(contentContainer);
+                } catch (error) {
+                    console.error('Error fetching content:', error);
+                    // Handle errors, e.g., display an error message in the UI
+                }
+            }
+        }
+    </script>
+<script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
+
+<br><br><br><br><br><br><br><br><br><br><br><br>
+<script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
+
+</body>
+</html>

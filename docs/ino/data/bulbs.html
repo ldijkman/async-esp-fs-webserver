@@ -1,0 +1,131 @@
+<!--
+ace editor on ESP fills in the %% variables on this html
+should not do that
+if mDNS name is changed to other name it will not work
+
+page iframes reloads every websocket
+should only reload when websocket is changed
+
+paste this page code in Ai and ask
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>%MDNS% Dynamic Iframes from mDNS WebSocket Data</title>
+    <style>
+        .iframe-container {
+            margin-bottom: 20px;
+        }
+        iframe {
+            width: 40%;
+            height: 250px; /* Adjust height as needed */
+        }
+        body {
+      background-color: #2D2A2A;
+    }
+        /* Add this section for links styling */
+        a {
+            color: gray; /* This makes links light gray */
+            text-decoration: none; /* Optional: removes underline from links */
+        }
+        a:hover {
+            color: lightgray; /* Optional: changes link color on hover for better visibility */
+        }
+    </style>
+</head>
+<body>
+    <h2><a href="http://%IP%/bulb.html">%MDNS%</a><br>Dynamic Iframes based on mDNS WebSocket Data</h2>
+    automaticly lists other devices in iframe on the network<br>
+    <div id="iframeContainer"></div>
+
+    <script>
+        // Modify this URL to your WebSocket server
+         const ws = new WebSocket('ws://' + window.location.hostname + '/ws');
+       
+
+        ws.onopen = function() {
+            console.log('WebSocket connection established');
+            // Optionally send a message to the server
+            // ws.send('Hello Server');
+        };
+
+        ws.onerror = function(error) {
+            console.error('WebSocket Error: ', error);
+        };
+
+ws.onmessage = function(event) {
+    console.log('WebSocket message received:', event.data);
+    try {
+        const data = JSON.parse(event.data);
+        // Check if the parsed data is in the expected format (an array with objects containing `mdnsname`, `ip`, `port`)
+        if (Array.isArray(data) && data.length > 0 && data[0].hasOwnProperty('mdnsname') && data[0].hasOwnProperty('ip') && data[0].hasOwnProperty('port')) {
+            createIframes(data); // Call function to create iframes with received data
+        } else {
+            console.log('Received data does not contain expected structure:', event.data);
+        }
+    } catch(e) {
+        console.error('Error parsing WebSocket data:', e, 'Data:', event.data);
+    }
+};
+
+        // Function to dynamically create iframes based on the WebSocket data
+function createIframes(data) {
+    const container = document.getElementById('iframeContainer');
+    container.innerHTML = ''; // Clear previous iframes
+
+    // Sort the data array by mdnsname property, alphabetically
+    data.sort((a, b) => a.mdnsname.localeCompare(b.mdnsname));
+
+    data.forEach(item => {
+        // Skip creating an iframe for items with the '0.0.0.0' IP address
+        if (item.ip === '0.0.0.0') {
+            return; // Skip the rest of this iteration, effectively filtering out this item
+        }
+        const iframeContainer = document.createElement('div');
+        iframeContainer.classList.add('iframe-container');
+        iframeContainer.style.border = '2px solid #ccc'; // Thin, grey border
+        iframeContainer.style.borderRadius = '10px'; // Rounded corners
+        iframeContainer.style.padding = '10px'; // Padding inside the border
+        iframeContainer.style.marginBottom = '20px'; // Space between each set
+        iframeContainer.style.display = 'inline-block'; // Adjust as needed for layout
+        iframeContainer.style.width = '24%'; // Adjust width as needed, accounting for padding
+        iframeContainer.style.boxSizing = 'border-box'; // Include padding and border in the element's width
+
+        // Create an h1 element for the title
+        const title = document.createElement('h1');
+        title.style.textAlign = 'center'; // Center the title
+
+        // Create an anchor element for the mdnsname that opens in a new window/tab
+        const mdnsLink = document.createElement('a');
+        mdnsLink.href = `http://${item.ip}/index.html`; // Assuming the page is index.html at the device IP
+        mdnsLink.textContent = item.mdnsname;
+        mdnsLink.target = "_blank"; // Open in new window/tab
+        //mdnsLink.style.color = 'inherit'; // Optional: Ensures link color matches the surrounding text
+
+        // Append the link to the h1 element
+        title.appendChild(mdnsLink);
+
+        const iframe = document.createElement('iframe');
+        iframe.src = `http://${item.ip}:${item.port}/bulb.html`;
+        iframe.title = item.mdnsname;
+        iframe.style.width = '100%'; // Make iframe fill the container width
+        iframe.style.height = '250px'; // Adjust height as needed
+        iframe.style.border = 'none'; // Remove iframe default border
+
+        // Append the title and iframe to the container
+        iframeContainer.appendChild(title);
+        iframeContainer.appendChild(iframe);
+        
+        // Append the container to the main container
+        container.appendChild(iframeContainer);
+    });
+}
+    </script>
+<script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
+
+<br><br><br><br><br><br><br><br><br><br><br><br>
+<script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
+
+</body>
+</html>

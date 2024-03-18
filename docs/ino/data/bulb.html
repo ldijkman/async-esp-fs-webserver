@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+  <title>%MDNS% Enhanced ESP Web Server</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    html {
+      font-family: Arial, Helvetica, sans-serif;
+      text-align: center;
+    }
+    body {
+      margin: 0;
+      display: flex;
+      flex-direction: column; /* Adjusted for vertical alignment */
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #2D2A2A;
+    }
+    svg {
+      cursor: pointer;
+      width: 150px; /* Increased size for better visibility */
+      height: auto;
+    }
+    .light-on .bulb {
+      fill: #ffeb3b; /* A brighter shade of yellow for the 'on' state */
+    }
+    .light-on .glow {
+      opacity: 1; /* Full opacity for a pronounced glow effect */
+    }
+    .bulb {
+      fill: #999;
+      transition: fill 0.3s ease;
+    }
+    .glow {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .glow-circle {
+      fill: none;
+      stroke: yellow;
+      stroke-width: 3;
+      stroke-dasharray: 10;
+      animation: glowAnimation 2s infinite alternate;
+    }
+    @keyframes glowAnimation {
+      from { stroke-width: 2; stroke-opacity: 0.6; }
+      to { stroke-width: 8; stroke-opacity: 1; }
+    }
+    a {
+      color: #CCCCCC; /* Light gray color for visibility */
+      text-decoration: none; /* Removes underline */
+      margin-top: 20px; /* Adds space between the SVG and the link */
+    }
+    a:hover {
+      color: white; /* Changes color on hover for interactivity */
+    }
+  </style>
+</head>
+<body data-initial-state="%STATE%">
+<svg viewBox="0 0 100 100" stroke-linecap="round" stroke-linejoin="round" id="lightBulb" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="base" viewBox="0 0 100 100">
+      <path d="M10 10 C 25 20, 75 20, 90 10"></path>
+      <path d="M10 35 C 25 45, 75 45, 90 35"></path>
+      <path d="M10 60 C 25 70, 75 70, 90 60"></path>
+      <path d="M30 85 C 40 88, 60 88, 70 85" stroke-width="12"></path>
+    </symbol>
+    <filter id="blur">
+      <feGaussianBlur stdDeviation="2"></feGaussianBlur>
+    </filter>
+    <g class="glow" fill="gold" stroke="none" filter="url(#blur)">
+      <circle cx="50" cy="30" r="28"></circle>
+      <path d="M50 74 Q 62 74, 62 66 Q 63 60, 73 46 L 50 46 z"></path>
+      <path d="M50 74 Q 62 74, 62 66 Q 63 60, 73 46 L 50 46 z" transform="translate(100, 0), scale(-1,1)"></path>
+    </g>
+    <g class="bulb" fill="silver" stroke="none">
+      <circle cx="50" cy="30" r="28"></circle>
+      <path d="M50 74 Q 38 74, 38 66 Q 37 60, 27 46 L 50 46 z"></path>
+      <path d="M50 74 Q 38 74, 38 66 Q 37 60, 27 46 L 50 46 z" transform="translate(100, 0), scale(-1,1)"></path>
+    </g>
+    <use href="#base" x="0" y="75" height="25" stroke="silver" stroke-width="18" fill="none"></use>
+</svg>
+
+
+<!-- Link directly under the bulb SVG, centered -->
+<a href="http://%IP%/bulbs.html" target="_blank">%MDNS%/bulbs.html</a>
+
+
+
+
+
+
+
+
+<script>
+
+
+
+var gateway = `ws://${window.location.hostname}/ws`;
+var websocket;
+
+function initWebSocket() {
+  console.log('Trying to open a WebSocket connection...');
+  websocket = new WebSocket(gateway);
+  websocket.onopen = onOpen;
+  websocket.onclose = onClose;
+  websocket.onmessage = onMessage;
+}
+
+function onOpen(event) {
+  console.log('Connection opened');
+}
+
+function onClose(event) {
+  console.log('Connection closed');
+  setTimeout(initWebSocket, 2000);
+}
+
+function onMessage(event) {
+  console.log("Received data: ", event.data);
+  var bulbSvg = document.getElementById("lightBulb");
+  if (event.data == "1"){
+    bulbSvg.classList.add("light-on");
+  } else if (event.data == "0"){
+    bulbSvg.classList.remove("light-on");
+  }
+}
+
+window.addEventListener('load', onLoad);
+
+function onLoad(event) {
+  initWebSocket();
+  document.getElementById("lightBulb").addEventListener('click', toggle);
+}
+
+function toggle(){
+  websocket.send('toggle');
+  console.log("Toggle command sent");
+}
+
+
+function onLoad(event) {
+  initWebSocket();
+  setInitialState();
+  document.getElementById("lightBulb").addEventListener('click', toggle);
+}
+
+function setInitialState() {
+  var initialState = document.body.getAttribute('data-initial-state');
+  var bulbSvg = document.getElementById("lightBulb");
+  if (initialState === "ON") {
+    bulbSvg.classList.add("light-on");
+  } else {
+    bulbSvg.classList.remove("light-on");
+  }
+}
+
+
+
+
+
+
+
+
+
+</script>
+
+
+</body>
+</html>

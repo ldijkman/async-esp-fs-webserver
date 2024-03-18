@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Time Example</title>
+    <script>
+        var ws;
+        
+        function initWebSocket() {
+            ws = new WebSocket('ws://' + window.location.hostname + '/ws');
+            ws.onmessage = function(event) {
+                document.getElementById('time').innerHTML = event.data;
+            };
+            ws.onclose = function () {
+                console.log('WebSocket connection closed');
+                setTimeout(initWebSocket, 2000); // Try to reconnect every 2 seconds
+            };
+        }
+
+        window.addEventListener('load', initWebSocket);
+    </script>
+</head>
+<body>
+  ESP32 websocket display esp ntp time in html by replace %time%
+    <h1>Current Time: <span id="time">%time%</span><br>
+    <br>
+    <a href="https://ldijkman.github.io/async-esp-fs-webserver/" target="_blank">Flash ESP32 4mb inbrowser online</a><br>
+</h1>
+
+<script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
+
+<br><br><br><br><br><br><br><br><br><br><br><br>
+<script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
+</body>
+</html>

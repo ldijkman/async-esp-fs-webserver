@@ -1,0 +1,143 @@
+
+switches the LED gpio2 or what is set in setup on esp pcb 
+not perfect way
+html does not know state
+may be wrong at start
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SVG Light Bulb Toggle with ESP8266</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.25em;
+      background-color: #444;
+      transition: background-color 0.5s;
+    }
+
+    svg {
+      position: relative;
+      width: calc(5em + 40vw);
+      height: calc(5em + 40vw);
+    }
+
+    .glow {
+      opacity: 0;
+      transition: opacity 0.4s ease-out;
+    }
+
+    .bulb {
+      transition: fill 0.2s ease-out;
+    }
+
+    .on .glow {
+      opacity: 0.75;
+    }
+
+    .on .bulb {
+      fill: gold;
+    }
+
+    button {
+      padding: 0.5em 0.75em;
+      font-size: inherit;
+      font-family: inherit;
+      color: white;
+      background: #70665c;
+      border: none;
+      border-radius: 2px;
+      transition: color 0.2s, background-color 0.2s;
+    }
+
+    button:hover {
+      color: #333;
+      background-color: gold;
+    }
+
+    button:focus {
+      outline: 2px solid gold;
+      outline-offset: 4px;
+    }
+  </style>
+</head>
+<body>
+    <script type="module" src="https://ldijkman.github.io/async-esp-fs-webserver/ESP_Web_Tools/install-button.js?module"></script>
+  <br> 
+  <esp-web-install-button manifest="https://ldijkman.github.io/async-esp-fs-webserver/both.json">
+          <button slot="activate">Flash 4mb ESP8266 / ESP32</button>
+          <span style="color: red; font-size: 24px; font-weight: bold;" slot="unsupported">Ah Damn, your browser doesn't work! <br>Open this Page in a Chromium Based PC Browser!<br>and an Connect Install button will be here!</span>
+          <span style="color: red; font-size: 24px; font-weight: bold;" slot="not-allowed">Ah Damn, you are not allowed to use this on HTTP!</span>
+       </esp-web-install-button>
+  <br>
+  <svg viewBox="0 0 100 100" stroke-linecap="round" stroke-linejoin="round">
+    <symbol id="base" viewBox="0 0 100 100">
+      <path d="M10 10 C 25 20, 75 20, 90 10"></path>
+      <path d="M10 35 C 25 45, 75 45, 90 35"></path>
+      <path d="M10 60 C 25 70, 75 70, 90 60"></path>
+      <path d="M30 85 C 40 88, 60 88, 70 85" stroke-width="12"></path>
+    </symbol>
+    <filter id="blur">
+      <feGaussianBlur stdDeviation="2"></feGaussianBlur>
+    </filter>
+    <g class="glow" fill="gold" stroke="none" filter="url(#blur)">
+      <circle cx="50" cy="30" r="28"></circle>
+      <path d="M50 74 Q 62 74, 62 66 Q 63 60, 73 46 L 50 46 z"></path>
+      <path d="M50 74 Q 62 74, 62 66 Q 63 60, 73 46 L 50 46 z" transform="translate(100, 0), scale(-1,1)"></path>
+    </g>
+    <g class="bulb" fill="silver" stroke="none">
+      <circle cx="50" cy="30" r="28"></circle>
+      <path d="M50 74 Q 38 74, 38 66 Q 37 60, 27 46 L 50 46 z"></path>
+      <path d="M50 74 Q 38 74, 38 66 Q 37 60, 27 46 L 50 46 z" transform="translate(100, 0), scale(-1,1)"></path>
+    </g>
+    <use href="#base" x="0" y="75" height="25" stroke="silver" stroke-width="18" fill="none"></use>
+  </svg>
+
+  
+  <button id="js-btn" hidden>Turn on</button><br>
+  
+<iframe width="150" height="250" src="https://www.youtube.com/embed/pxG-PVzutl8" title="9 maart 2024" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+  
+<script>
+  const btn = document.getElementById('js-btn');
+  const svg = document.querySelector('svg'); // Get the SVG element
+  
+  // Create a function that can be used by both the button and SVG click events
+  function toggle() {
+    const isOn = document.body.classList.contains('on');
+    // Invert the logic here: '0' to turn on, '1' to turn off
+    const newValue = isOn ? '1' : '0'; 
+
+    // Replace with the actual IP address of your ESP8266
+    fetch(`/led?val=${newValue}`)
+      .then(response => response.text())
+      .then(text => {
+        console.log(text);
+        toggleLight(); // Toggle the class and button text only if the fetch was successful
+      })
+      .catch(error => console.error('Error toggling LED:', error));
+  }
+
+  function toggleLight() {
+    document.body.classList.toggle('on');
+    const isOn = document.body.classList.contains('on');
+    btn.textContent = isOn ? 'Turn off' : 'Turn on';
+  }
+
+  // Attach the toggle function to the click event for both the button and the SVG
+  btn.addEventListener('click', toggle);
+  svg.addEventListener('click', toggle);
+</script>
+
+<br><br><br><br><br><br><br><br><br><br><br><br>
+<script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
+
+  
+</body>
+</html>
