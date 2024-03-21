@@ -23,9 +23,6 @@ const char* password = "password";
 
 
 
-
-
-
 // Set web server port number to 80
 WiFiServer server(80);
 
@@ -134,9 +131,9 @@ void loop(){
             client.println("<link rel=\"icon\" href=\"data:,\">");
             client.println("<link rel=\"stylesheet\" href=\"https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css\">");
             client.println("<script src=\"https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.min.js\"></script>");
-            client.println("</head><body><div class=\"container\"><div class=\"row\"><h1>ESP Color Picker</h1></div>");
+            client.println("</head><body><div class=\"container\"><div class=\"row\">ESP RGB LED Strip Color Picker</div>");
             client.println("<a class=\"btn btn-primary btn-lg\" href=\"#\" id=\"change_color\" role=\"button\">Change Color</a> ");
-            client.println("<input class=\"jscolor {onFineChange:'update(this)'}\" id=\"rgb\"></div>");
+            client.println("<input class=\"jscolor {onFineChange:'update(this)'}\" id=\"rgb\" value=\"00FF00\" ></div>");
             client.println("<script>function update(picker) {document.getElementById('rgb').innerHTML = Math.round(picker.rgb[0]) + ', ' +  Math.round(picker.rgb[1]) + ', ' + Math.round(picker.rgb[2]);");
             client.println("document.getElementById(\"change_color\").href=\"?r\" + Math.round(picker.rgb[0]) + \"g\" +  Math.round(picker.rgb[1]) + \"b\" + Math.round(picker.rgb[2]) + \"&\";}</script></body></html>");
             // The HTTP response ends with another blank line
@@ -144,7 +141,7 @@ void loop(){
 
             // Request sample: /?r201g32b255&
             // Red = 201 | Green = 32 | Blue = 255
-            if(header.indexOf("GET /?r") >= 0) {
+            if(header.indexOf("GET /bulb.html?r") >= 0) {
               pos1 = header.indexOf('r');
               pos2 = header.indexOf('g');
               pos3 = header.indexOf('b');
