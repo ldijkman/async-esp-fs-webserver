@@ -27,5 +27,6 @@ maybe makes more sense that all mdns scan card.html are auto listed on cards.htm
 ---
 
 rgb led strip web server 
+![Screenshot from 2024-03-21 05-36-42](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/b1d65c27-993a-4130-820c-faacfc33a7d2)
 
-![Screenshot from 2024-03-21 05-26-28](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/43d51780-db97-4025-9cc3-e0fa5bb18822)
+
