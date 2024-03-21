@@ -31,10 +31,21 @@
 #include <ESPmDNS.h>
 
 
+
+
+
+
+
 // hardcoded wifi settings
 // REPLACE WITH YOUR NETWORK CREDENTIALS
 const char* ssid = "Bangert_30_Andijk";  //wifi ssid
-const char* password = "ookikwilerin";   //wifi password
+const char* password = "password";   //wifi password
+
+
+
+
+
+
 
 // Default Threshold Temperature Value
 String inputMessage = "25.0";
