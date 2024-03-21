@@ -31,21 +31,10 @@
 #include <ESPmDNS.h>
 
 
-
-
-
-
-
 // hardcoded wifi settings
 // REPLACE WITH YOUR NETWORK CREDENTIALS
 const char* ssid = "Bangert_30_Andijk";  //wifi ssid
-const char* password = "password";   //wifi password
-
-
-
-
-
-
+const char* password = "ookikwilerin";   //wifi password
 
 // Default Threshold Temperature Value
 String inputMessage = "25.0";
@@ -59,14 +48,15 @@ const char index_html[] PROGMEM = R"rawliteral(
   <title>Temperature Threshold Output Control</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   </head><body>
-  https://randomnerdtutorials.com/esp32-esp8266-thermostat-web-server/<br>
-  <h2>DS18B20 Thermostat</h2> 
-  <h3>%TEMPERATURE% &deg;C</h3>
-  <h2>ESP Arm Trigger</h2>
-  <form action="/bulb.html">
-    Temperature Threshold <input type="number" step="0.1" name="threshold_input" value="%THRESHOLD%" required><br>
+  <!--https://randomnerdtutorials.com/esp32-esp8266-thermostat-web-server/<br>
+  <h2>DS18B20 Thermostat</h2> -->
+  <h3 style="color:yellow;">Temperature %TEMPERATURE% &deg;C</h3>
+  <!--<h2>ESP Arm Trigger</h2>-->
+  <form action="/bulb.html"><font style="color:gray;">
+    Temperature Setpoint <input type="number" step="0.1" name="threshold_input" value="%THRESHOLD%" required><br>
     Arm Trigger <input type="checkbox" name="enable_arm_input" value="true" %ENABLE_ARM_INPUT%><br><br>
     <input type="submit" value="Submit">
+    </font>
   </form>
   <br><br>
   https://randomnerdtutorials.com/esp32-esp8266-thermostat-web-server/<br><br>
