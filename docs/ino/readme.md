@@ -22,4 +22,6 @@ rgb.local RGB led strip web server
 
 thermostat webserver
 
+auto list all devices in local network
+
 ![Screenshot from 2024-03-21 20-30-58](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/2de7060e-8ae9-4229-992e-68701a9e5340)
