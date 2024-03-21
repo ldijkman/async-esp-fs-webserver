@@ -16,17 +16,10 @@ maybe i should rename all bulb.html to card.html
 
 maybe makes more sense that all mdns scan card.html are auto listed on cards.html
 
-
-![Screenshot from 2024-03-21 04-32-30](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/e49e7671-d3a0-4135-bd3d-f55fd7eade06)
-
-
-![Screenshot from 2024-03-21 05-10-02](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/1fc776ee-2c20-4687-97b8-aa720c72762e)
-
-
-
 ---
 
-rgb led strip web server 
-![Screenshot from 2024-03-21 05-36-42](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/b1d65c27-993a-4130-820c-faacfc33a7d2)
+rgb.local RGB led strip web server 
 
+thermostat webserver
 
+![Screenshot from 2024-03-21 20-30-58](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/2de7060e-8ae9-4229-992e-68701a9e5340)
