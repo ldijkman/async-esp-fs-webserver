@@ -21,3 +21,11 @@ maybe makes more sense that all mdns scan card.html are auto listed on cards.htm
 
 
 ![Screenshot from 2024-03-21 05-10-02](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/1fc776ee-2c20-4687-97b8-aa720c72762e)
+
+
+
+---
+
+rgb led strip web server 
+
+![Screenshot from 2024-03-21 05-26-28](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/43d51780-db97-4025-9cc3-e0fa5bb18822)
