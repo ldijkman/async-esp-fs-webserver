@@ -22,6 +22,6 @@ rgb.local RGB led strip web server
 
 thermostat webserver
 
-auto list all ESP devices/webservers in local network
+auto list all ESP devices/webservers in local network from mDNS scan
 
 ![Screenshot from 2024-03-21 20-30-58](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/2de7060e-8ae9-4229-992e-68701a9e5340)
