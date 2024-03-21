@@ -1,7 +1,7 @@
 
 // rgb led strip web server
 
-// tested on esp32
+// tested on cq mdns for esp32
 // http://rgb.local
 // hardcoded wifi
 
