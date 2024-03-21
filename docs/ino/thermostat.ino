@@ -1,6 +1,6 @@
 
 
-
+// mdns coded for esp32
 // hardcoded wifi settings
 // http://thermostat.local/bulb.html
 
