@@ -72,10 +72,12 @@ function initMode(mode, index) {
 function onColor(event, color) {
   event.preventDefault();
   var match = color.match(/rgb\(([0-9]*),([0-9]*),([0-9]*)\)/);
+    document.getElementById("color-value").style.backgroundColor = color;
   if(match) {
     var colorValue = Number(match[1]) * 65536 + Number(match[2]) * 256 + Number(match[3]);
     //console.log('onColor:' + match[1] + "," + match[2] + "," + match[3] + "," + colorValue);
     submitVal('c', colorValue);
+   
   }
 }
 
@@ -109,8 +111,8 @@ function submitVal(name, val) {
 }
 
 
-function changeColor() {
-  document.getElementById("color-value").style.backgroundColor = "red";
+function changeColor(color) {
+  document.getElementById("color-value").style.backgroundColor = color;
 }
 
 )=====";

@@ -72,8 +72,8 @@ extern const char main_js[];
 #define min(a,b) ((a)<(b)?(a):(b))
 #define max(a,b) ((a)>(b)?(a):(b))
 
-#define LED_PIN 2                       // 0 = GPIO0, 2=GPIO2
-#define LED_COUNT 24
+#define LED_PIN 2                       // 0 = GPIO0, 2=GPIO2=D4
+#define LED_COUNT 60
 
 #define WIFI_TIMEOUT 30000              // checks WiFi every ...ms. Reset after this time, if WiFi cannot reconnect.
 #define HTTP_PORT 80
@@ -221,8 +221,15 @@ void modes_setup() {
 ##################################################### */
 
 void srv_handle_not_found() {
+  String htmlContent = String(FPSTR(index_html)); // Convert PROGMEM content to String
+  
+  
+  // Replace the placeholder with the actual speed value
+  htmlContent.replace("%speed%", String(ws2812fx.getSpeed()));
+
+  server.send(200, "text/html", htmlContent);
   //server.send(404, "text/plain", "File Not Found");
-   server.send_P(200,"text/html", index_html);
+ 
 }
 
 void srv_handle_index_html() {

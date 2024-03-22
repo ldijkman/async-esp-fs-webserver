@@ -82,7 +82,7 @@ char index_html[] PROGMEM = R"=====(
 
     <div class='flex-col'>
       <div><canvas id='color-canvas' width='100' height='100'></canvas><br/></div>
-      <div><input type='text' id='color-value' oninput='onColor(event, this.value);  changeColor();'/></div>
+      <div><input type='text' id='color-value' oninput='onColor(event, this.value);'   onChange='changeColor(this.value);'/></div>
 
       <div>
         <ul class='control'>
@@ -96,6 +96,7 @@ char index_html[] PROGMEM = R"=====(
           <li><a href='#' onclick="onSpeed(event, '-')">&#8722;</a></li>
           <li><a href='#' onclick="onSpeed(event, '+')">&#43;</a></li>
         </ul>
+        <input type="text" id="speed" value="%speed%">
 
         <ul class='control'>
           <li>Auto cycle:</li>
@@ -109,6 +110,10 @@ char index_html[] PROGMEM = R"=====(
       <ul id='modes' class='flex-row-wrap'>
     </div>
   </div>
+  <script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
+
+<br><br><br><br><br><br><br><br><br><br><br><br>
+<script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
 </body>
 </html>
 )=====";
