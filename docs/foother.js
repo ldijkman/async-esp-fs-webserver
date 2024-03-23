@@ -357,6 +357,11 @@ document.addEventListener("DOMContentLoaded", function () {
         "/bulbs.html",
       text: "/bulbs.html"
     },
+         {
+      href:
+        "/2812.html",
+      text: "/2812.html"
+    },
      {
       href:
         "/edit",
