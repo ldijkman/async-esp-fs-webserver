@@ -63,8 +63,8 @@
 #define min(a,b) ((a)<(b)?(a):(b))
 #define max(a,b) ((a)>(b)?(a):(b))
 
-#define LED_PIN 2                       // 0 = GPIO0, 2=GPIO2=D4
-#define LED_COUNT 20
+int LED_PIN =2;                       // 0 = GPIO0, 2=GPIO2=D4
+int LED_COUNT =20;
 
 unsigned long auto_last_change = 0;
 unsigned long last_wifi_check_time = 0;
@@ -73,9 +73,9 @@ uint8_t myModes[] = {}; // *** optionally create a custom list of effect/mode nu
 bool auto_cycle = false;
  uint32_t tmp;
 
+
 WS2812FX ws2812fx = WS2812FX(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
 //WEB_SERVER server(HTTP_PORT);
-
 
 
 
@@ -291,13 +291,7 @@ void setup() {
  modes.reserve(5000);
   modes_setup();
 
-  Serial.println("WS2812FX setup");
-  ws2812fx.init();
-  ws2812fx.setMode(FX_MODE_STATIC);
-  ws2812fx.setColor(0x0000FF);
-  ws2812fx.setSpeed(2500);
-  ws2812fx.setBrightness(20);
-  ws2812fx.start();
+
 
 
 
@@ -323,6 +317,8 @@ void setup() {
       DynamicJsonDocument doc(config.size() * 2);
       deserializeJson(doc, config);
       gpio_relais_pin = doc["gpio_relais_pin"];
+      LED_PIN=doc["WS2812_LED_PIN"];
+      LED_COUNT=doc["WS2812_LED_COUNT"];
       hostname = doc["mDNS"];
       myhostname = hostname;
       GMT_Time_Offset_sec = doc["GMT_Time_Offset_sec"];
@@ -331,6 +327,8 @@ void setup() {
     Serial.println("");
     Serial.printf("Stored \"gpio_relais_pin\" value: %d\n", gpio_relais_pin);
     Serial.printf("Stored \"gpio_input_button_pin\" value: %d\n", gpio_input_button_pin);
+    Serial.printf("Stored \"WS2812_LED_PIN\" value: %d\n", LED_PIN);
+    Serial.printf("Stored \"WS2812_LED_COUNT\" value: %d\n", LED_COUNT);
     Serial.printf("Stored \"mDNS hostname\" value: %s\n", hostname);
     Serial.printf("Stored \"GMT_Time_Offset_sec\" value: %d\n", GMT_Time_Offset_sec);
   } else {
@@ -347,6 +345,10 @@ void setup() {
 
   server.addOption("gpio_relais_pin", gpio_relais_pin);
   server.addOption("gpio_input_button_pin", gpio_input_button_pin);
+
+ server.addOption("WS2812_LED_PIN",  LED_PIN);
+ server.addOption("WS2812_LED_COUNT",  LED_COUNT);
+ 
   server.addHTML("mDNS .local is added by ESP<br><br><a href=\"https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs\" target=\"_blank\">https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs</a>", "mDNS_text_id", 0);
   server.addOption("mDNS", hostname);
   server.addOption("GMT_Time_Offset_sec", GMT_Time_Offset_sec);
@@ -354,7 +356,16 @@ void setup() {
   server.setSetupPageTitle("The Art of Time Controlled");
 
 
-
+  //ws2812fx.stop();
+ // Create a new WS2812FX instance with updated parameters
+  //ws2812fx = WS2812FX(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
+  Serial.println("WS2812FX setup");
+  ws2812fx.init();
+  ws2812fx.setMode(FX_MODE_STATIC);
+  ws2812fx.setColor(0x0000FF);
+  ws2812fx.setSpeed(2500);
+  ws2812fx.setBrightness(20);
+  ws2812fx.start();
 
   // Enable ACE FS file web editor and add FS info callback fucntion
   server.enableFsCodeEditor();
@@ -955,8 +966,7 @@ void handleSetRequest(AsyncWebServerRequest *request) {
     } else {
       uint16_t speed = (uint16_t) strtol(p->value().c_str(), NULL, 10);
       ws2812fx.setSpeed(speed);
-    }
-    Serial.print("speed is "); Serial.println(ws2812fx.getSpeed());
+    }    Serial.print("speed is "); Serial.println(ws2812fx.getSpeed());
   }
 
   // Handle auto cycle toggle
