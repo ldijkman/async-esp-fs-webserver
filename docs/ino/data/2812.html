@@ -69,6 +69,12 @@ window.addEventListener('DOMContentLoaded', (event) => {
   };
   xhttp.open('GET', 'modes', true);
   xhttp.send();
+  
+  document.getElementById('offButton').addEventListener('click', (event) => {
+  event.preventDefault();
+  submitVal('c', 0); // 0 is the color value for rgb(0,0,0) which is black (off)
+});
+  
 });
 
 function initMode(mode, index) {
@@ -192,11 +198,18 @@ function submitVal(name, val) {
 <body>
   WS2812FX Control
   <div class='flex-row'>
+    
+
 
     <div class='flex-col'>
       <div><canvas id='color-canvas' width='100' height='100'></canvas><br/></div>
       <div><input type='text' id='color-value' oninput='onColor(event, this.value);'  /></div>
-
+    <div>
+      
+  <ul class='control'>
+    <li><a href='#' id='offButton'>Turn Off</a></li>
+  </ul>
+</div>
       <div>
         <ul class='control'>
           <li>Brightness:</li>
