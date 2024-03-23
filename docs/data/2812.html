@@ -53,6 +53,8 @@ window.addEventListener('DOMContentLoaded', (event) => {
     document.getElementById('color-value').value = selectedColor;
 
     selectedColor = imageData.data[0] * 65536 + imageData.data[1] * 256 + imageData.data[2];
+    document.getElementById('color-value').style.backgroundColor = selectedColor;
+    document.getElementById('color-value').value = selectedColor;
     submitVal('c', selectedColor);
   });
 
