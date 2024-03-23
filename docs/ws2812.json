@@ -1,0 +1,16 @@
+{
+        "name": "4mb ESP8266 WS2812",
+        "version": "18-march-24",
+          "funding_url": "https://www.paypal.com/paypalme/LDijkman",
+        "new_install_improv_wait_time":"20",
+        "builds": [
+
+    {
+      "chipFamily": "ESP8266",
+      "parts": [
+        { "path": "ESP8266.ws2812.bin", "offset": 0 },
+        { "path": "ESP8266.littlefs.bin", "offset": 2097152 }
+      ]
+    }
+  ]
+} 
