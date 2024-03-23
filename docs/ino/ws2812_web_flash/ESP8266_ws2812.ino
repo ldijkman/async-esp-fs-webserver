@@ -272,7 +272,13 @@ void onWsEvent(AsyncWebSocket* server, AsyncWebSocketClient* client, AwsEventTyp
 
 
 
-
+void updateLEDCount(int newCount) {
+  ws2812fx.strip_off(); // Turn off all LEDs
+  ws2812fx.~WS2812FX(); // Explicitly call the destructor (not recommended without full understanding)
+  new (&ws2812fx) WS2812FX(newCount, LED_PIN, NEO_GRB + NEO_KHZ800); // Reconstruct the object
+  ws2812fx.init();
+  ws2812fx.start();
+}
 
 
 
@@ -359,6 +365,9 @@ void setup() {
   //ws2812fx.stop();
  // Create a new WS2812FX instance with updated parameters
   //ws2812fx = WS2812FX(LED_COUNT, LED_PIN, NEO_GRB + NEO_KHZ800);
+
+  
+  updateLEDCount(LED_COUNT);
   Serial.println("WS2812FX setup");
   ws2812fx.init();
   ws2812fx.setMode(FX_MODE_STATIC);
