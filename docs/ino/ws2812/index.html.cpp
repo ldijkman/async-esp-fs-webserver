@@ -82,7 +82,7 @@ char index_html[] PROGMEM = R"=====(
 
     <div class='flex-col'>
       <div><canvas id='color-canvas' width='100' height='100'></canvas><br/></div>
-      <div><input type='text' id='color-value' oninput='onColor(event, this.value);'   onChange='changeColor(this.value);'/></div>
+      <div><input type='text' style='background-color: color;' id='color-value' oninput='onColor(event, this.value);'   onChange='changeColor(this.value);'/></div>
 
       <div>
         <ul class='control'>
@@ -110,10 +110,19 @@ char index_html[] PROGMEM = R"=====(
       <ul id='modes' class='flex-row-wrap'>
     </div>
   </div>
+  <!--
   <script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
 
 <br><br><br><br><br><br><br><br><br><br><br><br>
 <script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
+-->
+
+<pre>
+ https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs/ino/ws2812
+  
+  https://github.com/kitesurfer1404/WS2812FX/tree/master
+
+  http://www.kitesurfer1404.de/tech/led-star
 </body>
 </html>
 )=====";
