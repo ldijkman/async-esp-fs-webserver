@@ -360,7 +360,7 @@ document.addEventListener("DOMContentLoaded", function () {
          {
       href:
         "/2812.html",
-      text: "/2812.html"
+      text: "/2812.html LED Strip"
     },
      {
       href:
