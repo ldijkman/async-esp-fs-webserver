@@ -527,7 +527,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Toggle functions for menus
   // ... (same as before for Nerd and Ai menus)
 
-  VButton.onclick = function () {
+  pimoutButton.onclick = function () {
     pimoutContent.style.display =
       pimoutContent.style.display === "block" ? "none" : "block";
   };
