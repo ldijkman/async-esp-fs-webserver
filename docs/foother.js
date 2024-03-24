@@ -218,7 +218,16 @@ document.addEventListener("DOMContentLoaded", function () {
       href: "https://youtu.be/pCBfz8GAJSk?si=3POK7dtZ8A75gWIl",
       text: "video bulbs.html auto show other devices in network",
       title: "video bulbs.html auto show other devices in network"
+    },
+       {
+      href: "https://youtu.be/YS3hWK9fHIE",
+      text: "Video Flash ESP8266 WS2812 LED strip Webserver Demo WS2812FX",
+      title: "Video Flash ESP8266 WS2812 LED strip Webserver Demo WS2812FX"
     }
+
+
+
+    
     
   ];
 
