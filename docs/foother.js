@@ -433,7 +433,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "display: inline-block; position: relative; cursor: pointer;";
 
   const PinoutButton = document.createElement("button");
-  PinoutButton.textContent = "Pinout Links";
+  PinoutButton.textContent = "Pinout";
   PinoutButton.style.cssText =
     "background-color: #333; color: cyan; padding: 10px; font-size: 16px; border: none; margin: 0 20px;";
 
