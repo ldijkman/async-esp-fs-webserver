@@ -426,25 +426,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-
-
-// pinout Popup Menu Setup
-  const pimoutContainer = document.createElement("div");
-  pimoutContainer.className = "popup";
-  pimoutContainer.style.cssText =
+ // Pinout Popup Menu Setup
+  const PinoutPopupContainer = document.createElement("div");
+  PinoutPopupContainer.className = "popup";
+  PinoutPopupContainer.style.cssText =
     "display: inline-block; position: relative; cursor: pointer;";
 
-  const pimoutPButton = document.createElement("button");
-  pimoutButton.textContent = "Pinout";
-  pimoutButton.style.cssText =
+  const PinoutButton = document.createElement("button");
+  PinoutButton.textContent = "Pinout Links";
+  PinoutButton.style.cssText =
     "background-color: #333; color: cyan; padding: 10px; font-size: 16px; border: none; margin: 0 20px;";
 
-  const pimoutContent = document.createElement("div");
-  pimoutContent.className = "popup-content";
-  pimoutContent.style.cssText =
+  const PinoutPopupContent = document.createElement("div");
+  PinoutPopupContent.className = "popup-content";
+  PinoutPopupContent.style.cssText =
     "display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: cyan; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;";
 
-  const pimoutLinks = [
+  const PinoutLinks = [
         {
       href:
         "https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/pinouts/NodeMCU-V3-2.png",
@@ -512,7 +510,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   ];
 
-  pimoutLinks.forEach((link) => {
+
+  PinoutLinks.forEach((link) => {
     const a = document.createElement("a");
     a.href = link.href;
     a.target = "_blank";
@@ -520,12 +519,12 @@ document.addEventListener("DOMContentLoaded", function () {
     a.title = link.title; // Set the title attribute
     a.style.cssText =
       "color: black; padding: 12px 16px; text-decoration: none; display: block;";
-    pimoutContent.appendChild(a);
+    PinoutPopupContent.appendChild(a);
   });
 
-  pimoutContainer.appendChild(pimoutButton);
-  pimoutContainer.appendChild(pimoutContent);
-  floatingDiv.appendChild(pimoutContainer);
+  PinoutPopupContainer.appendChild(PinoutButton);
+  PinoutPopupContainer.appendChild(PinoutPopupContent);
+  floatingDiv.appendChild(PinoutPopupContainer);
 
   // ... (same as before for Nerd and Ai menus)
 
@@ -534,15 +533,16 @@ document.addEventListener("DOMContentLoaded", function () {
   // Toggle functions for menus
   // ... (same as before for Nerd and Ai menus)
 
-  pimoutButton.onclick = function () {
-    pimoutContent.style.display =
-      pimoutContent.style.display === "block" ? "none" : "block";
+  PinoutButton.onclick = function () {
+    PinoutPopupContent.style.display =
+      PinoutPopupContent.style.display === "block" ? "none" : "block";
   };
 
   // Close the menus if the user clicks outside of them
   // ... (same as before)
 
 
+ 
 
 
 
