@@ -421,6 +421,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+
+  
+
+
+
+
+
 // pinout Popup Menu Setup
   const pimoutContainer = document.createElement("div");
   pimoutContainer.className = "popup";
@@ -428,8 +435,8 @@ document.addEventListener("DOMContentLoaded", function () {
     "display: inline-block; position: relative; cursor: pointer;";
 
   const pimoutPButton = document.createElement("button");
-  ESPButton.textContent = "Pinout";
-  ESPButton.style.cssText =
+  pimoutButton.textContent = "Pinout";
+  pimoutButton.style.cssText =
     "background-color: #333; color: cyan; padding: 10px; font-size: 16px; border: none; margin: 0 20px;";
 
   const pimoutContent = document.createElement("div");
@@ -537,6 +544,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+
+
+
+
+
+
+
+
+
+  
   
 
   
