@@ -452,8 +452,8 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     {
       href:
-        "",
-      text: ""
+        "https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/pinouts/WeMos-D1-mini-esp8266-pinout-mischianti.png",
+      text: "WeMos-D1-mini-esp8266-pinout-mischianti.png"
     },
         {
       href:
