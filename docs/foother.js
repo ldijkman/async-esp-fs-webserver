@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
     a.textContent = link.text;
     a.title = link.title; // Set the title attribute
     a.style.cssText =
-      "color: black; padding: 12px 16px; text-decoration: none; display: block;";
+      "color: black; padding: 12px 16px; text-decoration: none; display: block; z-index: 25000;";
     toolsPopupContent.appendChild(a);
   });
 
@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
     a.textContent = link.text;
     a.title = link.title; // Set the title attribute
     a.style.cssText =
-      "color: black; padding: 12px 16px; text-decoration: none; display: block;";
+      "color: black; padding: 12px 16px; text-decoration: none; display: block; z-index: 25000;";
     SerialPopupContent.appendChild(a);
   });
 
@@ -229,7 +229,7 @@ document.addEventListener("DOMContentLoaded", function () {
     a.textContent = link.text;
     a.title = link.title; // Set the title attribute
     a.style.cssText =
-      "color: black; padding: 12px 16px; text-decoration: none; display: block;";
+      "color: black; padding: 12px 16px; text-decoration: none; display: block; z-index: 25000;";
     dropupContent.appendChild(a);
   });
 
@@ -269,7 +269,7 @@ document.addEventListener("DOMContentLoaded", function () {
     a.textContent = link.text;
     a.title = link.title; // Set the title attribute
     a.style.cssText =
-      "color: black; padding: 12px 16px; text-decoration: none; display: block;";
+      "color: black; padding: 12px 16px; text-decoration: none; display: block; z-index: 25000;";
     aiPopupContent.appendChild(a);
   });
 
@@ -391,7 +391,7 @@ document.addEventListener("DOMContentLoaded", function () {
     a.textContent = link.text;
     a.title = link.title; // Set the title attribute
     a.style.cssText =
-      "color: black; padding: 12px 16px; text-decoration: none; display: block;";
+      "color: black; padding: 12px 16px; text-decoration: none; display: block; z-index: 25000;";
     ESPPopupContent.appendChild(a);
   });
 
@@ -518,7 +518,7 @@ document.addEventListener("DOMContentLoaded", function () {
     a.textContent = link.text;
     a.title = link.title; // Set the title attribute
     a.style.cssText =
-      "color: black; padding: 12px 16px; text-decoration: none; display: block;";
+      "color: black; padding: 12px 16px; text-decoration: none; display: block; z-index: 25000;";
     PinoutPopupContent.appendChild(a);
   });
 
