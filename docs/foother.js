@@ -493,7 +493,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
      {
       href:
-        "https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/pinouts/ESP32_WROOM--38-Pin.jpg",
+        "https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/pinouts/ESP32_WROOM-36-Pin.jpg",
       text: "ESP32_WROOM--38-Pin"
     },
          {
