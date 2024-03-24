@@ -470,8 +470,8 @@ document.addEventListener("DOMContentLoaded", function () {
     },
      {
       href:
-        "",
-      text: ""
+        "https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/pinouts/Wemos-D1-Pin-UNO_Footprint.jpg",
+      text: "Wemos-D1-Pin-UNO_Footprint"
     },
      {
       href:
