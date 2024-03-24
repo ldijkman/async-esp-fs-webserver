@@ -488,8 +488,8 @@ document.addEventListener("DOMContentLoaded", function () {
     },
      {
       href:
-        "",
-      text: ""
+        "https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/pinouts/wemos_d1_r32_uno_footprint.png",
+      text: "wemos_d1_r32_uno_footprint"
     },
      {
       href:
