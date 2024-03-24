@@ -460,8 +460,8 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     {
       href:
-        "",
-      text: ""
+        "https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/pinouts/ESP32-DOIT-DEV-KIT-v1-pinout-mischianti.png",
+      text: "ESP32-DOIT-DEV-KIT-v1-pinout-mischianti"
     },
     {
       href:
