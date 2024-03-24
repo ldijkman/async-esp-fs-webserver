@@ -509,8 +509,8 @@ document.addEventListener("DOMContentLoaded", function () {
     },
      {
       href:
-        "",
-      text: ""
+        "https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/pinouts/ESP32-WROOM-30pin-DOIT-DEV-KIT-v1-pinout-mischianti%20(1).png",
+      text: "ESP32-WROOM-30pin-DOIT-DEV-KIT-v1"
     },
      {
       href:
