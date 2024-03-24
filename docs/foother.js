@@ -427,7 +427,7 @@ document.addEventListener("DOMContentLoaded", function () {
   pimoutContainer.style.cssText =
     "display: inline-block; position: relative; cursor: pointer;";
 
-  const ESPButton = document.createElement("button");
+  const pimoutPButton = document.createElement("button");
   ESPButton.textContent = "Pinout";
   ESPButton.style.cssText =
     "background-color: #333; color: cyan; padding: 10px; font-size: 16px; border: none; margin: 0 20px;";
@@ -437,7 +437,7 @@ document.addEventListener("DOMContentLoaded", function () {
   pimoutContent.style.cssText =
     "display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: cyan; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;";
 
-  const ESPLinks = [
+  const pimoutLinks = [
         {
       href:
         "https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/pinouts/NodeMCU-V3-2.png",
@@ -505,7 +505,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   ];
 
-  ESPLinks.forEach((link) => {
+  pimoutLinks.forEach((link) => {
     const a = document.createElement("a");
     a.href = link.href;
     a.target = "_blank";
@@ -516,7 +516,7 @@ document.addEventListener("DOMContentLoaded", function () {
     pimoutContent.appendChild(a);
   });
 
-  pimoutContainer.appendChild(ESPButton);
+  pimoutContainer.appendChild(pimoutButton);
   pimoutContainer.appendChild(pimoutContent);
   floatingDiv.appendChild(pimoutContainer);
 
@@ -527,7 +527,7 @@ document.addEventListener("DOMContentLoaded", function () {
   // Toggle functions for menus
   // ... (same as before for Nerd and Ai menus)
 
-  ESPButton.onclick = function () {
+  VButton.onclick = function () {
     pimoutContent.style.display =
       pimoutContent.style.display === "block" ? "none" : "block";
   };
