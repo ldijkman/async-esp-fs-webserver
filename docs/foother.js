@@ -455,8 +455,8 @@ document.addEventListener("DOMContentLoaded", function () {
     },
         {
       href:
-        "https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/pinouts/D1_Mini_ESP32_USBC",
-      text: "D1_Mini_ESP32_USBC.png"
+        "https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/pinouts/D1_Mini_ESP32_USBC.png",
+      text: "D1_Mini_ESP32_USBC"
     },
     {
       href:
