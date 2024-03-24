@@ -453,7 +453,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const PinoutPopupContent = document.createElement("div");
   PinoutPopupContent.className = "popup-content";
   PinoutPopupContent.style.cssText =
-    "display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: cyan; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 25000;";
+    "display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: cyan; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 25000 !important;";
 
   const PinoutLinks = [
         {
@@ -531,7 +531,7 @@ document.addEventListener("DOMContentLoaded", function () {
     a.textContent = link.text;
     a.title = link.title; // Set the title attribute
     a.style.cssText =
-      "color: black; padding: 12px 16px; text-decoration: none; display: block; z-index: 25000;";
+      "color: black; padding: 12px 16px; text-decoration: none; display: block; z-index: 25000 !important;";
     PinoutPopupContent.appendChild(a);
   });
 
