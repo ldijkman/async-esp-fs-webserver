@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const toolsPopupContent = document.createElement("div");
   toolsPopupContent.className = "popup-content";
   toolsPopupContent.style.cssText =
-    "display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: cyan; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;";
+    "display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: cyan; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 25000;";
 
   const toolsLinks = [
     {
@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const SerialPopupContent = document.createElement("div");
   SerialPopupContent.className = "popup-content";
   SerialPopupContent.style.cssText =
-    "display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: orange; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;";
+    "display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: orange; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 25000;";
 
   // Serial Links Setup
   const SerialLinks = [
@@ -186,7 +186,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const dropupContent = document.createElement("div");
   dropupContent.className = "dropdown-content";
   dropupContent.style.cssText =
-    "display: none; position: absolute; bottom: 100%; left: 0; background-color: yellow; min-width: 160px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;";
+    "display: none; position: absolute; bottom: 100%; left: 0; background-color: yellow; min-width: 160px; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 25000;";
 
   const dropupLinks = [
     {
@@ -250,10 +250,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const aiPopupContent = document.createElement("div");
   aiPopupContent.className = "popup-content";
-  //aiPopupContent.style.cssText = 'display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: #f9f9f9; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;';
+  //aiPopupContent.style.cssText = 'display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: #f9f9f9; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 25000;';
 
   aiPopupContent.style.cssText =
-    "display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: greenyellow; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;";
+    "display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: greenyellow; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 25000;";
 
   const aiLinks = [
     { href: "https://www.blackbox.ai/", text: "BlackBox.Ai" },
@@ -314,7 +314,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const ESPPopupContent = document.createElement("div");
   ESPPopupContent.className = "popup-content";
   ESPPopupContent.style.cssText =
-    "display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: cyan; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;";
+    "display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: cyan; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 25000;";
 
   const ESPLinks = [
         {
@@ -440,7 +440,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const PinoutPopupContent = document.createElement("div");
   PinoutPopupContent.className = "popup-content";
   PinoutPopupContent.style.cssText =
-    "display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: cyan; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 1;";
+    "display: none; position: absolute; bottom: 100%; left: 0; transform: translateY(-10px); background-color: cyan; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); z-index: 25000;";
 
   const PinoutLinks = [
         {
