@@ -400,7 +400,14 @@ document.addEventListener("DOMContentLoaded", function () {
       href:
         "/index.html",
       text: "/index.html"
+    },
+ {
+      href:
+        "https://play.google.com/store/apps/details?id=de.wellenvogel.bonjourbrowser&pli=1    ",
+      text: "Android mDNS Scanner Browser"
     }
+
+
   ];
 
   ESPLinks.forEach((link) => {
