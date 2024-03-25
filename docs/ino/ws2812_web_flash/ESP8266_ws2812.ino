@@ -1,4 +1,7 @@
 /*
+WS2812 LED Strip FX Webserver flash from browser 
+https://ldijkman.github.io/async-esp-fs-webserver/
+
 
   Quick an dirty test of Improv wifi configuration
 
