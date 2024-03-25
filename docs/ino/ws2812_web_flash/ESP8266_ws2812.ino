@@ -2,6 +2,9 @@
 WS2812 LED Strip FX Webserver flash from browser 
 https://ldijkman.github.io/async-esp-fs-webserver/
 
+  http://www.kitesurfer1404.de/tech/led-star
+  https://github.com/kitesurfer1404/WS2812FX/tree/master
+
 
   Quick an dirty test of Improv wifi configuration
 
