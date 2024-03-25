@@ -109,12 +109,14 @@ function onMode(event, mode) {
 
 function onBrightness(event, dir) {
   event.preventDefault();
-  submitVal('b', dir);
+ // submitVal('b', dir);
+   submitVal('b', encodeURIComponent(dir), true);
 }
 
 function onSpeed(event, dir) {
   event.preventDefault();
-  submitVal('s', dir);
+  //submitVal('s', dir);
+   submitVal('s', encodeURIComponent(dir), true);
 }
 
 function onAuto(event, dir) {
