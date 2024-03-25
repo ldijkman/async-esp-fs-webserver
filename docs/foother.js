@@ -404,7 +404,8 @@ document.addEventListener("DOMContentLoaded", function () {
  {
       href:
         "https://play.google.com/store/apps/details?id=de.wellenvogel.bonjourbrowser&pli=1    ",
-      text: "Android mDNS Scanner Browser"
+      text: "Android mDNS Scanner Browser",
+      title: "Android Phone tableat app, Easy Find Browse linked list of all mDNS Devices in your local nework?"
     }
 
 
