@@ -555,6 +555,12 @@ void setup() {
 
 
 
+// Serve modes
+
+  server.on("/modes", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(200, "text/html", modes);
+  });
+
 
 
   /*
@@ -927,9 +933,12 @@ void modes_setup() {
  // server.send_P(200,"application/javascript", main_js);
 //}
 
-void srv_handle_modes() {
- // server.send(200,"text/plain", modes);
-}
+
+// Serve modes
+
+ // server.on("/modes", HTTP_GET, [](AsyncWebServerRequest *request){
+ //   request->send(200, "text/html", modes);
+ // });
 
 void handleSetRequest(AsyncWebServerRequest *request) {
   // Handle color change
