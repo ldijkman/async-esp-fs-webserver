@@ -431,7 +431,9 @@ void setup() {
     handleSetRequest(request);
   });
 
-
+  server.on("/modes", HTTP_GET, [](AsyncWebServerRequest *request){
+    request->send(200, "text/html", modes);
+  });
 
 
 
@@ -563,11 +565,6 @@ void setup() {
 
 
 
-// Serve modes
-
-  server.on("/modes", HTTP_GET, [](AsyncWebServerRequest *request){
-    request->send(200, "text/html", modes);
-  });
 
 
 
@@ -678,7 +675,7 @@ const long dotinterval = 1000;        // Interval at which to print dot (millise
 
 
 void loop() {
-
+  unsigned long now = millis();
 
   improvSerial.handleSerial();  //
 ws2812fx.service();
@@ -698,12 +695,15 @@ ws2812fx.service();
     if (currentTime - lastPrintTime >= printInterval) {
       // Save the last time you printed the time
       lastPrintTime = currentTime;
-
-      browseService("http", "tcp");  // find other mdns devices in network
-
+      
+// turned off mdns scan no smooth loop mode effects
+      //browseService("http", "tcp");  // find other mdns devices in network
+// turned off mdns scan no smooth loop mode effects      
+ws2812fx.service();
       ws.textAll(String(ledState));
 
       improvSerial.handleSerial();  //
+      ws2812fx.service();
 
 
       // Check WiFi connection and print the time
@@ -736,20 +736,20 @@ ws2812fx.service();
 
 
 
- // if(auto_cycle && (now - auto_last_change > 10000)) { // cycle effect mode every 10 seconds
- //   uint8_t next_mode = (ws2812fx.getMode() + 1) % ws2812fx.getModeCount();
- //   if(sizeof(myModes) > 0) { // if custom list of modes exists
-//      for(uint8_t i=0; i < sizeof(myModes); i++) {
- //       if(myModes[i] == ws2812fx.getMode()) {
- //         next_mode = ((i + 1) < sizeof(myModes)) ? myModes[i + 1] : myModes[0];
- //         break;
- //       }
- //     }
-  //  }
-  //  ws2812fx.setMode(next_mode);
-   // Serial.print("mode is "); Serial.println(ws2812fx.getModeName(ws2812fx.getMode()));
-   // auto_last_change = now;
- // }
+  if(auto_cycle && (now - auto_last_change > 10000)) { // cycle effect mode every 10 seconds
+   uint8_t next_mode = (ws2812fx.getMode() + 1) % ws2812fx.getModeCount();
+    if(sizeof(myModes) > 0) { // if custom list of modes exists
+     for(uint8_t i=0; i < sizeof(myModes); i++) {
+        if(myModes[i] == ws2812fx.getMode()) {
+         next_mode = ((i + 1) < sizeof(myModes)) ? myModes[i + 1] : myModes[0];
+         break;
+        }
+      }
+    }
+    ws2812fx.setMode(next_mode);
+    Serial.print("mode is "); Serial.println(ws2812fx.getModeName(ws2812fx.getMode()));
+    auto_last_change = now;
+  }
 
   
 }
@@ -831,7 +831,7 @@ void browseService(const char* service, const char* proto) {
       Serial.printf("   %d: http://%s - http://%s\n", i + 1, hostnameLower.c_str(), MDNS.IP(i).toString().c_str());
       Serial.print("\033[0m"); // Reset color
 
-
+ws2812fx.service();
 
 
       // Serial.printf("  %d: http://%s - http://%s port:%d\n", i + 1, (MDNS.hostname(i).c_str()).toLowerCase(), MDNS.IP(i).toString().c_str(), MDNS.port(i));
@@ -982,18 +982,30 @@ void handleSetRequest(AsyncWebServerRequest *request) {
     Serial.print("brightness is "); Serial.println(ws2812fx.getBrightness());
   }
 
-  // Handle speed change
-  if (request->hasParam("s")) {
+
+
+  
+
+if (request->hasParam("s")) {
     AsyncWebParameter* p = request->getParam("s");
+    
+    Serial.print("Received parameter: "); Serial.println(p->value()[0]);
+    int currentSpeed = ws2812fx.getSpeed();
+    Serial.print("Current speed: "); Serial.println(currentSpeed);
+
     if(p->value()[0] == '-') {
-      ws2812fx.setSpeed(max(ws2812fx.getSpeed(), 5) * 1.2);
-    } else if(p->value()[0] == '+') {
-      ws2812fx.setSpeed(ws2812fx.getSpeed() * 0.8);
-    } else {
-      uint16_t speed = (uint16_t) strtol(p->value().c_str(), NULL, 10);
-      ws2812fx.setSpeed(speed);
-    }    Serial.print("speed is "); Serial.println(ws2812fx.getSpeed());
-  }
+      Serial.print("- ");
+      ws2812fx.setSpeed(max(currentSpeed, 5) * 1.2);
+    }
+    if(p->value()[0] == '+') {
+      Serial.print("+ ");
+      ws2812fx.setSpeed(max(currentSpeed, 5) * 0.8);
+    }// else {
+     // uint16_t speed = (uint16_t) strtol(p->value().c_str(), NULL, 10);
+     // ws2812fx.setSpeed(speed);
+   // }
+    Serial.print("Updated speed is: "); Serial.println(ws2812fx.getSpeed());
+}
 
   // Handle auto cycle toggle
   if (request->hasParam("a")) {
