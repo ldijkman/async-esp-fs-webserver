@@ -144,11 +144,12 @@ function onSpeed(event, dir) {
 
 function onAuto(event, dir) {
   event.preventDefault();
-  submitVal('a', dir);
+  submitVal('a', encodeURIComponent(dir), true);
 }
 
 function submitVal(name, val) {
   var xhttp = new XMLHttpRequest();
+  console.info("send" , 'set?' + name + '=' + val);
   xhttp.open('GET', 'set?' + name + '=' + val, true);
   xhttp.send();
 }
