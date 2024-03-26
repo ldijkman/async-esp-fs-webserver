@@ -98,7 +98,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
   
   document.getElementById('offButton').addEventListener('click', (event) => {
   event.preventDefault();
+  console.info("send mode 0 static");
   submitVal('m', 0); // mode 0 static
+  console.info("send color 0");
   submitVal('c', 0); // 0 is the color value for rgb(0,0,0) which is black (off)
 });
   
