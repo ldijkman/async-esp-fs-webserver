@@ -98,9 +98,9 @@ window.addEventListener('DOMContentLoaded', (event) => {
   
   document.getElementById('offButton').addEventListener('click', (event) => {
   event.preventDefault();
-  console.info("send mode 0 static");
+  console.info("send off mode 0 static");
   submitVal('m', 0); // mode 0 static
-  console.info("send color 0");
+  console.info("send off color 0");
   submitVal('c', 0); // 0 is the color value for rgb(0,0,0) which is black (off)
 });
   
@@ -117,6 +117,7 @@ function onColor(event, color) {
   if(match) {
     var colorValue = Number(match[1]) * 65536 + Number(match[2]) * 256 + Number(match[3]);
     //console.log('onColor:' + match[1] + "," + match[2] + "," + match[3] + "," + colorValue);
+    console.info("send Color");
     submitVal('c', colorValue);
    
   }
@@ -127,23 +128,27 @@ function onMode(event, mode) {
   if(activeButton) activeButton.classList.remove('active')
   activeButton = event.target;
   activeButton.classList.add('active');
+  console.info("send mode");
   submitVal('m', mode);
 }
 
 function onBrightness(event, dir) {
   event.preventDefault();
  // submitVal('b', dir);
+ console.info("send Brightness");
    submitVal('b', encodeURIComponent(dir), true);
 }
 
 function onSpeed(event, dir) {
   event.preventDefault();
   //submitVal('s', dir);
+  console.info("send Speed");
    submitVal('s', encodeURIComponent(dir), true);
 }
 
 function onAuto(event, dir) {
   event.preventDefault();
+  console.info("send Auto");
   submitVal('a', encodeURIComponent(dir), true);
 }
 
