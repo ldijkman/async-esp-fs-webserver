@@ -438,6 +438,18 @@ void setup() {
 
 
 
+server.on("/getSettings", HTTP_GET, [](AsyncWebServerRequest *request){
+  DynamicJsonDocument doc(1024);
+  doc["mode"] = ws2812fx.getModeName(ws2812fx.getMode());
+  doc["speed"] = String(ws2812fx.getSpeed());
+  doc["brightness"] = ws2812fx.getBrightness();
+  
+  String response;
+  serializeJson(doc, response);
+  request->send(200, "application/json", response);
+});
+
+
   server.on("/bulb.html", HTTP_GET, [](AsyncWebServerRequest * request) {
     if (request->hasHeader("Referer")) {
       AsyncWebHeader* refererHeader = request->getHeader("Referer");
