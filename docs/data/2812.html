@@ -157,10 +157,26 @@ function submitVal(name, val) {
   console.info("send" , 'set?' + name + '=' + val);
   xhttp.open('GET', 'set?' + name + '=' + val, true);
   xhttp.send();
+ 
 }
 
+        function fetchAndUpdateSettings() {
+          console.warn("/getsettings")
+            fetch('/getSettings')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('mode').textContent = data.mode;
+                    document.getElementById('speed').textContent = data.speed;
+                    document.getElementById('brightness').textContent = data.brightness;
+                })
+                .catch(error => console.error('Error fetching settings:', error));
+        }
 
-
+        // Fetch and update settings on page load
+        window.onload = fetchAndUpdateSettings;
+ // Fetch and update settings on page load
+         // Schedule the next update after 5000 milliseconds (5 seconds)
+            setInterval(fetchAndUpdateSettings, 2500);
   
   </script>
 
@@ -261,15 +277,25 @@ function submitVal(name, val) {
           <li><a href='#' onclick="onSpeed(event, '-')">&#8722;</a></li>
           <li><a href='#' onclick="onSpeed(event, '+')">&#43;</a></li>
         </ul>
-        <input type="text" id="speed" value="%speed%"><br>
-        would like some feedback bright speed mode?!<br>
+
 
         <ul class='control'>
           <li>Auto cycle:</li>
           <li><a href='#' onclick="onAuto(event, '-')">&#9632;</a></li>
           <li><a href='#' onclick="onAuto(event, '+')">&#9658;</a></li>
         </ul>
+        
+        
       </div>
+      
+         <div>
+        <p>Mode: <span id="mode"></span></p>
+        <p>Speed: <span id="speed"></span></p>
+        <p>Brightness: <span id="brightness"></span></p>
+    </div>
+      
+      
+      
     </div>
 
     <div>
