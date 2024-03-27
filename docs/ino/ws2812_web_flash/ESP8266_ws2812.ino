@@ -444,7 +444,7 @@ server.on("/getSettings", HTTP_GET, [](AsyncWebServerRequest *request){
   doc["speed"] = String(ws2812fx.getSpeed());
   doc["brightness"] = ws2812fx.getBrightness();
   doc["LEDnr"] = LED_COUNT;
-  doc["LEDpin"]=LED_PIN;
+  doc["LEDpin"] = LED_PIN;
   
   String response;
   serializeJson(doc, response);
@@ -1020,6 +1020,26 @@ if (request->hasParam("s")) {
    // }
     Serial.print("Updated speed is: "); Serial.println(ws2812fx.getSpeed());
 }
+
+
+
+if (request->hasParam("GS")) {
+   AsyncWebParameter* p = request->getParam("GS");
+     // Directly set the speed to the value provided
+      // Convert the parameter value to an integer
+      uint16_t speed = (uint16_t) strtol(p->value().c_str(), NULL, 10);
+      // Set the new speed
+      ws2812fx.setSpeed(speed);
+}
+
+
+
+
+
+
+
+
+
 
   // Handle auto cycle toggle
   if (request->hasParam("a")) {
