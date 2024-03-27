@@ -443,6 +443,8 @@ server.on("/getSettings", HTTP_GET, [](AsyncWebServerRequest *request){
   doc["mode"] = ws2812fx.getModeName(ws2812fx.getMode());
   doc["speed"] = String(ws2812fx.getSpeed());
   doc["brightness"] = ws2812fx.getBrightness();
+  doc["LEDnr"] = LED_COUNT;
+  doc["LEDpin"]=LED_PIN;
   
   String response;
   serializeJson(doc, response);
