@@ -161,13 +161,13 @@ function submitVal(name, val) {
 }
 
         function fetchAndUpdateSettings() {
-          console.warn("/getsettings")
             fetch('/getSettings')
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('mode').textContent = data.mode;
                     document.getElementById('speed').textContent = data.speed;
                     document.getElementById('brightness').textContent = data.brightness;
+                    console.warn("/getsettings",data);
                 })
                 .catch(error => console.error('Error fetching settings:', error));
         }
