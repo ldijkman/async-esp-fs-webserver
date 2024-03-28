@@ -186,11 +186,26 @@ function submitVal(name, val) {
             
 function GodSpeed(event) {
   event.preventDefault();
-  var speedValue = document.getElementById('speedSlider').value;
-  document.getElementById('speedValue').textContent = speedValue; // Update the display value
-  console.info("send Speed", speedValue);
-  submitVal('GS', speedValue);
-}       
+  var sliderValue = document.getElementById('speedSlider').value;
+  var nonLinearSpeedValue;
+
+  // Assuming the slider's min is 0 and max is 100
+  if (sliderValue <= 50) {
+    // First half of the slider (0-50) maps to 0-1000
+    nonLinearSpeedValue = (sliderValue / 50) * 1000;
+  } else {
+    // Second half of the slider (51-100) maps to 1000-15000
+    // Calculate how far through the second half the slider is (as a percentage)
+    var secondHalfProgress = (sliderValue - 50) / 50;
+    nonLinearSpeedValue = 1000 + secondHalfProgress * (15000 - 1000);
+  }
+
+  // Update display
+  document.getElementById('speedValue').textContent = Math.round(nonLinearSpeedValue); // Round for display
+  console.info("Send Speed", Math.round(nonLinearSpeedValue));
+  // Assuming 'submitVal' function takes a rounded integer value
+  submitVal('GS', Math.round(nonLinearSpeedValue));
+}   
 
 function GodBright(event) {
   event.preventDefault();
@@ -308,8 +323,9 @@ function GodBright(event) {
         </ul>
         <div>
   <label for="speedSlider">Speed:</label><br>
-  <input type="range" id="speedSlider" min="2" max="10000" value="1000" oninput="GodSpeed(event)" style="width:100%;"><br>
-  <span id="speedValue">1000</span>
+  <!-- non linear slider -->
+ <input type="range" id="speedSlider" min="0" max="100" value="50" oninput="GodSpeed(event)" style="width:100%;">
+<span id="speedValue">525</span> <!-- Default display value, can be middle value as an example -->
 </div>
 
 
