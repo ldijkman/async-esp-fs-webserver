@@ -2,6 +2,8 @@ arduino ino sourcecode webserver filebrowser editor
 
 https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs/ino
 
+
+inbrowser flash ESP https://ldijkman.github.io/async-esp-fs-webserver/
 ---
 
 /data
