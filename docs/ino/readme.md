@@ -34,4 +34,8 @@ only have to give each device a human friendly unique mDNS Adress
 ![Screenshot from 2024-03-22 05-21-58](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/52c2853a-93d6-4424-b299-b92c63d9cd2f)
 
 
+http://ws2812.local/2812.html
+
 ![Screenshot from 2024-03-28 04-33-07](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/e1a34931-bba8-4329-a1f5-df61014e2c28)
+
+http://ws2812.local/2812.html
