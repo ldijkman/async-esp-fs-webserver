@@ -1034,6 +1034,15 @@ if (request->hasParam("GS")) {
 
 
 
+if (request->hasParam("GB")) {
+   AsyncWebParameter* p = request->getParam("GB");
+     // Directly set the bright to the value provided
+      // Convert the parameter value to an integer
+      uint16_t brightness = (uint16_t) strtol(p->value().c_str(), NULL, 10);
+      ws2812fx.setBrightness(brightness);
+}
+
+
 
 
 
