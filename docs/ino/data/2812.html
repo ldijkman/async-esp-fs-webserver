@@ -179,13 +179,21 @@ function submitVal(name, val) {
             setInterval(fetchAndUpdateSettings, 2500);
             
             
-  function GodSpeed(event) {
+function GodSpeed(event) {
   event.preventDefault();
   var speedValue = document.getElementById('speedSlider').value;
   document.getElementById('speedValue').textContent = speedValue; // Update the display value
   console.info("send Speed", speedValue);
   submitVal('GS', speedValue);
-}          
+}       
+
+function GodBright(event) {
+  event.preventDefault();
+  var brightValue = document.getElementById('brightSlider').value;
+  document.getElementById('brightValue').textContent = brightValue; // Update the display value
+  console.info("send Bright", brightValue);
+  submitVal('GS', brightValue);
+}  
   
   </script>
 
@@ -266,7 +274,7 @@ function submitVal(name, val) {
 
 
     <div class='flex-col'>
-      <div><canvas id='color-canvas' width='100' height='100'></canvas><br/></div>
+      <div><canvas id='color-canvas' width='300' height='100'></canvas><br/></div>
       <div><input type='text' id='color-value' oninput='onColor(event, this.value);'  /></div>
     <div>
       
@@ -280,6 +288,11 @@ function submitVal(name, val) {
           <li><a href='#' onclick="onBrightness(event, '-')">&#9788;</a></li>
           <li><a href='#' onclick="onBrightness(event, '+')">&#9728;</a></li>
         </ul>
+                <div>
+  <label for="brightSlider">Brightness:</label><br>
+  <input type="range" id="brightSlider" min="1" max="255" value="20" oninput="GodBright(event)" style="width:100%;"><br>
+  <span id="brightValue">20</span>
+</div>
 
         <ul class='control'>
           <li>Speed:</li>
@@ -288,7 +301,7 @@ function submitVal(name, val) {
         </ul>
         <div>
   <label for="speedSlider">Speed:</label><br>
-  <input type="range" id="speedSlider" min="2" max="20000" value="1000" oninput="GodSpeed(event)" style="width:100%;"><br>
+  <input type="range" id="speedSlider" min="2" max="10000" value="1000" oninput="GodSpeed(event)" style="width:100%;"><br>
   <span id="speedValue">1000</span>
 </div>
 
