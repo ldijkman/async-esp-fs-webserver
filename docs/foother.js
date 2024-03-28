@@ -532,8 +532,8 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     {
       href:
-        "",
-      text: ""
+        "https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/pinouts/WS2812B-LED-Strip-ESP8266-Connection-i-used-D4.jpg",
+      text: "WS2812B-LED-Strip-ESP8266-Connection-i-used-D4"
     }
   ];
 
