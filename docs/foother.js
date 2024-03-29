@@ -527,8 +527,8 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     {
       href:
-        "",
-      text: ""
+        "https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/pinouts/ws2812_NodeMCU.jpg",
+      text: "ws2812_NodeMCU"
     },
     {
       href:
