@@ -7,11 +7,12 @@
   <script>
   
   /*
+  Each 5v LED may draw 50ma sor 60 led's is 3 Ampere
+  make sure to power the led strip properly
   
   change nr of LED in /setup tab custom
   change ESP8266 WS2812 gpio data pin  in /setup tab custom
   https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/pinouts/WS2812B-LED-Strip-ESP8266-Connection-i-used-D4.jpg
-  
   
 The tiny Javascript/canvas based color picker 
   is based on the clever work of the folks at Sparkbox. 
@@ -290,7 +291,7 @@ function GodBright(event) {
   <a href="/ace" target="_blank">Edit this page in Ace Editor 2812.html</a><br>
    Warning: for the light-Sensitive People!, Fast Blinking bright light LED's <br>
   WS2812FX Control<br>
-  i have set the LEDs to 20 for Demo<br>
+  i have set the LEDs to 20 and low brightness for this Demo<br>
   Use a descent power suply for more LEDs, Do not Brick your USB / Device<br> 
   <div class='flex-row'>
     
