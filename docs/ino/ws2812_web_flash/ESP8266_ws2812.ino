@@ -925,7 +925,11 @@ void modes_setup() {
   uint8_t num_modes = sizeof(myModes) > 0 ? sizeof(myModes) : ws2812fx.getModeCount();
   for(uint8_t i=0; i < num_modes; i++) {
     uint8_t m = sizeof(myModes) > 0 ? myModes[i] : i;
-    modes += "<li><a href='#'>";
+    modes += "<li><a ";
+    modes += "id='mode_";
+    modes += i;
+    modes += "' ";
+    modes +="href='#'>";
     modes += ws2812fx.getModeName(m);
     modes += "</a></li>";
   }
