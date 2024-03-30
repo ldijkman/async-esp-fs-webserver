@@ -440,6 +440,7 @@ void setup() {
 
 server.on("/getSettings", HTTP_GET, [](AsyncWebServerRequest *request){
   DynamicJsonDocument doc(1024);
+  doc["mnr"] = ws2812fx.getMode();
   doc["mode"] = ws2812fx.getModeName(ws2812fx.getMode());
   doc["speed"] = String(ws2812fx.getSpeed());
   doc["brightness"] = ws2812fx.getBrightness();
@@ -761,7 +762,8 @@ ws2812fx.service();
       }
     }
     ws2812fx.setMode(next_mode);
-    Serial.print("mode is "); Serial.println(ws2812fx.getModeName(ws2812fx.getMode()));
+    Serial.print("mode is "); Serial.print(next_mode);Serial.print(" ");Serial.println(ws2812fx.getModeName(ws2812fx.getMode()));
+    Serial.println(ws2812fx.getMode());
     auto_last_change = now;
   }
 
