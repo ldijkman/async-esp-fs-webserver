@@ -1,5 +1,5 @@
 {
-        "name": "4mb ESP8266 WS2812",
+        "name": "WS2812FX",
         "version": "29-march-24",
           "funding_url": "https://www.paypal.com/paypalme/LDijkman",
         "new_install_improv_wait_time":"20",
