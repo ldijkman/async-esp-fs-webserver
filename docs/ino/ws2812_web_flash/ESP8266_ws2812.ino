@@ -314,7 +314,7 @@ void setup() {
   //WiFi.mode(WIFI_STA);
   //WiFi.disconnect();
 
-  improvSerial.setDeviceInfo(ImprovTypes::ChipFamily::CF_ESP8266, "Visual TimeSlots Scheduler", "8-march-24", "Visual TimeSlots Scheduler", "http://{LOCAL_IPV4}/index.html");
+  improvSerial.setDeviceInfo(ImprovTypes::ChipFamily::CF_ESP8266, "WS2812FX", "29-march-24", "WS2812FX", "http://{LOCAL_IPV4}/2812.html");
   improvSerial.onImprovError(onImprovWiFiErrorCb);
   improvSerial.onImprovConnected(onImprovWiFiConnectedCb);
   improvSerial.setCustomConnectWiFi(connectWifi);  // Optional
