@@ -164,8 +164,69 @@ button {
 
 
 
+<style>
+  .scanner-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 50px auto;
+    width: 90%;
+  }
+  .led {
+    width: 20px;
+    height: 20px;
+    margin: 5px;
+    border-radius: 50%;
+    background-color: transparent; /* default state is transparent */
+    transition: background-color 0.2s;
+  }
+</style>
+
+
+<div class="scanner-container">
+  <!-- Adding more LEDs -->
+  <div class="led"></div>
+  <div class="led"></div>
+  <div class="led"></div>
+  <div class="led"></div>
+  <div class="led"></div>
+  <div class="led"></div>
+  <div class="led"></div>
+  <div class="led"></div>
+  <div class="led"></div>
+  <div class="led"></div>
+</div>
+
+<script>
+  const leds = document.querySelectorAll('.led');
+  let index = 0;
+  let direction = 1; // 1 for forward, -1 for backward
+
+  function updateLEDs() {
+    // Reset all LEDs to transparent
+    leds.forEach(led => {
+      led.style.backgroundColor = 'transparent';
+    });
+
+    // Calculate RGB value based on current index for a dynamic color effect
+    const r = Math.round(255 * (index / (leds.length - 1)));
+    const g = 0;
+    const b = Math.round(255 * (1 - index / (leds.length - 1)));
+    leds[index].style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+
+    // Move to next LED
+    index += direction;
+    if (index >= leds.length || index < 0) {
+      direction *= -1; // Change direction
+      index += direction * 2; // Adjust index to stay within bounds
+    }
+  }
+
+  setInterval(updateLEDs, 200);
+</script>
 
         <p style="border:6px solid green;"><br>
+          
           <font style="font-size: 32px; font-weight: bold;">LED's Strip</font><br>
 
 4mb ESP2866 12E / 12F ws2812 led strip on gpio2 = D4 20 leds<br>
