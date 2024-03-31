@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WS2812 Control</title>
+    <script>
+        function setInitialSettings() {
+            // Set mode to 12
+            submitVal('m', 12);
+            // Set speed to 1000
+            submitVal('s', 1000);
+            // Set brightness to 20
+            submitVal('b', 20);
+        }
+
+        function submitVal(name, val) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.open('GET', `http://ws2812.local/set?${name}=${val}`, true);
+            xhttp.send();
+        }
+
+        // Call setInitialSettings function when the window loads
+        window.onload = setInitialSettings;
+    </script>
+</head>
+<body>
+upladed 2812.html to Ai chat GPT<br>
+then i asked Ai => create a html  page that starts mode 12 speed 1000 brigthness 20<br>
+    <h1>WS2812 LED Control</h1>
+    <p>Setting mode to 12, speed to 1000, and brightness to 20...</p>
+</body>
+</html>  
