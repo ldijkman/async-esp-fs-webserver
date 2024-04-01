@@ -1,0 +1,397 @@
+<!-- https://codepen.io/simoberny/pen/wrGoZZ/ -->
+<!DOCTYPE html>
+<html lang='en' class=''>
+
+<head>
+
+  <meta charset='UTF-8'>
+  <title>CodePen Demo</title>
+
+  <meta name="robots" content="noindex">
+
+  <link rel="shortcut icon" type="image/x-icon" href="thermo_icon.png">
+  <link rel="mask-icon" href="thermo_icon.png" color="#111">
+  <link rel="canonical" href="https://codepen.io/simoberny/pen/wrGoZZ/">
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+  
+
+  <style id="INLINE_PEN_STYLESHEET_ID">
+    @charset "UTF-8";
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
+* {
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+html, body {
+  margin: 0;
+  background: #fdfdfd;
+  font-family: "Open Sans", sans-serif;
+}
+
+.center_radius, .thermostat .center .small, .thermostat .center, .thermostat .bar, .thermostat {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+}
+
+.thermostat {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: #6D697F;
+  box-shadow: inset 0px -6px 1px 2px rgba(0, 0, 0, 0.35), 0px 7px 40px 11px rgba(84, 81, 97, 0.4);
+}
+.thermostat:hover .number {
+  opacity: 1;
+}
+.thermostat .shadow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotateZ(10deg);
+  width: 25px;
+  height: 86%;
+  text-align: center;
+  transition: 0.7s ease;
+  -webkit-animation: shadow 1.4s ease-out both;
+          animation: shadow 1.4s ease-out both;
+}
+.thermostat .shadow .shadow-cube {
+  position: absolute;
+  top: 0;
+  width: 25px;
+  height: 0px;
+  box-shadow: 0 0 45px 13px rgba(255, 158, 35, 0.5);
+}
+.thermostat .number {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotateZ(10deg);
+  width: 40px;
+  height: 82%;
+  text-align: center;
+  transition: 0.7s ease;
+  opacity: 0;
+}
+.thermostat .number .ext {
+  font-size: 16px;
+  color: white;
+  font-weight: 1000;
+  text-shadow: 1px 3px 3px #302e38;
+}
+.thermostat .bar {
+  position: absolute;
+  width: 356px;
+  height: 356px;
+}
+.thermostat .bar .inner_bar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 344px;
+  height: 344px;
+  margin-left: -172px;
+  margin-top: -172px;
+  border-radius: 100%;
+  background-color: #6D697F;
+  z-index: 4;
+}
+.thermostat .bar .inner_bar:after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-top: 70px solid transparent;
+  border-left: 70px solid transparent;
+  border-right: 70px solid transparent;
+  border-bottom: 150px solid #6D697F;
+  bottom: -7px;
+  left: 50%;
+  transform: translatex(-50%);
+}
+.thermostat .bar .hold {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  clip: rect(0px, 356px, 356px, 178px);
+  border-radius: 100%;
+  background-color: #3a3749;
+}
+.thermostat .bar .fill {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  clip: rect(0px, 178px, 356px, 0px);
+}
+.thermostat .bar .fill1 {
+  background: -webkit-linear-gradient(top, #FF4900 20%, #FF4900 100%);
+}
+.thermostat .bar .fill2 {
+  background: -webkit-linear-gradient(top, #FF4900 40%, #FF9E23 100%);
+}
+.thermostat .bar .right {
+  z-index: 3;
+  transform: rotate(180deg);
+}
+.thermostat .bar .right .fill {
+  z-index: 3;
+  transform: rotate(180deg);
+  -webkit-animation: right 1s linear both;
+          animation: right 1s linear both;
+  transition: transform 0.6s;
+}
+.thermostat .bar .left .fill {
+  z-index: 1;
+  -webkit-animation: left 0.3s linear both;
+          animation: left 0.3s linear both;
+  -webkit-animation-delay: 1s;
+          animation-delay: 1s;
+  transition: transform 0.6s;
+}
+.thermostat .bar span {
+  width: 356px;
+  font-weight: 800;
+  position: absolute;
+  bottom: 0px;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 15px;
+  color: #2e2c3a;
+  z-index: 10;
+}
+.thermostat .center {
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  background: #e3e4ed;
+  -webkit-animation: bound-in 0.6s ease forwards;
+          animation: bound-in 0.6s ease forwards;
+}
+.thermostat .center:hover .arrow {
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+.thermostat .center:hover .minus {
+  left: 10px;
+  transition: left 0.3s ease-out;
+}
+.thermostat .center:hover .plus {
+  right: 45px;
+  transition: right 0.3s ease-out;
+}
+.thermostat .center span i {
+  position: absolute;
+  color: #b9b6c8;
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 260px;
+}
+.thermostat .center .arrow {
+  opacity: 0;
+  transition: opacity 0.3s;
+  cursor: pointer;
+}
+.thermostat .center .minus {
+  position: absolute;
+  -webkit-animation: arrow-left 1s forwards;
+          animation: arrow-left 1s forwards;
+}
+.thermostat .center .plus {
+  position: absolute;
+  -webkit-animation: arrow-right 1s forwards;
+          animation: arrow-right 1s forwards;
+}
+.thermostat .center .small {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  background: #F8F9FA;
+  text-align: center;
+  -webkit-animation: bound-in-small 0.6s ease forwards;
+          animation: bound-in-small 0.6s ease forwards;
+}
+.thermostat .center .small .heat {
+  line-height: 150px;
+  font-size: 59px;
+  color: #57545f;
+  font-weight: 300;
+}
+.thermostat .center .small .heat:after {
+  content: "°";
+  display: block;
+  position: absolute;
+  font-size: 40px;
+  top: -20px;
+  right: 30px;
+}
+
+@-webkit-keyframes shadow {
+  0% {
+    transform: translate(-50%, -50%) rotate(-190deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(10deg);
+  }
+}
+@-webkit-keyframes right {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
+@-webkit-keyframes left {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(10deg);
+  }
+}
+@-webkit-keyframes bound-in {
+  10% {
+    box-shadow: 0px 7px 30px 5px rgba(96, 93, 111, 0.25);
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  80% {
+    transform: translate(-50%, -50%) scale(1.03);
+  }
+  100% {
+    box-shadow: 0px 15px 35px 11px rgba(46, 44, 58, 0.6);
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+@-webkit-keyframes bound-in-small {
+  0% {
+    box-shadow: 0px 5px 10px 5px rgba(96, 93, 111, 0.19);
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  80% {
+    transform: translate(-50%, -50%) scale(1.03);
+  }
+  100% {
+    box-shadow: 0px 15px 35px 5px rgba(96, 93, 111, 0.3);
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+@-webkit-keyframes arrow-left {
+  0% {
+    left: 45px;
+    opacity: 0;
+  }
+  100% {
+    left: 10px;
+    opacity: 1;
+  }
+}
+@-webkit-keyframes arrow-right {
+  0% {
+    right: 75px;
+    opacity: 0;
+  }
+  100% {
+    right: 45px;
+    opacity: 1;
+  }
+}
+  </style>
+
+  
+</head>
+
+<body>
+  <div class="thermostat">
+  <div class="bar">
+    <div class="inner_bar"></div>
+    <div class='hold left'>
+      <div class='fill fill1'></div>
+    </div>
+    <div class='hold right'>
+      <div class='fill fill2'></div>
+    </div>
+    <span>Heating</span>
+  </div>
+  <div class="shadow">
+    <div class="shadow-cube"></div>
+  </div>
+  <div class="number">
+    <span class="ext">19</span>
+  </div>
+  <div class="center">
+    <span class="arrow minus"><i class="material-icons">keyboard_arrow_left</i></span>
+    <span class="arrow plus"><i class="material-icons">keyboard_arrow_right</i></span>
+    <div class="small">
+      <span class="heat">19</span>
+    </div>
+  </div>
+</div>
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script>
+  	
+  	var gradi = 19;
+var max = 34;
+var min = 2;
+
+function updateGr() {
+  $(".heat").text("" + gradi);
+  $(".ext").text("" + gradi);
+  $(".number").css("transform", "translate(-50%, -50%) rotate(" + (-180 + gradi * 10) + "deg)");
+  $(".shadow").css("transform", "translate(-50%, -50%) rotate(" + (-180 + gradi * 10) + "deg)");
+  $(".fill").css("animation", "none");
+  $(".shadow").css("animation", "none");
+}
+
+
+$(".minus").mousedown(function () {
+  if (gradi > min) {
+    gradi = parseFloat((gradi - 0.1).toFixed(1));
+    updateGr();
+    if (gradi >= 18) {
+      $(".fill1").css("transform", "rotate(" + (gradi - 18) * 10 + "deg)").css("transition-delay", "0s");
+    } else if (gradi == 17) {
+      $(".fill2").css("transform", "rotate(" + gradi * 10 + "deg)").css("transition-delay", "0.5s");
+    } else {
+      $(".fill2").css("transform", "rotate(" + gradi * 10 + "deg)").css("transition-delay", "0s");
+    }
+  }
+});
+
+$(".plus").mousedown(function () {
+  if (gradi < max) {
+    gradi = parseFloat((gradi + 0.1).toFixed(1)); // Increase and format
+    updateGr();
+    if (gradi > 19) {
+      $(".fill1").css("transform", "rotate(" + (gradi - 18) * 10 + "deg)").css("transition-delay", "0s");
+    } else if (gradi == 19) {
+      $(".fill1").css("transform", "rotate(" + (gradi - 18) * 10 + "deg)").css("transition-delay", "1s");
+    } else {
+      $(".fill2").css("transform", "rotate(" + gradi * 10 + "deg)").css("transition-delay", "0s");
+    }
+  }
+});
+  	
+  </script>
+
+
+
+<script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
+
+<br><br><br><br><br><br><br><br><br><br><br><br>
+<script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
+
+
+</body>
+
+</html><!-- https://codepen.io/simoberny/pen/wrGoZZ/ -->
