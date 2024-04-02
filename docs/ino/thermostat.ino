@@ -1,4 +1,25 @@
+/*
+pasted the code in ai chatGPT and asked for  hysteresis
+Here's a simple way to incorporate hysteresis into the thermostat code:
 
+// Assuming these are defined somewhere in your code
+float temperature; // Current temperature reading from the sensor
+float targetTemperature = 25.0; // Target temperature
+float hysteresis = 1.0; // Hysteresis value
+
+// Calculate the upper and lower thresholds
+float upperThreshold = targetTemperature + (hysteresis / 2.0);
+float lowerThreshold = targetTemperature - (hysteresis / 2.0);
+
+// Logic to control the heating element based on the temperature and thresholds
+if (temperature <= lowerThreshold) {
+  // Turn the heater ON
+  digitalWrite(output, HIGH);
+} else if (temperature >= upperThreshold) {
+  // Turn the heater OFF
+  digitalWrite(output, LOW);
+}
+*/
 
 // mdns coded for esp32
 // hardcoded wifi settings
