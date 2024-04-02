@@ -1,4 +1,8 @@
 /*
+maybe an html example for control
+https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/ino/data/thermo-stat.html
+https://ldijkman.github.io/async-esp-fs-webserver/ino/data/thermo-stat.html
+
 pasted the code in ai chatGPT and asked for  hysteresis
 Here's a simple way to incorporate hysteresis into the thermostat code:
 
