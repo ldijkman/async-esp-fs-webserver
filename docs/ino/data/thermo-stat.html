@@ -1,7 +1,4 @@
-<!-- 
-https://codepen.io/simoberny/pen/wrGoZZ/ 
-https://ldijkman.github.io/async-esp-fs-webserver/ino/data/thermo-stat.html
--->
+<!-- https://codepen.io/simoberny/pen/wrGoZZ/ -->
 <!DOCTYPE html>
 <html lang='en' class=''>
 
@@ -12,8 +9,8 @@ https://ldijkman.github.io/async-esp-fs-webserver/ino/data/thermo-stat.html
 
   <meta name="robots" content="noindex">
 
-  <link rel="shortcut icon" type="image/x-icon" href="thermo_icon.png">
-  <link rel="mask-icon" href="thermo_icon.png" color="#111">
+  <link rel="shortcut icon" type="image/x-icon" href="https://cpwebassets.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+  <link rel="mask-icon" href="https://cpwebassets.codepen.io/assets/favicon/logo-pin-b4b4269c16397ad2f0f7a01bcdf513a1994f4c94b8af2f191c09eb0d601762b1.svg" color="#111">
   <link rel="canonical" href="https://codepen.io/simoberny/pen/wrGoZZ/">
 
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
@@ -339,13 +336,17 @@ html, body {
     </div>
   </div>
 </div>
+<div style="text-align:center; margin-top: 20px;">
+  <input type="range" id="tempSlider" min="10" max="25" step="0.1" value="19" style="width: 80%;">
+  <p>Temperature: <span id="sliderValue">19</span>°</p>
+</div>
   
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script>
   	
-  	var gradi = 19;
-var max = 34;
-var min = 2;
+var gradi = 19;
+var max = 25;
+var min = 10;
 
 function updateGr() {
   $(".heat").text("" + gradi);
@@ -354,6 +355,22 @@ function updateGr() {
   $(".shadow").css("transform", "translate(-50%, -50%) rotate(" + (-180 + gradi * 10) + "deg)");
   $(".fill").css("animation", "none");
   $(".shadow").css("animation", "none");
+   document.getElementById('sliderValue').textContent = gradi;
+    if (gradi > 19) {
+      $(".fill1").css("transform", "rotate(" + (gradi - 18) * 10 + "deg)").css("transition-delay", "0s");
+    } else if (gradi == 19) {
+      $(".fill1").css("transform", "rotate(" + (gradi - 18) * 10 + "deg)").css("transition-delay", "1s");
+    } else {
+      $(".fill2").css("transform", "rotate(" + gradi * 10 + "deg)").css("transition-delay", "0s");
+    }
+    if (gradi >= 18) {
+      $(".fill1").css("transform", "rotate(" + (gradi - 18) * 10 + "deg)").css("transition-delay", "0s");
+    } else if (gradi == 17) {
+      $(".fill2").css("transform", "rotate(" + gradi * 10 + "deg)").css("transition-delay", "0.5s");
+    } else {
+      $(".fill2").css("transform", "rotate(" + gradi * 10 + "deg)").css("transition-delay", "0s");
+    }
+
 }
 
 
@@ -383,6 +400,13 @@ $(".plus").mousedown(function () {
       $(".fill2").css("transform", "rotate(" + gradi * 10 + "deg)").css("transition-delay", "0s");
     }
   }
+});
+
+document.getElementById('tempSlider').addEventListener('input', function() {
+  var value = this.value;
+  document.getElementById('sliderValue').textContent = value;
+  gradi = parseFloat(value); // Update the global temperature variable
+  updateGr(); // Call the function to update the thermostat's display
 });
   	
   </script>
