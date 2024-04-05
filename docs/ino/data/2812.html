@@ -373,7 +373,35 @@ function GodBright(event) {
   
   <script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
 
-<br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br>
+    <h2>WS2812B LED Strip Current Calculator</h2>
+    <label for="numOfLeds">Number of LEDs:</label>
+    <input type="number" id="numOfLeds" value="30"><br><br>
+
+    <label for="cbrightness">Brightness (0-1):</label>
+    <input type="number" id="cbrightness" step="0.01" value="1" min="0" max="1"><br><br>
+
+    <button onclick="calculateCurrent()">Calculate Current</button>
+    <p id="result"></p>
+    <script>
+ function calculateCurrent() {
+    const numOfLeds = parseInt(document.getElementById('numOfLeds').value, 10);
+    const cbrightness = parseFloat(document.getElementById('cbrightness').value);
+    console.log(numOfLeds, cbrightness); // Debugging line
+
+    const maxCurrentPerLED = 60; // Maximum current per LED in mA at full brightness (white color)
+    
+    if (!isNaN(numOfLeds) && !isNaN(cbrightness)) {
+        // Calculate total current, considering the brightness level
+        const totalCurrent = numOfLeds * maxCurrentPerLED * cbrightness;
+        document.getElementById('result').innerText = `Estimated current consumption: ${totalCurrent} mA`;
+    } else {
+        document.getElementById('result').innerText = 'Please enter valid numbers for both fields.';
+    }
+}
+    </script>
+  
+  <br><br><br><br><br><br><br><br><br><br>
 <script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
 
 
