@@ -1,7 +1,7 @@
 WS2812 LED strip FX Effects webserver
 
 flash 4mb ESP8266 12E 12F inbrower
-- [https://ldijkman.github.io/async-esp-fs-webserver/](https://ldijkman.github.io/async-esp-fs-webserver/index.html#LED-Strip)
+- https://ldijkman.github.io/async-esp-fs-webserver/index.html#LED-Strip
 
   
 http://ws2812.local/2812.html
