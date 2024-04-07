@@ -17,3 +17,13 @@ do not want to fidle with the ftdi programmer
 https://www.youtube.com/watch?v=36p9To2hfak
 
 https://randomnerdtutorials.com/esp32-cam-video-streaming-web-server-camera-home-assistant/
+
+
+
+got it a bit working
+- do not like the ftdi thingy, usb port shield might be a lot easier
+- there was no mention of 5vcc, so thing keeps brownout rebooting after programming
+
+- image size to large i think
+
+  ![Screenshot from 2024-04-07 08-44-57](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/6522063b-47a0-4b83-8a2d-d6edd606ca36)
