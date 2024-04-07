@@ -1,6 +1,8 @@
 -
 https://www.youtube.com/watch?v=M8aKyUknS4A
 
+https://github.com/PeterNV/ESP32-CAM-WEB-SERVER-REQUEST
+
 --
 
 i bought usb port shields for the esp32-cam
