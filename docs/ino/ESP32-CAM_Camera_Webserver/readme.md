@@ -40,6 +40,7 @@ got it a bit working (my ESP32-CAM dust collectors for > 2 years)
   ---
 ### motion capture save to SDcard esp32 camera webserver
   ### https://youtu.be/k_PJLkfqDuI
+  https://www.youtube.com/watch?v=k_PJLkfqDuI&t=247s
   ### https://github.com/s60sc/ESP32-CAM_MJPEG2SD
   ---
 
@@ -49,6 +50,7 @@ got it a bit working (my ESP32-CAM dust collectors for > 2 years)
   ---
 ### motion capture save to SDcard esp32 camera webserver
   ### https://youtu.be/k_PJLkfqDuI
+  https://www.youtube.com/watch?v=k_PJLkfqDuI&t=247s
   ### https://github.com/s60sc/ESP32-CAM_MJPEG2SD
   ---
   
