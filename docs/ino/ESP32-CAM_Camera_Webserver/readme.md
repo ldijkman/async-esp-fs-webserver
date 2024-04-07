@@ -20,7 +20,7 @@ https://randomnerdtutorials.com/esp32-cam-video-streaming-web-server-camera-home
 
 
 
-got it a bit working
+got it a bit working (my ESP32-CAM dust collectors for > 2 years)
 - do not like the ftdi thingy, usb port shield might be a lot easier
 - there was no mention of 5vcc, so thing keeps brownout rebooting after programming
 - will wait for the ESP32-CAM usb port shields before i continue with this
