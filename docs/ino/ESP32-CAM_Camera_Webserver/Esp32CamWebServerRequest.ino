@@ -1,3 +1,6 @@
+// https://github.com/PeterNV/ESP32-CAM-WEB-SERVER-REQUEST/blob/main/Esp32CamWebServerRequest.ino
+
+
 #include <WiFi.h>
 #include <ESPAsyncWebSrv.h>
 #include <AsyncTCP.h>
@@ -169,6 +172,9 @@ void setup() {
     server.addHandler(&events);
     server.begin();
 }
+
+// https://github.com/PeterNV/ESP32-CAM-WEB-SERVER-REQUEST/blob/main/Esp32CamWebServerRequest.ino
+
 
 void loop() {
   
