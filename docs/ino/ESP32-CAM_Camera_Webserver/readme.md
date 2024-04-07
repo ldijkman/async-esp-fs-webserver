@@ -42,3 +42,13 @@ got it a bit working (my ESP32-CAM dust collectors for > 2 years)
   ### https://youtu.be/k_PJLkfqDuI
   ### https://github.com/s60sc/ESP32-CAM_MJPEG2SD
   ---
+
+![Screenshot from 2024-04-07 12-03-06](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/4b377a66-7603-43de-b9df-ee929402cc8c)
+
+
+  ---
+### motion capture save to SDcard esp32 camera webserver
+  ### https://youtu.be/k_PJLkfqDuI
+  ### https://github.com/s60sc/ESP32-CAM_MJPEG2SD
+  ---
+  
