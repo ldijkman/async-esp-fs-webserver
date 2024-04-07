@@ -35,3 +35,8 @@ got it a bit working (my ESP32-CAM dust collectors for > 2 years)
 
 
   arduino IDE File > Examples > esp32 > Camera > CameraWebServer
+
+
+  ---
+  ### https://youtu.be/k_PJLkfqDuI
+  ---
