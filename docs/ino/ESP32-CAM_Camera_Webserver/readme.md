@@ -29,7 +29,9 @@ got it a bit working (my ESP32-CAM dust collectors for > 2 years)
   ![Screenshot from 2024-04-07 08-44-57](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/6522063b-47a0-4b83-8a2d-d6edd606ca36)
 
 
-  arduino examples esp32 camera webserver
+  arduino IDE File > Examples > esp32 > Camera > CameraWebServer
 
   ![Screenshot from 2024-04-07 09-13-01](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/72acb55f-f85e-45e1-abfc-9ea3fbdbe586)
 
+
+  arduino IDE File > Examples > esp32 > Camera > CameraWebServer
