@@ -89,6 +89,10 @@ automaticly generated from mdns scan of devices in local network
 
 no programming involved for end user
 
+---
+
+stream should be displayed in local ESP devices overview (auto generated mDNS scan overview)
+
 ![Screenshot from 2024-04-08 05-44-56](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/2993a8fc-6d36-4cc0-9c33-101e9f6336a1)
 
 
