@@ -77,3 +77,14 @@ next dispays stream only in browser
 
   http://esp32cam.local/sustain?stream=0
 
+  bulb.html i should rename it to card.html should display this stream
+
+  so that bulbs.html should rename it to cards.html
+
+  diplays it in the overview of all mdns devices in the local network
+
+  so that you can view the state of lightbulbs thermostat ws2812b ledstrips wificams on a single overview page
+
+automaticly generated from mdns scan of devices in local network
+
+no programming involved for end user
