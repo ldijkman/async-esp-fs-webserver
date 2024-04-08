@@ -65,4 +65,8 @@ got it a bit working (my ESP32-CAM dust collectors for > 2 years)
   ### https://github.com/s60sc/ESP32-CAM_MJPEG2SD
   ---
 
+next dispays stream only in browser
+
+  http://esp32cam.local/sustain?stream=0
+
   
