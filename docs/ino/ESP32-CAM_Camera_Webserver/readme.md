@@ -56,4 +56,8 @@ got it a bit working (my ESP32-CAM dust collectors for > 2 years)
 
   ![ESP32-CAM-pinout-mischianti](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/2e8426c9-fa93-44e7-a9ef-4df9ce81c900)
 
+![Screenshot from 2024-04-08 17-47-09](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/794ef6f1-3592-42ff-8306-8c3828594a26)
+
+
+
   
