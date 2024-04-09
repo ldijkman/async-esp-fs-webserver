@@ -72,6 +72,10 @@ next dispays stream only in browser
 
   http://esp32cam.local/sustain?stream=0
 
+  some say to get a video feed in the iframe call ip_address/sustain?video=1
+
+  but that did not work for me
+
   
 
   ![Screenshot from 2024-04-08 17-59-42](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/5b80a0bd-1cb7-4c94-b494-a8d755929040)
@@ -79,6 +83,10 @@ next dispays stream only in browser
   next dispays stream only in browser
 
   http://esp32cam.local/sustain?stream=0
+  
+  some say to get a video feed in the iframe call ip_address/sustain?video=1
+
+  but that did not work for me
 
   bulb.html i should rename it to card.html should display this stream
 
