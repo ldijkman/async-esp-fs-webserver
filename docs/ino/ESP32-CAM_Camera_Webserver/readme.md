@@ -5,14 +5,15 @@ https://github.com/PeterNV/ESP32-CAM-WEB-SERVER-REQUEST
 
 --
 
-i bought usb port shields for the esp32-cam
+i bought USB port shields for the ESP32-CAM
 
-do not want to fidle with the ftdi programmer 
+Do not want to fiddle with an FTDI programmer 
 
 https://www.google.com/search?q=ESP32-CAM
 
 ![ESP32-CAM_with_USB_port_shield](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/1f628c73-5e1a-4312-91de-dc809e704ced)
 
+https://www.google.com/search?q=ESP32-CAM
 
 --
 
