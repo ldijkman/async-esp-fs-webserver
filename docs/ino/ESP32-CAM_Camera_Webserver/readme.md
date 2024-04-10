@@ -1,5 +1,5 @@
 
-### web Flash install inBrowser ESP32-CAM with ESP32-CAM_MJPEG2SD
+### Web Flash install inBrowser ESP32-CAM with ESP32-CAM_MJPEG2SD
 https://ldijkman.github.io/async-esp-fs-webserver/ino/ESP32-CAM_Camera_Webserver/BIN/CAM-Flash.html
 ---
 
