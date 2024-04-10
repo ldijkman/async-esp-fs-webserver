@@ -28,7 +28,16 @@ document.addEventListener("DOMContentLoaded", function () {
       color: "limegreen",
       text: "Flash 4mb ESP",
       title: "Flash ESP8266 ESP32"
+    },
+    {
+      href: "https://ldijkman.github.io/async-esp-fs-webserver/ino/ESP32-CAM_Camera_Webserver/BIN/CAM-Flash.html",
+      color: "limegreen",
+      text: "Flash ESP32-CAM",
+      title: "Flash ESP32-CAM_MJPEG2SD"
     }
+
+
+    
   ];
 
   links.forEach((link) => {
