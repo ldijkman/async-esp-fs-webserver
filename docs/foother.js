@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
     {
       href: "https://ldijkman.github.io/async-esp-fs-webserver/ino/ESP32-CAM_Camera_Webserver/BIN/CAM-Flash.html",
       color: "limegreen",
-      text: "Flash ESP32-CAM",
+      text: "ESP32-CAM",
       title: "Flash ESP32-CAM_MJPEG2SD"
     }
 
