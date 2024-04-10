@@ -1,0 +1,277 @@
+[
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/cores/esp32"
+  },
+  {
+    "Sourcefile": null,
+    "Include": "",
+    "Includepath": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/variants/esp32"
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/ESP32-CAM_MJPEG2SD.ino.cpp",
+    "Include": "ESPmDNS.h",
+    "Includepath": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/ESPmDNS/src"
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/ESP32-CAM_MJPEG2SD.ino.cpp",
+    "Include": "Preferences.h",
+    "Includepath": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/Preferences/src"
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/ESP32-CAM_MJPEG2SD.ino.cpp",
+    "Include": "SD_MMC.h",
+    "Includepath": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/SD_MMC/src"
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/ESP32-CAM_MJPEG2SD.ino.cpp",
+    "Include": "FS.h",
+    "Includepath": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/FS/src"
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/ESP32-CAM_MJPEG2SD.ino.cpp",
+    "Include": "LittleFS.h",
+    "Includepath": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/LittleFS/src"
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/ESP32-CAM_MJPEG2SD.ino.cpp",
+    "Include": "Update.h",
+    "Includepath": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/Update/src"
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/ESP32-CAM_MJPEG2SD.ino.cpp",
+    "Include": "WiFi.h",
+    "Includepath": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/WiFi/src"
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/ESP32-CAM_MJPEG2SD.ino.cpp",
+    "Include": "HTTPClient.h",
+    "Includepath": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/HTTPClient/src"
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/ESP32-CAM_MJPEG2SD.ino.cpp",
+    "Include": "WiFiClientSecure.h",
+    "Includepath": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/WiFiClientSecure/src"
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/ESP32-CAM_MJPEG2SD.ino.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/appSpecific.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/avi.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/certificates.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/ftp.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/mic.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/mjpeg2sd.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/motionDetect.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/mqtt.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/peripherals.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/prefs.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/setupAssist.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/smtp.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/streamServer.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/telegram.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/telemetry.cpp",
+    "Include": "Wire.h",
+    "Includepath": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/Wire/src"
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/telemetry.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/uart.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/utils.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/utilsFS.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/webDav.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/tmp/arduino_build_978684/sketch/webServer.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/ESPmDNS/src/ESPmDNS.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/Preferences/src/Preferences.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/SD_MMC/src/SD_MMC.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/FS/src/FS.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/FS/src/vfs_api.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/LittleFS/src/LittleFS.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/Update/src/HttpsOTAUpdate.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/Update/src/Updater.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/WiFi/src/WiFi.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/WiFi/src/WiFiAP.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/WiFi/src/WiFiClient.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/WiFi/src/WiFiGeneric.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/WiFi/src/WiFiMulti.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/WiFi/src/WiFiSTA.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/WiFi/src/WiFiScan.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/WiFi/src/WiFiServer.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/WiFi/src/WiFiUdp.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/HTTPClient/src/HTTPClient.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/WiFiClientSecure/src/WiFiClientSecure.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/WiFiClientSecure/src/esp_crt_bundle.c",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/WiFiClientSecure/src/ssl_client.cpp",
+    "Include": "",
+    "Includepath": null
+  },
+  {
+    "Sourcefile": "/home/pi/.arduino15/packages/esp32/hardware/esp32/2.0.14/libraries/Wire/src/Wire.cpp",
+    "Include": "",
+    "Includepath": null
+  }
+]
