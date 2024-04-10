@@ -7,7 +7,7 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
 <html>
 
 <head> 
-  <title>ESP Web Flashing Example  ESP3-CAM Install</title>
+  <title>ESP Web Flash ESP32-CAM_MJPEG2SD  ESP3-CAM Install</title>
 
 <script>
   document.getElementById('delete-lines-btn').addEventListener('click', deleteLines);
@@ -74,7 +74,8 @@ button {
     });
 </script>
 
- last update: <span id="lastUpdated"></span> connect buttons use the same manifest, detects what to use<br>
+ last update: <span id="lastUpdated"></span> <h3>ESP32-CAM_MJPEG2SD InBrowser Web Flash Install on ESP32-CAM</h3>
+<br>
 
 
   <center>
@@ -84,7 +85,7 @@ button {
     <br>
     <p style="border:3px solid greenyellow;"><br>
       install from PC Chromium based Browsers, Google Chrome Chromium , Edge Chromium, Opera Chromium.<br>
-      <h1>Connect USB with IO0 pressed to enter programming mode</h1><br>
+      <h1>Connect USB powerup with Button IO0 pressed to enter programming mode</h1><br>
    
       <esp-web-install-button manifest="https://ldijkman.github.io/async-esp-fs-webserver/ino/ESP32-CAM_Camera_Webserver/BIN/ESP32-CAM.json">
           <button style="background-color: yellow; color: green; font-size: 24px; font-weight: bold; border-radius: 5px;" slot="activate">Connect & Install ESP32-CAM</button>
@@ -92,11 +93,15 @@ button {
           <span style="color: red; font-size: 24px; font-weight: bold;" slot="not-allowed">Ah Damn, you are not allowed to use this on HTTP!</span>
        </esp-web-install-button><br>
       <br>
-    <h1>when finnished press RST on camera print, RST on my USB print does not work<br>
+    <h1>when finnished press RST on camera print, <br>
+    RST on my USB print does not work<br>
       <br>then connect wifi direct to AP accesspoint <br>
-      browse to http://192.168.4.1/ and configure wifi</h1>
+      Browse to http://192.168.4.1/ and configure wifi</h1>
     <br>
-      should be info here to create an sd card with /data directory with some files
+      create an SD-Card with /data directory <br>
+      copy the files from https://github.com/s60sc/ESP32-CAM_MJPEG2SD/tree/master/data<br>
+      and place the 2 files in the data directory on SD-Card<br>
+      (would be better isf these files where on spiffs/littlefs<br>
     </p>
     <img src="https://raw.githubusercontent.com/ldijkman/async-esp-fs-webserver/master/docs/ino/ESP32-CAM_Camera_Webserver/ESP32-CAM_with_USB_port_shield.jpg">
   </center>
