@@ -1,0 +1,113 @@
+<!-- 
+Copyright 2023 Dirk Luberth Dijkman Bangert 30 1619GJ Andijk The Netherlands    
+The Art of Time Controlled. Visual TimeSlots Schedule.
+-->
+
+<!DOCTYPE html>
+<html>
+
+<head> 
+  <title>ESP Web Flashing Example  ESP3-CAM Install</title>
+
+<script>
+  document.getElementById('delete-lines-btn').addEventListener('click', deleteLines);
+
+function deleteLines() {
+    // Select all <span> elements with the class 'line'
+    const lines = document.querySelectorAll('.line');
+    
+    // Loop through the NodeList and remove each element
+    lines.forEach(function(line) {
+        line.remove();
+    });
+}
+
+</script>
+
+
+  
+
+ <script type="module" src="https://ldijkman.github.io/async-esp-fs-webserver/ESP_Web_Tools/install-button.js?module"></script>
+  
+  <style>
+button::before {
+    content: " ";
+    position: absolute;
+    inset: 0px;
+    opacity: 0.2;
+    border-radius: 4px;
+}
+
+button {
+    position: relative;
+    cursor: pointer;
+    font-size: 14px;
+    /* padding: 8px 28px; */
+    color: green;
+    /* background-color: var(--esp-tools-button-color, #03a9f4); */
+    border:1px solid black;
+    /* border-radius: 4px; */
+    /* box-shadow: rgba(0, 0, 0, 0.14) 0px 2px 2px 0px, rgba(0, 0, 0, 0.12) 0px 3px 1px -2px, rgba(0, 0, 0, 0.2) 0px 1px 5px 0px; */
+}
+
+    html {
+    scroll-behavior: smooth;
+}
+    </style>
+  <!-- Place this tag in your head or just before your close body tag -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+
+</head>
+
+<body>
+  <center>
+    Well i do a project, i Switch a LED ON/OFF over the Network, Dude DUuuuuhhh,<br>
+    <!-- hitwebcounter Code START -->
+<a href="https://www.hitwebcounter.com" target="_blank">
+<img src="https://hitwebcounter.com/counter/counter.php?page=11897355&style=0006&nbdigits=9&type=page&initCount=0" title="Counter Widget" Alt="Visit counter For Websites"   border="0" /></a>                                
+</center>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('lastUpdated').textContent = document.lastModified;
+    });
+</script>
+
+ last update: <span id="lastUpdated"></span> connect buttons use the same manifest, detects what to use<br>
+
+  Just want to simple switch devices on a time, Easy, Simple, Me No Home Assistant Nerd. ServerLess Home Automation?<br>
+  Each ESP device its own webserver, and a mDNS scan linked list, lists all other mDNS devices in the network<br>
+  <center>
+     <!-- Place this tag where you want the button to render -->
+<a class="github-button" href="https://github.com/ldijkman/async-esp-fs-webserver" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star ldijkman/async-esp-fs-webserver on GitHub">Star</a>
+
+    <h1>Flash Your 4mb ESP8266 / 4mb ESP32 Device</h1>
+    program Your 4mb ESP8266 / 4mb ESP32 Device?<br>
+    <br>
+
+    installs a espasyncwebserver with Filesystembrowser Ace Editor and a demo html visual timeslot scheduler<br>
+    you can edit/change the files easy on the ESP webserver with the built in editor /edit<br>
+    and create / change / upload / delete files on the ESP webserver easy<br>
+
+    <br>
+    arduino ino source https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/simpleServerwithwebsocket.ino<br>
+  
+    <br>
+    <p style="border:3px solid greenyellow;"><br>
+      install from PC Chromium based Browsers, Google Chrome Chromium , Edge Chromium, Opera Chromium.<br>
+   
+      <esp-web-install-button manifest="https://ldijkman.github.io/async-esp-fs-webserver/ino/ESP32-CAM_Camera_Webserver/BIN
+/ESP32-CAM.json">
+          <button style="background-color: yellow; color: green; font-size: 24px; font-weight: bold; border-radius: 5px;" slot="activate">Connect & Install ESP32-CAM</button>
+          <span style="color: red; font-size: 24px; font-weight: bold;" slot="unsupported">Ah Damn, your browser doesn't work! <br>Open this Page in a Chromium Based PC Browser!<br>and an Connect Install button will be here!</span>
+          <span style="color: red; font-size: 24px; font-weight: bold;" slot="not-allowed">Ah Damn, you are not allowed to use this on HTTP!</span>
+       </esp-web-install-button><br>
+      <br>
+    </p>
+  </center>body>
+    </html>
+
+
+      
+         
