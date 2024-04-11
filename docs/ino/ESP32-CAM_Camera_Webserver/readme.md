@@ -113,3 +113,6 @@ stream should be displayed in local ESP devices overview (auto generated mDNS sc
 ![Screenshot from 2024-04-08 05-44-56](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/2993a8fc-6d36-4cc0-9c33-101e9f6336a1)
 
 
+![Screenshot from 2024-04-10 18-30-45](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/d63a83e2-ccca-4d3e-8bca-e7cf1e3d510d)
+
+
