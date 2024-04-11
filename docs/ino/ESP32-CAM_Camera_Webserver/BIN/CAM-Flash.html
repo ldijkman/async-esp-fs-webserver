@@ -82,7 +82,15 @@ button {
     Needs an SD-Card with 2 files for the webserver in /data Directory</h1>
       Create an SD-Card with /data directory <br>
       Copy the files from / Download raw files<br>
-  &nbsp; &nbsp; &nbsp; &nbsp;https://raw.githubusercontent.com/s60sc/ESP32-CAM_MJPEG2SD/master/data/MJPEG2SD.htm<br>
+  &nbsp; &nbsp; &nbsp; &nbsp;https://raw.githubusercontent.com/ldijkman/async-esp-fs-webserver/master/docs/ino/ESP32-CAM_Camera_Webserver/BIN/data/MJPEG2SD.htm<br>
+  <button onclick="downloadFile()">Download MJPEG2SD</button>
+
+<script>
+function downloadFile() {
+    // Directly navigating to the URL
+    window.location.href = 'https://raw.githubusercontent.com/ldijkman/async-esp-fs-webserver/master/docs/ino/ESP32-CAM_Camera_Webserver/BIN/data/MJPEG2SD.htm';
+}
+</script>
  &nbsp; &nbsp; &nbsp; &nbsp;https://raw.githubusercontent.com/s60sc/ESP32-CAM_MJPEG2SD/master/data/common.js<br>
 <a href="https://github.com/s60sc/ESP32-CAM_MJPEG2SD/tree/master/data" target="_blank">https://github.com/s60sc/ESP32-CAM_MJPEG2SD/tree/master/data</a><br>
       and place the 2 files in the  /data directory on SD-Card<br>
