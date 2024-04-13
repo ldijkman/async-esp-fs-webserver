@@ -1,0 +1,18 @@
+{
+        "name": "ESP32-CAM_MJPEG2SD_NO_SD",
+        "version": "13-april-24",
+          "funding_url": "https://www.paypal.com/paypalme/LDijkman",
+        "builds": [
+    {
+      "chipFamily": "ESP32",
+      "parts": [
+       { "path": "bootloader_qio_80m.bin", "offset": 4096 },
+        { "path": "ESP32-CAM_MJPEG2SD_NO_SD.ino.partitions.bin", "offset": 32768 },
+        { "path": "ESP32-CAM_MJPEG2SD_NO_SD.ino.bootloader.bin", "offset": 57344 },
+        { "path": "ESP32-CAM_MJPEG2SD_NO_SD.ino.bin", "offset": "0x10000" },
+        { "path": "ESP32-CAM_MJPEG2SD_NO_SD.littlefs.bin", "offset": "0x310000" }  
+      ]
+    }
+  ]
+}
+
