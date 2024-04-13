@@ -1,6 +1,10 @@
 2 files for SD-Card
 place the 2 files in directory map /data
 
+/data/MJPEG2SD.htm
+
+/data/common.js
+
 ESP32-CAM needs it for the webserver
 
 
