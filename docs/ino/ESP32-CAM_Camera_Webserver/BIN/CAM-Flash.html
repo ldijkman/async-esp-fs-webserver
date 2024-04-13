@@ -141,11 +141,12 @@ function downloadFileJS() {
       <br>
       <br>
             <esp-web-install-button manifest="https://ldijkman.github.io/async-esp-fs-webserver/ino/ESP32-CAM_Camera_Webserver/BIN/ESP32-CAM_NO_SD.json">
-          <button style="background-color: orange; color: black; font-size: 24px; font-weight: bold; border-radius: 5px;" slot="activate">NO SD-Card, NO Reacord? Connect & Install ESP32-CAM_MJPEG2SD NO SD-Card</button>
+          <button style="background-color: orange; color: black; font-size: 24px; font-weight: bold; border-radius: 5px;" slot="activate">NO SD-Card, NO Record? <br>Connect & Install ESP32-CAM_MJPEG2SD NO SD-Card</button>
           <span style="color: red; font-size: 24px; font-weight: bold;" slot="unsupported">Ah Damn, your browser doesn't work! <br>Open this Page in a Chromium Based PC Browser!<br>and an Connect Install button will be here!</span>
           <span style="color: red; font-size: 24px; font-weight: bold;" slot="not-allowed">Ah Damn, you are not allowed to use this on HTTP!</span>
        </esp-web-install-button><br>
-      <br>
+      not http://test.local => lookup IP or mDNS in serial monitor or BonjourBrowser maybe http://ESP-CAM_MJPEG_B.local<br>
+      <br><br>
     <h1>When Finished press RST button on camera print, <br>
     RST on my USB port Shield does not work</h1>
       in video, i used powercycle, disconnect USB and reconnect USB<br>
