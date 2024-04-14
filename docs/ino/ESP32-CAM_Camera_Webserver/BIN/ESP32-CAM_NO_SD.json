@@ -1,6 +1,6 @@
 {
         "name": "ESP32-CAM_MJPEG2SD_NO_SD",
-        "version": "13-april-24",
+        "version": "14-april-24",
           "funding_url": "https://www.paypal.com/paypalme/LDijkman",
         "builds": [
     {
