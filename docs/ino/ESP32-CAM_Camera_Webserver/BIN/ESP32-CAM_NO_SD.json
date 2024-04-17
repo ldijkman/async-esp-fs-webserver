@@ -10,7 +10,7 @@
         { "path": "ESP32-CAM_MJPEG2SD_NO_SD.ino.partitions.bin", "offset": 32768 },
         { "path": "ESP32-CAM_MJPEG2SD_NO_SD.ino.bootloader.bin", "offset": 57344 },
         { "path": "ESP32-CAM_MJPEG2SD_NO_SD.ino.bin", "offset": "0x10000" },
-        { "path": "ESP32-CAM_MJPEG2SD_NO_SD2.littlefs.bin", "offset": "0x310000" }  
+        { "path": "ESP32-CAM_MJPEG2SD_NO_SD.littlefs.bin", "offset": "0x310000" }  
       ]
     }
   ]
