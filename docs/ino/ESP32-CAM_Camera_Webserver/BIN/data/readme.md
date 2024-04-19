@@ -7,6 +7,8 @@ place the 2 files in directory map /data
 
 ESP32-CAM needs it for the webserver
 
+maybe insert a blank sd-card and files wil be downloaded from github if there is an internet connection on ESP
+
 
 https://ldijkman.github.io/async-esp-fs-webserver/ino/ESP32-CAM_Camera_Webserver/BIN/CAM-Flash.html
 
