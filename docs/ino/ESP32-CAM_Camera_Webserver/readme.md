@@ -117,7 +117,13 @@ stream should be displayed in local ESP devices overview (auto generated mDNS sc
 
 
 FTDI users connection
-remove [ io0 -GND ] for Flash / programming Mode after install is Finnished
+
+remove 
+
+[ io0 -GND ] for Flash / programming Mode 
+
+after install is Finnished
+
 and reboot
 
 ![esp32cam-with-ftdi](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/472eae9a-90e8-417e-abd7-e92ce61bc334)
