@@ -116,3 +116,9 @@ stream should be displayed in local ESP devices overview (auto generated mDNS sc
 ![Screenshot from 2024-04-10 18-30-45](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/d63a83e2-ccca-4d3e-8bca-e7cf1e3d510d)
 
 
+FTDI users connection
+remove [ io0 -GND ] after install 
+and reboot
+
+![esp32cam-with-ftdi](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/472eae9a-90e8-417e-abd7-e92ce61bc334)
+
