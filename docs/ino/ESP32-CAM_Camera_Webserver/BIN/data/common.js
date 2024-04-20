@@ -496,6 +496,7 @@
             // append to log display 
             let log = $('#appLog');
             log.innerHTML += colorise(logText) + '<br>';
+                  console.log(logText); // Luberth
             // auto scroll new entry unless scroll bar is not at bottom
             const bottom = 2 * baseFontSize;// 2 lines
             const pos = Math.abs(log.scrollHeight - log.clientHeight - log.scrollTop);
