@@ -343,3 +343,14 @@ section{
   background-color: black;
   color: lightfrey;
 }
+
+.xterm .xterm-viewport {
+    background-color: #000;
+    overflow-y: scroll;
+    cursor: default;
+    position: absolute;
+    right: 0;
+    left: 0;
+    top: 0;
+    bottom: 50px;
+}
