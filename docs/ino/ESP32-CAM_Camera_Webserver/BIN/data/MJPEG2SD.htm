@@ -1588,10 +1588,10 @@ Changes Luberth Dijkman
         </div>
 
         <!-- Luberth -->
-test <button id="deleteDataButton">Reload /Data</button>
+test reload /data with confirm <button id="deleteDataButton">Reload /Data</button>
 <script>
   document.getElementById('deleteDataButton').addEventListener('click', function() {
-    var confirmAction = confirm("Are you sure you want to delete the data?");
+    var confirmAction = confirm("Are you sure you want to delete the directory /data \n<br> and load new files from my GitHub?");
     if (confirmAction) {
         // Use the Fetch API to send a GET request in the background
         fetch('/control?deldata=1')
