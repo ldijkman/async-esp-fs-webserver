@@ -1,4 +1,4 @@
-esptool --chip esp32 merge_bin \
+esptool.py --chip esp32 merge_bin \
   -o merged-firmware.bin \
   --flash_mode qio \
   --flash_freq 80m \
