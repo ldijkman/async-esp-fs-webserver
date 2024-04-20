@@ -1586,6 +1586,33 @@ Changes Luberth Dijkman
             <text id="deldata" class="midText" >Reload /data</text>
           </svg>
         </div>
+
+        <!-- Luberth -->
+test <button id="deleteDataButton">Delete Data</button>
+<script>
+  document.getElementById('deleteDataButton').addEventListener('click', function() {
+    var confirmAction = confirm("Are you sure you want to delete the data?");
+    if (confirmAction) {
+        // Use the Fetch API to send a GET request in the background
+        fetch('/control?deldata=1')
+            .then(response => {
+                if (response.ok) {
+                    return response.text(); // or response.json() if the server responds with JSON
+                }
+                throw new Error('Request failed.');
+            })
+            .then(data => {
+                console.log(data); // Handle the response data
+            })
+            .catch(error => {
+                console.error('Error:', error); // Handle any errors
+            });
+    } else {
+        console.log("Data deletion canceled.");
+    }
+});
+</script>
+ <!-- Luberth -->        
         <div Title="Clear non voilataile storage cq EEPROM &#10; Clears wifi password &#10; so it becomes an wifi AP accespoint again">
           <svg>
             <rect/>
