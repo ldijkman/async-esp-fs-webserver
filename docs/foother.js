@@ -287,7 +287,8 @@ document.addEventListener("DOMContentLoaded", function () {
     { href: "https://www.blackbox.ai/", text: "BlackBox.Ai" },
     { href: "https://copilot.microsoft.com", text: "Ai Microsoft CoPilot" },
     { href: "https://gemini.google.com/app", text: "Ai Google Gemini" },
-    { href: "https://chat.openai.com/auth/login", text: "Ai OpenAi ChatGPT " }
+    { href: "https://chat.openai.com/auth/login", text: "Ai OpenAi ChatGPT " },
+     { href: "https://meta.ai", text: "Meta Ai " }
   ];
 
   aiLinks.forEach((link) => {
