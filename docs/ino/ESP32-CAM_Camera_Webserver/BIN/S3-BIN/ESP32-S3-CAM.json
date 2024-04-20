@@ -4,7 +4,7 @@
           "funding_url": "https://www.paypal.com/paypalme/LDijkman",
         "builds": [
     {
-      "chipFamily": "ESP32S3",
+      "chipFamily": "ESP32-S3",
       "parts": [
        { "path": "bootloader_qio_80m.bin", "offset": 4096 },
         { "path": "ESP32-CAM_MJPEG2SD_S3_Wroom.ino.partitions.bin", "offset": 32768 },
