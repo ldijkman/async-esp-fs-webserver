@@ -1587,10 +1587,11 @@ Changes Luberth Dijkman
           </svg>
         </div>
 
-        <!-- Luberth -->
+       
 test reload /data with confirm 
--->
-<button id="deleteDataButton">Reload /Data</button>
+--> 
+<!-- Luberth -->
+<button id="deleteDataButton" Title="load webserver files from github and overwrite the ones in LittleFS or SD-Card &#10;&#10; WARNING! might change your Host Name in config so mDNS adress may change&#10;&#10;a click on this button directly deletes /data directory &#10;starts a reboot &#10; and download files from my github for webserver">Reload /Data</button>
 <script>
   document.getElementById('deleteDataButton').addEventListener('click', function() {
     var confirmAction = confirm("Are you sure you want to delete the directory /data \n and load new files from my GitHub? \n\n WARNING Host Name and mDNSname may change when reload, check 🔧 Config 🔧 \n\n https://github.com/ldijkman/async-esp-fs-webserver/edit/master/docs/ino/ESP32-CAM_Camera_Webserver/BIN/data");
@@ -1623,7 +1624,7 @@ test reload /data with confirm
           </svg>
         </div>
 -->
-<button id="clearNVSButton">Clear NVS</button>
+<button id="clearNVSButton" Title="Clear non voilataile storage cq EEPROM &#10; Clears wifi password &#10; so it becomes an wifi AP accespoint again">Clear NVS</button>
 
 <script>
 document.getElementById('clearNVSButton').addEventListener('click', function() {
