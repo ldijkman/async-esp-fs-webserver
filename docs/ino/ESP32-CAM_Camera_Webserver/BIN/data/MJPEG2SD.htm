@@ -1580,7 +1580,7 @@ Changes Luberth Dijkman
             <text id="reset" class="midText">Reboot ESP</text>
           </svg>
         </div>
-        <div Title="load webserver files from github and overwrite the ones in LittleFS or SD-Card &#10;&#10; WARNING! might change your Host Name in config so mDNS adress may change&#10;&#10;a click on this button directly deletes /data directory &#10;starts a reboot &#10; and download files from my github for webserver">
+<!--        <div Title="load webserver files from github and overwrite the ones in LittleFS or SD-Card &#10;&#10; WARNING! might change your Host Name in config so mDNS adress may change&#10;&#10;a click on this button directly deletes /data directory &#10;starts a reboot &#10; and download files from my github for webserver">
           <svg>
             <rect/>
             <text id="deldata" class="midText" >Reload /data</text>
@@ -1588,7 +1588,9 @@ Changes Luberth Dijkman
         </div>
 
         <!-- Luberth -->
-test reload /data with confirm <button id="deleteDataButton">Reload /Data</button>
+test reload /data with confirm 
+-->
+<button id="deleteDataButton">Reload /Data</button>
 <script>
   document.getElementById('deleteDataButton').addEventListener('click', function() {
     var confirmAction = confirm("Are you sure you want to delete the directory /data \n and load new files from my GitHub? \n\n WARNING Host Name and mDNSname may change when reload, check Config \n\n https://github.com/ldijkman/async-esp-fs-webserver/edit/master/docs/ino/ESP32-CAM_Camera_Webserver/BIN/data");
