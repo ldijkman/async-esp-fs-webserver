@@ -1614,13 +1614,44 @@ test reload /data with confirm
     }
 });
 </script>
- <!-- Luberth -->        
+ <!-- Luberth -->       
+<!--
         <div Title="Clear non voilataile storage cq EEPROM &#10; Clears wifi password &#10; so it becomes an wifi AP accespoint again">
           <svg>
             <rect/>
             <text id="clear" class="midText" >Clear NVS</text>
           </svg>
         </div>
+-->
+<button id="clearNVSButton">Clear NVS</button>
+
+<script>
+document.getElementById('clearNVSButton').addEventListener('click', function() {
+    var confirmAction = confirm("Are you sure you want to clear the NVS (Non-Volatile Storage)?\n this erases your wifi password from EEPROM\nso it becomes an accespoint WIFI AP again? i think");
+    if (confirmAction) {
+        // Use the Fetch API to send a GET request in the background
+        fetch('/control?clear=1')
+            .then(response => {
+                if (response.ok) {
+                    return response.text(); // or response.json() if the server responds with JSON
+                }
+                throw new Error('Request failed.');
+            })
+            .then(data => {
+                console.log(data); // Handle the response data, maybe indicate success to the user
+                alert("NVS cleared successfully.");
+            })
+            .catch(error => {
+                console.error('Error:', error); // Handle any errors
+                alert("Failed to clear NVS.");
+            });
+    } else {
+        console.log("NVS clearance canceled.");
+    }
+});
+</script>
+  <!-- Luberth -->         
+        
         <div class="cfgTitle">
           <br>
           <div class="header">Settings</div>
