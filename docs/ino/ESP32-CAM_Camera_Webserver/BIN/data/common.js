@@ -81,6 +81,7 @@
           if (messageEvent.data.startsWith("{")) {
             // json data
             updateData = JSON.parse(messageEvent.data);
+                  console.log(updateData); // Luberth
             let filter = updateData.cfgGroup;
             delete updateData.cfgGroup;
             if (filter == "-1") updateStatus(); // status update
