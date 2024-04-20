@@ -573,7 +573,7 @@ detectChangeThreshold~15~1~N~Pixel difference to indicate change
 mlUse~0~1~C~Use Machine Learning
 mlProbability~0.8~1~N~ML minimum positive probability 0.0 - 1.0
 depthColor~0~1~C~Color depth for motion detection: Gray <> RGB
-streamNvr~0~1~C~Enable NVR Video stream: /sustain?video=1
+streamNvr~1~1~C~Enable NVR Video stream: /sustain?video=1
 streamSnd~0~1~C~Enable NVR Audio stream: /sustain?audio=1
 streamSrt~0~1~C~Enable NVR Subtitle stream: /sustain?srt=1
 smtpUse~0~2~C~Enable email sending
@@ -583,7 +583,7 @@ sdFreeSpaceMode~1~2~S:No Check:Delete oldest:Ftp then delete~Action mode on SD m
 formatIfMountFailed~0~2~C~Format file system on failure
 useIOextender~0~3~C~Use another ESP as IO Extender
 pirUse~0~3~C~Use PIR for detection
-lampUse~0~3~C~Use lamp
+lampUse~1~3~C~Use lamp
 lampType~0~3~S:Manual:PIR~How lamp activated
 servoUse~0~3~C~Use servos
 micUse~0~3~C~Use microphone

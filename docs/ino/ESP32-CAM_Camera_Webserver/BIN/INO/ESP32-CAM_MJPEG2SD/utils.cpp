@@ -69,7 +69,7 @@ static void setupMdnsHost() {
     MDNS.addService("https", "tcp", HTTPS_PORT);
     //MDNS.addService("ws", "udp", 83);
     //MDNS.addService("ftp", "tcp", 21);    
-    LOG_INF("mDNS service: http://%s.local", mdnsName);
+    LOG_INF("\033[33m mDNS service: http://%s.local \033[0m", mdnsName);
   } else LOG_WRN("mDNS host: %s Failed", mdnsName);
   debugMemory("setupMdnsHost");
 }
@@ -122,10 +122,10 @@ static void onWiFiEvent(WiFiEvent_t event) {
       }
       break;
     }
-    case ARDUINO_EVENT_WIFI_STA_GOT_IP: LOG_INF("\nWifi Station IP, use '%s://%s' to connect", useHttps ? "https" : "http", WiFi.localIP().toString().c_str()); break;
+    case ARDUINO_EVENT_WIFI_STA_GOT_IP: LOG_INF("\033[33m Wifi Station IP, use '%s://%s' to connect \033[0m", useHttps ? "https" : "http", WiFi.localIP().toString().c_str()); break;
     case ARDUINO_EVENT_WIFI_STA_LOST_IP: LOG_INF("Wifi Station lost IP"); break;
     case ARDUINO_EVENT_WIFI_AP_STAIPASSIGNED: break;
-    case ARDUINO_EVENT_WIFI_STA_CONNECTED: LOG_INF("\nWiFi Station connection to %s, using hostname: %s", ST_SSID, hostName); break;
+    case ARDUINO_EVENT_WIFI_STA_CONNECTED: LOG_INF("\033[33m WiFi Station connection to %s, using hostname: %s \033[0m", ST_SSID, hostName); break;
     case ARDUINO_EVENT_WIFI_STA_DISCONNECTED: LOG_INF("WiFi Station disconnected"); break;
     case ARDUINO_EVENT_WIFI_AP_STACONNECTED: LOG_INF("WiFi AP client connection"); break;
     case ARDUINO_EVENT_WIFI_AP_STADISCONNECTED: LOG_INF("WiFi AP client disconnection"); break;
