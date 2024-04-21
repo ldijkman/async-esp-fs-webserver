@@ -1,4 +1,20 @@
 
+python3 "/home/dld/.arduino15/packages/esp32/tools/esptool_py/4.5.1/esptool.py" 
+--chip esp32s3 
+--port "/dev/ttyACM0" 
+--baud 921600  
+--before default_reset 
+--after hard_reset write_flash  -z --flash_mode dio --flash_freq 80m --flash_size 16MB 
+0x0 
+"/home/dld/.var/app/cc.arduino.IDE2/cache/arduino/sketches/90298628DC63E809DCB6506E5B112ABF/ESP32-CAM_MJPEG2SD_S3_Wroom.ino.bootloader.bin" 
+0x8000 
+"/home/dld/.var/app/cc.arduino.IDE2/cache/arduino/sketches/90298628DC63E809DCB6506E5B112ABF/ESP32-CAM_MJPEG2SD_S3_Wroom.ino.partitions.bin" 
+0xe000 
+"/home/dld/.arduino15/packages/esp32/hardware/esp32/2.0.14/tools/partitions/boot_app0.bin" 
+0x10000 
+"/home/dld/.var/app/cc.arduino.IDE2/cache/arduino/sketches/90298628DC63E809DCB6506E5B112ABF/ESP32-CAM_MJPEG2SD_S3_Wroom.ino.bin" 
+
+
 ![Screenshot from 2024-04-20 21-25-50](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/ba905c0f-3261-41ee-b886-ada761b23857)
 
 
