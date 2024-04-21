@@ -1,4 +1,8 @@
-Would like to make a thermostat wbserver
+Would like to make a thermostat webserver 
+
+with mDNS
+
+so that it is in the mdns scan overview list
 
 https://plnkr.co/edit/1zvCbJPU1aP9OReb?preview
 
