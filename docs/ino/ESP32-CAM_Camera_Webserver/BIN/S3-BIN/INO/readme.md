@@ -1,5 +1,7 @@
 /data directory for SD-Card 
+
 is auto downloaded from github 
+
 if internet connection is configured
 
 
