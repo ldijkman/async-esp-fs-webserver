@@ -277,7 +277,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "background-color: #333; color: greenyellow; padding: 10px; font-size: 16px; border: none; margin: 0 20px;";
 
   // Set the title attribute for the AI button
-aiButton.title = "Ai helps me a lot \n with coding \n  in HTML CSS JacaScript and C";
+aiButton.title = "Ai helps me a lot \n with coding \n  in HTML CSS JavaScript and C, Json WebSockets Etc.";
 
   
   const aiPopupContent = document.createElement("div");
