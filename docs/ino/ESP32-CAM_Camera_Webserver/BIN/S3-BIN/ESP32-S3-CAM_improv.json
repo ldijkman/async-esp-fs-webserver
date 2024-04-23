@@ -1,1 +1,17 @@
 
+{
+        "name": "improv ESP32-S3-CAM_MJPEG2SD 21 April 2024",
+        "version": "Sunday 21-april-24",
+          "funding_url": "https://www.paypal.com/paypalme/LDijkman",
+        "builds": [
+    {
+      "chipFamily": "ESP32-S3",
+      "parts": [
+        { "path": "ESP32-CAM_MJPEG2SD_S3_Wroom.ino.bootloader.bin", "offset": "0x0" }, 
+        { "path": "ESP32-CAM_MJPEG2SD_S3_Wroom.ino.partitions.bin", "offset": "0x8000" },
+        { "path": "boot_app0.bin", "offset": "0xe000" },
+        { "path": "ESP32-CAM_MJPEG2SD_S3_Wroom.ino_improv.bin", "offset": "0x10000" }  
+      ]
+    }
+  ]
+} 
