@@ -19,3 +19,7 @@ https://plnkr.co/edit/1zvCbJPU1aP9OReb?preview
 2 browser sclients update on changes
 ![Screenshot from 2024-04-27 08-38-58](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/52bc198b-5c25-4efc-8f5b-3fa4bb2d29f9)
 2 browser sclients update on changes
+
+
+
+![Screenshot from 2024-04-27 09-15-21](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/230b5bb4-5eba-48fd-9754-c1508e8be820)
