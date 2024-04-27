@@ -5,6 +5,7 @@
 // Start the mDNS responder for http://thermostat.local
 
 
+
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
@@ -82,6 +83,7 @@ ws.onmessage = function(event) {
   </script>
 </head>
 <body>
+<center>
   <h2>DS18B20 Temperature</h2> 
   <h3 id="temperature">-- °C</h3>
   <h3 id="setpoint">Setpoint: -- °C</h3>
