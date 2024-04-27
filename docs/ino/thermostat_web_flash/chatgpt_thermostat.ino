@@ -37,15 +37,26 @@ const char index_html[] PROGMEM = R"rawliteral(
   <title>Temperature Monitor</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
-    body { font-size: 20px; } /* Increase base font size */
-    input[type="number"] {
-      width: 125px; /* Make the input field wider */
-      padding: 15px; /* Add some padding inside the input field */
-      margin: 10px 0; /* Add some margin above and below the input field */
-      font-size: 2em; /* Increase the font size inside the input field */
+  <style>
+    
+    #setpointInput {
+      width: 120px; /* Adjust input width as necessary */
+      border: 2px solid #007bff; /* Blue border for input */
+      text-align: center; /* Ensure text is centered */
+      font-size: 2em; /* Increase font size for better visibility */
     }
-  </style>
+ 
+    .button {  
+      width: 50px; /* Width to match the input height for aesthetic consistency */
+      background-color: #007bff; /* Blue background for buttons */
+      color: white; /* White text for buttons */
+      border: none; /* No border for a cleaner look */
+      cursor: pointer; /* Change cursor to pointer to indicate clickable */
+    
+      font-size: 2em; /* Ensure buttons are also easily readable */
+    }
+
+  </style> 
   <script>
     var ws;
     function initWebSocket() {
@@ -80,6 +91,16 @@ ws.onmessage = function(event) {
         console.log('WebSocket is not open.');
     }
 }
+
+
+
+    function adjustSetpoint(delta) {
+      var inputField = document.getElementById('setpointInput');
+      var currentValue = parseFloat(inputField.value);
+      var newValue = currentValue + delta;
+      inputField.value = newValue.toFixed(1);
+      sendSetpoint(newValue);
+    }
     window.onload = initWebSocket;
   </script>
 </head>
@@ -88,7 +109,9 @@ ws.onmessage = function(event) {
   <h2>DS18B20 Temperature</h2> 
   <h3 id="temperature">-- °C</h3>
   <h3 id="setpoint">Setpoint: -- °C</h3>
-  <input id="setpointInput" type="number" step="0.1" onchange="sendSetpoint(this.value)" placeholder="Set Temperature" value="20"/>
+    <input type="button" class="button" value="-" onclick="adjustSetpoint(-0.1)" />
+  <input id="setpointInput" type="number" step="0.1" min="10" max="30" onchange="sendSetpoint(this.value)" placeholder="Set Temperature" value="20"/>
+  <input type="button" class="button" value="+" onclick="adjustSetpoint(0.1)" />
     <br><br><br><br><br>
     </center>    
        <script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
@@ -110,7 +133,7 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
   } else if (type == WS_EVT_DATA) {
     data[len] = 0; // Ensure the incoming data is null-terminated
     String message = String((char*)data);
-    
+
     if (message.startsWith("setpoint:")) {
       String setpointStr = message.substring(strlen("setpoint:"));
       temperatureSetpoint = setpointStr.toFloat();
