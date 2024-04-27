@@ -89,6 +89,10 @@ ws.onmessage = function(event) {
   <h3 id="temperature">-- °C</h3>
   <h3 id="setpoint">Setpoint: -- °C</h3>
   <input id="setpointInput" type="number" step="0.1" onchange="sendSetpoint(this.value)" placeholder="Set Temperature" value="20"/>
+    <br><br><br><br><br>
+    </center>    
+       <script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
+<script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
 </body>
 </html>)rawliteral";
 
