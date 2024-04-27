@@ -1,5 +1,6 @@
 // for ESP8266
 // asked chatgpt for a on/off websocket thermostat
+// maybe a bit based on https://randomnerdtutorials.com/esp32-esp8266-thermostat-web-server/
 // maybe a start
 // Start the mDNS responder for http://thermostat.local
 
