@@ -14,3 +14,7 @@ https://plnkr.co/edit/1zvCbJPU1aP9OReb?preview
 
 
 ![Screenshot from 2024-04-27 07-33-28](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/1d1179ac-5974-4d2a-9d8a-b196933e118e)
+
+
+
+![Screenshot from 2024-04-27 08-38-58](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/52bc198b-5c25-4efc-8f5b-3fa4bb2d29f9)
