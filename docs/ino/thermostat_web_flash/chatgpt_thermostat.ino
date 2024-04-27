@@ -1,6 +1,3 @@
-
-// https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs/ino/thermostat_web_flash
-
 // for ESP8266
 // asked chatgpt for a on/off websocket thermostat
 // maybe a start
@@ -16,7 +13,7 @@
 
 // Replace with your network credentials
 const char* ssid = "Bangert_30_Andijk";
-const char* password = "password";
+const char* password = "ookikwilerin";
 
 // GPIO where the DS18B20 is connected
 const int oneWireBus = 4; 
@@ -40,6 +37,16 @@ const char index_html[] PROGMEM = R"rawliteral(
     var ws;
     function initWebSocket() {
       ws = new WebSocket('ws://' + window.location.hostname + '/ws');
+      ws.onopen = function(event) {
+        console.log('WebSocket connected');
+        document.body.style.backgroundColor = 'green'; // Connected: green background
+      };
+      ws.onclose = function(event) {
+        console.log('WebSocket disconnected');
+        document.body.style.backgroundColor = 'red'; // Disconnected: red background
+        // Attempt to reconnect after a timeout
+        setTimeout(initWebSocket, 2000);
+      };
       ws.onmessage = function(event) {
         document.getElementById("temperature").innerHTML = event.data + " °C";
       };
