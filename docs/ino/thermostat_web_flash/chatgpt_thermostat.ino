@@ -1,4 +1,4 @@
-// asked chatgpt for a websocket thermostat
+// asked chatgpt for a on/off websocket thermostat
 // maybe a start
 
 #include <ESPAsyncWebServer.h>
