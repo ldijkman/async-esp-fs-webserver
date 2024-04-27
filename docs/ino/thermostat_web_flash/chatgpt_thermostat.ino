@@ -16,7 +16,7 @@ const char* ssid = "Bangert_30_Andijk";
 const char* password = "ookikwilerin";
 
 // GPIO where the DS18B20 is connected
-const int oneWireBus = 4; 
+const int oneWireBus = 4;
 OneWire oneWire(oneWireBus);
 DallasTemperature sensors(&oneWire);
 
@@ -57,14 +57,18 @@ const char index_html[] PROGMEM = R"rawliteral(
         // Attempt to reconnect after a timeout
         setTimeout(initWebSocket, 2000);
       };
-      ws.onmessage = function(event) {
-        var data = event.data.split(':');
-        if (data[0] === "temperature") {
-          document.getElementById("temperature").innerHTML = data[1] + " °C";
-        } else if (data[0] === "setpoint") {
-          document.getElementById("setpoint").innerHTML = "Setpoint: " + data[1] + " °C";
-        }
-      };
+
+
+ws.onmessage = function(event) {
+  var data = event.data.split(':');
+  if (data[0] === "temperature") {
+    document.getElementById("temperature").innerHTML = data[1] + " °C";
+  } else if (data[0] === "setpoint") {
+    document.getElementById("setpoint").innerHTML = "Setpoint: " + data[1] + " °C";
+    document.getElementById("setpointInput").value = data[1];
+  }
+};
+
     }
    function sendSetpoint(value) {
     if(ws.readyState === WebSocket.OPEN) {
@@ -80,34 +84,33 @@ const char index_html[] PROGMEM = R"rawliteral(
   <h2>DS18B20 Temperature</h2> 
   <h3 id="temperature">-- °C</h3>
   <h3 id="setpoint">Setpoint: -- °C</h3>
-  <input type="number" step="0.1" onchange="sendSetpoint(this.value)" placeholder="Set Temperature" value="20"/>
+  <input id="setpointInput" type="number" step="0.1" onchange="sendSetpoint(this.value)" placeholder="Set Temperature" value="20"/>
 </body>
 </html>)rawliteral";
 
 // WebSocket event handler
-void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, 
-    AwsEventType type, void *arg, uint8_t *data, size_t len) {
-    if (type == WS_EVT_CONNECT) {
-        Serial.println("WebSocket client connected");
-    } else if (type == WS_EVT_DISCONNECT) {
-        Serial.println("WebSocket client disconnected");
-    } else if (type == WS_EVT_DATA) {
-        // Make sure to null-terminate the data
-        data[len] = 0;
-        String message = String((char*)data);
+void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
+               AwsEventType type, void *arg, uint8_t *data, size_t len) {
+  if (type == WS_EVT_CONNECT) {
+    Serial.println("WebSocket client connected");
+  } else if (type == WS_EVT_DISCONNECT) {
+    Serial.println("WebSocket client disconnected");
+  } else if (type == WS_EVT_DATA) {
+    // Make sure to null-terminate the data
+    data[len] = 0;
+    String message = String((char*)data);
 
-        if (message.startsWith("setpoint:")) {
-            // Extract the setpoint value from the message
-            String setpointStr = message.substring(strlen("setpoint:"));
-            temperatureSetpoint = setpointStr.toFloat();
-            Serial.print("New temperature setpoint received: ");
-            Serial.println(temperatureSetpoint);
+    if (message.startsWith("setpoint:")) {
+      String setpointStr = message.substring(strlen("setpoint:"));
+      temperatureSetpoint = setpointStr.toFloat();
+      Serial.print("New temperature setpoint received: ");
+      Serial.println(temperatureSetpoint);
 
-            // Respond to confirm the setpoint has been updated
-            String confirmationMessage = "setpoint:" + String(temperatureSetpoint);
-            client->text(confirmationMessage);
-        }
+      // Broadcast the new setpoint to all connected clients
+      String confirmationMessage = "setpoint:" + String(temperatureSetpoint);
+      ws.textAll(confirmationMessage.c_str());
     }
+  }
 }
 
 void setup() {
@@ -118,7 +121,7 @@ void setup() {
     Serial.println("Connecting to WiFi...");
   }
   Serial.println("Connected to WiFi");
-  
+
   // Print the IP address
   Serial.print("IP Address: ");
   Serial.println(WiFi.localIP());
@@ -131,9 +134,9 @@ void setup() {
     Serial.println("Error setting up MDNS responder!");
   } else {
     Serial.println("mDNS responder started");
-     // Print the mDNS address
+    // Print the mDNS address
     Serial.print("mDNS Address: ");
-    Serial.println("http://thermostat.local"); 
+    Serial.println("http://thermostat.local");
 
     // Add service to mDNS-SD
     MDNS.addService("http", "tcp", 80);
@@ -144,7 +147,7 @@ void setup() {
   server.addHandler(&ws);
 
   // Serve the HTML page
-  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send_P(200, "text/html", index_html);
   });
 
