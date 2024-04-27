@@ -1,3 +1,6 @@
+
+// https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs/ino/thermostat_web_flash
+
 // for ESP8266
 // asked chatgpt for a on/off websocket thermostat
 // maybe a start
