@@ -1,10 +1,11 @@
+
+// https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs/ino/thermostat_web_flash
+
 // for ESP8266
 // asked chatgpt for a on/off websocket thermostat
 // maybe a bit based on https://randomnerdtutorials.com/esp32-esp8266-thermostat-web-server/
 // maybe a start
 // Start the mDNS responder for http://thermostat.local
-
-
 
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
@@ -67,7 +68,7 @@ ws.onmessage = function(event) {
     document.getElementById("temperature").innerHTML = data[1] + " °C";
   } else if (data[0] === "setpoint") {
     document.getElementById("setpoint").innerHTML = "Setpoint: " + data[1] + " °C";
-    document.getElementById("setpointInput").value = data[1];
+    document.getElementById("setpointInput").value = data[1]; // Ensure this line correctly updates the input value
   }
 };
 
@@ -96,13 +97,16 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
                AwsEventType type, void *arg, uint8_t *data, size_t len) {
   if (type == WS_EVT_CONNECT) {
     Serial.println("WebSocket client connected");
+
+    // Send the current setpoint to the newly connected client
+    String message = "setpoint:" + String(temperatureSetpoint);
+    client->text(message);
   } else if (type == WS_EVT_DISCONNECT) {
     Serial.println("WebSocket client disconnected");
   } else if (type == WS_EVT_DATA) {
-    // Make sure to null-terminate the data
-    data[len] = 0;
+    data[len] = 0; // Ensure the incoming data is null-terminated
     String message = String((char*)data);
-
+    
     if (message.startsWith("setpoint:")) {
       String setpointStr = message.substring(strlen("setpoint:"));
       temperatureSetpoint = setpointStr.toFloat();
@@ -111,7 +115,7 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
 
       // Broadcast the new setpoint to all connected clients
       String confirmationMessage = "setpoint:" + String(temperatureSetpoint);
-      ws.textAll(confirmationMessage.c_str());
+      server->textAll(confirmationMessage.c_str());
     }
   }
 }
