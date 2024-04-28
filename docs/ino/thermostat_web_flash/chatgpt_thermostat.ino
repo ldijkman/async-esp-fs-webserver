@@ -61,15 +61,16 @@ const char index_html[] PROGMEM = R"rawliteral(
     }
  
     .button {  
-      width: 60px; /* Width to match the input height for aesthetic consistency */
-      /* background-color: #007bff; */
-      /* Blue background for buttons */
+      width: 50px; /* Width to match the input height for aesthetic consistency */
+       /* Blue background for buttons */
+       +background-color: #A09A9A; 
+     
       /* White text for buttons */
       /* color: white; */
       /* No border for a cleaner look */
       /* border: none; */
       cursor: pointer; /* Change cursor to pointer to indicate clickable */  
-      font-size: 2em; /* Ensure buttons are also easily readable */
+      font-size: 1.8em; /* Ensure buttons are also easily readable */
     }
 
   </style> 
@@ -146,7 +147,7 @@ ws.onmessage = function(event) {
 <input type="button" class="button preset" value="20°" onclick="sendSetpoint(20)" />&emsp;
 <input type="button" class="button preset" value="21°" onclick="sendSetpoint(21)" />
     
-    <br><br><br><br>
+    <br><br><br><br>    <br><br><br><br>
     </center>    
        <script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
 <script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
