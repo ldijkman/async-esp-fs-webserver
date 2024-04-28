@@ -1,238 +1,309 @@
-/*
-maybe an html example for control
-https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/ino/data/thermo-stat.html
-https://ldijkman.github.io/async-esp-fs-webserver/ino/data/thermo-stat.html
 
-pasted the code in ai chatGPT and asked for  hysteresis
-Here's a simple way to incorporate hysteresis into the thermostat code:
+// https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs/ino/thermostat_web_flash
 
-// Assuming these are defined somewhere in your code
-float temperature; // Current temperature reading from the sensor
-float targetTemperature = 25.0; // Target temperature
-float hysteresis = 1.0; // Hysteresis value
+// for ESP8266
+// asked chatgpt for a on/off websocket thermostat
+// maybe a bit based on https://randomnerdtutorials.com/esp32-esp8266-thermostat-web-server/
+// i loaded ChatGPT with above example
+// and asked ChatGPT for changes on that code
+// Start the mDNS responder for http://thermostat.local
 
-// Calculate the upper and lower thresholds
-float upperThreshold = targetTemperature + (hysteresis / 2.0);
-float lowerThreshold = targetTemperature - (hysteresis / 2.0);
+// should play a sound when  WARNING: WARNING Temperature < 10 or > 40
 
-// Logic to control the heating element based on the temperature and thresholds
-if (temperature <= lowerThreshold) {
-  // Turn the heater ON
-  digitalWrite(output, HIGH);
-} else if (temperature >= upperThreshold) {
-  // Turn the heater OFF
-  digitalWrite(output, LOW);
-}
-*/
+// setpoint minimum input 10 maximum input 25
 
-// mdns coded for esp32
-// hardcoded wifi settings
-// http://thermostat.local/bulb.html
-
-
-/*********
-  Rui Santos
-  Complete project details at https://RandomNerdTutorials.com/esp32-esp8266-thermostat-web-server/
-  
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files.
-  
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-*********/
-
-#ifdef ESP32
-  #include <WiFi.h>
-  #include <AsyncTCP.h>
-#else
-  #include <ESP8266WiFi.h>
-  #include <ESPAsyncTCP.h>
-#endif
+#include <ESP8266WiFi.h>
+#include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
-#include <Wire.h>
 #include <OneWire.h>
 #include <DallasTemperature.h>
+#include <ESP8266mDNS.h> // Include the mDNS library
 
-#include <ESPmDNS.h>
+// Replace with your network WiFi Router credentials
+const char* ssid = "Bangert_30_Andijk";      // wiwfi router name broadcasted in the air
+const char* password = "ookikwilerin";       // your password
 
-
-// hardcoded wifi settings
-// REPLACE WITH YOUR NETWORK CREDENTIALS
-const char* ssid = "Bangert_30_Andijk";  //wifi ssid
-const char* password = "password";   //wifi password
-
-// Default Threshold Temperature Value
-String inputMessage = "25.0";
-String lastTemperature;
-String enableArmChecked = "checked";
-String inputMessage2 = "true";
-
-// HTML web page to handle 2 input fields (threshold_input, enable_arm_input)
-const char index_html[] PROGMEM = R"rawliteral(
-<!DOCTYPE HTML><html><head>
-  <title>Temperature Threshold Output Control</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  </head><body>
-  <!--https://randomnerdtutorials.com/esp32-esp8266-thermostat-web-server/<br>
-  <h2>DS18B20 Thermostat</h2> -->
-  <h3 style="color:yellow;">Temperature %TEMPERATURE% &deg;C</h3>
-  <!--<h2>ESP Arm Trigger</h2>-->
-  <form action="/bulb.html"><font style="color:gray;">
-    Temperature Setpoint <input type="number" step="0.1" name="threshold_input" value="%THRESHOLD%" required><br>
-    Arm Trigger <input type="checkbox" name="enable_arm_input" value="true" %ENABLE_ARM_INPUT%><br><br>
-    <input type="submit" value="Submit">
-    </font>
-  </form>
-  <br><br>
-  https://randomnerdtutorials.com/esp32-esp8266-thermostat-web-server/<br><br>
-</body></html>)rawliteral";
-
-void notFound(AsyncWebServerRequest *request) {
-  request->send(404, "text/html", "<a href=\"/bulb.html\">/bulb.html</a>");
-}
-
-AsyncWebServer server(80);
-
-// Replaces placeholder with DS18B20 values
-String processor(const String& var){
-  //Serial.println(var);
-  if(var == "TEMPERATURE"){
-    return lastTemperature;
-  }
-  else if(var == "THRESHOLD"){
-    return inputMessage;
-  }
-  else if(var == "ENABLE_ARM_INPUT"){
-    return enableArmChecked;
-  }
-  return String();
-}
-
-// Flag variable to keep track if triggers was activated or not
-bool triggerActive = false;
-
-const char* PARAM_INPUT_1 = "threshold_input";
-const char* PARAM_INPUT_2 = "enable_arm_input";
-
-// Interval between sensor readings. Learn more about ESP32 timers: https://RandomNerdTutorials.com/esp32-pir-motion-sensor-interrupts-timers/
-unsigned long previousMillis = 0;     
-const long interval = 5000;    
-
-// GPIO where the output is connected to
-const int output = 2;
-
-// GPIO where the DS18B20 is connected to
-const int oneWireBus = 4;     
+// GPIO where the DS18B20 is connected
+const int oneWireBus = 4; // yellow=data     red=3.3v      black/blue=GND    
 // Setup a oneWire instance to communicate with any OneWire devices
 OneWire oneWire(oneWireBus);
 // Pass our oneWire reference to Dallas Temperature sensor 
 DallasTemperature sensors(&oneWire);
 
+// GPIO where the relay is connected
+const int relayPin = 2; // Example pin 2=LED on Wemos
+// Hysteresis margin
+const float hysteresisMargin = 0.1;  // switchpoint +0.1 and -0.1
+static bool relayState = false; // Keeps track of the current relay state
+  
+
+// Create AsyncWebServer object on port 80
+AsyncWebServer server(80);
+AsyncWebSocket ws("/ws");
+
+// Temperature setpoint, initialized with a default value
+float temperatureSetpoint = 20.0;
+
+// HTML content with JavaScript for WebSocket communication
+const char index_html[] PROGMEM = R"rawliteral(
+<!DOCTYPE HTML><html>
+<head>
+<!--
+// for ESP8266
+// asked chatgpt for a on/off websocket thermostat
+// maybe a bit based on https://randomnerdtutorials.com/esp32-esp8266-thermostat-web-server/
+// maybe a start
+// Start the mDNS responder for http://thermostat.local
+-->
+  <title>ESP8266 WiFi Thermostat DS18B20 Temperature Sensor</title>
+   <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/ldijkman/async-esp-fs-webserver/master/docs/ino/thermostat_web_flash/thermo_icon.png">
+   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    
+    #setpointInput {
+      width: 120px; /* Adjust input width as necessary */
+      border: 2px solid #007bff; /* Blue border for input */
+      text-align: center; /* Ensure text is centered */
+      font-size: 2em; /* Increase font size for better visibility */
+    }
+ 
+    .button {  
+      width: 50px; /* Width to match the input height for aesthetic consistency */
+       /* Blue background for buttons */
+       background-color: #9DA1A5;  
+     
+      /* White text for buttons */
+      /* color: white; */
+      /* No border for a cleaner look */
+      /* border: none; */
+      cursor: pointer; /* Change cursor to pointer to indicate clickable */  
+      font-size: 1.7em; /* Ensure buttons are also easily readable */
+    }
+
+  </style> 
+  <script>
+    var ws;
+    function initWebSocket() {
+      ws = new WebSocket('ws://' + window.location.hostname + '/ws');
+      ws.onopen = function(event) {
+        console.log('WebSocket connected');
+        document.body.style.backgroundColor = 'green'; // Connected: green background
+      };
+      ws.onclose = function(event) {
+        console.log('WebSocket disconnected');
+        document.body.style.backgroundColor = 'red'; // Disconnected: red background
+        // Attempt to reconnect after a timeout
+        setTimeout(initWebSocket, 2000);
+      };
+
+
+ws.onmessage = function(event) {
+  console.log('Message Received:', event.data);
+  var data = event.data.split(':');
+  if (data[0] === "temperature") {
+    var temperature = parseFloat(data[1]);
+    document.getElementById("temperature").innerHTML = temperature + " °C";
+
+    // Check if the temperature is outside the 10°C to 40°C range
+    if (temperature < 10 || temperature > 40) {
+      var alertSound = document.getElementById("alertSound");
+      alertSound.play(); // Play the alert sound
+      console.warn('WARNING Temperature < 10 or > 40');
+    }
+  } else if (data[0] === "setpoint") {
+    document.getElementById("setpoint").innerHTML = "Setpoint: " + data[1] + " °C";
+    document.getElementById("setpointInput").value = data[1];
+  } else if (data[0] === "relays") {
+    console.log("Relay state:", data[1]); // Add logic here if needed
+  }
+};
+
+    }
+function sendSetpoint(value) {
+  var minValue = 10; // Define the minimum setpoint value
+  var maxValue = 25; // Define the maximum setpoint value
+  var validatedValue = parseFloat(value); // Parse the input value to a float
+  
+  // Check if the parsed value is less than the minimum or greater than the maximum
+  if(validatedValue < minValue) {
+    validatedValue = minValue; // Set to minimum if below the allowed range
+  } else if(validatedValue > maxValue) {
+    validatedValue = maxValue; // Set to maximum if above the allowed range
+  }
+  
+  // Update the input field to reflect the corrected value
+  document.getElementById('setpointInput').value = validatedValue;
+  
+  // Send the validated setpoint value to the server via WebSocket
+  if(ws.readyState === WebSocket.OPEN) {
+    ws.send('setpoint:' + validatedValue); // Send the validated setpoint
+    console.log('ws.send setpoint:', validatedValue); // Log for debugging
+  } else {
+    console.log('WebSocket is not open.'); // Log if the WebSocket connection is not open
+  }
+}
+
+
+
+    function adjustSetpoint(delta) {
+      var inputField = document.getElementById('setpointInput');
+      var currentValue = parseFloat(inputField.value);
+      var newValue = currentValue + delta;
+      inputField.value = newValue.toFixed(1);
+      sendSetpoint(newValue);
+    }
+    window.onload = initWebSocket;
+  </script>
+</head>
+<body>
+<center>
+<h2>ESP8266 WiFi Thermostat</h2>
+  <h3>DS18B20 Temperature Sensor</h3> 
+  <h1 id="temperature">-- °C</h1>
+  <h1 id="setpoint">Setpoint: -- °C</h1>
+    <input type="button" class="button" value="-" onclick="adjustSetpoint(-0.1)" />
+  <input type="number" id="setpointInput" min="10" max="25" step="0.1" onchange="sendSetpoint(this.value)" placeholder="Set Temperature" value="20"/> <input type="button" class="button" value="+" onclick="adjustSetpoint(0.1)" />
+    <br>
+    <br><br><br>
+<!-- Preset temperature setpoint buttons -->
+<input type="button" class="button preset" value="14°" onclick="sendSetpoint(14)" />&emsp;
+<input type="button" class="button preset" value="15°" onclick="sendSetpoint(15)" />&emsp;
+<input type="button" class="button preset" value="16°" onclick="sendSetpoint(16)" />&emsp;
+<input type="button" class="button preset" value="17°" onclick="sendSetpoint(17)" />&emsp;
+<input type="button" class="button preset" value="18°" onclick="sendSetpoint(18)" /><br>
+<br>
+<input type="button" class="button preset" value="19°" onclick="sendSetpoint(19)" />&emsp;
+<input type="button" class="button preset" value="20°" onclick="sendSetpoint(20)" />&emsp;
+<input type="button" class="button preset" value="21°" onclick="sendSetpoint(21)" />&emsp;
+<input type="button" class="button preset" value="22°" onclick="sendSetpoint(22)" />
+    <br><br><br><br>    <br><br><br><br>
+    </center>    
+       <script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
+<script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
+<audio id="alertSound" src="https://github.com/ldijkman/async-esp-fs-webserver/raw/master/docs/ino/thermostat_web_flash/sound.mp3" type="audio/mp3"></audio>
+</body>
+</html>)rawliteral";
+
+// WebSocket event handler
+void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
+  AwsEventType type, void *arg, uint8_t *data, size_t len) {
+  if (type == WS_EVT_DATA) {
+    data[len] = 0; // Ensure the incoming data is null-terminated
+    String message = String((char*)data);
+
+    if (message.startsWith("setpoint:")) {
+      String setpointStr = message.substring(strlen("setpoint:"));
+      float newSetpoint = setpointStr.toFloat();
+
+      // Validate the new setpoint
+      if (newSetpoint >= 10.0 && newSetpoint <= 25.0) {
+        temperatureSetpoint = newSetpoint;
+        Serial.print("New temperature setpoint received and accepted: ");
+        Serial.println(temperatureSetpoint);
+
+        // Broadcast the new setpoint to all connected clients
+        String confirmationMessage = "setpoint:" + String(temperatureSetpoint);
+        server->textAll(confirmationMessage.c_str());
+      } else {
+        Serial.print("Received setpoint out of range: ");
+        Serial.println(newSetpoint);
+        // Optionally, send a message back to the client indicating the rejection
+      }
+    }
+  }
+}
+
 void setup() {
   Serial.begin(115200);
-  WiFi.mode(WIFI_STA);
+
+
+  pinMode(relayPin, OUTPUT); // Initialize the relay pin as an output
+  digitalWrite(relayPin, LOW); // Start with the relay off
+
+
+  
   WiFi.begin(ssid, password);
-  if (WiFi.waitForConnectResult() != WL_CONNECTED) {
-    Serial.println("WiFi Failed!");
-    return;
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(1000);
+    Serial.println("Connecting to WiFi...");
   }
-  Serial.println();
-  Serial.print("ESP IP Address: http://");
+  Serial.println("Connected to WiFi");
+
+  // Print the IP address
+  Serial.print("IP Address: ");
   Serial.println(WiFi.localIP());
-  
-  pinMode(output, OUTPUT);
-  digitalWrite(output, LOW);
-  
+
   // Start the DS18B20 sensor
   sensors.begin();
-  
-  // Send web page to client
- // server.on("/bulb.html", HTTP_GET, [](AsyncWebServerRequest *request){
- //   request->send_P(200, "text/html", index_html, processor);
- // });
 
-  // Receive an HTTP GET request at <ESP_IP>/get?threshold_input=<inputMessage>&enable_arm_input=<inputMessage2>
-  server.on("/bulb.html", HTTP_GET, [] (AsyncWebServerRequest *request) {
-    // GET threshold_input value on <ESP_IP>/get?threshold_input=<inputMessage>
-    if (request->hasParam(PARAM_INPUT_1)) {
-      inputMessage = request->getParam(PARAM_INPUT_1)->value();
-      // GET enable_arm_input value on <ESP_IP>/get?enable_arm_input=<inputMessage2>
-      if (request->hasParam(PARAM_INPUT_2)) {
-        inputMessage2 = request->getParam(PARAM_INPUT_2)->value();
-        enableArmChecked = "checked";
-      }
-      else {
-        inputMessage2 = "false";
-        enableArmChecked = "";
-      }
-    }
-    Serial.println(inputMessage);
-    Serial.println(inputMessage2);
-    //request->send(200, "text/html", "HTTP GET request sent to your ESP.<br><a href=\"/\">Return to Home Page</a>");
-  request->send_P(200, "text/html", index_html, processor);
-  });
-  server.onNotFound(notFound);
-  server.begin();
-
-  
- if (!MDNS.begin("thermostat")) { // Start the mDNS responder for thermostat.local
+  // Initialize mDNS
+  if (!MDNS.begin("thermostat")) { // Start the mDNS responder for http://thermostat.local
     Serial.println("Error setting up MDNS responder!");
-    while (1) {
-      delay(1000);
-    }
+  } else {
+    Serial.println("mDNS responder started");
+    // Print the mDNS address
+    Serial.print("mDNS Address: ");
+    Serial.println("http://thermostat.local");
+
+    // Add service to mDNS-SD
+    MDNS.addService("http", "tcp", 80);
   }
 
-  Serial.println("mDNS responder started");
-  // Add service to MDNS-SD
-  MDNS.addService("http", "tcp", 80);
+  // Initialize WebSocket
+  ws.onEvent(onWsEvent);
+  server.addHandler(&ws);
+
+  // Serve the HTML page
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest * request) {
+    request->send_P(200, "text/html", index_html);
+  });
+
+  server.begin();
 }
-
-
-
 
 void loop() {
-  unsigned long currentMillis = millis();
-  if (currentMillis - previousMillis >= interval) {
-    previousMillis = currentMillis;
+  static unsigned long lastMillis = 0;
+  
+  if (millis() - lastMillis > 5000) {
+    lastMillis = millis();
     sensors.requestTemperatures();
-    // Temperature in Celsius degrees 
     float temperature = sensors.getTempCByIndex(0);
-    Serial.print(temperature);
-    Serial.println(" *C");
-    
-    // Temperature in Fahrenheit degrees
-    /*float temperature = sensors.getTempFByIndex(0);
-    Serial.print(temperature);
-    Serial.println(" *F");*/
-    
-    lastTemperature = String(temperature);
-    
-    // Check if temperature is above threshold and if it needs to trigger output
-    if(temperature > inputMessage.toFloat() && inputMessage2 == "true" && !triggerActive){
-      String message = String("Temperature above threshold. Current temperature: ") + 
-                            String(temperature) + String("C");
-      Serial.println(message);
-      triggerActive = true;
-      digitalWrite(output, HIGH);
-    }
-    // Check if temperature is below threshold and if it needs to trigger output
-    else if((temperature < inputMessage.toFloat()) && inputMessage2 == "true" && triggerActive) {
-      String message = String("Temperature below threshold. Current temperature: ") + 
-                            String(temperature) + String(" C");
-      Serial.println(message);
-      triggerActive = false;
-      digitalWrite(output, LOW);
-    }
-  }
-}
+    String tempString = String(temperature, 1);
 
-/*********
-  Rui Santos
-  Complete project details at https://RandomNerdTutorials.com/esp32-esp8266-thermostat-web-server/
+
+
+
+    
+    Serial.print("Current temperature: ");
+    Serial.print(tempString);
+    Serial.println(" °C");
+    Serial.print("Current setpoint: ");
+    Serial.print(temperatureSetpoint);
+    Serial.println(" °C");
   
-  Permission is hereby granted, free of charge, to any person obtaining a copy
-  of this software and associated documentation files.
-  
-  The above copyright notice and this permission notice shall be included in all
-  copies or substantial portions of the Software.
-*********/
+
+    // Implement hysteresis control
+    if(!relayState && temperature < (temperatureSetpoint - hysteresisMargin)) {
+      digitalWrite(relayPin, HIGH); // Activate the relay if temperature goes below the lower threshold
+      relayState = true; // Update relay state
+    } else if (relayState && temperature > (temperatureSetpoint + hysteresisMargin)) {
+      digitalWrite(relayPin, LOW); // Deactivate the relay if temperature goes above the upper threshold
+      relayState = false; // Update relay state
+    }
+
+    // No change if the temperature is within the hysteresis band
+
+    // Send the temperature to all connected clients
+    String message = "temperature:" + tempString;
+    ws.textAll(message.c_str());
+    // Inside your loop(), replace the relay state message construction and sending part with:
+    String relayStateMessage = "relays:" + String(relayState ? "1" : "0"); // Converts boolean to "1" or "0"
+    ws.textAll(relayStateMessage.c_str());
+     // Construct the setpoint message
+    String setpointMessage = "setpoint:" + String(temperatureSetpoint);
+    ws.textAll(setpointMessage.c_str());
+    
+  }
+  MDNS.update(); // Keep the mDNS responder updated
+}
