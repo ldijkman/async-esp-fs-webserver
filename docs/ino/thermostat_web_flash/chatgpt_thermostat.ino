@@ -95,12 +95,20 @@ ws.onmessage = function(event) {
   console.log('Message Received:', event.data);
   var data = event.data.split(':');
   if (data[0] === "temperature") {
-    document.getElementById("temperature").innerHTML = data[1] + " °C";
+    var temperature = parseFloat(data[1]);
+    document.getElementById("temperature").innerHTML = temperature + " °C";
+
+    // Check if the temperature is outside the 10°C to 40°C range
+    if (temperature < 10 || temperature > 40) {
+      var alertSound = document.getElementById("alertSound");
+        console.warn('WARNING Temperature < 10 or > 40');
+      alertSound.play(); // Play the alert sound
+    }
   } else if (data[0] === "setpoint") {
     document.getElementById("setpoint").innerHTML = "Setpoint: " + data[1] + " °C";
     document.getElementById("setpointInput").value = data[1];
   } else if (data[0] === "relays") {
-    console.log("Relay state:", data[1]); // Add logic here to do something with the relay state
+    console.log("Relay state:", data[1]); // Add logic here if needed
   }
 };
 
@@ -166,6 +174,7 @@ function sendSetpoint(value) {
     </center>    
        <script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
 <script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
+<audio id="alertSound" src="https://github.com/ldijkman/async-esp-fs-webserver/raw/master/docs/ino/thermostat_web_flash/sound.mp3" type="audio/mp3"></audio>
 </body>
 </html>)rawliteral";
 
