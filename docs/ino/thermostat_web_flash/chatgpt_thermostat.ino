@@ -49,7 +49,7 @@ const char index_html[] PROGMEM = R"rawliteral(
 // maybe a start
 // Start the mDNS responder for http://thermostat.local
 -->
-  <title>Temperature Monitor</title>
+  <title>ESP8266 WiFi Thermostat DS18B20 Temperature Sensor</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
