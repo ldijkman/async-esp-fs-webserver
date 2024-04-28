@@ -24,10 +24,10 @@ const char* ssid = "Bangert_30_Andijk";      // wiwfi router name broadcasted in
 const char* password = "ookikwilerin";       // your password
 
 // GPIO where the DS18B20 is connected
-const int oneWireBus = 4; // yellow=data     red=3.3v      black/blue=GND    
+const int oneWireBus = 4; // yellow=data     red=3.3v      black/blue=GND
 // Setup a oneWire instance to communicate with any OneWire devices
 OneWire oneWire(oneWireBus);
-// Pass our oneWire reference to Dallas Temperature sensor 
+// Pass our oneWire reference to Dallas Temperature sensor
 DallasTemperature sensors(&oneWire);
 
 // GPIO where the relay is connected
@@ -35,7 +35,7 @@ const int relayPin = 2; // Example pin 2=LED on Wemos
 // Hysteresis margin
 const float hysteresisMargin = 0.1;  // switchpoint +0.1 and -0.1
 static bool relayState = false; // Keeps track of the current relay state
-  
+
 
 // Create AsyncWebServer object on port 80
 AsyncWebServer server(80);
@@ -67,7 +67,7 @@ const char index_html[] PROGMEM = R"rawliteral(
       text-align: center; /* Ensure text is centered */
       font-size: 2em; /* Increase font size for better visibility */
     }
- 
+
     .button {  
       width: 50px; /* Width to match the input height for aesthetic consistency */
        /* Blue background for buttons */
@@ -79,6 +79,14 @@ const char index_html[] PROGMEM = R"rawliteral(
       /* border: none; */
       cursor: pointer; /* Change cursor to pointer to indicate clickable */  
       font-size: 1.7em; /* Ensure buttons are also easily readable */
+    }
+    
+    #wsMessages {
+      max-height: 200px;
+      width: 30%;
+      text-align: left; /* Aligns text to the left */
+      padding-left: 10px; /* Adds some space on the left for better readability */
+      overflow-y: auto;
     }
 
   </style> 
@@ -103,23 +111,51 @@ ws.onmessage = function(event) {
   var data = event.data.split(':');
   if (data[0] === "temperature") {
     var temperature = parseFloat(data[1]);
-    document.getElementById("temperature").innerHTML = temperature + " °C";
-
-    // Check if the temperature is outside the 10°C to 40°C range
-    if (temperature < 10 || temperature > 40) {
-      var alertSound = document.getElementById("alertSound");
-      alertSound.play(); // Play the alert sound
-      console.warn('WARNING Temperature < 10 or > 40');
-    }
+    document.getElementById("temperature").innerHTML = temperature + " °C <span id='relayStatus'></span>";
   } else if (data[0] === "setpoint") {
     document.getElementById("setpoint").innerHTML = "Setpoint: " + data[1] + " °C";
     document.getElementById("setpointInput").value = data[1];
   } else if (data[0] === "relays") {
-    console.log("Relay state:", data[1]); // Add logic here if needed
+    // Assume relay state is sent as "1" for on and "0" for off
+    var relayIsOn = data[1] === "1";
+    updateRelayStatus(relayIsOn);
   }
+
+    // Create a timestamp for the message
+    var now = new Date();
+    var timestamp = ('0' + now.getHours()).slice(-2) + ':' + ('0' + now.getMinutes()).slice(-2) + ':' + ('0' + now.getSeconds()).slice(-2);
+    
+    // Display the message with timestamp in the wsMessages div
+    var wsMessages = document.getElementById("wsMessages");
+    // Prepend new messages with timestamp to the top
+    var newMessage = "[" + timestamp + "] " + event.data + "<br>";
+    wsMessages.innerHTML = newMessage + wsMessages.innerHTML;
+    
+    // Limit the number of lines (messages) to 360
+    var lines = wsMessages.innerHTML.split("<br>");
+    if (lines.length > 360) {
+        lines = lines.slice(0, 360); // Keep only the newest 360 lines
+        wsMessages.innerHTML = lines.join("<br>");
+    }
+        
+    // Re-check the relay state each time temperature is updated, in case the relay status span was overwritten
+    // updateRelayStatus(relayState); // Ensure relayState is kept up to date elsewhere in your code or retrieved from this function
 };
 
+
+
     }
+    
+function updateRelayStatus(isOn) {
+  var statusElement = document.getElementById("relayStatus");
+  if (isOn) {
+    statusElement.innerHTML = "<span style='color: red;'>●</span>"; // Red circle when relay is on
+  } else {
+    // Use a span with a border to create an outline circle
+    statusElement.innerHTML = "<span style='display: inline-block; width: 10px; height: 10px; border: 2px solid blue; border-radius: 50%;'></span>";
+  }
+}
+    
 function sendSetpoint(value) {
   var minValue = 10; // Define the minimum setpoint value
   var maxValue = 25; // Define the maximum setpoint value
@@ -154,13 +190,25 @@ function sendSetpoint(value) {
       sendSetpoint(newValue);
     }
     window.onload = initWebSocket;
+    
+    function updateCurrentTime() {
+      var now = new Date();
+      var currentTimeFormatted = ('0' + now.getHours()).slice(-2) + ':' + ('0' + now.getMinutes()).slice(-2) + ':' + ('0' + now.getSeconds()).slice(-2);
+      document.getElementById("currentTime").innerHTML = "Current Time: " + currentTimeFormatted;
+    }
+
+    // Update the time immediately and every second thereafter
+    updateCurrentTime();
+    setInterval(updateCurrentTime, 1000);
+    
   </script>
+  
 </head>
 <body>
 <center>
 <h2>ESP8266 WiFi Thermostat</h2>
   <h3>DS18B20 Temperature Sensor</h3> 
-  <h1 id="temperature">-- °C</h1>
+  <h1 id="temperature">-- °C <span id="relayStatus"></span></h1>
   <h1 id="setpoint">Setpoint: -- °C</h1>
     <input type="button" class="button" value="-" onclick="adjustSetpoint(-0.1)" />
   <input type="number" id="setpointInput" min="10" max="25" step="0.1" onchange="sendSetpoint(this.value)" placeholder="Set Temperature" value="20"/> <input type="button" class="button" value="+" onclick="adjustSetpoint(0.1)" />
@@ -177,7 +225,11 @@ function sendSetpoint(value) {
 <input type="button" class="button preset" value="20°" onclick="sendSetpoint(20)" />&emsp;
 <input type="button" class="button preset" value="21°" onclick="sendSetpoint(21)" />&emsp;
 <input type="button" class="button preset" value="22°" onclick="sendSetpoint(22)" />
-    <br><br><br><br>    <br><br><br><br>
+    <br><br>
+    <div id="currentTime" style="padding: 10px; font-weight: bold;"></div>
+  <div id="wsMessages" style="margin-top:20px;padding:10px;background:#f9f9f9;border:1px solid #ddd;"></div>  
+    
+    <br><br><br><br><br><br>
     </center>    
        <script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
 <script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
@@ -187,7 +239,7 @@ function sendSetpoint(value) {
 
 // WebSocket event handler
 void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
-  AwsEventType type, void *arg, uint8_t *data, size_t len) {
+               AwsEventType type, void *arg, uint8_t *data, size_t len) {
   if (type == WS_EVT_DATA) {
     data[len] = 0; // Ensure the incoming data is null-terminated
     String message = String((char*)data);
@@ -222,7 +274,7 @@ void setup() {
   digitalWrite(relayPin, LOW); // Start with the relay off
 
 
-  
+
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
@@ -264,7 +316,7 @@ void setup() {
 
 void loop() {
   static unsigned long lastMillis = 0;
-  
+
   if (millis() - lastMillis > 5000) {
     lastMillis = millis();
     sensors.requestTemperatures();
@@ -274,17 +326,17 @@ void loop() {
 
 
 
-    
+
     Serial.print("Current temperature: ");
     Serial.print(tempString);
     Serial.println(" °C");
     Serial.print("Current setpoint: ");
     Serial.print(temperatureSetpoint);
     Serial.println(" °C");
-  
+
 
     // Implement hysteresis control
-    if(!relayState && temperature < (temperatureSetpoint - hysteresisMargin)) {
+    if (!relayState && temperature < (temperatureSetpoint - hysteresisMargin)) {
       digitalWrite(relayPin, HIGH); // Activate the relay if temperature goes below the lower threshold
       relayState = true; // Update relay state
     } else if (relayState && temperature > (temperatureSetpoint + hysteresisMargin)) {
@@ -300,10 +352,10 @@ void loop() {
     // Inside your loop(), replace the relay state message construction and sending part with:
     String relayStateMessage = "relays:" + String(relayState ? "1" : "0"); // Converts boolean to "1" or "0"
     ws.textAll(relayStateMessage.c_str());
-     // Construct the setpoint message
+    // Construct the setpoint message
     String setpointMessage = "setpoint:" + String(temperatureSetpoint);
     ws.textAll(setpointMessage.c_str());
-    
+
   }
   MDNS.update(); // Keep the mDNS responder updated
 }
