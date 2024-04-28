@@ -41,6 +41,13 @@ float temperatureSetpoint = 20.0;
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML><html>
 <head>
+<!--
+// for ESP8266
+// asked chatgpt for a on/off websocket thermostat
+// maybe a bit based on https://randomnerdtutorials.com/esp32-esp8266-thermostat-web-server/
+// maybe a start
+// Start the mDNS responder for http://thermostat.local
+-->
   <title>Temperature Monitor</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
