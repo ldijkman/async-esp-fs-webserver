@@ -23,6 +23,11 @@ const int oneWireBus = 4;
 OneWire oneWire(oneWireBus);
 DallasTemperature sensors(&oneWire);
 
+// GPIO where the relay is connected
+const int relayPin = 2; // Example pin 2=LED on Wemos
+// Hysteresis margin
+const float hysteresisMargin = 0.1;  // switchpoint +0.1 and -0.1
+
 // Create AsyncWebServer object on port 80
 AsyncWebServer server(80);
 AsyncWebSocket ws("/ws");
@@ -87,6 +92,7 @@ ws.onmessage = function(event) {
    function sendSetpoint(value) {
     if(ws.readyState === WebSocket.OPEN) {
         ws.send('setpoint:' + value);
+        console.log('ws.send setpoint:', value);
     } else {
         console.log('WebSocket is not open.');
     }
@@ -106,13 +112,26 @@ ws.onmessage = function(event) {
 </head>
 <body>
 <center>
+<h1>Thermostat</h1>
   <h2>DS18B20 Temperature</h2> 
-  <h3 id="temperature">-- °C</h3>
-  <h3 id="setpoint">Setpoint: -- °C</h3>
+  <h1 id="temperature">-- °C</h1>
+  <h1 id="setpoint">Setpoint: -- °C</h1>
     <input type="button" class="button" value="-" onclick="adjustSetpoint(-0.1)" />
   <input id="setpointInput" type="number" step="0.1" min="10" max="30" onchange="sendSetpoint(this.value)" placeholder="Set Temperature" value="20"/>
   <input type="button" class="button" value="+" onclick="adjustSetpoint(0.1)" />
-    <br><br><br><br><br>
+    <br>
+    <br><br><br>
+<!-- Preset temperature setpoint buttons -->
+<input type="button" class="button preset" value="14°C" onclick="sendSetpoint(14)" />&emsp;
+<input type="button" class="button preset" value="15°C" onclick="sendSetpoint(15)" />&emsp;
+<input type="button" class="button preset" value="16°C" onclick="sendSetpoint(16)" />&emsp;
+<input type="button" class="button preset" value="17°C" onclick="sendSetpoint(17)" />&emsp;
+<input type="button" class="button preset" value="18°C" onclick="sendSetpoint(18)" />&emsp;
+<input type="button" class="button preset" value="19°C" onclick="sendSetpoint(19)" />&emsp;
+<input type="button" class="button preset" value="20°C" onclick="sendSetpoint(20)" />&emsp;
+<input type="button" class="button preset" value="21°C" onclick="sendSetpoint(21)" />
+    
+    <br><br><br><br>
     </center>    
        <script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
 <script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
@@ -149,6 +168,13 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
 
 void setup() {
   Serial.begin(115200);
+
+
+  pinMode(relayPin, OUTPUT); // Initialize the relay pin as an output
+  digitalWrite(relayPin, LOW); // Start with the relay off
+
+
+  
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
@@ -190,6 +216,8 @@ void setup() {
 
 void loop() {
   static unsigned long lastMillis = 0;
+  static bool relayState = false; // Keeps track of the current relay state
+  
   if (millis() - lastMillis > 5000) {
     lastMillis = millis();
     sensors.requestTemperatures();
@@ -199,9 +227,23 @@ void loop() {
     Serial.print(tempString);
     Serial.println(" °C");
 
-    // Inside the loop() function, where you send the temperature
+    // Implement hysteresis control
+    if(!relayState && temperature < (temperatureSetpoint - hysteresisMargin)) {
+      digitalWrite(relayPin, HIGH); // Activate the relay if temperature goes below the lower threshold
+      relayState = true; // Update relay state
+    } else if (relayState && temperature > (temperatureSetpoint + hysteresisMargin)) {
+      digitalWrite(relayPin, LOW); // Deactivate the relay if temperature goes above the upper threshold
+      relayState = false; // Update relay state
+    }
+
+    // No change if the temperature is within the hysteresis band
+
+    // Send the temperature to all connected clients
     String message = "temperature:" + tempString;
     ws.textAll(message.c_str());
+    message = "Relays:" + relayState;
+    ws.textAll(message.c_str());
+    
   }
   MDNS.update(); // Keep the mDNS responder updated
 }
