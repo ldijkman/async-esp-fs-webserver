@@ -70,7 +70,7 @@ const char index_html[] PROGMEM = R"rawliteral(
       /* No border for a cleaner look */
       /* border: none; */
       cursor: pointer; /* Change cursor to pointer to indicate clickable */  
-      font-size: 1.8em; /* Ensure buttons are also easily readable */
+      font-size: 1.7em; /* Ensure buttons are also easily readable */
     }
 
   </style> 
@@ -132,8 +132,7 @@ ws.onmessage = function(event) {
   <h1 id="temperature">-- °C</h1>
   <h1 id="setpoint">Setpoint: -- °C</h1>
     <input type="button" class="button" value="-" onclick="adjustSetpoint(-0.1)" />
-  <input id="setpointInput" type="number" step="0.1" min="10" max="30" onchange="sendSetpoint(this.value)" placeholder="Set Temperature" value="20"/>
-  <input type="button" class="button" value="+" onclick="adjustSetpoint(0.1)" />
+  <input id="setpointInput" type="number" step="0.1" min="10" max="25" onchange="sendSetpoint(this.value)" placeholder="Set Temperature" value="20"/> <input type="button" class="button" value="+" onclick="adjustSetpoint(0.1)" />
     <br>
     <br><br><br>
 <!-- Preset temperature setpoint buttons -->
@@ -157,27 +156,28 @@ ws.onmessage = function(event) {
 // WebSocket event handler
 void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
   AwsEventType type, void *arg, uint8_t *data, size_t len) {
-  if (type == WS_EVT_CONNECT) {
-    Serial.println("WebSocket client connected");
-
-    // Send the current setpoint to the newly connected client
-    String message = "setpoint:" + String(temperatureSetpoint);
-    client->text(message);
-  } else if (type == WS_EVT_DISCONNECT) {
-    Serial.println("WebSocket client disconnected");
-  } else if (type == WS_EVT_DATA) {
+  if (type == WS_EVT_DATA) {
     data[len] = 0; // Ensure the incoming data is null-terminated
     String message = String((char*)data);
 
     if (message.startsWith("setpoint:")) {
       String setpointStr = message.substring(strlen("setpoint:"));
-      temperatureSetpoint = setpointStr.toFloat();
-      Serial.print("New temperature setpoint received: ");
-      Serial.println(temperatureSetpoint);
+      float newSetpoint = setpointStr.toFloat();
 
-      // Broadcast the new setpoint to all connected clients
-      String confirmationMessage = "setpoint:" + String(temperatureSetpoint);
-      server->textAll(confirmationMessage.c_str());
+      // Validate the new setpoint
+      if (newSetpoint >= 10.0 && newSetpoint <= 25.0) {
+        temperatureSetpoint = newSetpoint;
+        Serial.print("New temperature setpoint received and accepted: ");
+        Serial.println(temperatureSetpoint);
+
+        // Broadcast the new setpoint to all connected clients
+        String confirmationMessage = "setpoint:" + String(temperatureSetpoint);
+        server->textAll(confirmationMessage.c_str());
+      } else {
+        Serial.print("Received setpoint out of range: ");
+        Serial.println(newSetpoint);
+        // Optionally, send a message back to the client indicating the rejection
+      }
     }
   }
 }
