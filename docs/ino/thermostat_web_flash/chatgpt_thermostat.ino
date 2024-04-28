@@ -10,6 +10,8 @@
 
 // should play a sound when  WARNING: WARNING Temperature < 10 or > 40
 
+// setpoint minimum input 10 maximum input 25
+
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
@@ -268,6 +270,10 @@ void loop() {
     Serial.print("Current temperature: ");
     Serial.print(tempString);
     Serial.println(" °C");
+    Serial.print("Current setpoint: ");
+    Serial.print(temperatureSetpoint);
+    Serial.println(" °C");
+  
 
     // Implement hysteresis control
     if(!relayState && temperature < (temperatureSetpoint - hysteresisMargin)) {
@@ -286,6 +292,9 @@ void loop() {
     // Inside your loop(), replace the relay state message construction and sending part with:
     String relayStateMessage = "relays:" + String(relayState ? "1" : "0"); // Converts boolean to "1" or "0"
     ws.textAll(relayStateMessage.c_str());
+     // Construct the setpoint message
+    String setpointMessage = "setpoint:" + String(temperatureSetpoint);
+    ws.textAll(setpointMessage.c_str());
     
   }
   MDNS.update(); // Keep the mDNS responder updated
