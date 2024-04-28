@@ -191,16 +191,7 @@ function sendSetpoint(value) {
     }
     window.onload = initWebSocket;
     
-    function updateCurrentTime() {
-      var now = new Date();
-      var currentTimeFormatted = ('0' + now.getHours()).slice(-2) + ':' + ('0' + now.getMinutes()).slice(-2) + ':' + ('0' + now.getSeconds()).slice(-2);
-      document.getElementById("currentTime").innerHTML = "Current Time: " + currentTimeFormatted;
-    }
 
-    // Update the time immediately and every second thereafter
-    updateCurrentTime();
-    setInterval(updateCurrentTime, 1000);
-    
   </script>
   
 </head>
@@ -234,6 +225,17 @@ function sendSetpoint(value) {
        <script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
 <script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
 <audio id="alertSound" src="https://github.com/ldijkman/async-esp-fs-webserver/raw/master/docs/ino/thermostat_web_flash/sound.mp3" type="audio/mp3"></audio>
+<script>
+    function updateCurrentTime() {
+      var now = new Date();
+      var currentTimeFormatted = ('0' + now.getHours()).slice(-2) + ':' + ('0' + now.getMinutes()).slice(-2) + ':' + ('0' + now.getSeconds()).slice(-2);
+      document.getElementById("currentTime").innerHTML = "Current Time: " + currentTimeFormatted;
+    }
+
+    // Update the time immediately and every second thereafter
+    updateCurrentTime();
+    setInterval(updateCurrentTime, 1000);
+</script>
 </body>
 </html>)rawliteral";
 
