@@ -61,12 +61,14 @@ const char index_html[] PROGMEM = R"rawliteral(
     }
  
     .button {  
-      width: 50px; /* Width to match the input height for aesthetic consistency */
-      background-color: #007bff; /* Blue background for buttons */
-      color: white; /* White text for buttons */
-      border: none; /* No border for a cleaner look */
-      cursor: pointer; /* Change cursor to pointer to indicate clickable */
-    
+      width: 60px; /* Width to match the input height for aesthetic consistency */
+      /* background-color: #007bff; */
+      /* Blue background for buttons */
+      /* White text for buttons */
+      /* color: white; */
+      /* No border for a cleaner look */
+      /* border: none; */
+      cursor: pointer; /* Change cursor to pointer to indicate clickable */  
       font-size: 2em; /* Ensure buttons are also easily readable */
     }
 
@@ -124,8 +126,8 @@ ws.onmessage = function(event) {
 </head>
 <body>
 <center>
-<h1>Thermostat</h1>
-  <h2>DS18B20 Temperature</h2> 
+<h1>ESP8266 WiFi Thermostat</h1>
+  <h2>DS18B20 Temperature Sensor</h2> 
   <h1 id="temperature">-- °C</h1>
   <h1 id="setpoint">Setpoint: -- °C</h1>
     <input type="button" class="button" value="-" onclick="adjustSetpoint(-0.1)" />
@@ -134,15 +136,15 @@ ws.onmessage = function(event) {
     <br>
     <br><br><br>
 <!-- Preset temperature setpoint buttons -->
-<input type="button" class="button preset" value="14°C" onclick="sendSetpoint(14)" />&emsp;
-<input type="button" class="button preset" value="15°C" onclick="sendSetpoint(15)" />&emsp;
-<input type="button" class="button preset" value="16°C" onclick="sendSetpoint(16)" />&emsp;
-<input type="button" class="button preset" value="17°C" onclick="sendSetpoint(17)" />&emsp;
-<input type="button" class="button preset" value="18°C" onclick="sendSetpoint(18)" /><br>
+<input type="button" class="button preset" value="14°" onclick="sendSetpoint(14)" />&emsp;
+<input type="button" class="button preset" value="15°" onclick="sendSetpoint(15)" />&emsp;
+<input type="button" class="button preset" value="16°" onclick="sendSetpoint(16)" />&emsp;
+<input type="button" class="button preset" value="17°" onclick="sendSetpoint(17)" />&emsp;
+<input type="button" class="button preset" value="18°" onclick="sendSetpoint(18)" /><br>
 <br>
-<input type="button" class="button preset" value="19°C" onclick="sendSetpoint(19)" />&emsp;
-<input type="button" class="button preset" value="20°C" onclick="sendSetpoint(20)" />&emsp;
-<input type="button" class="button preset" value="21°C" onclick="sendSetpoint(21)" />
+<input type="button" class="button preset" value="19°" onclick="sendSetpoint(19)" />&emsp;
+<input type="button" class="button preset" value="20°" onclick="sendSetpoint(20)" />&emsp;
+<input type="button" class="button preset" value="21°" onclick="sendSetpoint(21)" />
     
     <br><br><br><br>
     </center>    
