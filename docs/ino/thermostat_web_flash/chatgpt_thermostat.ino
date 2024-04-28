@@ -104,13 +104,28 @@ ws.onmessage = function(event) {
 };
 
     }
-   function sendSetpoint(value) {
-    if(ws.readyState === WebSocket.OPEN) {
-        ws.send('setpoint:' + value);
-        console.log('ws.send setpoint:', value);
-    } else {
-        console.log('WebSocket is not open.');
-    }
+function sendSetpoint(value) {
+  var minValue = 10; // Define the minimum setpoint value
+  var maxValue = 25; // Define the maximum setpoint value
+  var validatedValue = parseFloat(value); // Parse the input value to a float
+  
+  // Check if the parsed value is less than the minimum or greater than the maximum
+  if(validatedValue < minValue) {
+    validatedValue = minValue; // Set to minimum if below the allowed range
+  } else if(validatedValue > maxValue) {
+    validatedValue = maxValue; // Set to maximum if above the allowed range
+  }
+  
+  // Update the input field to reflect the corrected value
+  document.getElementById('setpointInput').value = validatedValue;
+  
+  // Send the validated setpoint value to the server via WebSocket
+  if(ws.readyState === WebSocket.OPEN) {
+    ws.send('setpoint:' + validatedValue); // Send the validated setpoint
+    console.log('ws.send setpoint:', validatedValue); // Log for debugging
+  } else {
+    console.log('WebSocket is not open.'); // Log if the WebSocket connection is not open
+  }
 }
 
 
@@ -132,7 +147,7 @@ ws.onmessage = function(event) {
   <h1 id="temperature">-- °C</h1>
   <h1 id="setpoint">Setpoint: -- °C</h1>
     <input type="button" class="button" value="-" onclick="adjustSetpoint(-0.1)" />
-  <input id="setpointInput" type="number" step="0.1" min="10" max="25" onchange="sendSetpoint(this.value)" placeholder="Set Temperature" value="20"/> <input type="button" class="button" value="+" onclick="adjustSetpoint(0.1)" />
+  <input type="number" id="setpointInput" min="10" max="25" step="0.1" onchange="sendSetpoint(this.value)" placeholder="Set Temperature" value="20"/> <input type="button" class="button" value="+" onclick="adjustSetpoint(0.1)" />
     <br>
     <br><br><br>
 <!-- Preset temperature setpoint buttons -->
