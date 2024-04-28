@@ -33,4 +33,7 @@ some preset buttons
 
 ![Screenshot from 2024-04-28 05-40-02](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/b5ad5036-b75a-4d47-a8c7-caeccd94cae9)
 
+---
+phone screenshot
 
+<img src="https://raw.githubusercontent.com/ldijkman/async-esp-fs-webserver/master/docs/ino/thermostat_web_flash/Screenshot_Phone_Chrome.jpg">
