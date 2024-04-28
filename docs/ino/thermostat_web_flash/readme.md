@@ -27,3 +27,10 @@ https://plnkr.co/edit/1zvCbJPU1aP9OReb?preview
 ---
 some preset buttons
 ![Screenshot from 2024-04-28 04-43-22](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/1a307f7c-d97e-431f-899e-8947bd53dca3)
+
+
+---
+
+![Screenshot from 2024-04-28 05-40-02](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/b5ad5036-b75a-4d47-a8c7-caeccd94cae9)
+
+
