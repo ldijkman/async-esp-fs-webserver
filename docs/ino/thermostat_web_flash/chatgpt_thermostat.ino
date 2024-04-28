@@ -14,9 +14,9 @@
 #include <DallasTemperature.h>
 #include <ESP8266mDNS.h> // Include the mDNS library
 
-// Replace with your network credentials
-const char* ssid = "Bangert_30_Andijk";
-const char* password = "ookikwilerin";
+// Replace with your network WiFi Router credentials
+const char* ssid = "Bangert_30_Andijk";      // wiwfi router name broadcasted in the air
+const char* password = "ookikwilerin";       // your password
 
 // GPIO where the DS18B20 is connected
 const int oneWireBus = 4;
