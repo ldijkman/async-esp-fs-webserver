@@ -42,7 +42,7 @@ phone screenshot
 
 
 ---
-Bonjour mDNS Scanner
+Android Bonjour mDNS Scanner
 
 Easy find your ESP devices on Android
 
@@ -50,7 +50,7 @@ https://play.google.com/store/apps/details?id=de.wellenvogel.bonjourbrowser&pli=
 
 <img src="https://raw.githubusercontent.com/ldijkman/async-esp-fs-webserver/master/docs/ino/thermostat_web_flash/Screenshot_BonjourBrowser.jpg" width="250px">
 
-Bonjour mDNS Scanner
+Android Bonjour mDNS Scanner
 
 Easy find your ESP devices on Android
 
