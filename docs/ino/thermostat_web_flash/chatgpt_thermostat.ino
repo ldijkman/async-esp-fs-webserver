@@ -27,6 +27,8 @@ DallasTemperature sensors(&oneWire);
 const int relayPin = 2; // Example pin 2=LED on Wemos
 // Hysteresis margin
 const float hysteresisMargin = 0.1;  // switchpoint +0.1 and -0.1
+static bool relayState = false; // Keeps track of the current relay state
+  
 
 // Create AsyncWebServer object on port 80
 AsyncWebServer server(80);
@@ -79,12 +81,15 @@ const char index_html[] PROGMEM = R"rawliteral(
 
 
 ws.onmessage = function(event) {
+  console.log('Message Received:', event.data);
   var data = event.data.split(':');
   if (data[0] === "temperature") {
     document.getElementById("temperature").innerHTML = data[1] + " °C";
   } else if (data[0] === "setpoint") {
     document.getElementById("setpoint").innerHTML = "Setpoint: " + data[1] + " °C";
-    document.getElementById("setpointInput").value = data[1]; // Ensure this line correctly updates the input value
+    document.getElementById("setpointInput").value = data[1];
+  } else if (data[0] === "relays") {
+    console.log("Relay state:", data[1]); // Add logic here to do something with the relay state
   }
 };
 
@@ -140,7 +145,7 @@ ws.onmessage = function(event) {
 
 // WebSocket event handler
 void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
-               AwsEventType type, void *arg, uint8_t *data, size_t len) {
+  AwsEventType type, void *arg, uint8_t *data, size_t len) {
   if (type == WS_EVT_CONNECT) {
     Serial.println("WebSocket client connected");
 
@@ -216,7 +221,6 @@ void setup() {
 
 void loop() {
   static unsigned long lastMillis = 0;
-  static bool relayState = false; // Keeps track of the current relay state
   
   if (millis() - lastMillis > 5000) {
     lastMillis = millis();
@@ -241,8 +245,9 @@ void loop() {
     // Send the temperature to all connected clients
     String message = "temperature:" + tempString;
     ws.textAll(message.c_str());
-    message = "Relays:" + relayState;
-    ws.textAll(message.c_str());
+    // Inside your loop(), replace the relay state message construction and sending part with:
+    String relayStateMessage = "relays:" + String(relayState ? "1" : "0"); // Converts boolean to "1" or "0"
+    ws.textAll(relayStateMessage.c_str());
     
   }
   MDNS.update(); // Keep the mDNS responder updated
