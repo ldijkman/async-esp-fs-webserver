@@ -190,7 +190,19 @@ function sendSetpoint(value) {
       sendSetpoint(newValue);
     }
     window.onload = initWebSocket;
+    
+    function updateCurrentTime() {
+      var now = new Date();
+      var currentTimeFormatted = ('0' + now.getHours()).slice(-2) + ':' + ('0' + now.getMinutes()).slice(-2) + ':' + ('0' + now.getSeconds()).slice(-2);
+      document.getElementById("currentTime").innerHTML = "Current Time: " + currentTimeFormatted;
+    }
+
+    // Update the time immediately and every second thereafter
+    updateCurrentTime();
+    setInterval(updateCurrentTime, 1000);
+    
   </script>
+  
 </head>
 <body>
 <center>
@@ -214,6 +226,7 @@ function sendSetpoint(value) {
 <input type="button" class="button preset" value="21°" onclick="sendSetpoint(21)" />&emsp;
 <input type="button" class="button preset" value="22°" onclick="sendSetpoint(22)" />
     <br><br>
+    <div id="currentTime" style="padding: 10px; font-weight: bold;"></div>
   <div id="wsMessages" style="margin-top:20px;padding:10px;background:#f9f9f9;border:1px solid #ddd;"></div>  
     
     <br><br><br><br><br><br>
