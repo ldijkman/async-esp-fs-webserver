@@ -131,7 +131,7 @@ ws.onmessage = function(event) {
 <input type="button" class="button preset" value="15°C" onclick="sendSetpoint(15)" />&emsp;
 <input type="button" class="button preset" value="16°C" onclick="sendSetpoint(16)" />&emsp;
 <input type="button" class="button preset" value="17°C" onclick="sendSetpoint(17)" />&emsp;
-<input type="button" class="button preset" value="18°C" onclick="sendSetpoint(18)" />
+<input type="button" class="button preset" value="18°C" onclick="sendSetpoint(18)" /><br>
 <br>
 <input type="button" class="button preset" value="19°C" onclick="sendSetpoint(19)" />&emsp;
 <input type="button" class="button preset" value="20°C" onclick="sendSetpoint(20)" />&emsp;
