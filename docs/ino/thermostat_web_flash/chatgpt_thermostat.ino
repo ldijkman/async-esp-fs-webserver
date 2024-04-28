@@ -63,7 +63,7 @@ const char index_html[] PROGMEM = R"rawliteral(
     .button {  
       width: 50px; /* Width to match the input height for aesthetic consistency */
        /* Blue background for buttons */
-       +background-color: #A09A9A; 
+       background-color: #9DA1A5;  
      
       /* White text for buttons */
       /* color: white; */
@@ -127,8 +127,8 @@ ws.onmessage = function(event) {
 </head>
 <body>
 <center>
-<h1>ESP8266 WiFi Thermostat</h1>
-  <h2>DS18B20 Temperature Sensor</h2> 
+<h2>ESP8266 WiFi Thermostat</h2>
+  <h3>DS18B20 Temperature Sensor</h3> 
   <h1 id="temperature">-- °C</h1>
   <h1 id="setpoint">Setpoint: -- °C</h1>
     <input type="button" class="button" value="-" onclick="adjustSetpoint(-0.1)" />
