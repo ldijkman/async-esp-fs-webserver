@@ -117,6 +117,7 @@ ws.onmessage = function(event) {
         if (temperature < 10 || temperature > 40) {
             var alertSound = document.getElementById("alertSound");
             alertSound.play();
+            console.warn("WARNING temperature < 10 || temperature > 40 ");
         }
   } else if (data[0] === "setpoint") {
     document.getElementById("setpoint").innerHTML = "Setpoint: " + data[1] + " °C";
