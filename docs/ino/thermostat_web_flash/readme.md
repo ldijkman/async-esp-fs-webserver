@@ -36,4 +36,4 @@ some preset buttons
 ---
 phone screenshot
 
-<img src="https://raw.githubusercontent.com/ldijkman/async-esp-fs-webserver/master/docs/ino/thermostat_web_flash/Screenshot_Phone_Chrome.jpg">
+<img src="https://raw.githubusercontent.com/ldijkman/async-esp-fs-webserver/master/docs/ino/thermostat_web_flash/Screenshot_Phone_Chrome.jpg" width="250px">
