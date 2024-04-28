@@ -112,9 +112,6 @@ ws.onmessage = function(event) {
   if (data[0] === "temperature") {
     var temperature = parseFloat(data[1]);
     document.getElementById("temperature").innerHTML = temperature + " °C <span id='relayStatus'></span>";
-    
-    // Re-check the relay state each time temperature is updated, in case the relay status span was overwritten
-    updateRelayStatus(relayState); // Ensure relayState is kept up to date elsewhere in your code or retrieved from this function
   } else if (data[0] === "setpoint") {
     document.getElementById("setpoint").innerHTML = "Setpoint: " + data[1] + " °C";
     document.getElementById("setpointInput").value = data[1];
@@ -140,6 +137,9 @@ ws.onmessage = function(event) {
         lines = lines.slice(0, 360); // Keep only the newest 360 lines
         wsMessages.innerHTML = lines.join("<br>");
     }
+        
+    // Re-check the relay state each time temperature is updated, in case the relay status span was overwritten
+    // updateRelayStatus(relayState); // Ensure relayState is kept up to date elsewhere in your code or retrieved from this function
 };
 
 
