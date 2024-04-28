@@ -80,6 +80,14 @@ const char index_html[] PROGMEM = R"rawliteral(
       cursor: pointer; /* Change cursor to pointer to indicate clickable */  
       font-size: 1.7em; /* Ensure buttons are also easily readable */
     }
+    
+    #wsMessages {
+      max-height: 200px;
+      width: 30%;
+      text-align: left; /* Aligns text to the left */
+      padding-left: 10px; /* Adds some space on the left for better readability */
+      overflow-y: auto;
+    }
 
   </style> 
   <script>
@@ -115,6 +123,23 @@ ws.onmessage = function(event) {
     var relayIsOn = data[1] === "1";
     updateRelayStatus(relayIsOn);
   }
+
+    // Create a timestamp for the message
+    var now = new Date();
+    var timestamp = ('0' + now.getHours()).slice(-2) + ':' + ('0' + now.getMinutes()).slice(-2) + ':' + ('0' + now.getSeconds()).slice(-2);
+    
+    // Display the message with timestamp in the wsMessages div
+    var wsMessages = document.getElementById("wsMessages");
+    // Prepend new messages with timestamp to the top
+    var newMessage = "[" + timestamp + "] " + event.data + "<br>";
+    wsMessages.innerHTML = newMessage + wsMessages.innerHTML;
+    
+    // Limit the number of lines (messages) to 360
+    var lines = wsMessages.innerHTML.split("<br>");
+    if (lines.length > 360) {
+        lines = lines.slice(0, 360); // Keep only the newest 360 lines
+        wsMessages.innerHTML = lines.join("<br>");
+    }
 };
 
 
@@ -188,7 +213,10 @@ function sendSetpoint(value) {
 <input type="button" class="button preset" value="20°" onclick="sendSetpoint(20)" />&emsp;
 <input type="button" class="button preset" value="21°" onclick="sendSetpoint(21)" />&emsp;
 <input type="button" class="button preset" value="22°" onclick="sendSetpoint(22)" />
-    <br><br><br><br>    <br><br><br><br>
+    <br><br>
+  <div id="wsMessages" style="margin-top:20px;padding:10px;background:#f9f9f9;border:1px solid #ddd;"></div>  
+    
+    <br><br><br><br><br><br>
     </center>    
        <script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
 <script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
