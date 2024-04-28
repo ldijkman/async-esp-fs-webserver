@@ -23,3 +23,7 @@ https://plnkr.co/edit/1zvCbJPU1aP9OReb?preview
 
 
 ![Screenshot from 2024-04-27 09-15-21](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/230b5bb4-5eba-48fd-9754-c1508e8be820)
+
+---
+some preset buttons
+![Screenshot from 2024-04-28 04-43-22](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/1a307f7c-d97e-431f-899e-8947bd53dca3)
