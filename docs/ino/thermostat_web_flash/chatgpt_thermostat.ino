@@ -172,8 +172,8 @@ function sendSetpoint(value) {
 <br>
 <input type="button" class="button preset" value="19°" onclick="sendSetpoint(19)" />&emsp;
 <input type="button" class="button preset" value="20°" onclick="sendSetpoint(20)" />&emsp;
-<input type="button" class="button preset" value="21°" onclick="sendSetpoint(21)" />
-    
+<input type="button" class="button preset" value="21°" onclick="sendSetpoint(21)" />&emsp;
+<input type="button" class="button preset" value="22°" onclick="sendSetpoint(22)" />
     <br><br><br><br>    <br><br><br><br>
     </center>    
        <script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
