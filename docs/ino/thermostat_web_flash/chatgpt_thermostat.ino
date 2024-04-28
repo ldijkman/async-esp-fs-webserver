@@ -8,6 +8,8 @@
 // and asked ChatGPT for changes on that code
 // Start the mDNS responder for http://thermostat.local
 
+// should play a sound when  WARNING: WARNING Temperature < 10 or > 40
+
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
@@ -101,8 +103,8 @@ ws.onmessage = function(event) {
     // Check if the temperature is outside the 10°C to 40°C range
     if (temperature < 10 || temperature > 40) {
       var alertSound = document.getElementById("alertSound");
-        console.warn('WARNING Temperature < 10 or > 40');
       alertSound.play(); // Play the alert sound
+      console.warn('WARNING Temperature < 10 or > 40');
     }
   } else if (data[0] === "setpoint") {
     document.getElementById("setpoint").innerHTML = "Setpoint: " + data[1] + " °C";
