@@ -83,7 +83,7 @@ const char index_html[] PROGMEM = R"rawliteral(
     
     #wsMessages {
       max-height: 200px;
-      width: 30%;
+      width: 300px;
       text-align: left; /* Aligns text to the left */
       padding-left: 10px; /* Adds some space on the left for better readability */
       overflow-y: auto;
@@ -112,6 +112,12 @@ ws.onmessage = function(event) {
   if (data[0] === "temperature") {
     var temperature = parseFloat(data[1]);
     document.getElementById("temperature").innerHTML = temperature + " °C <span id='relayStatus'></span>";
+
+       // Check if the temperature is < 10 or > 40 and play the alert sound
+        if (temperature < 10 || temperature > 40) {
+            var alertSound = document.getElementById("alertSound");
+            alertSound.play();
+        }
   } else if (data[0] === "setpoint") {
     document.getElementById("setpoint").innerHTML = "Setpoint: " + data[1] + " °C";
     document.getElementById("setpointInput").value = data[1];
