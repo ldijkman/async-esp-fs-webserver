@@ -9,6 +9,7 @@
 // Start the mDNS responder for http://thermostat.local
 
 // should play a sound when  WARNING: WARNING Temperature < 10 or > 40
+// should turnoff heating if sensor lost, or maxtime heating on
 
 // setpoint minimum input 10 maximum input 25
 
@@ -24,15 +25,18 @@ const char* ssid = "Bangert_30_Andijk";      // wiwfi router name broadcasted in
 const char* password = "ookikwilerin";       // your password
 
 // GPIO where the DS18B20 is connected
-const int oneWireBus = 4; // yellow=data     red=3.3v      black/blue=GND
+const int oneWireBus = 4; // gpio4     yellow=data     red=3.3v      black/blue=GND
+// needs a 4k7 resistor between data and 3.3v https://duckduckgo.com/?t=lm&q=DS18B20+resistor
 // Setup a oneWire instance to communicate with any OneWire devices
 OneWire oneWire(oneWireBus);
 // Pass our oneWire reference to Dallas Temperature sensor
 DallasTemperature sensors(&oneWire);
 
 // GPIO where the relay is connected
-const int relayPin = 2; // Example pin 2=LED on Wemos
-// Hysteresis margin
+const int relayPin = 2; // gpio2 = LED on Wemos
+
+// Hysteresis margin, prevent pinball machine effect
+// deadband around the setpoint, prevent rapid toggling.
 const float hysteresisMargin = 0.1;  // switchpoint +0.1 and -0.1
 static bool relayState = false; // Keeps track of the current relay state
 
@@ -167,6 +171,9 @@ function sendSetpoint(value) {
   var minValue = 10; // Define the minimum setpoint value
   var maxValue = 25; // Define the maximum setpoint value
   var validatedValue = parseFloat(value); // Parse the input value to a float
+
+  // Round the value to one decimal place
+  validatedValue = Math.round(validatedValue * 10) / 10;
   
   // Check if the parsed value is less than the minimum or greater than the maximum
   if(validatedValue < minValue) {
@@ -248,7 +255,7 @@ function sendSetpoint(value) {
 
 // WebSocket event handler
 void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
-               AwsEventType type, void *arg, uint8_t *data, size_t len) {
+  AwsEventType type, void *arg, uint8_t *data, size_t len) {
   if (type == WS_EVT_DATA) {
     data[len] = 0; // Ensure the incoming data is null-terminated
     String message = String((char*)data);
@@ -326,7 +333,7 @@ void setup() {
 void loop() {
   static unsigned long lastMillis = 0;
 
-  if (millis() - lastMillis > 5000) {
+  if (millis() - lastMillis > 5000) {  // delay without Delay(), do it every 5 seconds
     lastMillis = millis();
     sensors.requestTemperatures();
     float temperature = sensors.getTempCByIndex(0);
