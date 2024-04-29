@@ -1,4 +1,9 @@
 
+// chang4ed relaispin
+// GPIO where the relay is connected
+//const int relayPin = 16; // gpio16  gpio2=LED gives error on tx on my board
+
+
 // https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs/ino/thermostat_web_flash
 
 // for ESP8266
@@ -9,6 +14,7 @@
 // Start the mDNS responder for http://thermostat.local
 
 // should play a sound when  WARNING: WARNING Temperature < 10 or > 40
+// should turnoff heating if sensor lost, or maxtime heating on
 
 // setpoint minimum input 10 maximum input 25
 
@@ -24,15 +30,18 @@ const char* ssid = "Bangert_30_Andijk";      // wiwfi router name broadcasted in
 const char* password = "ookikwilerin";       // your password
 
 // GPIO where the DS18B20 is connected
-const int oneWireBus = 4; // yellow=data     red=3.3v      black/blue=GND
+const int oneWireBus = 4; // gpio4     yellow=data     red=3.3v      black/blue=GND
+// needs a 4k7 resistor between data and 3.3v https://duckduckgo.com/?t=lm&q=DS18B20+resistor
 // Setup a oneWire instance to communicate with any OneWire devices
 OneWire oneWire(oneWireBus);
 // Pass our oneWire reference to Dallas Temperature sensor
 DallasTemperature sensors(&oneWire);
 
 // GPIO where the relay is connected
-const int relayPin = 2; // Example pin 2=LED on Wemos
-// Hysteresis margin
+const int relayPin = 16; // gpio16  gpio2=LED gives error on tx on my board
+
+// Hysteresis margin, prevent pinball machine effect
+// deadband around the setpoint, prevent rapid toggling.
 const float hysteresisMargin = 0.1;  // switchpoint +0.1 and -0.1
 static bool relayState = false; // Keeps track of the current relay state
 
@@ -96,10 +105,13 @@ const char index_html[] PROGMEM = R"rawliteral(
       ws = new WebSocket('ws://' + window.location.hostname + '/ws');
       ws.onopen = function(event) {
         console.log('WebSocket connected');
+        prependMessageWithTimestamp('WebSocket connected');
         document.body.style.backgroundColor = 'green'; // Connected: green background
       };
       ws.onclose = function(event) {
         console.log('WebSocket disconnected');
+        prependMessageWithTimestamp('WebSocket disconnected');
+
         document.body.style.backgroundColor = 'red'; // Disconnected: red background
         // Attempt to reconnect after a timeout
         setTimeout(initWebSocket, 2000);
@@ -118,6 +130,7 @@ ws.onmessage = function(event) {
             var alertSound = document.getElementById("alertSound");
             alertSound.play();
             console.warn("WARNING temperature < 10 || temperature > 40 ");
+            prependMessageWithTimestamp("WARNING temperature < 10 || temperature > 40 ");
         }
   } else if (data[0] === "setpoint") {
     document.getElementById("setpoint").innerHTML = "Setpoint: " + data[1] + " °C";
@@ -128,22 +141,7 @@ ws.onmessage = function(event) {
     updateRelayStatus(relayIsOn);
   }
 
-    // Create a timestamp for the message
-    var now = new Date();
-    var timestamp = ('0' + now.getHours()).slice(-2) + ':' + ('0' + now.getMinutes()).slice(-2) + ':' + ('0' + now.getSeconds()).slice(-2);
-    
-    // Display the message with timestamp in the wsMessages div
-    var wsMessages = document.getElementById("wsMessages");
-    // Prepend new messages with timestamp to the top
-    var newMessage = "[" + timestamp + "] " + event.data + "<br>";
-    wsMessages.innerHTML = newMessage + wsMessages.innerHTML;
-    
-    // Limit the number of lines (messages) to 360
-    var lines = wsMessages.innerHTML.split("<br>");
-    if (lines.length > 360) {
-        lines = lines.slice(0, 360); // Keep only the newest 360 lines
-        wsMessages.innerHTML = lines.join("<br>");
-    }
+  prependMessageWithTimestamp(event.data);
         
     // Re-check the relay state each time temperature is updated, in case the relay status span was overwritten
     // updateRelayStatus(relayState); // Ensure relayState is kept up to date elsewhere in your code or retrieved from this function
@@ -152,6 +150,26 @@ ws.onmessage = function(event) {
 
 
     }
+
+
+    function prependMessageWithTimestamp(message) {
+    // Create a timestamp for the message
+    var now = new Date();
+    var timestamp = ('0' + now.getHours()).slice(-2) + ':' + ('0' + now.getMinutes()).slice(-2) + ':' + ('0' + now.getSeconds()).slice(-2);
+
+    // Display the message with timestamp in the wsMessages div
+    var wsMessages = document.getElementById("wsMessages");
+    // Prepend new messages with timestamp to the top
+    var newMessage = "[" + timestamp + "] " + message + "<br>";
+    wsMessages.innerHTML = newMessage + wsMessages.innerHTML;
+
+    // Limit the number of lines (messages) to 360
+    var lines = wsMessages.innerHTML.split("<br>");
+    if (lines.length > 360) {
+        lines = lines.slice(0, 360); // Keep only the newest 360 lines
+        wsMessages.innerHTML = lines.join("<br>");
+    }
+}
     
 function updateRelayStatus(isOn) {
   var statusElement = document.getElementById("relayStatus");
@@ -167,6 +185,9 @@ function sendSetpoint(value) {
   var minValue = 10; // Define the minimum setpoint value
   var maxValue = 25; // Define the maximum setpoint value
   var validatedValue = parseFloat(value); // Parse the input value to a float
+
+  // Round the value to one decimal place
+  validatedValue = Math.round(validatedValue * 10) / 10;
   
   // Check if the parsed value is less than the minimum or greater than the maximum
   if(validatedValue < minValue) {
@@ -184,6 +205,7 @@ function sendSetpoint(value) {
     console.log('ws.send setpoint:', validatedValue); // Log for debugging
   } else {
     console.log('WebSocket is not open.'); // Log if the WebSocket connection is not open
+     prependMessageWithTimestamp('WebSocket is not open.');
   }
 }
 
@@ -326,7 +348,7 @@ void setup() {
 void loop() {
   static unsigned long lastMillis = 0;
 
-  if (millis() - lastMillis > 5000) {
+  if (millis() - lastMillis > 5000) {  // delay without Delay(), do it every 5 seconds
     lastMillis = millis();
     sensors.requestTemperatures();
     float temperature = sensors.getTempCByIndex(0);
