@@ -1,4 +1,9 @@
 
+// chang4ed relaispin
+// GPIO where the relay is connected
+//const int relayPin = 16; // gpio16  gpio2=LED gives error on tx on my board
+
+
 // https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs/ino/thermostat_web_flash
 
 // for ESP8266
@@ -33,7 +38,7 @@ OneWire oneWire(oneWireBus);
 DallasTemperature sensors(&oneWire);
 
 // GPIO where the relay is connected
-const int relayPin = 2; // gpio2 = LED on Wemos
+const int relayPin = 16; // gpio16  gpio2=LED gives error on tx on my board
 
 // Hysteresis margin, prevent pinball machine effect
 // deadband around the setpoint, prevent rapid toggling.
