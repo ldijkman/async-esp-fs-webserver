@@ -100,10 +100,13 @@ const char index_html[] PROGMEM = R"rawliteral(
       ws = new WebSocket('ws://' + window.location.hostname + '/ws');
       ws.onopen = function(event) {
         console.log('WebSocket connected');
+        prependMessageWithTimestamp('WebSocket connected');
         document.body.style.backgroundColor = 'green'; // Connected: green background
       };
       ws.onclose = function(event) {
         console.log('WebSocket disconnected');
+        prependMessageWithTimestamp('WebSocket disconnected');
+
         document.body.style.backgroundColor = 'red'; // Disconnected: red background
         // Attempt to reconnect after a timeout
         setTimeout(initWebSocket, 2000);
@@ -122,6 +125,7 @@ ws.onmessage = function(event) {
             var alertSound = document.getElementById("alertSound");
             alertSound.play();
             console.warn("WARNING temperature < 10 || temperature > 40 ");
+            prependMessageWithTimestamp("WARNING temperature < 10 || temperature > 40 ");
         }
   } else if (data[0] === "setpoint") {
     document.getElementById("setpoint").innerHTML = "Setpoint: " + data[1] + " °C";
@@ -132,22 +136,7 @@ ws.onmessage = function(event) {
     updateRelayStatus(relayIsOn);
   }
 
-    // Create a timestamp for the message
-    var now = new Date();
-    var timestamp = ('0' + now.getHours()).slice(-2) + ':' + ('0' + now.getMinutes()).slice(-2) + ':' + ('0' + now.getSeconds()).slice(-2);
-    
-    // Display the message with timestamp in the wsMessages div
-    var wsMessages = document.getElementById("wsMessages");
-    // Prepend new messages with timestamp to the top
-    var newMessage = "[" + timestamp + "] " + event.data + "<br>";
-    wsMessages.innerHTML = newMessage + wsMessages.innerHTML;
-    
-    // Limit the number of lines (messages) to 360
-    var lines = wsMessages.innerHTML.split("<br>");
-    if (lines.length > 360) {
-        lines = lines.slice(0, 360); // Keep only the newest 360 lines
-        wsMessages.innerHTML = lines.join("<br>");
-    }
+  prependMessageWithTimestamp(event.data);
         
     // Re-check the relay state each time temperature is updated, in case the relay status span was overwritten
     // updateRelayStatus(relayState); // Ensure relayState is kept up to date elsewhere in your code or retrieved from this function
@@ -156,6 +145,26 @@ ws.onmessage = function(event) {
 
 
     }
+
+
+    function prependMessageWithTimestamp(message) {
+    // Create a timestamp for the message
+    var now = new Date();
+    var timestamp = ('0' + now.getHours()).slice(-2) + ':' + ('0' + now.getMinutes()).slice(-2) + ':' + ('0' + now.getSeconds()).slice(-2);
+
+    // Display the message with timestamp in the wsMessages div
+    var wsMessages = document.getElementById("wsMessages");
+    // Prepend new messages with timestamp to the top
+    var newMessage = "[" + timestamp + "] " + message + "<br>";
+    wsMessages.innerHTML = newMessage + wsMessages.innerHTML;
+
+    // Limit the number of lines (messages) to 360
+    var lines = wsMessages.innerHTML.split("<br>");
+    if (lines.length > 360) {
+        lines = lines.slice(0, 360); // Keep only the newest 360 lines
+        wsMessages.innerHTML = lines.join("<br>");
+    }
+}
     
 function updateRelayStatus(isOn) {
   var statusElement = document.getElementById("relayStatus");
@@ -191,6 +200,7 @@ function sendSetpoint(value) {
     console.log('ws.send setpoint:', validatedValue); // Log for debugging
   } else {
     console.log('WebSocket is not open.'); // Log if the WebSocket connection is not open
+     prependMessageWithTimestamp('WebSocket is not open.');
   }
 }
 
@@ -255,7 +265,7 @@ function sendSetpoint(value) {
 
 // WebSocket event handler
 void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
-  AwsEventType type, void *arg, uint8_t *data, size_t len) {
+               AwsEventType type, void *arg, uint8_t *data, size_t len) {
   if (type == WS_EVT_DATA) {
     data[len] = 0; // Ensure the incoming data is null-terminated
     String message = String((char*)data);
