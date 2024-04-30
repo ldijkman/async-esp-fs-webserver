@@ -137,7 +137,7 @@ ws.onmessage = function(event) {
   var data = event.data.split(':');
   if (data[0] === "temperature") {
     var temperature = parseFloat(data[1]);
-    document.getElementById("temperature").innerHTML = temperature + " °C <span id='relayStatus'></span>";
+    document.getElementById("temperature").innerHTML = temperature + " <span id='relayStatus'></span>";
 
        // Check if the temperature is < 10 or > 40 and play the alert sound
         if (temperature < 10 || temperature > 40) {
