@@ -1,7 +1,7 @@
 
 // chang4ed relaispin
 // GPIO where the relay is connected
-//const int relayPin = 16; // gpio16  gpio2=LED gives error on tx on my board
+// const int relayPin = 16; // gpio16  gpio2=LED gives error on tx i think on my board, cannot flash program the board when relays is connected
 
 
 // https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs/ino/thermostat_web_flash
@@ -69,6 +69,14 @@ const char index_html[] PROGMEM = R"rawliteral(
    <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
+     body {
+      margin: 0;
+      padding: 0;
+      background-color: #303030; /* Dark grey background */
+      border: 5px solid black; /* Default border color */
+      /* Ensure the border doesn't affect layout size (optional) */
+      box-sizing: border-box;
+    }
     
     #setpointInput {
       width: 120px; /* Adjust input width as necessary */
@@ -105,14 +113,14 @@ const char index_html[] PROGMEM = R"rawliteral(
       ws = new WebSocket('ws://' + window.location.hostname + '/ws');
       ws.onopen = function(event) {
         console.log('WebSocket connected');
-        prependMessageWithTimestamp('WebSocket connected');
-        document.body.style.backgroundColor = 'green'; // Connected: green background
+        prependMessageWithTimestamp("<font style='color:green;'>WebSocket connected</font>");
+        document.body.style.borderColor = 'green'; // Connected: green body border background
       };
       ws.onclose = function(event) {
         console.log('WebSocket disconnected');
-        prependMessageWithTimestamp('WebSocket disconnected');
+        prependMessageWithTimestamp("<font style='color:red;'>WebSocket disconnected</font>");
 
-        document.body.style.backgroundColor = 'red'; // Disconnected: red background
+        document.body.style.borderColor = 'red'; // Disconnected: red body border background
         // Attempt to reconnect after a timeout
         setTimeout(initWebSocket, 2000);
       };
@@ -130,7 +138,7 @@ ws.onmessage = function(event) {
             var alertSound = document.getElementById("alertSound");
             alertSound.play();
             console.warn("WARNING temperature < 10 || temperature > 40 ");
-            prependMessageWithTimestamp("WARNING temperature < 10 || temperature > 40 ");
+            prependMessageWithTimestamp('<font style="color:red;">WARNING temperature < 10 || temperature > 40</font>');
         }
   } else if (data[0] === "setpoint") {
     document.getElementById("setpoint").innerHTML = "Setpoint: " + data[1] + " °C";
