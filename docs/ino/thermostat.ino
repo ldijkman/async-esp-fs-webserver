@@ -64,7 +64,7 @@ const char index_html[] PROGMEM = R"rawliteral(
 // maybe a start
 // Start the mDNS responder for http://thermostat.local
 -->
-  <title>ESP8266 WiFi Thermostat DS18B20 Temperature Sensor</title>
+  <title>Thermostat, ESP8266 WiFi Thermostat DS18B20 Temperature Sensor</title>
    <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/ldijkman/async-esp-fs-webserver/master/docs/ino/thermostat_web_flash/thermo_icon.png">
    <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -77,7 +77,13 @@ const char index_html[] PROGMEM = R"rawliteral(
       /* Ensure the border doesn't affect layout size (optional) */
       box-sizing: border-box;
     }
-    
+    #temperature{
+      color: yellow;
+    }
+
+    #setpoint{
+      color: orange;
+    }
     #setpointInput {
       width: 120px; /* Adjust input width as necessary */
       border: 2px solid #007bff; /* Blue border for input */
@@ -141,7 +147,7 @@ ws.onmessage = function(event) {
             prependMessageWithTimestamp('<font style="color:red;">WARNING temperature < 10 || temperature > 40</font>');
         }
   } else if (data[0] === "setpoint") {
-    document.getElementById("setpoint").innerHTML = "Setpoint: " + data[1] + " °C";
+    document.getElementById("setpoint").innerHTML =  data[1] ;
     document.getElementById("setpointInput").value = data[1];
   } else if (data[0] === "relays") {
     // Assume relay state is sent as "1" for on and "0" for off
@@ -234,10 +240,9 @@ function sendSetpoint(value) {
 </head>
 <body>
 <center>
-<h2>ESP8266 WiFi Thermostat</h2>
-  <h3>DS18B20 Temperature Sensor</h3> 
-  <h1 id="temperature">-- °C <span id="relayStatus"></span></h1>
-  <h1 id="setpoint">Setpoint: -- °C</h1>
+<h2 style="color:lightgray;">ESP8266 WiFi Thermostat DS18B20</h2>
+  <h1><span id="temperature">--</span> °C <span id="relayStatus"></span></h1>
+  <h1>Setpoint: <span id="setpoint">--</span> °C</h1>
     <input type="button" class="button" value="-" onclick="adjustSetpoint(-0.1)" />
   <input type="number" id="setpointInput" min="10" max="25" step="0.1" onchange="sendSetpoint(this.value)" placeholder="Set Temperature" value="20"/> <input type="button" class="button" value="+" onclick="adjustSetpoint(0.1)" />
     <br>
@@ -278,7 +283,7 @@ function sendSetpoint(value) {
 
 // WebSocket event handler
 void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
-               AwsEventType type, void *arg, uint8_t *data, size_t len) {
+  AwsEventType type, void *arg, uint8_t *data, size_t len) {
   if (type == WS_EVT_DATA) {
     data[len] = 0; // Ensure the incoming data is null-terminated
     String message = String((char*)data);
