@@ -69,7 +69,8 @@ const char index_html[] PROGMEM = R"rawliteral(
    <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-     body {
+  
+    body {
       margin: 0;
       padding: 0;
       background-color: #303030; /* Dark grey background */
@@ -77,6 +78,7 @@ const char index_html[] PROGMEM = R"rawliteral(
       /* Ensure the border doesn't affect layout size (optional) */
       box-sizing: border-box;
     }
+    
     #temperature{
       color: yellow;
     }
@@ -84,13 +86,14 @@ const char index_html[] PROGMEM = R"rawliteral(
     #setpoint{
       color: orange;
     }
+    
     #setpointInput {
       width: 120px; /* Adjust input width as necessary */
       border: 2px solid #007bff; /* Blue border for input */
       text-align: center; /* Ensure text is centered */
       font-size: 2em; /* Increase font size for better visibility */
+      border-radius: 5px; /* Adds rounded corners to the buttons */
     }
-
 
     #currentTime{
       padding: 4px; 
@@ -100,18 +103,13 @@ const char index_html[] PROGMEM = R"rawliteral(
      
     }
 
-    .button {  
+   .button {  
       width: 50px; /* Width to match the input height for aesthetic consistency */
-       /* Blue background for buttons */
-       background-color: #9DA1A5;  
-     
-      /* White text for buttons */
-      /* color: white; */
-      /* No border for a cleaner look */
-      /* border: none; */
+      background-color: #9DA1A5; /* Blue background for buttons */
       cursor: pointer; /* Change cursor to pointer to indicate clickable */  
       font-size: 1.7em; /* Ensure buttons are also easily readable */
-    }
+      border-radius: 5px; /* Adds rounded corners to the buttons */
+}
     
     #wsMessages {
       max-height: 200px;
@@ -119,6 +117,7 @@ const char index_html[] PROGMEM = R"rawliteral(
       text-align: left; /* Aligns text to the left */
       padding-left: 10px; /* Adds some space on the left for better readability */
       overflow-y: auto;
+      border-radius: 5px; /* Adds rounded corners to the buttons */
     }
 
   </style> 
