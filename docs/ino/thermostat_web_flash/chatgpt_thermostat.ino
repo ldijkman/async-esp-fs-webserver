@@ -91,6 +91,15 @@ const char index_html[] PROGMEM = R"rawliteral(
       font-size: 2em; /* Increase font size for better visibility */
     }
 
+
+    #currentTime{
+      padding: 4px; 
+      font-weight: bold;
+      font-size: 1.5em;
+      color: lightgray;
+     
+    }
+
     .button {  
       width: 50px; /* Width to match the input height for aesthetic consistency */
        /* Blue background for buttons */
@@ -113,6 +122,7 @@ const char index_html[] PROGMEM = R"rawliteral(
     }
 
   </style> 
+  
   <script>
     var ws;
     function initWebSocket() {
@@ -259,7 +269,7 @@ function sendSetpoint(value) {
 <input type="button" class="button preset" value="21°" onclick="sendSetpoint(21)" />&emsp;
 <input type="button" class="button preset" value="22°" onclick="sendSetpoint(22)" />
     <br><br>
-    <div id="currentTime" style="padding: 10px; font-weight: bold;"></div>
+    <div id="currentTime"></div>
   <div id="wsMessages" style="margin-top:20px;padding:10px;background:#f9f9f9;border:1px solid #ddd;"></div>  
     
     <br><br><br><br><br><br>
@@ -270,8 +280,17 @@ function sendSetpoint(value) {
 <script>
     function updateCurrentTime() {
       var now = new Date();
-      var currentTimeFormatted = ('0' + now.getHours()).slice(-2) + ':' + ('0' + now.getMinutes()).slice(-2) + ':' + ('0' + now.getSeconds()).slice(-2);
-      document.getElementById("currentTime").innerHTML = "Current Time: " + currentTimeFormatted;
+      var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      var months = ["January", "February", "March", "April", "May", "June", 
+                    "July", "August", "September", "October", "November", "December"];
+      var dayName = days[now.getDay()];
+      var monthName = months[now.getMonth()];
+      var dayNumber = now.getDate();
+      var currentTimeFormatted = dayName + ' ' + dayNumber + ' ' + monthName + ' ' + 
+                                 ('0' + now.getHours()).slice(-2) + ':' + 
+                                 ('0' + now.getMinutes()).slice(-2) + ':' + 
+                                 ('0' + now.getSeconds()).slice(-2);
+      document.getElementById("currentTime").innerHTML = "" + currentTimeFormatted;
     }
 
     // Update the time immediately and every second thereafter
