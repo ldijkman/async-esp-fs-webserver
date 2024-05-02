@@ -389,7 +389,9 @@ void loop() {
 
 
 
-
+  // Print the IP address
+  Serial.print("IP Address: ");
+  Serial.println(WiFi.localIP());
     Serial.print("Current temperature: ");
     Serial.print(tempString);
     Serial.println(" °C");
