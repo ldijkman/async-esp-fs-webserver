@@ -38,7 +38,8 @@ OneWire oneWire(oneWireBus);
 DallasTemperature sensors(&oneWire);
 
 // GPIO where the relay is connected
-const int relayPin = 16; // gpio16  gpio2=LED gives error on tx on my board
+const int relayPin = 16;     // gpio16  gpio2=LED gives error on tx on my board
+// const int relayPin = 5;   // wemos D1 mini relais shield has D1(GPIO5) i think
 
 // Hysteresis margin, prevent pinball machine effect
 // deadband around the setpoint, prevent rapid toggling.
