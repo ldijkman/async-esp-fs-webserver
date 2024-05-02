@@ -38,7 +38,8 @@ OneWire oneWire(oneWireBus);
 DallasTemperature sensors(&oneWire);
 
 // GPIO where the relay is connected
-const int relayPin = 16; // gpio16  gpio2=LED gives error on tx on my board
+const int relayPin = 16;     // gpio16  gpio2=LED gives error on tx on my board
+// const int relayPin = 5;   // wemos D1 mini relais shield has D1(GPIO5) i think
 
 // Hysteresis margin, prevent pinball machine effect
 // deadband around the setpoint, prevent rapid toggling.
@@ -69,7 +70,8 @@ const char index_html[] PROGMEM = R"rawliteral(
    <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-     body {
+  
+    body {
       margin: 0;
       padding: 0;
       background-color: #303030; /* Dark grey background */
@@ -77,6 +79,7 @@ const char index_html[] PROGMEM = R"rawliteral(
       /* Ensure the border doesn't affect layout size (optional) */
       box-sizing: border-box;
     }
+    
     #temperature{
       color: yellow;
     }
@@ -84,25 +87,30 @@ const char index_html[] PROGMEM = R"rawliteral(
     #setpoint{
       color: orange;
     }
+    
     #setpointInput {
       width: 120px; /* Adjust input width as necessary */
       border: 2px solid #007bff; /* Blue border for input */
       text-align: center; /* Ensure text is centered */
       font-size: 2em; /* Increase font size for better visibility */
+      border-radius: 5px; /* Adds rounded corners to the buttons */
     }
 
-    .button {  
-      width: 50px; /* Width to match the input height for aesthetic consistency */
-       /* Blue background for buttons */
-       background-color: #9DA1A5;  
+    #currentTime{
+      padding: 4px; 
+      font-weight: bold;
+      font-size: 1.5em;
+      color: lightgray;
      
-      /* White text for buttons */
-      /* color: white; */
-      /* No border for a cleaner look */
-      /* border: none; */
+    }
+
+   .button {  
+      width: 50px; /* Width to match the input height for aesthetic consistency */
+      background-color: #9DA1A5; /* Blue background for buttons */
       cursor: pointer; /* Change cursor to pointer to indicate clickable */  
       font-size: 1.7em; /* Ensure buttons are also easily readable */
-    }
+      border-radius: 5px; /* Adds rounded corners to the buttons */
+}
     
     #wsMessages {
       max-height: 200px;
@@ -110,9 +118,11 @@ const char index_html[] PROGMEM = R"rawliteral(
       text-align: left; /* Aligns text to the left */
       padding-left: 10px; /* Adds some space on the left for better readability */
       overflow-y: auto;
+      border-radius: 5px; /* Adds rounded corners to the buttons */
     }
 
   </style> 
+  
   <script>
     var ws;
     function initWebSocket() {
@@ -259,7 +269,7 @@ function sendSetpoint(value) {
 <input type="button" class="button preset" value="21°" onclick="sendSetpoint(21)" />&emsp;
 <input type="button" class="button preset" value="22°" onclick="sendSetpoint(22)" />
     <br><br>
-    <div id="currentTime" style="padding: 10px; font-weight: bold;"></div>
+    <div id="currentTime"></div>
   <div id="wsMessages" style="margin-top:20px;padding:10px;background:#f9f9f9;border:1px solid #ddd;"></div>  
     
     <br><br><br><br><br><br>
@@ -270,8 +280,17 @@ function sendSetpoint(value) {
 <script>
     function updateCurrentTime() {
       var now = new Date();
-      var currentTimeFormatted = ('0' + now.getHours()).slice(-2) + ':' + ('0' + now.getMinutes()).slice(-2) + ':' + ('0' + now.getSeconds()).slice(-2);
-      document.getElementById("currentTime").innerHTML = "Current Time: " + currentTimeFormatted;
+      var days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      var months = ["January", "February", "March", "April", "May", "June", 
+                    "July", "August", "September", "October", "November", "December"];
+      var dayName = days[now.getDay()];
+      var monthName = months[now.getMonth()];
+      var dayNumber = now.getDate();
+      var currentTimeFormatted = dayName + ' ' + dayNumber + ' ' + monthName + ' ' + 
+                                 ('0' + now.getHours()).slice(-2) + ':' + 
+                                 ('0' + now.getMinutes()).slice(-2) + ':' + 
+                                 ('0' + now.getSeconds()).slice(-2);
+      document.getElementById("currentTime").innerHTML = "" + currentTimeFormatted;
     }
 
     // Update the time immediately and every second thereafter
