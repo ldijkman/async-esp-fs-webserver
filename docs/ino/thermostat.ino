@@ -274,31 +274,38 @@ function sendSetpoint(value) {
     
     <br><br><br><br><br><br>
     </center>    
-<!--
+
 <script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
 <script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
--->
+<!--
 <script>
-  if (window.location.pathname === '/') {
-    // Define the script URLs you want to load
-    var scriptsToLoad = [
-      "https://ldijkman.github.io/async-esp-fs-webserver/foother.js",
-      "https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"
-    ];
+document.addEventListener('DOMContentLoaded', function () {
+    // Your script logic here
+    console.log("The page is fully loaded");
 
-    // Function to dynamically load each script
-    function loadScript(src) {
-      var script = document.createElement('script');
-      script.src = src;
-      script.async = false; // This ensures scripts are loaded in the order they are added
-      document.head.appendChild(script);
+    // Conditional script loading based on the current page's path
+    if (window.location.pathname === '/') {
+        // Define the script URLs you want to load
+        var scriptsToLoad = [
+            "https://ldijkman.github.io/Ace_Seventh_Heaven/console.js",
+            "https://ldijkman.github.io/async-esp-fs-webserver/foother.js"
+            
+        ];
+
+        // Function to dynamically load each script
+        function loadScript(src) {
+            var script = document.createElement('script');
+            script.src = src;
+            script.async = false; // This ensures scripts are loaded in the order they are added
+            document.head.appendChild(script);
+        }
+
+        // Load each script
+        scriptsToLoad.forEach(loadScript);
     }
-
-    // Load each script
-    scriptsToLoad.forEach(loadScript);
-  }
+});
 </script>
-
+-->
 <audio id="alertSound" src="https://github.com/ldijkman/async-esp-fs-webserver/raw/master/docs/ino/thermostat_web_flash/sound.mp3" type="audio/mp3"></audio>
 <script>
     function updateCurrentTime() {
