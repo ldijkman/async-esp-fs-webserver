@@ -13,7 +13,11 @@ https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/ino/thermost
 ![Screenshot from 2024-04-30 06-13-19](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/ccf8c495-476e-49a9-b85f-5124e8455d58)
 
 
+---
+thermostat bulb.html auto listed on mdns scan overview page http://garden.local/bulbs.html
+maybe rename bulb to card and cards
 
+![Screenshot from 2024-05-03 05-53-40](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/c16eef48-7737-42ff-9892-d990f431459b)
 
 ---
 
