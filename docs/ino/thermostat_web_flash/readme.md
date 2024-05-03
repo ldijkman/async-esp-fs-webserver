@@ -14,6 +14,8 @@ https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/ino/thermost
 
 
 ---
+automaticly create an overview page of ESP devices in local network from mDNS scan
+
 thermostat bulb.html auto listed iframed on mdns scan overview page http://garden.local/bulbs.html
 
 maybe rename bulb to card and cards
