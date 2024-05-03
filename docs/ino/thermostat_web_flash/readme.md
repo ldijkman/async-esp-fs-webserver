@@ -20,7 +20,7 @@ thermostat bulb.html auto listed iframed on mdns scan overview page http://garde
 
 maybe rename bulb to card and cards
 
-each ESP device has a card.html,   and cards.html scan list all card.html iframed
+each ESP device has a card.html,   and cards.html mDNS scan list all card.html iframed
 
 ![Screenshot from 2024-05-03 05-53-40](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/c16eef48-7737-42ff-9892-d990f431459b)
 
