@@ -15,6 +15,7 @@ https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/ino/thermost
 
 ---
 thermostat bulb.html auto listed on mdns scan overview page http://garden.local/bulbs.html
+
 maybe rename bulb to card and cards
 
 ![Screenshot from 2024-05-03 05-53-40](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/c16eef48-7737-42ff-9892-d990f431459b)
