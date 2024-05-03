@@ -250,7 +250,7 @@ function sendSetpoint(value) {
 </head>
 <body>
 <center>
-<h2 style="color:lightgray;">ESP8266 WiFi Thermostat DS18B20</h2>
+<h2><a href="http://thermostat.local" style="color:lightgray; text-decoration:none;">ESP8266 WiFi Thermostat DS18B20</a></h2>
   <h1><span id="temperature">--</span> °C <span id="relayStatus"></span></h1>
   <h1>Setpoint: <span id="setpoint">--</span> °C</h1>
     <input type="button" class="button" value="-" onclick="adjustSetpoint(-0.1)" />
@@ -374,6 +374,16 @@ void setup() {
     request->send_P(200, "text/html", index_html);
   });
 
+    // Serve the HTML page for mdns overview page from mdns scan
+  server.on("/bulb.html", HTTP_GET, [](AsyncWebServerRequest * request) {
+    request->send_P(200, "text/html", index_html);
+  });
+
+    // Handle Not Found
+  server.onNotFound([](AsyncWebServerRequest *request) {
+    request->send(404, "text/html", "<h2>Page Not Found!</h2><p>Go back to the <a href='/'>homepage</a>.</p>");
+  });
+
   server.begin();
 }
 
@@ -389,13 +399,23 @@ void loop() {
 
 
 
+  // Print the IP address
+    Serial.print("IP Address: ");
+    Serial.println(WiFi.localIP());
+    Serial.print("mDNS Address: ");
+    Serial.println("http://thermostat.local");
 
+    // Create a string containing both the local IP address and the mDNS URL, separated by a comma for clarity.
+    String where = "IP: " + WiFi.localIP().toString() + ", URL: http://thermostat.local";
+    // Send the string to all connected WebSocket clients.
+    ws.textAll(where.c_str());
+    
     Serial.print("Current temperature: ");
     Serial.print(tempString);
     Serial.println(" °C");
     Serial.print("Current setpoint: ");
     Serial.print(temperatureSetpoint);
-    Serial.println(" °C");
+    Serial.println(" °C\n");
 
 
     // Implement hysteresis control
