@@ -163,7 +163,20 @@ ws.onmessage = function(event) {
     // Assume relay state is sent as "1" for on and "0" for off
     var relayIsOn = data[1] === "1";
     updateRelayStatus(relayIsOn);
+  } else if (data[0] === "IP") {
+    var ipString =  data[1]+':'+data[2]; ; // also splits at http:  Use the IP address as a string
+    //console.log('data[1]', data[1]);
+    // Create a clickable link that opens the IP address in a new tab
+    var message = "<a href='" + ipString + "' target='_blank'>" + ipString + "</a>";
+    prependMessageWithTimestamp(message);  
+  }else if (data[0] === "mDNS") {
+    var mDNSString = data[1]+':'+data[2]; // also splits at http:
+    //console.log('data[1]', data[1]);
+    // Create a clickable link that opens in a new tab
+    var message = "<a href='" + mDNSString + "' target='_blank'>" + mDNSString + "</a>";
+    prependMessageWithTimestamp(message);  
   }
+
 
   prependMessageWithTimestamp(event.data);
         
@@ -277,35 +290,12 @@ function sendSetpoint(value) {
 
 <script src="https://ldijkman.github.io/async-esp-fs-webserver/foother.js"></script>
 <script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>
-<!--
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Your script logic here
-    console.log("The page is fully loaded");
 
-    // Conditional script loading based on the current page's path
-    if (window.location.pathname === '/') {
-        // Define the script URLs you want to load
-        var scriptsToLoad = [
-            "https://ldijkman.github.io/Ace_Seventh_Heaven/console.js",
-            "https://ldijkman.github.io/async-esp-fs-webserver/foother.js"
-            
-        ];
 
-        // Function to dynamically load each script
-        function loadScript(src) {
-            var script = document.createElement('script');
-            script.src = src;
-            script.async = false; // This ensures scripts are loaded in the order they are added
-            document.head.appendChild(script);
-        }
 
-        // Load each script
-        scriptsToLoad.forEach(loadScript);
-    }
-});
-</script>
--->
+
+
+
 <audio id="alertSound" src="https://github.com/ldijkman/async-esp-fs-webserver/raw/master/docs/ino/thermostat_web_flash/sound.mp3" type="audio/mp3"></audio>
 <script>
     function updateCurrentTime() {
@@ -332,7 +322,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // WebSocket event handler
 void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
-  AwsEventType type, void *arg, uint8_t *data, size_t len) {
+               AwsEventType type, void *arg, uint8_t *data, size_t len) {
   if (type == WS_EVT_DATA) {
     data[len] = 0; // Ensure the incoming data is null-terminated
     String message = String((char*)data);
@@ -404,13 +394,13 @@ void setup() {
     request->send_P(200, "text/html", index_html);
   });
 
-    // Serve the HTML page for mdns overview page from mdns scan
+  // Serve the HTML page for mdns overview page from mdns scan
   server.on("/bulb.html", HTTP_GET, [](AsyncWebServerRequest * request) {
     request->send_P(200, "text/html", index_html);
   });
 
-    // Handle Not Found
-  server.onNotFound([](AsyncWebServerRequest *request) {
+  // Handle Not Found
+  server.onNotFound([](AsyncWebServerRequest * request) {
     request->send(404, "text/html", "<h2>Page Not Found!</h2><p>Go back to the <a href='/'>homepage</a>.</p>");
   });
 
@@ -429,17 +419,19 @@ void loop() {
 
 
 
-  // Print the IP address
+    // Print the IP address
     Serial.print("IP Address: ");
     Serial.println(WiFi.localIP());
     Serial.print("mDNS Address: ");
     Serial.println("http://thermostat.local");
 
     // Create a string containing both the local IP address and the mDNS URL, separated by a comma for clarity.
-    String where = "IP: " + WiFi.localIP().toString() + ", URL: http://thermostat.local";
-    // Send the string to all connected WebSocket clients.
-    ws.textAll(where.c_str());
-    
+    String ip = "IP: http://" + WiFi.localIP().toString();
+    ws.textAll(ip.c_str());                          // Send the string to all connected WebSocket clients.
+    // Create a string containing both the local IP address and the mDNS URL, separated by a comma for clarity.
+    String mDNS = "mDNS: http://thermostat.local";
+    ws.textAll(mDNS.c_str());                        // Send the string to all connected WebSocket clients.
+
     Serial.print("Current temperature: ");
     Serial.print(tempString);
     Serial.println(" °C");
