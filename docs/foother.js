@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   const floatingDiv = document.createElement("div");
+  floatingDiv.id = "foother";
   floatingDiv.style.cssText =
     "position: fixed; bottom: 0; left: 0; width: 100%; background-color: #333; color: white; text-align: center; padding: 20px 0; font-size: 18px;";
 
