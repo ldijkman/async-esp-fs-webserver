@@ -35,7 +35,7 @@
 #define BOT_TOKEN "703453455:AA45642564562462456245234254ZXQ"
 
 // Use magnify search find on main telegram
-// search for @myidbot
+// search for @idbot
 // /getid
 #define CHAT_ID "623654364565"
 
