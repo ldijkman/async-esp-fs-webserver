@@ -34,6 +34,9 @@
 const char* ssid = "Bangert_30_Andijk";      // wiwfi router name broadcasted in the air
 const char* password = "ookikwilerin";       // your password
 
+const char* mDNS_adress = "thermostat";  // .loacal is added by ESP
+
+
 // GPIO where the DS18B20 is connected
 const int oneWireBus = 4; // gpio4     yellow=data     red=3.3v      black/blue=GND
 // needs a 4k7 resistor between data and 3.3v https://duckduckgo.com/?t=lm&q=DS18B20+resistor
@@ -378,13 +381,15 @@ void setup() {
   sensors.begin();
 
   // Initialize mDNS
-  if (!MDNS.begin("thermostat")) { // Start the mDNS responder for http://thermostat.local
+  if (!MDNS.begin(mDNS_adress)) { // Start the mDNS responder for http://thermostat.local
     Serial.println("Error setting up MDNS responder!");
   } else {
     Serial.println("mDNS responder started");
     // Print the mDNS address
     Serial.print("mDNS Address: ");
-    Serial.println("http://thermostat.local");
+    Serial.print("http://");
+    Serial.print(mDNS_adress);
+     Serial.println(".local");
 
     // Add service to mDNS-SD
     MDNS.addService("http", "tcp", 80);
@@ -428,13 +433,14 @@ void loop() {
     Serial.print("IP Address: ");
     Serial.println(WiFi.localIP());
     Serial.print("mDNS Address: ");
-    Serial.println("http://thermostat.local");
-
+    Serial.print("http://");
+    Serial.print(mDNS_adress);
+    Serial.println(".local");
     // Create a string containing both the local IP address and the mDNS URL, separated by a comma for clarity.
     String ip = "IP: http://" + WiFi.localIP().toString();
     ws.textAll(ip.c_str());                          // Send the string to all connected WebSocket clients.
     // Create a string containing both the local IP address and the mDNS URL, separated by a comma for clarity.
-    String mDNS = "mDNS: http://thermostat.local";
+      String mDNS = "mDNS: http://" + String(mDNS_adress)+".local"; // Corrected to use 'mDNS_adress'
     ws.textAll(mDNS.c_str());                        // Send the string to all connected WebSocket clients.
 
     Serial.print("Current temperature: ");
