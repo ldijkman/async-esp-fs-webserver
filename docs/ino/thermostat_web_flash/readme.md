@@ -52,6 +52,9 @@ BME280 would be nicer
 
 ## visual timeslot scheduler?
 https://plnkr.co/edit/ikOuTjDZvqbPR5jr?preview
+
+![visual_timeslot_scheduler](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/5ec38eb2-17ab-435a-b495-3f8490c2ba17)
+
 ---
 
 https://plnkr.co/edit/1zvCbJPU1aP9OReb?preview
