@@ -43,11 +43,12 @@ Relais
 
 ![wemos_d1_mini_relais_shield](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/3e3774b9-c2ae-445c-8602-1b87cbc5905a)
 
-BME280 would be nicer
+BME280 would be nicer with humidity, no such shield?
 
 ![wemos_d1_mini_BMP180_shield](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/03e68213-e894-4778-afc3-af3f7253ed05)
 
-BME280 would be nicer
+BME280 would be nicer with humidity, no such shield?
+
 ---
 
 ## visual timeslot scheduler?
