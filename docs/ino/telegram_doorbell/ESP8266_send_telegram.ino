@@ -21,22 +21,31 @@
 
 #include <ESP8266WiFi.h>
 #include <WiFiClientSecure.h>
-#include <UniversalTelegramBot.h> // manage libraries, 
-                                  // search for Universal Telegram Bot Library
+#include <UniversalTelegramBot.h>     // manage libraries, 
+                                      // search for Universal Telegram Bot Library
+                                      // https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot
 #include <ArduinoJson.h>
 
 // Wifi network station credentials
-#define WIFI_SSID "Bangert_30_Andijk"
-#define WIFI_PASSWORD "ookikwilerin"
-// Telegram BOT Token (Get from Botfather)
-// Use magnify search find on main telegram
-// search for @Botfather
-// /newbot
+#define WIFI_SSID "Bangert_30_Andijk"         // wifi router name bradcasted in the air
+#define WIFI_PASSWORD "ookikwilerin"          // wifi router password
+
+
+/*
+    https://t.me/botfather
+     Telegram BOT Token (Get from Botfather)
+     Use magnify search find on main telegram
+     search for @Botfather
+    /newbot
+*/
 #define BOT_TOKEN "703453455:AA45642564562462456245234254ZXQ"
 
-// Use magnify search find on main telegram
-// search for @idbot
-// /getid
+/*
+    https://t.me/myidbot
+     Use magnify search find on main telegram
+     search for @idbot
+    /getid
+*/
 #define CHAT_ID "623654364565"
 
 X509List cert(TELEGRAM_CERTIFICATE_ROOT);
