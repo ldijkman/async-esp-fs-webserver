@@ -31,10 +31,10 @@
 #include <ESP8266mDNS.h> // Include the mDNS library
 
 // Replace with your network WiFi Router credentials
-const char* ssid = "Bangert_30_Andijk";      // wiwfi router name broadcasted in the air
+const char* ssid = "Bangert_30_Andijk";      // wifi router name broadcasted in the air
 const char* password = "ookikwilerin";       // your password
 
-const char* mDNS_adress = "thermostat";  // .loacal is added by ESP
+const char* mDNS_adress = "thermostat";  // .local is added by ESP
 
 
 // GPIO where the DS18B20 is connected
