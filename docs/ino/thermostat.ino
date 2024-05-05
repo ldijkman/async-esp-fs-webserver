@@ -18,6 +18,11 @@
 
 // setpoint minimum input 10 maximum input 25
 
+
+// Android Phone / Tablet Bonjour mDNS Scanner
+// Easy find your ESP devices on Android
+// https://play.google.com/store/apps/details?id=de.wellenvogel.bonjourbrowser&pli=1
+
 #include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
@@ -456,6 +461,7 @@ void loop() {
     ws.textAll(message.c_str());
     // Inside your loop(), replace the relay state message construction and sending part with:
     String relayStateMessage = "relays:" + String(relayState ? "1" : "0"); // Converts boolean to "1" or "0"
+    // String relayStateMessage = "relays:" + String(relayState ? "ON" : "OFF"); // Converts boolean to "1" or "0"
     ws.textAll(relayStateMessage.c_str());
     // Construct the setpoint message
     String setpointMessage = "setpoint:" + String(temperatureSetpoint);
