@@ -25,6 +25,7 @@ each ESP device has a card.html,   and cards.html mDNS scan list all card.html i
 ![Screenshot from 2024-05-03 05-53-40](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/c16eef48-7737-42ff-9892-d990f431459b)
 
 ---
+stack it
 
 ![wemos_d1_mini_ESP8266_12E-12F](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/d7f4ace5-c5b3-4b69-aec3-ccd47c396406)
 
@@ -34,8 +35,11 @@ each ESP device has a card.html,   and cards.html mDNS scan list all card.html i
 
 ![wemos_d1_mini_relais_shield](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/3e3774b9-c2ae-445c-8602-1b87cbc5905a)
 
+BME280 would be nicer
+
 ![wemos_d1_mini_BMP180_shield](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/03e68213-e894-4778-afc3-af3f7253ed05)
 
+BME280 would be nicer
 ---
 
 https://plnkr.co/edit/1zvCbJPU1aP9OReb?preview
