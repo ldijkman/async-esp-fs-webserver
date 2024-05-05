@@ -29,9 +29,15 @@ stack it
 
 ![wemos_d1_mini_ESP8266_12E-12F](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/d7f4ace5-c5b3-4b69-aec3-ccd47c396406)
 
+Temp sensor DS18B20
+
 ![wemos_d1_mini_DS18B20_shield](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/8a15a537-c3de-4f53-86ad-a11ba3fea9cc)
 
+buzzer for error notification
+
 ![wemos_d1_mini_piezo_buzzer_shield](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/78e9780f-a936-4245-8feb-943898be09db)
+
+Relais
 
 ![wemos_d1_mini_relais_shield](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/3e3774b9-c2ae-445c-8602-1b87cbc5905a)
 
