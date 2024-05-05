@@ -27,6 +27,8 @@ each ESP device has a card.html,   and cards.html mDNS scan list all card.html i
 ---
 stack it
 
+wemos_d1_mini_ESP8266_12E-12F
+
 ![wemos_d1_mini_ESP8266_12E-12F](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/d7f4ace5-c5b3-4b69-aec3-ccd47c396406)
 
 Temp sensor DS18B20
