@@ -22,7 +22,8 @@
 
 
 
-
+// changes by Luberth
+// https://ldijkman.github.io/async-esp-fs-webserver/
 // https://github.com/ldijkman/async-esp-fs-webserver/edit/master/docs/ino/telegram_doorbell/ESP8266_send_telegram.ino
 
 #include <ESP8266WiFi.h>
@@ -33,7 +34,7 @@
 #include <ArduinoJson.h>
 
 // Wifi network station credentials
-#define WIFI_SSID "Bangert_30_Andijk"         // wifi router name bradcasted in the air
+#define WIFI_SSID "Bangert_30_Andijk"         // wifi router name broadcasted in the air
 #define WIFI_PASSWORD "ookikwilerin"          // wifi router password
 
 
