@@ -19,11 +19,13 @@ some links and commands for configure a bot on telegram
 https://t.me/botfather
 
 /newbot
+
 /mybots
 
 https://t.me/myidbot
 
 /getid
+
 /start
 
 
