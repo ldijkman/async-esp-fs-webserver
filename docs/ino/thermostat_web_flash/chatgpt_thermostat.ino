@@ -2,6 +2,8 @@
 
 
 // added Telegram fault notification message to phone
+// telegram app for adroid phone 
+//      https://play.google.com/store/apps/details?id=org.telegram.messenger&hl=nl&gl=US
 // configure telegram 
 
 // https://t.me/botfather
