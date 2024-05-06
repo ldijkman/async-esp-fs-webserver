@@ -1,5 +1,25 @@
 
-// chang4ed relaispin
+
+
+// added Telegram fault notification message to phone
+// configure telegram 
+
+// https://t.me/botfather
+// Telegram BOT Token (Get from Botfather)
+// Use magnify search find on main telegram
+// search for @Botfather
+// /newbot
+#define BOT_TOKEN "xxxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+
+// https://t.me/myidbot?start=getid
+// Use magnify search find on main telegram
+// search for @idbot
+// /getid
+#define CHAT_ID "xxxxxxxxxx"
+
+
+// changed relaispin
 // GPIO where the relay is connected
 // const int relayPin = 16; // gpio16  gpio2=LED gives error on tx i think on my board, cannot flash program the board when relays is connected
 
@@ -23,18 +43,36 @@
 // Easy find your ESP devices on Android
 // https://play.google.com/store/apps/details?id=de.wellenvogel.bonjourbrowser&pli=1
 
-#include <ESP8266WiFi.h>
+//#include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <OneWire.h>
 #include <DallasTemperature.h>
 #include <ESP8266mDNS.h> // Include the mDNS library
 
+#include <ESP8266WiFi.h>
+#include <WiFiClientSecure.h>
+#include <UniversalTelegramBot.h>     // manage libraries, 
+                                      // search for Universal Telegram Bot Library
+                                      // https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot
+#include <ArduinoJson.h>
+
+
+
+
 // Replace with your network WiFi Router credentials
 const char* ssid = "Bangert_30_Andijk";      // wifi router name broadcasted in the air
 const char* password = "ookikwilerin";       // your password
 
 const char* mDNS_adress = "thermostat";  // .local is added by ESP
+
+
+
+
+
+X509List cert(TELEGRAM_CERTIFICATE_ROOT);
+WiFiClientSecure secured_client;
+UniversalTelegramBot bot(BOT_TOKEN, secured_client);
 
 
 // GPIO where the DS18B20 is connected
@@ -367,6 +405,8 @@ void setup() {
 
 
   WiFi.begin(ssid, password);
+  secured_client.setTrustAnchors(&cert); // Add root certificate for api.telegram.org
+  
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
     Serial.println("Connecting to WiFi...");
@@ -414,6 +454,23 @@ void setup() {
     request->send(404, "text/html", "<h2>Page Not Found!</h2><p>Go back to the <a href='/'>homepage</a>.</p>");
   });
 
+//////////////////////////////////////////////////////////////
+// looks like next is needed for Telegram notifications
+Serial.print("Retrieving time: ");
+  configTime(0, 0, "time.google.com"); // get UTC time via NTP
+  time_t now = time(nullptr);
+  while (now < 24 * 3600)
+  {
+    Serial.print(".");
+    delay(1000);
+    now = time(nullptr);
+  }
+  Serial.println(now);
+//////////////////////////////////////////////////////////////
+ 
+String message = "Thermostat started \n http://" + String(mDNS_adress) + ".local\nhttp://" + WiFi.localIP().toString();
+bot.sendMessage(CHAT_ID, message.c_str(), "");
+ 
   server.begin();
 }
 
@@ -472,6 +529,12 @@ void loop() {
     // Construct the setpoint message
     String setpointMessage = "setpoint:" + String(temperatureSetpoint);
     ws.textAll(setpointMessage.c_str());
+
+
+    if(temperature <  10 || temperature > 40){
+      String message = "Thermostat\nSensor Temperature problem \n http://" + String(mDNS_adress) + ".local\nhttp://" + WiFi.localIP().toString();
+      bot.sendMessage(CHAT_ID, message.c_str(), "");
+     }
 
   }
   MDNS.update(); // Keep the mDNS responder updated
