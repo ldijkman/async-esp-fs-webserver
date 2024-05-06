@@ -6,6 +6,13 @@ so that it is in the mdns scan overview list
 
 of all ESP webservers in my network
 
+---
+added Telegram notifications to phone (Telegram is a whatsap alike messenger)
+
+![Screenshot from 2024-05-06 17-42-44](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/998b7c4e-087a-4251-a307-48f95712a0fc)
+
+
+
 
 ---
 https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/ino/thermostat_web_flash/chatgpt_thermostat.ino
