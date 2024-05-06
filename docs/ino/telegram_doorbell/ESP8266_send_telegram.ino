@@ -1,6 +1,7 @@
 /*******************************************************************
     A telegram bot that sends you a message when ESP
     starts up
+    https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot
 
     Parts:
     D1 Mini ESP8266 * - http://s.click.aliexpress.com/e/uzFUnIe
@@ -18,6 +19,11 @@
     Tindie: https://www.tindie.com/stores/brianlough/
     Twitter: https://twitter.com/witnessmenow
  *******************************************************************/
+
+
+
+
+https://github.com/ldijkman/async-esp-fs-webserver/edit/master/docs/ino/telegram_doorbell/ESP8266_send_telegram.ino
 
 #include <ESP8266WiFi.h>
 #include <WiFiClientSecure.h>
