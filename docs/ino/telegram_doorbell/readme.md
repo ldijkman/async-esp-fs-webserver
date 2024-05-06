@@ -12,7 +12,9 @@ and playing with esp32cam mjpeg2sd with telegram
 
 telegram linux x64 pc version
 
-some links for configure a bot on telegram
+---
+
+some links and commands for configure a bot on telegram
 
 https://t.me/botfather
 
