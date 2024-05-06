@@ -6,7 +6,7 @@ ino code example it is fast in notification on android phone
 - pitty i see no way to change the notification sound on android phone  for specific messageges or appps
 - could send 2 mesags shortly after another to get more attention
 
-and playing with esp32cam2mjpeg with telegram
+and playing with esp32cam mjpeg2sd with telegram
 
 
 telegram linux x64 pc version
