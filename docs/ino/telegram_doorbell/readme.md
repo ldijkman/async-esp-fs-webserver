@@ -16,7 +16,7 @@ telegram linux x64 pc version
 
 some links and commands for configure a bot on telegram
 
-https://telegram.org/dl
+Download Telegram DeskTop https://telegram.org/dl
 
 https://t.me/botfather
 
