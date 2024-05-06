@@ -1,4 +1,4 @@
-maybe a doorbell or telegram notifications for the thermostat
+maybe a doorbell or telegram notifications on phone for the thermostat
 
 playing with esp8266 and telegram
 
