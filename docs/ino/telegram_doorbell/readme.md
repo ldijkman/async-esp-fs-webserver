@@ -7,6 +7,7 @@ ino code example it is fast in notification on android phone
 - could send 2 mesags shortly after another to get more attention
 
 and playing with esp32cam mjpeg2sd with telegram
+- think there is no option yet to make it a doorbell cam
 
 
 telegram linux x64 pc version
