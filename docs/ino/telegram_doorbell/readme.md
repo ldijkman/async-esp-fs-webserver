@@ -1,6 +1,8 @@
 playing with esp8266 and telegram
 
-ino code example it is fast notification
+ino code example it is fast in notification on android phone
+- pitty i see no way to change the notification sound on android for specific messageges or appps
+- could send 2 mesags shortly after another to get more attention
 
 and playing with esp32cam2mjpeg with telegram
 
