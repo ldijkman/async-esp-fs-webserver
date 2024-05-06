@@ -1,3 +1,5 @@
+maybe a doorbell or telegram notifications for the thermostat
+
 playing with esp8266 and telegram
 
 ino code example it is fast in notification on android phone
