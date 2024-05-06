@@ -17,6 +17,7 @@ some links for configure a bot on telegram
 https://t.me/botfather
 
 /newbot
+/mybots
 
 https://t.me/myidbot
 
