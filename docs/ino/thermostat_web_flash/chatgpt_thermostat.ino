@@ -10,7 +10,7 @@
 // configure telegram 
 
 // https://youtu.be/-IC-Z78aTOs
-// playing with buttons in Telegram Message
+// playing with buttons in Telegram Message https://github.com/witnessmenow/Simple-Home-Automation-With-Telegram/blob/master/LedControl/LedControl.ino
 
 // https://t.me/botfather
 // Telegram BOT Token (Get from Botfather)
