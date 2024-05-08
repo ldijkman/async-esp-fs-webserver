@@ -75,7 +75,8 @@ const char* password = "ookikwilerin";       // your password
 const char* mDNS_adress = "thermostat";  // .local is added by ESP
 
 
-
+unsigned long lightTimerExpires;
+boolean lightTimerActive = false;
 
 
 X509List cert(TELEGRAM_CERTIFICATE_ROOT);
@@ -485,8 +486,105 @@ bot.sendMessageWithInlineKeyboard(CHAT_ID, "Thermostat Control", "", keyboardJso
   server.begin();
 }
 
+
+
+
+
+
+
+
+void handleNewMessages(int numNewMessages) {
+
+  for (int i = 0; i < numNewMessages; i++) {
+
+    // If the type is a "callback_query", a inline keyboard button was pressed
+    if (bot.messages[i].type ==  F("callback_query")) {
+      String text = bot.messages[i].text;
+      Serial.print("Call back button pressed with text: ");
+      Serial.println(text);
+       ws.textAll("Telegram button Recieved "+text); 
+
+
+      if (text == F("ON")) {
+       // digitalWrite(LED_PIN, HIGH);
+      } else if (text == F("OFF")) {
+        //digitalWrite(LED_PIN, LOW);
+      } else if (text.startsWith("TIME")) {
+        text.replace("TIME", "");
+        int timeRequested = text.toInt();
+        
+       // digitalWrite(LED_PIN, HIGH);
+        lightTimerActive = true;
+        lightTimerExpires = millis() + (timeRequested * 1000 * 60);
+      }
+    } else {
+      String chat_id = String(bot.messages[i].chat_id);
+      String text = bot.messages[i].text;
+
+      if (text == F("/options")) {
+
+        // Keyboard Json is an array of arrays.
+        // The size of the main array is how many row options the keyboard has
+        // The size of the sub arrays is how many coloums that row has
+
+        // "The Text" property is what shows up in the keyboard
+        // The "callback_data" property is the text that gets sent when pressed  
+        
+        String keyboardJson = F("[[{ \"text\" : \"ON\", \"callback_data\" : \"ON\" },{ \"text\" : \"OFF\", \"callback_data\" : \"OFF\" }],");
+        keyboardJson += F("[{ \"text\" : \"10 Mins\", \"callback_data\" : \"TIME10\" }, { \"text\" : \"20 Mins\", \"callback_data\" : \"TIME20\" }, { \"text\" : \"30 Mins\", \"callback_data\" : \"TIME30\" }]]");
+        bot.sendMessageWithInlineKeyboard(chat_id, "Sadbhs Stars", "", keyboardJson);
+      }
+
+      // When a user first uses a bot they will send a "/start" command
+      // So this is a good place to let the users know what commands are available
+      if (text == F("/start")) {
+
+        bot.sendMessage(chat_id, "/options : returns the inline keyboard\n", "Markdown");
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+int delayBetweenChecks = 1000;
+unsigned long lastTimeChecked;   //last time messages' scan has been done
+
 void loop() {
   static unsigned long lastMillis = 0;
+
+
+  if (millis() > lastTimeChecked + delayBetweenChecks)  {
+
+    // getUpdates returns 1 if there is a new message from Telegram
+    int numNewMessages = bot.getUpdates(bot.last_message_received + 1);
+
+    if (numNewMessages) {
+      Serial.println("got response");
+      handleNewMessages(numNewMessages);
+    }
+
+    lastTimeChecked = millis();
+
+   // if (lightTimerActive && millis() > lightTimerExpires) {
+   //   lightTimerActive = false;
+   //   digitalWrite(LED_PIN, LOW);
+   // }
+  }
+
+
+
+
+
+  
 
   if (millis() - lastMillis > 5000) {  // delay without Delay(), do it every 5 seconds
     lastMillis = millis();
@@ -550,3 +648,8 @@ void loop() {
   }
   MDNS.update(); // Keep the mDNS responder updated
 }
+
+
+
+
+
