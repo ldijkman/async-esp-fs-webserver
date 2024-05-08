@@ -7,6 +7,7 @@
 // Telegram for PC Desktop
 //      https://desktop.telegram.org/
 // configure telegram 
+// https://youtu.be/-IC-Z78aTOs
 
 // https://t.me/botfather
 // Telegram BOT Token (Get from Botfather)
