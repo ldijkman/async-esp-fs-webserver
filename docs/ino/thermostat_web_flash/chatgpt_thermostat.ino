@@ -1,6 +1,6 @@
 
-
 // should be possible to set setpoint from telegram buttons 15 and 20 celsius
+//    https://youtu.be/n8N7pnrjb2A
 
 // added Telegram fault notification message to phone
 // telegram app for adroid phone 
@@ -425,7 +425,7 @@ void setup() {
   // This hugely improves response time of the bot, but is only really suitable for projects
   // where the the initial interaction comes from Telegram as the requests will block the loop for
   // the length of the long poll
-  bot.longPoll = 60;
+ //  bot.longPoll = 60;  // looks like blocks my loop
 
 
 
