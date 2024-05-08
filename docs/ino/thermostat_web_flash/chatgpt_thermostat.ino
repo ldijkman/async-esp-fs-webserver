@@ -535,6 +535,9 @@ void handleNewMessages(int numNewMessages) {
         text.replace("TEMP", "");
         temperatureSetpoint = text.toInt();
         
+       // Assuming temperatureSetpoint is a float
+        String message = "Setpoint " + String(temperatureSetpoint, 1); // 1 decimal place for float
+        bot.sendMessage(CHAT_ID, message.c_str(), "");
         
        // digitalWrite(LED_PIN, HIGH);
         //lightTimerActive = true;
