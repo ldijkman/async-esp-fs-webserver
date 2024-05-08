@@ -23,6 +23,7 @@
 // /newbot
 #define BOT_TOKEN "xxxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
+
 // https://t.me/myidbot?start=getid
 // Use magnify search find on main telegram
 // search for @idbot
@@ -500,8 +501,9 @@ keyboardJson += F("[{ \"text\" : \"15 Celsius\", \"callback_data\" : \"TEMP15\" 
 bot.sendMessageWithInlineKeyboard(CHAT_ID, "Thermostat Control", "", keyboardJson);
  
 // Assuming temperatureSetpoint is a float
-        message = "Setpoint " + String(temperatureSetpoint, 1); // 1 decimal place for float
-        bot.sendMessage(CHAT_ID, message.c_str(), ""); 
+// Assuming currentTemperature holds the current temperature
+message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C"; // 1 decimal place for float
+bot.sendMessage(CHAT_ID, message.c_str(), "");
   
   server.begin();
 }
