@@ -1,13 +1,16 @@
 
 
 
+
 // added Telegram fault notification message to phone
 // telegram app for adroid phone 
 //      https://play.google.com/store/apps/details?id=org.telegram.messenger&hl=nl&gl=US
 // Telegram for PC Desktop
 //      https://desktop.telegram.org/
 // configure telegram 
+
 // https://youtu.be/-IC-Z78aTOs
+// playing with buttons in Telegram Message
 
 // https://t.me/botfather
 // Telegram BOT Token (Get from Botfather)
@@ -472,10 +475,13 @@ Serial.print("Retrieving time: ");
   }
   Serial.println(now);
 //////////////////////////////////////////////////////////////
- 
-String message = "Thermostat started \n http://" + String(mDNS_adress) + ".local\nhttp://" + WiFi.localIP().toString();
+
+ String message = "Thermostat started \n http://" + String(mDNS_adress) + ".local\nhttp://" + WiFi.localIP().toString();
 bot.sendMessage(CHAT_ID, message.c_str(), "");
- 
+String keyboardJson = F("[[{ \"text\" : \"ON\", \"callback_data\" : \"ON\" },{ \"text\" : \"OFF\", \"callback_data\" : \"OFF\" }],");
+keyboardJson += F("[{ \"text\" : \"10 Mins\", \"callback_data\" : \"TIME10\" }, { \"text\" : \"20 Mins\", \"callback_data\" : \"TIME20\" }, { \"text\" : \"30 Mins\", \"callback_data\" : \"TIME30\" }],");
+keyboardJson += F("[{ \"text\" : \"15 Celsius\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"20 Celsius\", \"callback_data\" : \"TEMP20\" }]]");
+bot.sendMessageWithInlineKeyboard(CHAT_ID, "Thermostat Control", "", keyboardJson);
   server.begin();
 }
 
