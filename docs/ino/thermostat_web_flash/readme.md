@@ -12,7 +12,12 @@ added Telegram notifications to phone (Telegram is a whatsapp alike messenger)
 ![Screenshot from 2024-05-06 17-42-44](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/998b7c4e-087a-4251-a307-48f95712a0fc)
 
 
+---
+posible to add buttons to Telegram message
 
+to control the thermostat from anywhere
+
+![Telegram_Buttons](https://github.com/ldijkman/async-esp-fs-webserver/assets/45427770/343b3315-c02c-494b-ae9c-73ab4d883c47)
 
 ---
 https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/ino/thermostat_web_flash/chatgpt_thermostat.ino
