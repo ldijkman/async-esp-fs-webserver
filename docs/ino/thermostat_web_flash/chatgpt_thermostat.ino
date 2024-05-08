@@ -30,6 +30,7 @@
 // /getid
 #define CHAT_ID "xxxxxxxxxx"
 
+
 // changed relaispin
 // GPIO where the relay is connected
 // const int relayPin = 16; // gpio16  gpio2=LED gives error on tx i think on my board, cannot flash program the board when relays is connected
@@ -498,6 +499,11 @@ String keyboardJson = F("[[{ \"text\" : \"ON\", \"callback_data\" : \"ON\" },{ \
 keyboardJson += F("[{ \"text\" : \"10 Mins\", \"callback_data\" : \"TIME10\" }, { \"text\" : \"20 Mins\", \"callback_data\" : \"TIME20\" }, { \"text\" : \"30 Mins\", \"callback_data\" : \"TIME30\" }],");
 keyboardJson += F("[{ \"text\" : \"15 Celsius\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"20 Celsius\", \"callback_data\" : \"TEMP20\" }]]");
 bot.sendMessageWithInlineKeyboard(CHAT_ID, "Thermostat Control", "", keyboardJson);
+ 
+// Assuming temperatureSetpoint is a float
+        message = "Setpoint " + String(temperatureSetpoint, 1); // 1 decimal place for float
+        bot.sendMessage(CHAT_ID, message.c_str(), ""); 
+  
   server.begin();
 }
 
@@ -670,10 +676,7 @@ void loop() {
     ws.textAll(setpointMessage.c_str());
 
 
-    if(temperature <  10 || temperature > 40){
-      String message = "Thermostat\nSensor Temperature problem \n http://" + String(mDNS_adress) + ".local\nhttp://" + WiFi.localIP().toString();
-      bot.sendMessage(CHAT_ID, message.c_str(), "");
-     }
+   
 
   }
   MDNS.update(); // Keep the mDNS responder updated
