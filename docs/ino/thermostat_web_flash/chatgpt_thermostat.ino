@@ -504,6 +504,8 @@ bot.sendMessageWithInlineKeyboard(CHAT_ID, "Thermostat Control", "", keyboardJso
 // Assuming currentTemperature holds the current temperature
 message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C"; // 1 decimal place for float
 bot.sendMessage(CHAT_ID, message.c_str(), "");
+bot.sendMessage(CHAT_ID, "https://t.me/s/Luberth_Dijkman", "");
+
   
   server.begin();
 }
