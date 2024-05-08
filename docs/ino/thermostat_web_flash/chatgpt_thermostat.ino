@@ -2,6 +2,8 @@
 // should be possible to set setpoint from telegram buttons 15 and 20 celsius
 //    https://youtu.be/n8N7pnrjb2A
 
+// https://t.me/s/Luberth_Dijkman
+
 // added Telegram fault notification message to phone
 // telegram app for adroid phone 
 //      https://play.google.com/store/apps/details?id=org.telegram.messenger&hl=nl&gl=US
@@ -27,7 +29,6 @@
 // search for @idbot
 // /getid
 #define CHAT_ID "xxxxxxxxxx"
-
 
 // changed relaispin
 // GPIO where the relay is connected
