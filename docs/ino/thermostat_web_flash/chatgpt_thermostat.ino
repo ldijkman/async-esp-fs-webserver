@@ -1,6 +1,6 @@
 
 
-
+// should be possible to set setpoint from telegram buttons 15 and 20 celsius
 
 // added Telegram fault notification message to phone
 // telegram app for adroid phone 
