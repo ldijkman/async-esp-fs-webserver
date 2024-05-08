@@ -13,7 +13,7 @@ added Telegram notifications to phone (Telegram is a whatsapp alike messenger)
 
 
 ---
-posible to add buttons to Telegram message
+possible to add buttons to Telegram message
 
 to control the thermostat from anywhere
 
