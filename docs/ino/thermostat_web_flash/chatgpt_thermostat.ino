@@ -9,8 +9,10 @@
 //      https://desktop.telegram.org/
 // configure telegram 
 
-// https://youtu.be/-IC-Z78aTOs
-// playing with buttons in Telegram Message https://github.com/witnessmenow/Simple-Home-Automation-With-Telegram/blob/master/LedControl/LedControl.ino
+
+// playing with buttons in Telegram Message
+//       https://youtu.be/-IC-Z78aTOs
+//       https://github.com/witnessmenow/Simple-Home-Automation-With-Telegram/blob/master/LedControl/LedControl.ino
 
 // https://t.me/botfather
 // Telegram BOT Token (Get from Botfather)
@@ -415,6 +417,18 @@ void setup() {
 
   WiFi.begin(ssid, password);
   secured_client.setTrustAnchors(&cert); // Add root certificate for api.telegram.org
+// Only required on 2.5 Beta
+// client.setInsecure();
+
+  
+  // longPoll keeps the request to Telegram open for the given amount of seconds if there are no messages
+  // This hugely improves response time of the bot, but is only really suitable for projects
+  // where the the initial interaction comes from Telegram as the requests will block the loop for
+  // the length of the long poll
+  bot.longPoll = 60;
+
+
+
   
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
@@ -513,10 +527,22 @@ void handleNewMessages(int numNewMessages) {
         text.replace("TIME", "");
         int timeRequested = text.toInt();
         
+        
        // digitalWrite(LED_PIN, HIGH);
         lightTimerActive = true;
         lightTimerExpires = millis() + (timeRequested * 1000 * 60);
+      }else if (text.startsWith("TEMP")) {
+        text.replace("TEMP", "");
+        temperatureSetpoint = text.toInt();
+        
+        
+       // digitalWrite(LED_PIN, HIGH);
+        //lightTimerActive = true;
+       // lightTimerExpires = millis() + (timeRequested * 1000 * 60);
       }
+
+
+     
     } else {
       String chat_id = String(bot.messages[i].chat_id);
       String text = bot.messages[i].text;
