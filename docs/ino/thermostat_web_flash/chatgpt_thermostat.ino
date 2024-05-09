@@ -63,7 +63,9 @@
 #include <ESP8266mDNS.h> // Include the mDNS library
 
 #include <ESP8266WiFi.h>
+
 #include <WiFiClientSecure.h>
+#include <ESP8266HTTPClient.h>
 #include <UniversalTelegramBot.h>     // manage libraries, 
                                       // search for Universal Telegram Bot Library
                                       // https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot
@@ -78,6 +80,7 @@ const char* password = "ookikwilerin";       // your password
 
 const char* mDNS_adress = "thermostat";  // .local is added by ESP
 
+String externalIP = ""; // Global variable to store the external IP address
 
 unsigned long lightTimerExpires;
 boolean lightTimerActive = false;
@@ -408,6 +411,28 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
   }
 }
 
+void getExternalIP() {
+  WiFiClient client; // Create a WiFiClient object
+  if (WiFi.status() == WL_CONNECTED) { //Check WiFi connection status
+    HTTPClient http;  //Declare an object of class HTTPClient
+
+    http.begin(client, "http://api.ipify.org");  //Specify request destination with WiFiClient
+    int httpCode = http.GET();  //Send the request
+
+    if (httpCode > 0) { //Check the returning code
+      externalIP = http.getString();   //Update the global variable with the external IP
+    } else {
+      Serial.printf("Failed to retrieve IP, error: %s\n", http.errorToString(httpCode).c_str());
+    }
+
+    http.end();   //Close connection
+  } else {
+    Serial.println("Error in WiFi connection");
+  }
+}
+
+
+
 void setup() {
   Serial.begin(115200);
 
@@ -493,21 +518,26 @@ Serial.print("Retrieving time: ");
   Serial.println(now);
 //////////////////////////////////////////////////////////////
 
- String message = "Thermostat started \n http://" + String(mDNS_adress) + ".local\nhttp://" + WiFi.localIP().toString();
-bot.sendMessage(CHAT_ID, message.c_str(), "");
+String message = "Thermostat started \n";
+message += "Local URL: http://" + String(mDNS_adress) + ".local\n";
+message += "Local IP: " + WiFi.localIP().toString() + "\n";
+message += "External IP: " + externalIP + "\n";
+message += "WiFi Network: " + String(ssid);
+bot.sendMessage(CHAT_ID, message.c_str(), "");bot.sendMessage(CHAT_ID, message.c_str(), "");
 String keyboardJson = F("[[{ \"text\" : \"ON\", \"callback_data\" : \"ON\" },{ \"text\" : \"OFF\", \"callback_data\" : \"OFF\" }],");
 keyboardJson += F("[{ \"text\" : \"10 Mins\", \"callback_data\" : \"TIME10\" }, { \"text\" : \"20 Mins\", \"callback_data\" : \"TIME20\" }, { \"text\" : \"30 Mins\", \"callback_data\" : \"TIME30\" }],");
 keyboardJson += F("[{ \"text\" : \"15 °C\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"18 °C\", \"callback_data\" : \"TEMP18\" },{ \"text\" : \"20 °C\", \"callback_data\" : \"TEMP20\" },{ \"text\" : \"21 °C\", \"callback_data\" : \"TEMP21\" }]]");
-bot.sendMessageWithInlineKeyboard(CHAT_ID, "Thermostat Control", "", keyboardJson);
+bot.sendMessageWithInlineKeyboard(CHAT_ID, "Thermostat Control\nhttps://t.me/s/Luberth_Dijkman", "", keyboardJson);
  
 // Assuming temperatureSetpoint is a float
 // Assuming currentTemperature holds the current temperature
 message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C"; // 1 decimal place for float
 bot.sendMessage(CHAT_ID, message.c_str(), "");
-bot.sendMessage(CHAT_ID, "https://t.me/s/Luberth_Dijkman", "");
+// bot.sendMessage(CHAT_ID, "https://t.me/s/Luberth_Dijkman", "");
 
   
   server.begin();
+  getExternalIP();
 }
 
 
@@ -569,9 +599,11 @@ bot.sendMessage(CHAT_ID, message.c_str(), "");
 
         // "The Text" property is what shows up in the keyboard
         // The "callback_data" property is the text that gets sent when pressed  
-        
-        String message = "Thermostat started \n http://" + String(mDNS_adress) + ".local\nhttp://" + WiFi.localIP().toString();
-        bot.sendMessage(CHAT_ID, message.c_str(), "");
+        String message = "Thermostat started \n";
+        message += "Local URL: http://" + String(mDNS_adress) + ".local\n";
+        message += "Local IP: " + WiFi.localIP().toString() + "\n";
+        message += "External IP: " + externalIP + "\n";
+        message += "WiFi Network: " + String(ssid);bot.sendMessage(CHAT_ID, message.c_str(), "");
         String keyboardJson = F("[[{ \"text\" : \"ON\", \"callback_data\" : \"ON\" },{ \"text\" : \"OFF\", \"callback_data\" : \"OFF\" }],");
         keyboardJson += F("[{ \"text\" : \"10 Mins\", \"callback_data\" : \"TIME10\" }, { \"text\" : \"20 Mins\", \"callback_data\" : \"TIME20\" }, { \"text\" : \"30 Mins\", \"callback_data\" : \"TIME30\" }],");
         keyboardJson += F("[{ \"text\" : \"15 °C\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"18 °C\", \"callback_data\" : \"TEMP18\" },{ \"text\" : \"20 °C\", \"callback_data\" : \"TEMP20\" },{ \"text\" : \"21 °C\", \"callback_data\" : \"TEMP21\" }]]");
