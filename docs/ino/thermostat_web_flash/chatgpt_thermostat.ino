@@ -518,6 +518,18 @@ Serial.print("Retrieving time: ");
   Serial.println(now);
 //////////////////////////////////////////////////////////////
 
+
+// Menu button in send area
+  const String commands = F("["
+                            "{\"command\":\"options\",  \"description\":\"Thermostat Control Menu\"},"
+                            "{\"command\":\"start\", \"description\":\"Start\"},"
+                            "{\"command\":\"status\",\"description\":\"Answer device current status\"}" // no comma on last command
+                            "]");
+  bot.setMyCommands(commands);
+// Menu button in send area
+
+
+
 String message = "Thermostat started \n";
 message += "WiFi Network: " + String(ssid)+ "\n";
 message += "Local URL: http://" + String(mDNS_adress) + ".local\n";
