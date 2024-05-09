@@ -6,6 +6,7 @@
 // video https://t.me/Luberth_Dijkman/15
 
 // added bottom menu scan mdns for other ESP devices in telegram
+//     https://t.me/Luberth_Dijkman/18
 
 // added Telegram fault notification message to phone
 // telegram app for adroid phone 
