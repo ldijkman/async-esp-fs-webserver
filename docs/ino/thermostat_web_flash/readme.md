@@ -1,5 +1,4 @@
-join my Telegram Channel https://telegram.org/dl?tme=f72cc723dc27343499_7084820442460493133
-
+join my Telegram Channel?
 
 https://t.me/s/Luberth_Dijkman
 
