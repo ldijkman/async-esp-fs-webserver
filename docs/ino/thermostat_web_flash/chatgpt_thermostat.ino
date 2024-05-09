@@ -5,6 +5,8 @@
 // https://t.me/s/Luberth_Dijkman
 // video https://t.me/Luberth_Dijkman/15
 
+// added bottom menu scan mdns for other ESP devices in telegram
+
 // added Telegram fault notification message to phone
 // telegram app for adroid phone 
 //      https://play.google.com/store/apps/details?id=org.telegram.messenger&hl=nl&gl=US
@@ -462,7 +464,7 @@ void setup() {
   // This hugely improves response time of the bot, but is only really suitable for projects
   // where the the initial interaction comes from Telegram as the requests will block the loop for
   // the length of the long poll
- //  bot.longPoll = 60;  // looks like blocks my loop
+   bot.longPoll = 2;  // 60 looks like blocks my loop
 
 
 
@@ -551,11 +553,13 @@ Serial.println("send bot bottom menu button");
   const String commands = F("["
                             "{\"command\":\"options\",  \"description\":\"Thermostat Control Menu\"},"
                             "{\"command\":\"start\", \"description\":\"Start\"},"
+                             "{\"command\":\"scan\", \"description\":\"Scan network for other ESP mDNS\"},"
                             "{\"command\":\"set_10\", \"description\":\"Temp Setpoint 10 °C\"},"
                             "{\"command\":\"set_15\", \"description\":\"Temp Setpoint 15 °C\"},"
                             "{\"command\":\"set_18\", \"description\":\"Temp Setpoint 18 °C\"},"
                             "{\"command\":\"set_20\", \"description\":\"Temp Setpoint 20 °C\"},"
                             "{\"command\":\"set_21\", \"description\":\"Temp Setpoint 21 °C\"},"
+                          
                             "{\"command\":\"status\",\"description\":\"Answer device current status\"}" // no comma on last command
                             "]");
   bot.setMyCommands(commands);
@@ -591,7 +595,72 @@ Serial.println("server begin");
 
 
 
+void browseService(const char* service, const char* proto) {
+  Serial.println("");
+  //Serial.printf("Scan _%s._%s.local. ... ", service, proto);
+  Serial.printf("Scan mDNS... ");//_%s._%s.local. ... ", service, proto);
+  int n = MDNS.queryService(service, proto);  // Query mDNS service
+  if (n == 0) {
+    Serial.print("\033[31m"); //red
+    Serial.println("\nDamn, no services found\n Flash more Devices\n  And give each a Unique mDNS name in Setup tab Custom");
+    Serial.print("\033[0m"); // Reset color
+  } else {
+    Serial.print(n);
+    Serial.println(" service(s) found");
 
+    // Create a JSON array to hold service details
+    DynamicJsonDocument doc(1024);
+    JsonArray services = doc.to<JsonArray>();
+
+    for (int i = 0; i < n; ++i) {
+      // Print details for each service found
+
+
+      // added http so that it is clickable in webserial monitor https://ldijkman.github.io/async-esp-fs-webserver/WebSerialMonitor.html
+      // Obtain the hostname and convert it to lowercase uppercase no clickable link in webserial monitor
+      // https://github.com/xtermjs/xterm.js/issues/4964
+      // Create a String object from the MDNS hostname and convert it to lowercase
+      String hostnameLower = MDNS.hostname(i);  // Obtain the hostname as a String
+      hostnameLower.toLowerCase();              // Convert the hostname to lowercase
+
+
+      // Now print the details, using the lowercase hostname
+      //Serial.printf("   %d: http://%s - http://%s port:%d\n", i + 1, hostnameLower.c_str(), MDNS.IP(i).toString().c_str(), MDNS.port(i));
+      Serial.print("\033[32m"); // Set green color (other color codes available)
+      Serial.printf("   %d: http://%s - http://%s\n", i + 1, hostnameLower.c_str(), MDNS.IP(i).toString().c_str());
+      Serial.print("\033[0m"); // Reset color
+
+      // Serial.printf("  %d: http://%s - http://%s port:%d\n", i + 1, (MDNS.hostname(i).c_str()).toLowerCase(), MDNS.IP(i).toString().c_str(), MDNS.port(i));
+      // make ip clickable weblink addon doenst do :port
+      // http://Living.local uppercase L does not work
+      // https://github.com/xtermjs/xterm.js/issues/4964
+    // Assuming you have a function to send a message via Telegram
+    // and a String variable 'telegramMessage' to accumulate the message content
+    String telegramMessage;
+    telegramMessage += String(i + 1) + ": http://" + hostnameLower + ".local - http://" + MDNS.IP(i).toString() + "\n";
+    
+    // Now send 'telegramMessage' via your Telegram bot
+    // Make sure to replace 'CHAT_ID' with your actual chat ID and 'bot' with your bot instance
+    bot.sendMessage(CHAT_ID, telegramMessage, "");
+   
+
+      // Add service details to the JSON array
+      JsonObject serviceObj = services.createNestedObject();
+
+      serviceObj["mdnsname"] = MDNS.hostname(i);
+      serviceObj["ip"] = MDNS.IP(i).toString();
+      serviceObj["port"] = MDNS.port(i);
+    }
+
+    // Serialize the JSON array to a string
+    String message;
+    serializeJson(doc, message);
+
+    // Send the JSON string to all connected WebSocket clients
+    ws.textAll(message.c_str());
+  }
+  Serial.println();
+}
 
 
 
@@ -599,10 +668,14 @@ Serial.println("server begin");
 void handleNewMessages(int numNewMessages) {
 
   for (int i = 0; i < numNewMessages; i++) {
+      Serial.print("bot.messages[i].text ");
+      Serial.println(bot.messages[i].text);
 
     // If the type is a "callback_query", a inline keyboard button was pressed
     if (bot.messages[i].type ==  F("callback_query")) {
       String text = bot.messages[i].text;
+
+      
       Serial.print("Call back button pressed with text: ");
       Serial.println(text);
        ws.textAll("Telegram button Recieved " + text); 
@@ -683,6 +756,22 @@ void handleNewMessages(int numNewMessages) {
         String message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C"; // 1 decimal place for float
         bot.sendMessage(CHAT_ID, message.c_str(), "");
       }
+/* keeps rebooting 
+      if (text == "/reboot") {
+        bot.sendMessage(chat_id, "Rebooting now...", "");
+        delay(1000); // Short delay to ensure message delivery
+        ESP.restart(); // Command to restart the ESP8266
+      }
+*/      
+
+      if (text == "/scan") {
+        bot.sendMessage(chat_id, "Scan local network for other ESP mDNS device", "");
+        browseService("http", "tcp");  // find other mdns devices in network
+      }
+
+
+
+
     }
   }
 }
@@ -699,15 +788,19 @@ void handleNewMessages(int numNewMessages) {
 
 int delayBetweenChecks = 1000;
 unsigned long lastTimeChecked;   //last time messages' scan has been done
+static unsigned long lastMillis = 0;
+
 
 void loop() {
-  static unsigned long lastMillis = 0;
+  
 
 
   if (millis() > lastTimeChecked + delayBetweenChecks)  {
 
     // getUpdates returns 1 if there is a new message from Telegram
     int numNewMessages = bot.getUpdates(bot.last_message_received + 1);
+    
+    Serial.println("numNewMessages " + String(numNewMessages));
 
     if (numNewMessages) {
       Serial.println("got response");
