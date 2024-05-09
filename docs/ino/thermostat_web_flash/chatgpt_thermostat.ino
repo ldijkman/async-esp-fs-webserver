@@ -532,6 +532,7 @@ Serial.print("Retrieving time: ");
                             "{\"command\":\"status\",\"description\":\"Answer device current status\"}" // no comma on last command
                             "]");
   bot.setMyCommands(commands);
+  
 // Menu button in send area
 
 
@@ -594,10 +595,10 @@ void handleNewMessages(int numNewMessages) {
         text.replace("TEMP", "");
         temperatureSetpoint = text.toInt();
         
-// Assuming temperatureSetpoint is a float
-// Assuming currentTemperature holds the current temperature
-String message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C"; // 1 decimal place for float
-bot.sendMessage(CHAT_ID, message.c_str(), "");
+        // Assuming temperatureSetpoint is a float
+        // Assuming currentTemperature holds the current temperature
+        String message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C"; // 1 decimal place for float
+        bot.sendMessage(CHAT_ID, message.c_str(), "");
         
        // digitalWrite(LED_PIN, HIGH);
         //lightTimerActive = true;
@@ -645,6 +646,16 @@ bot.sendMessage(CHAT_ID, message.c_str(), "");
       if (text == F("/start")) {
 
         bot.sendMessage(chat_id, "/options : returns the inline keyboard\n", "Markdown");
+      }
+
+      else if (text.startsWith("/set_")) {  // set temp from menu button sendarea
+        text.replace("/set_", "");
+        temperatureSetpoint = text.toInt();
+        
+        // Assuming temperatureSetpoint is a float
+        // Assuming currentTemperature holds the current temperature
+        String message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C"; // 1 decimal place for float
+        bot.sendMessage(CHAT_ID, message.c_str(), "");
       }
     }
   }
