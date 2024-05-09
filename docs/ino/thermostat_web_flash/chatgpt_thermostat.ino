@@ -524,6 +524,11 @@ Serial.print("Retrieving time: ");
   const String commands = F("["
                             "{\"command\":\"options\",  \"description\":\"Thermostat Control Menu\"},"
                             "{\"command\":\"start\", \"description\":\"Start\"},"
+                            "{\"command\":\"set_10\", \"description\":\"Temp Setpoint 10 °C\"},"
+                            "{\"command\":\"set_15\", \"description\":\"Temp Setpoint 15 °C\"},"
+                            "{\"command\":\"set_18\", \"description\":\"Temp Setpoint 18 °C\"},"
+                            "{\"command\":\"set_20\", \"description\":\"Temp Setpoint 20 °C\"},"
+                            "{\"command\":\"set_21\", \"description\":\"Temp Setpoint 21 °C\"},"
                             "{\"command\":\"status\",\"description\":\"Answer device current status\"}" // no comma on last command
                             "]");
   bot.setMyCommands(commands);
