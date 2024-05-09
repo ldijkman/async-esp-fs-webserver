@@ -497,7 +497,7 @@ Serial.print("Retrieving time: ");
 bot.sendMessage(CHAT_ID, message.c_str(), "");
 String keyboardJson = F("[[{ \"text\" : \"ON\", \"callback_data\" : \"ON\" },{ \"text\" : \"OFF\", \"callback_data\" : \"OFF\" }],");
 keyboardJson += F("[{ \"text\" : \"10 Mins\", \"callback_data\" : \"TIME10\" }, { \"text\" : \"20 Mins\", \"callback_data\" : \"TIME20\" }, { \"text\" : \"30 Mins\", \"callback_data\" : \"TIME30\" }],");
-keyboardJson += F("[{ \"text\" : \"15 Celsius\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"20 Celsius\", \"callback_data\" : \"TEMP20\" }]]");
+keyboardJson += F("[{ \"text\" : \"15 °C\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"18 °C\", \"callback_data\" : \"TEMP18\" },{ \"text\" : \"20 °C\", \"callback_data\" : \"TEMP20\" },{ \"text\" : \"21 °C\", \"callback_data\" : \"TEMP21\" }]]");
 bot.sendMessageWithInlineKeyboard(CHAT_ID, "Thermostat Control", "", keyboardJson);
  
 // Assuming temperatureSetpoint is a float
@@ -561,7 +561,7 @@ bot.sendMessage(CHAT_ID, message.c_str(), "");
       String chat_id = String(bot.messages[i].chat_id);
       String text = bot.messages[i].text;
 
-      if (text == F("/options")) {
+      if (text == F("/  s")) {
 
         // Keyboard Json is an array of arrays.
         // The size of the main array is how many row options the keyboard has
@@ -574,7 +574,7 @@ bot.sendMessage(CHAT_ID, message.c_str(), "");
 bot.sendMessage(CHAT_ID, message.c_str(), "");
 String keyboardJson = F("[[{ \"text\" : \"ON\", \"callback_data\" : \"ON\" },{ \"text\" : \"OFF\", \"callback_data\" : \"OFF\" }],");
 keyboardJson += F("[{ \"text\" : \"10 Mins\", \"callback_data\" : \"TIME10\" }, { \"text\" : \"20 Mins\", \"callback_data\" : \"TIME20\" }, { \"text\" : \"30 Mins\", \"callback_data\" : \"TIME30\" }],");
-keyboardJson += F("[{ \"text\" : \"15 Celsius\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"20 Celsius\", \"callback_data\" : \"TEMP20\" }]]");
+keyboardJson += F("[{ \"text\" : \"15 °C\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"18 °C\", \"callback_data\" : \"TEMP18\" },{ \"text\" : \"20 °C\", \"callback_data\" : \"TEMP20\" },{ \"text\" : \"21 °C\", \"callback_data\" : \"TEMP21\" }]]");
 bot.sendMessageWithInlineKeyboard(CHAT_ID, "Thermostat Control", "", keyboardJson);
  
 // Assuming temperatureSetpoint is a float
