@@ -30,6 +30,7 @@
 // /getid
 #define CHAT_ID "xxxxxxxxxx"
 
+
 // changed relaispin
 // GPIO where the relay is connected
 // const int relayPin = 16; // gpio16  gpio2=LED gives error on tx i think on my board, cannot flash program the board when relays is connected
@@ -518,7 +519,7 @@ Serial.print("Retrieving time: ");
 //////////////////////////////////////////////////////////////
 
 String message = "Thermostat started \n";
-message += "WiFi Network: " + String(ssid);
+message += "WiFi Network: " + String(ssid)+ "\n";
 message += "Local URL: http://" + String(mDNS_adress) + ".local\n";
 message += "Local IP: " + WiFi.localIP().toString() + "\n";
 message += "External IP: " + externalIP + "\n";
@@ -600,7 +601,7 @@ bot.sendMessage(CHAT_ID, message.c_str(), "");
         // "The Text" property is what shows up in the keyboard
         // The "callback_data" property is the text that gets sent when pressed  
         String message = "Thermostat \n";
-        message += "WiFi Network: " + String(ssid);
+        message += "WiFi Network: " + String(ssid)+ "\n";
         message += "Local URL: http://" + String(mDNS_adress) + ".local\n";
         message += "Local IP: " + WiFi.localIP().toString() + "\n";
         message += "External IP: " + externalIP + "\n";
