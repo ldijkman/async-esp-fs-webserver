@@ -32,6 +32,7 @@
 #define CHAT_ID "xxxxxxxxxx"
 
 
+
 // changed relaispin
 // GPIO where the relay is connected
 // const int relayPin = 16; // gpio16  gpio2=LED gives error on tx i think on my board, cannot flash program the board when relays is connected
@@ -56,6 +57,8 @@
 // Easy find your ESP devices on Android
 // https://play.google.com/store/apps/details?id=de.wellenvogel.bonjourbrowser&pli=1
 
+
+#include <time.h>
 //#include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
 #include <ESPAsyncWebServer.h>
@@ -412,6 +415,9 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
   }
 }
 
+
+
+
 void getExternalIP() {
   WiFiClient client; // Create a WiFiClient object
   if (WiFi.status() == WL_CONNECTED) { //Check WiFi connection status
@@ -422,8 +428,11 @@ void getExternalIP() {
 
     if (httpCode > 0) { //Check the returning code
       externalIP = http.getString();   //Update the global variable with the external IP
+       Serial.print("externalIP ");
+       Serial.println(externalIP);
     } else {
       Serial.printf("Failed to retrieve IP, error: %s\n", http.errorToString(httpCode).c_str());
+      Serial.println("Failed to retrieve IP");
     }
 
     http.end();   //Close connection
@@ -468,6 +477,9 @@ void setup() {
   Serial.print("IP Address: ");
   Serial.println(WiFi.localIP());
 
+  getExternalIP();
+
+
   // Start the DS18B20 sensor
   sensors.begin();
 
@@ -507,19 +519,34 @@ void setup() {
 
 //////////////////////////////////////////////////////////////
 // looks like next is needed for Telegram notifications
-Serial.print("Retrieving time: ");
-  configTime(0, 0, "time.google.com"); // get UTC time via NTP
+  Serial.print("Retrieving time: ");
+  configTime(0, 0, "pool.ntp.org", "time.nist.gov"); // Improved NTP server configuration
   time_t now = time(nullptr);
-  while (now < 24 * 3600)
-  {
+  while (now < 24 * 3600) {
     Serial.print(".");
     delay(1000);
     now = time(nullptr);
   }
-  Serial.println(now);
+
+  // Convert the time to a struct tm
+  struct tm *timeinfo;
+  timeinfo = gmtime(&now);
+
+  // Alternatively, for local time adjusted to your timezone, you might use localtime(&now) instead of gmtime(&now)
+
+  // Print the time in human-readable format
+  Serial.println();
+  Serial.print("Current time: ");
+  Serial.print(asctime(timeinfo)); // asctime() converts the time to a string in the format: Day Mon Date Hours:Minutes:Seconds Year\n
+
+  // For more control over formatting, use strftime() instead:
+  char buffer[80];
+  strftime(buffer, 80, "%Y-%m-%d %H:%M:%S", timeinfo);
+  Serial.print("Formatted time: ");
+  Serial.println(buffer);
 //////////////////////////////////////////////////////////////
 
-
+Serial.println("send bot bottom menu button");
 // Menu button in send area
   const String commands = F("["
                             "{\"command\":\"options\",  \"description\":\"Thermostat Control Menu\"},"
@@ -536,28 +563,30 @@ Serial.print("Retrieving time: ");
 // Menu button in send area
 
 
-
+Serial.println("send bot start info");
 String message = "Thermostat started \n";
 message += "WiFi Network: " + String(ssid)+ "\n";
 message += "Local URL: http://" + String(mDNS_adress) + ".local\n";
 message += "Local IP: " + WiFi.localIP().toString() + "\n";
 message += "External IP: " + externalIP + "\n";
 bot.sendMessage(CHAT_ID, message.c_str(), "");
-bot.sendMessage(CHAT_ID, message.c_str(), "");
-String keyboardJson = F("[[{ \"text\" : \"ON\", \"callback_data\" : \"ON\" },{ \"text\" : \"OFF\", \"callback_data\" : \"OFF\" }],");
-keyboardJson += F("[{ \"text\" : \"10 Mins\", \"callback_data\" : \"TIME10\" }, { \"text\" : \"20 Mins\", \"callback_data\" : \"TIME20\" }, { \"text\" : \"30 Mins\", \"callback_data\" : \"TIME30\" }],");
-keyboardJson += F("[{ \"text\" : \"15 °C\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"18 °C\", \"callback_data\" : \"TEMP18\" },{ \"text\" : \"20 °C\", \"callback_data\" : \"TEMP20\" },{ \"text\" : \"21 °C\", \"callback_data\" : \"TEMP21\" }]]");
-bot.sendMessageWithInlineKeyboard(CHAT_ID, "Thermostat Control\nhttps://t.me/s/Luberth_Dijkman", "", keyboardJson);
+
+Serial.println("send bot menu");
+        String keyboardJson = F("[[{ \"text\" : \"ON\", \"callback_data\" : \"ON\" },{ \"text\" : \"OFF\", \"callback_data\" : \"OFF\" }],");
+        keyboardJson += F("[{ \"text\" : \"10 Mins\", \"callback_data\" : \"TIME10\" }, { \"text\" : \"20 Mins\", \"callback_data\" : \"TIME20\" }, { \"text\" : \"30 Mins\", \"callback_data\" : \"TIME30\" }],");
+        keyboardJson += F("[{ \"text\" : \"15 °C\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"18 °C\", \"callback_data\" : \"TEMP18\" },{ \"text\" : \"20 °C\", \"callback_data\" : \"TEMP20\" },{ \"text\" : \"21 °C\", \"callback_data\" : \"TEMP21\" }]]");
+        bot.sendMessageWithInlineKeyboard(CHAT_ID, "Thermostat Control\nhttps://t.me/s/Luberth_Dijkman", "", keyboardJson);
  
+ Serial.println("send bot temp info");
 // Assuming temperatureSetpoint is a float
 // Assuming currentTemperature holds the current temperature
 message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C"; // 1 decimal place for float
 bot.sendMessage(CHAT_ID, message.c_str(), "");
-// bot.sendMessage(CHAT_ID, "https://t.me/s/Luberth_Dijkman", "");
 
+Serial.println("server begin");
   
   server.begin();
-  getExternalIP();
+
 }
 
 
@@ -576,7 +605,7 @@ void handleNewMessages(int numNewMessages) {
       String text = bot.messages[i].text;
       Serial.print("Call back button pressed with text: ");
       Serial.println(text);
-       ws.textAll("Telegram button Recieved "+text); 
+       ws.textAll("Telegram button Recieved " + text); 
 
 
       if (text == F("ON")) {
@@ -631,14 +660,11 @@ void handleNewMessages(int numNewMessages) {
         keyboardJson += F("[{ \"text\" : \"15 °C\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"18 °C\", \"callback_data\" : \"TEMP18\" },{ \"text\" : \"20 °C\", \"callback_data\" : \"TEMP20\" },{ \"text\" : \"21 °C\", \"callback_data\" : \"TEMP21\" }]]");
         bot.sendMessageWithInlineKeyboard(CHAT_ID, "Thermostat Control\nhttps://t.me/s/Luberth_Dijkman", "", keyboardJson);
  
-
-
- 
         // Assuming temperatureSetpoint is a float
         // Assuming currentTemperature holds the current temperature
         message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C"; // 1 decimal place for float
         bot.sendMessage(CHAT_ID, message.c_str(), "");
-        // bot.sendMessage(CHAT_ID, "https://t.me/s/Luberth_Dijkman", "");
+      
       }
 
       // When a user first uses a bot they will send a "/start" command
@@ -648,7 +674,7 @@ void handleNewMessages(int numNewMessages) {
         bot.sendMessage(chat_id, "/options : returns the inline keyboard\n", "Markdown");
       }
 
-      else if (text.startsWith("/set_")) {  // set temp from menu button sendarea
+      if (text.startsWith("/set_")) {  // set temp from menu button sendarea
         text.replace("/set_", "");
         temperatureSetpoint = text.toInt();
         
@@ -761,8 +787,3 @@ void loop() {
   }
   MDNS.update(); // Keep the mDNS responder updated
 }
-
-
-
-
-
