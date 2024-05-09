@@ -561,7 +561,7 @@ bot.sendMessage(CHAT_ID, message.c_str(), "");
       String chat_id = String(bot.messages[i].chat_id);
       String text = bot.messages[i].text;
 
-      if (text == F("/  s")) {
+      if (text == F("/options")) {
 
         // Keyboard Json is an array of arrays.
         // The size of the main array is how many row options the keyboard has
@@ -571,17 +571,20 @@ bot.sendMessage(CHAT_ID, message.c_str(), "");
         // The "callback_data" property is the text that gets sent when pressed  
         
         String message = "Thermostat started \n http://" + String(mDNS_adress) + ".local\nhttp://" + WiFi.localIP().toString();
-bot.sendMessage(CHAT_ID, message.c_str(), "");
-String keyboardJson = F("[[{ \"text\" : \"ON\", \"callback_data\" : \"ON\" },{ \"text\" : \"OFF\", \"callback_data\" : \"OFF\" }],");
-keyboardJson += F("[{ \"text\" : \"10 Mins\", \"callback_data\" : \"TIME10\" }, { \"text\" : \"20 Mins\", \"callback_data\" : \"TIME20\" }, { \"text\" : \"30 Mins\", \"callback_data\" : \"TIME30\" }],");
-keyboardJson += F("[{ \"text\" : \"15 °C\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"18 °C\", \"callback_data\" : \"TEMP18\" },{ \"text\" : \"20 °C\", \"callback_data\" : \"TEMP20\" },{ \"text\" : \"21 °C\", \"callback_data\" : \"TEMP21\" }]]");
-bot.sendMessageWithInlineKeyboard(CHAT_ID, "Thermostat Control", "", keyboardJson);
+        bot.sendMessage(CHAT_ID, message.c_str(), "");
+        String keyboardJson = F("[[{ \"text\" : \"ON\", \"callback_data\" : \"ON\" },{ \"text\" : \"OFF\", \"callback_data\" : \"OFF\" }],");
+        keyboardJson += F("[{ \"text\" : \"10 Mins\", \"callback_data\" : \"TIME10\" }, { \"text\" : \"20 Mins\", \"callback_data\" : \"TIME20\" }, { \"text\" : \"30 Mins\", \"callback_data\" : \"TIME30\" }],");
+        keyboardJson += F("[{ \"text\" : \"15 °C\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"18 °C\", \"callback_data\" : \"TEMP18\" },{ \"text\" : \"20 °C\", \"callback_data\" : \"TEMP20\" },{ \"text\" : \"21 °C\", \"callback_data\" : \"TEMP21\" }]]");
+        bot.sendMessageWithInlineKeyboard(CHAT_ID, "Thermostat Control", "", keyboardJson);
  
-// Assuming temperatureSetpoint is a float
-// Assuming currentTemperature holds the current temperature
-message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C"; // 1 decimal place for float
-bot.sendMessage(CHAT_ID, message.c_str(), "");
-bot.sendMessage(CHAT_ID, "https://t.me/s/Luberth_Dijkman", "");
+
+
+ 
+        // Assuming temperatureSetpoint is a float
+        // Assuming currentTemperature holds the current temperature
+        message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C"; // 1 decimal place for float
+        bot.sendMessage(CHAT_ID, message.c_str(), "");
+        bot.sendMessage(CHAT_ID, "https://t.me/s/Luberth_Dijkman", "");
       }
 
       // When a user first uses a bot they will send a "/start" command
