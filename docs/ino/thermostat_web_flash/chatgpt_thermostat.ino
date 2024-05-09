@@ -3,6 +3,7 @@
 //    https://youtu.be/n8N7pnrjb2A
 
 // https://t.me/s/Luberth_Dijkman
+// video https://t.me/Luberth_Dijkman/15
 
 // added Telegram fault notification message to phone
 // telegram app for adroid phone 
