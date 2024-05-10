@@ -31,7 +31,6 @@
 // /newbot
 #define BOT_TOKEN "xxxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
-
 // https://t.me/myidbot?start=getid
 // Use magnify search find on main telegram
 // search for @idbot
@@ -612,9 +611,12 @@ void browseService(const char* service, const char* proto) {
     Serial.print("\033[31m"); //red
     Serial.println(F("\nDamn, no services found\n Flash more Devices\n  And give each a Unique mDNS name in Setup tab Custom"));
     Serial.print("\033[0m"); // Reset color
+    
+    // Now send 'telegramMessage' via your Telegram bot
+    bot.sendMessage(CHAT_ID, F("Damn, no other ESP mDNS devices found\n Flash more ESP Devices\nhttps://ldijkman.github.io/async-esp-fs-webserver/"), "");
   } else {
     Serial.print(n);
-    Serial.println(" service(s) found");
+    Serial.println(F(" service(s) found"));
 /*
     // Create a JSON array to hold service details
     DynamicJsonDocument doc(1024);
