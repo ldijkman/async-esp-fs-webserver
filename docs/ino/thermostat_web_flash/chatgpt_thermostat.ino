@@ -98,7 +98,7 @@ String resetReasonStr;
 uint32_t freeStack;
 uint32_t freeHeap;
 
-int timeoffset= 7200; // 2 hours in seconds time offset for Holland / The Nederlands
+//int timeoffset= 7200; // 2 hours in seconds time offset for Holland / The Nederlands
 
 unsigned long lightTimerExpires;
 boolean lightTimerActive = false;
@@ -407,21 +407,21 @@ void onWsEvent(AsyncWebSocket *server, AsyncWebSocketClient *client,
     data[len] = 0; // Ensure the incoming data is null-terminated
     String message = String((char*)data);
 
-    if (message.startsWith("setpoint:")) {
+    if (message.startsWith(F("setpoint:"))) {
       String setpointStr = message.substring(strlen("setpoint:"));
       float newSetpoint = setpointStr.toFloat();
 
       // Validate the new setpoint
       if (newSetpoint >= 10.0 && newSetpoint <= 25.0) {
         temperatureSetpoint = newSetpoint;
-        Serial.print("New temperature setpoint received and accepted: ");
+        Serial.print(F("New temperature setpoint received and accepted: "));
         Serial.println(temperatureSetpoint);
 
         // Broadcast the new setpoint to all connected clients
         String confirmationMessage = "setpoint:" + String(temperatureSetpoint);
         server->textAll(confirmationMessage.c_str());
       } else {
-        Serial.print("Received setpoint out of range: ");
+        Serial.print(F("Received setpoint out of range: "));
         Serial.println(newSetpoint);
         // Optionally, send a message back to the client indicating the rejection
       }
@@ -442,16 +442,16 @@ void getExternalIP() {
 
     if (httpCode > 0) { //Check the returning code
       externalIP = http.getString();   //Update the global variable with the external IP
-       Serial.print("externalIP ");
+       Serial.print(F("externalIP "));
        Serial.println(externalIP);
     } else {
       Serial.printf("Failed to retrieve IP, error: %s\n", http.errorToString(httpCode).c_str());
-      Serial.println("Failed to retrieve IP");
+      Serial.println(F("Failed to retrieve IP"));
     }
 
     http.end();   //Close connection
   } else {
-    Serial.println("Error in WiFi connection");
+    Serial.println(F("Error in WiFi connection"));
   }
 }
 
@@ -536,12 +536,12 @@ void setup() {
   
   while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
-    Serial.println("Connecting to WiFi...");
+    Serial.println(F("Connecting to WiFi..."));
   }
-  Serial.println("Connected to WiFi");
+  Serial.println(F("Connected to WiFi"));
 
   // Print the IP address
-  Serial.print("IP Address: ");
+  Serial.print(F("IP Address: "));
   Serial.println(WiFi.localIP());
 
   getExternalIP();
@@ -552,14 +552,13 @@ void setup() {
 
   // Initialize mDNS
   if (!MDNS.begin(mDNS_adress)) { // Start the mDNS responder for http://thermostat.local
-    Serial.println("Error setting up MDNS responder!");
+    Serial.println(F("Error setting up MDNS responder!"));
   } else {
-    Serial.println("mDNS responder started");
+    Serial.println(F("mDNS responder started"));
     // Print the mDNS address
-    Serial.print("mDNS Address: ");
-    Serial.print("http://");
+    Serial.print(F("mDNS Address: http://"));
     Serial.print(mDNS_adress);
-     Serial.println(".local");
+     Serial.println(F(".local"));
 
     // Add service to mDNS-SD
     MDNS.addService("http", "tcp", 80);
@@ -581,12 +580,12 @@ void setup() {
 
   // Handle Not Found
   server.onNotFound([](AsyncWebServerRequest * request) {
-    request->send(404, "text/html", "<h2>Page Not Found!</h2><p>Go back to the <a href='/'>homepage</a>.</p>");
+    request->send(404, "text/html", F("<h2>Page Not Found!</h2><p>Go back to the <a href='/'>homepage</a>.</p>"));
   });
 
 //////////////////////////////////////////////////////////////
 // looks like next is needed for Telegram notifications
-  Serial.print("Retrieving time: ");
+  Serial.print(F("Retrieving time: "));
   configTime(0, 0, "pool.ntp.org", "time.nist.gov"); // Improved NTP server configuration with a 2-hour time offset
 
   time_t now = time(nullptr);
@@ -618,7 +617,7 @@ void setup() {
   printResetReason();
 
 
-Serial.println("send bot bottom menu button");
+Serial.println(F("send bot bottom menu button"));
 // Menu button in send area
   const String commands = F("["
                             "{\"command\":\"options\",  \"description\":\"Thermostat Control Menu\"},"
@@ -639,10 +638,10 @@ Serial.println("send bot bottom menu button");
 
 Serial.println(F("send bot start info"));
 String message = (F("Thermostat started \n"));
-message += "WiFi Network: " + String(ssid)+ "\n";
-message += "Local URL: http://" + String(mDNS_adress) + ".local\n";
-message += "Local IP: " + WiFi.localIP().toString() + "\n";
-message += "External IP: " + externalIP + "\nReset reason " + resetReasonStr+"\n";
+message += F("WiFi Network: ") + String(ssid)+ "\n";
+message += F("Local URL: http://") + String(mDNS_adress) + ".local\n";
+message += F("Local IP: ") + WiFi.localIP().toString() + "\n";
+message += F("External IP: ") + externalIP + F("\nReset reason ") + resetReasonStr+"\n";
 
 bot.sendMessage(CHAT_ID, message.c_str(), "");
 
@@ -652,7 +651,7 @@ Serial.println(F("send bot menu"));
         keyboardJson += F("[{ \"text\" : \"10 °C\", \"callback_data\" : \"TEMP10\" },{ \"text\" : \"15 °C\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"18 °C\", \"callback_data\" : \"TEMP18\" },{ \"text\" : \"20 °C\", \"callback_data\" : \"TEMP20\" },{ \"text\" : \"21 °C\", \"callback_data\" : \"TEMP21\" }],");
         keyboardJson += F("[{ \"text\" : \"Scan\", \"callback_data\" : \"/scan\" }]]");
         
-        bot.sendMessageWithInlineKeyboard(CHAT_ID, "Thermostat Control\nhttps://t.me/s/Luberth_Dijkman", "", keyboardJson);
+        bot.sendMessageWithInlineKeyboard(CHAT_ID, F("Thermostat Control\nhttps://t.me/s/Luberth_Dijkman"), "", keyboardJson);
  
  Serial.println(F("send bot temp info"));
 // Assuming temperatureSetpoint is a float
@@ -661,7 +660,7 @@ bot.sendMessage(CHAT_ID, asctime(timeinfo), "");
 
 int freeContStack = ESP.getFreeContStack();
 int freeHeap = ESP.getFreeHeap();
-message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C\n     Stack: " + String(freeContStack) + " bytes, Heap: " + String(freeHeap) + " bytes";
+message = F("Setpoint: ") + String(temperatureSetpoint, 1) + F("°C, Current Temp: ") + String(sensors.getTempCByIndex(0), 1) + "°C\n     Stack: " + String(freeContStack) + " bytes, Heap: " + String(freeHeap) + " bytes";
 
 bot.sendMessage(CHAT_ID, message.c_str(), "");
 
@@ -697,7 +696,7 @@ void browseService(const char* service, const char* proto) {
     // Create a JSON array to hold service details
     DynamicJsonDocument doc(1024);
     JsonArray services = doc.to<JsonArray>();
-*/
+*/  String telegramMessage="";
     for (int i = 0; i < n; ++i) {
       // Print details for each service found
 
@@ -722,14 +721,16 @@ void browseService(const char* service, const char* proto) {
       // https://github.com/xtermjs/xterm.js/issues/4964
     // Assuming you have a function to send a message via Telegram
     // and a String variable 'telegramMessage' to accumulate the message content
-    String telegramMessage;
+  
     telegramMessage += String(i + 1) + ": http://" + hostnameLower + " - http://" + MDNS.IP(i).toString() + "\n";
     
-    // Now send 'telegramMessage' via your Telegram bot
-    // Make sure to replace 'CHAT_ID' with your actual chat ID and 'bot' with your bot instance
-    bot.sendMessage(CHAT_ID, telegramMessage, "");
+ 
    
-    }/*
+    }    // Now send 'telegramMessage' via your Telegram bot
+    // Make sure to replace 'CHAT_ID' with your actual chat ID and 'bot' with your bot instance
+ bot.sendMessage(CHAT_ID, telegramMessage, "");
+telegramMessage="";
+/*
       // Add service details to the JSON array
       JsonObject serviceObj = services.createNestedObject();
 
@@ -747,6 +748,10 @@ void browseService(const char* service, const char* proto) {
 
  */
   }
+ 
+  String message = F("<b>Scan Done</b>    Stack: ") + String(ESP.getFreeContStack()) + F(" bytes, Heap: ") + String(ESP.getFreeHeap()) + F(" bytes");
+  bot.sendMessage(CHAT_ID, message, "");
+  message ="";
   Serial.println();
 }
 
@@ -756,7 +761,7 @@ void browseService(const char* service, const char* proto) {
 void handleNewMessages(int numNewMessages) {
 
   for (int i = 0; i < numNewMessages; i++) {
-      Serial.print("bot.messages[i].text ");
+      Serial.print(F("bot.messages[i].text "));
       Serial.println(bot.messages[i].text);
 
     // If the type is a "callback_query", a inline keyboard button was pressed
@@ -766,7 +771,7 @@ void handleNewMessages(int numNewMessages) {
       
       Serial.print(F("Call back button pressed with text: "));
       Serial.println(text);
-       ws.textAll("Telegram button Recieved " + text); 
+       ws.textAll(F("Telegram button Recieved ") + text); 
 
 
       if (text == F("ON")) {
@@ -796,7 +801,7 @@ String message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current T
       }
 
       if (text == "/scan") {
-        bot.sendMessage(CHAT_ID, "Scan local network for other ESP mDNS device", "");
+        bot.sendMessage(CHAT_ID, F("Scan local network for other ESP mDNS device"), "");
         browseService("http", "tcp");  // find other mdns devices in network
       }
      
@@ -894,10 +899,10 @@ void loop() {
     // getUpdates returns 1 if there is a new message from Telegram
     int numNewMessages = bot.getUpdates(bot.last_message_received + 1);
     
-    Serial.println("numNewMessages " + String(numNewMessages));
+    Serial.println(F("numNewMessages ") + String(numNewMessages));
 
     if (numNewMessages) {
-      Serial.println("got response");
+      Serial.println(F("got response"));
       handleNewMessages(numNewMessages);
     }
 
