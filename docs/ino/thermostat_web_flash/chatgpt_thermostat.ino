@@ -1,4 +1,8 @@
 
+// Join My Telegram Channel?
+//     https://t.me/Luberth_Dijkman
+
+
 // should be possible to set setpoint from telegram buttons 15 and 20 celsius
 //    https://youtu.be/n8N7pnrjb2A
 
