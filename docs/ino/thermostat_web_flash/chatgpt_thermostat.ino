@@ -95,8 +95,10 @@ String externalIP = ""; // Global variable to store the external IP address
 
 // Global variable to store the reset reason as a string
 String resetReasonStr;
- uint32_t freeStack;
-  uint32_t freeHeap;
+uint32_t freeStack;
+uint32_t freeHeap;
+
+int timeoffset= 7200; // 2 hours in seconds time offset for Holland / The Nederlands
 
 unsigned long lightTimerExpires;
 boolean lightTimerActive = false;
@@ -585,7 +587,8 @@ void setup() {
 //////////////////////////////////////////////////////////////
 // looks like next is needed for Telegram notifications
   Serial.print("Retrieving time: ");
-  configTime(0, 0, "pool.ntp.org", "time.nist.gov"); // Improved NTP server configuration
+  configTime(timeoffset, 0, "pool.ntp.org", "time.nist.gov"); // Improved NTP server configuration with a 2-hour time offset
+
   time_t now = time(nullptr);
   while (now < 24 * 3600) {
     Serial.print(".");
