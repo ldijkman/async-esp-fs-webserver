@@ -31,6 +31,7 @@
 // /newbot
 #define BOT_TOKEN "xxxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
+
 // https://t.me/myidbot?start=getid
 // Use magnify search find on main telegram
 // search for @idbot
@@ -91,6 +92,10 @@ const char* password = "ookikwilerin";       // your password
 const char* mDNS_adress = "thermostat";  // .local is added by ESP
 
 String externalIP = ""; // Global variable to store the external IP address
+
+// Global variable to store the reset reason as a string
+String resetReasonStr;
+
 
 unsigned long lightTimerExpires;
 boolean lightTimerActive = false;
@@ -449,6 +454,59 @@ void getExternalIP() {
 
 
 
+
+void printResetReason() {
+   rst_info *resetInfo = ESP.getResetInfoPtr();
+  Serial.print(F("Reset reason: "));
+  switch (resetInfo->reason) {
+    case 0:
+    resetReasonStr=F("Power on reset");
+      Serial.println(resetReasonStr);
+      break;
+    case 1:
+    resetReasonStr=F("Hardware watch dog reset");
+      Serial.println(resetReasonStr);
+      break;
+    case 2:
+    resetReasonStr=F("Exception reset");
+      Serial.println(resetReasonStr);
+      break;
+    case 3:
+    resetReasonStr=F("Software watch dog reset");
+      Serial.println(resetReasonStr);
+      break;
+    case 4:
+    resetReasonStr=F("Software restart");
+      Serial.println(resetReasonStr);
+      break;
+    case 5:
+    resetReasonStr=F("Wake up from deep-sleep");
+      Serial.println(resetReasonStr);
+      break;
+    case 6:
+    resetReasonStr=F("External system reset");
+      Serial.println(resetReasonStr);
+      break;
+    default:
+    resetReasonStr=F("Unknown reset reason");
+      Serial.println(resetReasonStr);
+      break;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void setup() {
   Serial.begin(115200);
 
@@ -552,6 +610,10 @@ void setup() {
   Serial.println(buffer);
 //////////////////////////////////////////////////////////////
 
+ // Print the last reset reason
+  printResetReason();
+
+
 Serial.println("send bot bottom menu button");
 // Menu button in send area
   const String commands = F("["
@@ -576,13 +638,14 @@ String message = (F("Thermostat started \n"));
 message += "WiFi Network: " + String(ssid)+ "\n";
 message += "Local URL: http://" + String(mDNS_adress) + ".local\n";
 message += "Local IP: " + WiFi.localIP().toString() + "\n";
-message += "External IP: " + externalIP + "\n";
+message += "External IP: " + externalIP + "\nReset reason " + resetReasonStr+"\n";
+
 bot.sendMessage(CHAT_ID, message.c_str(), "");
 
 Serial.println(F("send bot menu"));
         String keyboardJson = F("[[{ \"text\" : \"ON\", \"callback_data\" : \"ON\" },{ \"text\" : \"OFF\", \"callback_data\" : \"OFF\" }],");
         keyboardJson += F("[{ \"text\" : \"10 Mins\", \"callback_data\" : \"TIME10\" }, { \"text\" : \"20 Mins\", \"callback_data\" : \"TIME20\" }, { \"text\" : \"30 Mins\", \"callback_data\" : \"TIME30\" }],");
-        keyboardJson += F("[{ \"text\" : \"15 °C\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"18 °C\", \"callback_data\" : \"TEMP18\" },{ \"text\" : \"20 °C\", \"callback_data\" : \"TEMP20\" },{ \"text\" : \"21 °C\", \"callback_data\" : \"TEMP21\" }],");
+        keyboardJson += F("[{ \"text\" : \"10 °C\", \"callback_data\" : \"TEMP10\" },{ \"text\" : \"15 °C\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"18 °C\", \"callback_data\" : \"TEMP18\" },{ \"text\" : \"20 °C\", \"callback_data\" : \"TEMP20\" },{ \"text\" : \"21 °C\", \"callback_data\" : \"TEMP21\" }],");
         keyboardJson += F("[{ \"text\" : \"Scan\", \"callback_data\" : \"/scan\" }]]");
         
         bot.sendMessageWithInlineKeyboard(CHAT_ID, "Thermostat Control\nhttps://t.me/s/Luberth_Dijkman", "", keyboardJson);
@@ -593,6 +656,11 @@ Serial.println(F("send bot menu"));
 bot.sendMessage(CHAT_ID, asctime(timeinfo), "");
 message = "\nSetpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C"; // 1 decimal place for float
 bot.sendMessage(CHAT_ID, message.c_str(), "");
+
+
+ // Print the last reset reason
+  printResetReason();
+
 
 Serial.println(F("server begin"));
   
@@ -740,14 +808,15 @@ void handleNewMessages(int numNewMessages) {
         message += "WiFi Network: " + String(ssid)+ "\n";
         message += "Local URL: http://" + String(mDNS_adress) + ".local\n";
         message += "Local IP: " + WiFi.localIP().toString() + "\n";
-        message += "External IP: " + externalIP + "\n";
+        message += "External IP: " + externalIP + "\nReset reason " + resetReasonStr+"\n";
         
         bot.sendMessage(CHAT_ID, message.c_str(), "");
-         String keyboardJson = F("[[{ \"text\" : \"ON\", \"callback_data\" : \"ON\" },{ \"text\" : \"OFF\", \"callback_data\" : \"OFF\" }],");
+        
+        String keyboardJson = F("[[{ \"text\" : \"ON\", \"callback_data\" : \"ON\" },{ \"text\" : \"OFF\", \"callback_data\" : \"OFF\" }],");
         keyboardJson += F("[{ \"text\" : \"10 Mins\", \"callback_data\" : \"TIME10\" }, { \"text\" : \"20 Mins\", \"callback_data\" : \"TIME20\" }, { \"text\" : \"30 Mins\", \"callback_data\" : \"TIME30\" }],");
-        keyboardJson += F("[{ \"text\" : \"15 °C\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"18 °C\", \"callback_data\" : \"TEMP18\" },{ \"text\" : \"20 °C\", \"callback_data\" : \"TEMP20\" },{ \"text\" : \"21 °C\", \"callback_data\" : \"TEMP21\" }],");
+        keyboardJson += F("[{ \"text\" : \"10 °C\", \"callback_data\" : \"TEMP10\" },{ \"text\" : \"15 °C\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"18 °C\", \"callback_data\" : \"TEMP18\" },{ \"text\" : \"20 °C\", \"callback_data\" : \"TEMP20\" },{ \"text\" : \"21 °C\", \"callback_data\" : \"TEMP21\" }],");
         keyboardJson += F("[{ \"text\" : \"Scan\", \"callback_data\" : \"/scan\" }]]");
-      
+        
         bot.sendMessageWithInlineKeyboard(CHAT_ID, "Thermostat Control\nhttps://t.me/s/Luberth_Dijkman", "", keyboardJson);
  
         // Assuming temperatureSetpoint is a float
@@ -840,6 +909,19 @@ void loop() {
 
   if (millis() - lastMillis > 5000) {  // delay without Delay(), do it every 5 seconds
     lastMillis = millis();
+
+  // Get free stack and heap memory
+  uint32_t freeStack = ESP.getFreeContStack();
+  uint32_t freeHeap = ESP.getFreeHeap();
+  
+  // Print memory info
+  Serial.print(F("Free stack: "));
+  Serial.print(freeStack);
+  Serial.println(" bytes");
+  Serial.print(F("Free heap: "));
+  Serial.print(freeHeap);
+  Serial.println(F(" bytes"));
+    
     sensors.requestTemperatures();
     float temperature = sensors.getTempCByIndex(0);
     String tempString = String(temperature, 1);
