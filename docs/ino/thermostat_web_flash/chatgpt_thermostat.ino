@@ -587,7 +587,7 @@ void setup() {
 //////////////////////////////////////////////////////////////
 // looks like next is needed for Telegram notifications
   Serial.print("Retrieving time: ");
-  configTime(timeoffset, 0, "pool.ntp.org", "time.nist.gov"); // Improved NTP server configuration with a 2-hour time offset
+  configTime(0, 0, "pool.ntp.org", "time.nist.gov"); // Improved NTP server configuration with a 2-hour time offset
 
   time_t now = time(nullptr);
   while (now < 24 * 3600) {
@@ -661,7 +661,7 @@ bot.sendMessage(CHAT_ID, asctime(timeinfo), "");
 
 int freeContStack = ESP.getFreeContStack();
 int freeHeap = ESP.getFreeHeap();
-message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C\nFree Cont Stack: " + String(freeContStack) + " bytes, Free Heap: " + String(freeHeap) + " bytes";
+message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C\n     Stack: " + String(freeContStack) + " bytes, Heap: " + String(freeHeap) + " bytes";
 
 bot.sendMessage(CHAT_ID, message.c_str(), "");
 
@@ -787,7 +787,7 @@ void handleNewMessages(int numNewMessages) {
         
 int freeContStack = ESP.getFreeContStack();
 int freeHeap = ESP.getFreeHeap();
-String message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C\nFree Cont Stack: " + String(freeContStack) + " bytes, Free Heap: " + String(freeHeap) + " bytes";
+String message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C\n     Stack: " + String(freeContStack) + " bytes, Heap: " + String(freeHeap) + " bytes";
   bot.sendMessage(CHAT_ID, message.c_str(), "");
         
        // digitalWrite(LED_PIN, HIGH);
