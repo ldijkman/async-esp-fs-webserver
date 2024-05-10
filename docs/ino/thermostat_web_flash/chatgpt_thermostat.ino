@@ -95,7 +95,8 @@ String externalIP = ""; // Global variable to store the external IP address
 
 // Global variable to store the reset reason as a string
 String resetReasonStr;
-
+ uint32_t freeStack;
+  uint32_t freeHeap;
 
 unsigned long lightTimerExpires;
 boolean lightTimerActive = false;
@@ -654,7 +655,11 @@ Serial.println(F("send bot menu"));
 // Assuming temperatureSetpoint is a float
 // Assuming currentTemperature holds the current temperature
 bot.sendMessage(CHAT_ID, asctime(timeinfo), "");
-message = "\nSetpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C"; // 1 decimal place for float
+
+int freeContStack = ESP.getFreeContStack();
+int freeHeap = ESP.getFreeHeap();
+message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C\nFree Cont Stack: " + String(freeContStack) + " bytes, Free Heap: " + String(freeHeap) + " bytes";
+
 bot.sendMessage(CHAT_ID, message.c_str(), "");
 
 
@@ -777,10 +782,10 @@ void handleNewMessages(int numNewMessages) {
         text.replace("TEMP", "");
         temperatureSetpoint = text.toInt();
         
-        // Assuming temperatureSetpoint is a float
-        // Assuming currentTemperature holds the current temperature
-        String message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C"; // 1 decimal place for float
-        bot.sendMessage(CHAT_ID, message.c_str(), "");
+int freeContStack = ESP.getFreeContStack();
+int freeHeap = ESP.getFreeHeap();
+String message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C\nFree Cont Stack: " + String(freeContStack) + " bytes, Free Heap: " + String(freeHeap) + " bytes";
+  bot.sendMessage(CHAT_ID, message.c_str(), "");
         
        // digitalWrite(LED_PIN, HIGH);
         //lightTimerActive = true;
@@ -911,8 +916,8 @@ void loop() {
     lastMillis = millis();
 
   // Get free stack and heap memory
-  uint32_t freeStack = ESP.getFreeContStack();
-  uint32_t freeHeap = ESP.getFreeHeap();
+   freeStack = ESP.getFreeContStack();
+   freeHeap = ESP.getFreeHeap();
   
   // Print memory info
   Serial.print(F("Free stack: "));
@@ -940,7 +945,7 @@ void loop() {
     String ip = "IP: http://" + WiFi.localIP().toString();
     ws.textAll(ip.c_str());                          // Send the string to all connected WebSocket clients.
     // Create a string containing both the local IP address and the mDNS URL, separated by a comma for clarity.
-      String mDNS = "mDNS: http://" + String(mDNS_adress)+".local"; // Corrected to use 'mDNS_adress'
+      String mDNS = F("mDNS: http://") + String(mDNS_adress)+".local"; // Corrected to use 'mDNS_adress'
     ws.textAll(mDNS.c_str());                        // Send the string to all connected WebSocket clients.
 
     Serial.print(F("Current temperature: "));
