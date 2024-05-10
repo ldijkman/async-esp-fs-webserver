@@ -723,7 +723,7 @@ void browseService(const char* service, const char* proto) {
     // Assuming you have a function to send a message via Telegram
     // and a String variable 'telegramMessage' to accumulate the message content
     String telegramMessage;
-    telegramMessage += String(i + 1) + ": http://" + hostnameLower + ".local - http://" + MDNS.IP(i).toString() + "\n";
+    telegramMessage += String(i + 1) + ": http://" + hostnameLower + " - http://" + MDNS.IP(i).toString() + "\n";
     
     // Now send 'telegramMessage' via your Telegram bot
     // Make sure to replace 'CHAT_ID' with your actual chat ID and 'bot' with your bot instance
