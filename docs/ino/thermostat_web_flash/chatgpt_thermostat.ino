@@ -539,13 +539,13 @@ void setup() {
 
   // Print the time in human-readable format
   Serial.println();
-  Serial.print("Current time: ");
+  Serial.print(F("Current time: "));
   Serial.print(asctime(timeinfo)); // asctime() converts the time to a string in the format: Day Mon Date Hours:Minutes:Seconds Year\n
 
   // For more control over formatting, use strftime() instead:
   char buffer[80];
   strftime(buffer, 80, "%Y-%m-%d %H:%M:%S", timeinfo);
-  Serial.print("Formatted time: ");
+  Serial.print(F("Formatted time: "));
   Serial.println(buffer);
 //////////////////////////////////////////////////////////////
 
@@ -568,34 +568,37 @@ Serial.println("send bot bottom menu button");
 // Menu button in send area
 
 
-Serial.println("send bot start info");
-String message = "Thermostat started \n";
+Serial.println(F("send bot start info"));
+String message = (F("Thermostat started \n"));
 message += "WiFi Network: " + String(ssid)+ "\n";
 message += "Local URL: http://" + String(mDNS_adress) + ".local\n";
 message += "Local IP: " + WiFi.localIP().toString() + "\n";
 message += "External IP: " + externalIP + "\n";
 bot.sendMessage(CHAT_ID, message.c_str(), "");
 
-Serial.println("send bot menu");
+Serial.println(F("send bot menu"));
         String keyboardJson = F("[[{ \"text\" : \"ON\", \"callback_data\" : \"ON\" },{ \"text\" : \"OFF\", \"callback_data\" : \"OFF\" }],");
         keyboardJson += F("[{ \"text\" : \"10 Mins\", \"callback_data\" : \"TIME10\" }, { \"text\" : \"20 Mins\", \"callback_data\" : \"TIME20\" }, { \"text\" : \"30 Mins\", \"callback_data\" : \"TIME30\" }],");
-        keyboardJson += F("[{ \"text\" : \"15 °C\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"18 °C\", \"callback_data\" : \"TEMP18\" },{ \"text\" : \"20 °C\", \"callback_data\" : \"TEMP20\" },{ \"text\" : \"21 °C\", \"callback_data\" : \"TEMP21\" }]]");
+        keyboardJson += F("[{ \"text\" : \"15 °C\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"18 °C\", \"callback_data\" : \"TEMP18\" },{ \"text\" : \"20 °C\", \"callback_data\" : \"TEMP20\" },{ \"text\" : \"21 °C\", \"callback_data\" : \"TEMP21\" }],");
+        keyboardJson += F("[{ \"text\" : \"Scan\", \"callback_data\" : \"/scan\" }]]");
+        
         bot.sendMessageWithInlineKeyboard(CHAT_ID, "Thermostat Control\nhttps://t.me/s/Luberth_Dijkman", "", keyboardJson);
  
- Serial.println("send bot temp info");
+ Serial.println(F("send bot temp info"));
 // Assuming temperatureSetpoint is a float
 // Assuming currentTemperature holds the current temperature
-message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C"; // 1 decimal place for float
+bot.sendMessage(CHAT_ID, asctime(timeinfo), "");
+message = "\nSetpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C"; // 1 decimal place for float
 bot.sendMessage(CHAT_ID, message.c_str(), "");
 
-Serial.println("server begin");
+Serial.println(F("server begin"));
   
   server.begin();
 
 }
 
 
-
+// Scan local network for other ESP mDNS devices
 void browseService(const char* service, const char* proto) {
   Serial.println("");
   //Serial.printf("Scan _%s._%s.local. ... ", service, proto);
@@ -603,16 +606,16 @@ void browseService(const char* service, const char* proto) {
   int n = MDNS.queryService(service, proto);  // Query mDNS service
   if (n == 0) {
     Serial.print("\033[31m"); //red
-    Serial.println("\nDamn, no services found\n Flash more Devices\n  And give each a Unique mDNS name in Setup tab Custom");
+    Serial.println(F("\nDamn, no services found\n Flash more Devices\n  And give each a Unique mDNS name in Setup tab Custom"));
     Serial.print("\033[0m"); // Reset color
   } else {
     Serial.print(n);
     Serial.println(" service(s) found");
-
+/*
     // Create a JSON array to hold service details
     DynamicJsonDocument doc(1024);
     JsonArray services = doc.to<JsonArray>();
-
+*/
     for (int i = 0; i < n; ++i) {
       // Print details for each service found
 
@@ -644,7 +647,7 @@ void browseService(const char* service, const char* proto) {
     // Make sure to replace 'CHAT_ID' with your actual chat ID and 'bot' with your bot instance
     bot.sendMessage(CHAT_ID, telegramMessage, "");
    
-
+    }/*
       // Add service details to the JSON array
       JsonObject serviceObj = services.createNestedObject();
 
@@ -659,6 +662,8 @@ void browseService(const char* service, const char* proto) {
 
     // Send the JSON string to all connected WebSocket clients
     ws.textAll(message.c_str());
+
+ */
   }
   Serial.println();
 }
@@ -677,7 +682,7 @@ void handleNewMessages(int numNewMessages) {
       String text = bot.messages[i].text;
 
       
-      Serial.print("Call back button pressed with text: ");
+      Serial.print(F("Call back button pressed with text: "));
       Serial.println(text);
        ws.textAll("Telegram button Recieved " + text); 
 
@@ -708,7 +713,10 @@ void handleNewMessages(int numNewMessages) {
        // lightTimerExpires = millis() + (timeRequested * 1000 * 60);
       }
 
-
+      if (text == "/scan") {
+        bot.sendMessage(CHAT_ID, "Scan local network for other ESP mDNS device", "");
+        browseService("http", "tcp");  // find other mdns devices in network
+      }
      
     } else {
       String chat_id = String(bot.messages[i].chat_id);
@@ -729,9 +737,11 @@ void handleNewMessages(int numNewMessages) {
         message += "External IP: " + externalIP + "\n";
         
         bot.sendMessage(CHAT_ID, message.c_str(), "");
-        String keyboardJson = F("[[{ \"text\" : \"ON\", \"callback_data\" : \"ON\" },{ \"text\" : \"OFF\", \"callback_data\" : \"OFF\" }],");
+         String keyboardJson = F("[[{ \"text\" : \"ON\", \"callback_data\" : \"ON\" },{ \"text\" : \"OFF\", \"callback_data\" : \"OFF\" }],");
         keyboardJson += F("[{ \"text\" : \"10 Mins\", \"callback_data\" : \"TIME10\" }, { \"text\" : \"20 Mins\", \"callback_data\" : \"TIME20\" }, { \"text\" : \"30 Mins\", \"callback_data\" : \"TIME30\" }],");
-        keyboardJson += F("[{ \"text\" : \"15 °C\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"18 °C\", \"callback_data\" : \"TEMP18\" },{ \"text\" : \"20 °C\", \"callback_data\" : \"TEMP20\" },{ \"text\" : \"21 °C\", \"callback_data\" : \"TEMP21\" }]]");
+        keyboardJson += F("[{ \"text\" : \"15 °C\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"18 °C\", \"callback_data\" : \"TEMP18\" },{ \"text\" : \"20 °C\", \"callback_data\" : \"TEMP20\" },{ \"text\" : \"21 °C\", \"callback_data\" : \"TEMP21\" }],");
+        keyboardJson += F("[{ \"text\" : \"Scan\", \"callback_data\" : \"/scan\" }]]");
+      
         bot.sendMessageWithInlineKeyboard(CHAT_ID, "Thermostat Control\nhttps://t.me/s/Luberth_Dijkman", "", keyboardJson);
  
         // Assuming temperatureSetpoint is a float
@@ -745,7 +755,7 @@ void handleNewMessages(int numNewMessages) {
       // So this is a good place to let the users know what commands are available
       if (text == F("/start")) {
 
-        bot.sendMessage(chat_id, "/options : returns the inline keyboard\n", "Markdown");
+        bot.sendMessage(CHAT_ID, "/options : returns the inline keyboard\n", "Markdown");
       }
 
       if (text.startsWith("/set_")) {  // set temp from menu button sendarea
@@ -766,7 +776,7 @@ void handleNewMessages(int numNewMessages) {
 */      
 
       if (text == "/scan") {
-        bot.sendMessage(chat_id, "Scan local network for other ESP mDNS device", "");
+        bot.sendMessage(CHAT_ID, "Scan local network for other ESP mDNS device", "");
         browseService("http", "tcp");  // find other mdns devices in network
       }
 
@@ -845,10 +855,10 @@ void loop() {
       String mDNS = "mDNS: http://" + String(mDNS_adress)+".local"; // Corrected to use 'mDNS_adress'
     ws.textAll(mDNS.c_str());                        // Send the string to all connected WebSocket clients.
 
-    Serial.print("Current temperature: ");
+    Serial.print(F("Current temperature: "));
     Serial.print(tempString);
     Serial.println(" °C");
-    Serial.print("Current setpoint: ");
+    Serial.print(F("Current setpoint: "));
     Serial.print(temperatureSetpoint);
     Serial.println(" °C\n");
 
