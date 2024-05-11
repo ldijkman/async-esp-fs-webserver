@@ -2,6 +2,9 @@
 // Join My Telegram Channel?
 //     https://t.me/Luberth_Dijkman
 
+// wifi thermostat and  off delay timed light switch
+// lolin wemos v2 relais shield has solderpads for other pin config
+// to add a second relais
 
 // should be possible to set setpoint from telegram buttons 15 and 20 celsius
 //    https://youtu.be/n8N7pnrjb2A
@@ -858,7 +861,7 @@ const String keyboardJson = F(R"(
   {"text":"ON","callback_data":"ON"},
   {"text":"OFF","callback_data":"OFF"}
 ],[
-  {"text":"10 Mins","callback_data":"TIME10","disable":"true"},  
+  {"text":"1 Mins","callback_data":"TIME1"},  
   {"text":"20 Mins","callback_data":"TIME20"},
   {"text":"30 Mins","callback_data":"TIME30"}
 ],[
