@@ -692,6 +692,7 @@ Serial.println(F("send bot bottom menu button"));
   {"command":"set_18", "description":"Temp Setpoint 18 °C"},
   {"command":"set_20", "description":"Temp Setpoint 20 °C"},
   {"command":"set_21", "description":"Temp Setpoint 21 °C"},
+  {"command":"reboot", "description":"Reboot / Restart"},
   {"command":"status","description":"Answer device current status"}
 ]
 )");
