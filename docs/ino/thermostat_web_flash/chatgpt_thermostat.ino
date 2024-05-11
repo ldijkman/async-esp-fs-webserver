@@ -626,16 +626,16 @@ void setup() {
 Serial.println(F("send bot bottom menu button"));
 // Menu button in send area
   const String commands = F("["
-                            "{\"command\":\"options\",  \"description\":\"Thermostat Control Menu\"},"
-                            "{\"command\":\"start\", \"description\":\"Start\"},"
-                             "{\"command\":\"scan\", \"description\":\"Scan network for other ESP mDNS\"},"
-                            "{\"command\":\"set_10\", \"description\":\"Temp Setpoint 10 °C\"},"
-                            "{\"command\":\"set_15\", \"description\":\"Temp Setpoint 15 °C\"},"
-                            "{\"command\":\"set_18\", \"description\":\"Temp Setpoint 18 °C\"},"
-                            "{\"command\":\"set_20\", \"description\":\"Temp Setpoint 20 °C\"},"
-                            "{\"command\":\"set_21\", \"description\":\"Temp Setpoint 21 °C\"},"
+                            "{'command':'options',  'description':'Thermostat Control Menu'},"
+                            "{'command':'start', 'description':'Start'},"
+                             "{'command':'scan', 'description':'Scan network for other ESP mDNS'},"
+                            "{'command':'set_10', 'description':'Temp Setpoint 10 °C'},"
+                            "{'command':'set_15', 'description':'Temp Setpoint 15 °C'},"
+                            "{'command':'set_18', 'description':'Temp Setpoint 18 °C'},"
+                            "{'command':'set_20', 'description':'Temp Setpoint 20 °C'},"
+                            "{'command':'set_21', 'description':'Temp Setpoint 21 °C'},"
                           
-                            "{\"command\":\"status\",\"description\":\"Answer device current status\"}" // no comma on last command
+                            "{'command':'status','description':'Answer device current status'}" // no comma on last command
                             "]");
   bot.setMyCommands(commands);
   
@@ -752,7 +752,7 @@ telegramMessage="";
  */
   }
  
-  String message = F("<b>Scan Done</b>    Stack: ") + String(ESP.getFreeContStack()) + F(" bytes, Heap: ") + String(ESP.getFreeHeap()) + F(" bytes");
+  String message = F("Scan Done    Stack: ") + String(ESP.getFreeContStack()) + F(" bytes, Heap: ") + String(ESP.getFreeHeap()) + F(" bytes");
   bot.sendMessage(CHAT_ID, message, "");
   message ="";
   Serial.println();
@@ -892,6 +892,8 @@ void loop() {
 
 
   if (millis() > lastTimeChecked + delayBetweenChecks)  {
+
+     ws.cleanupClients();
 
     // getUpdates returns 1 if there is a new message from Telegram
     int numNewMessages = bot.getUpdates(bot.last_message_received + 1);
