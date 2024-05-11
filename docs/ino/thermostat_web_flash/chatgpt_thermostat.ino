@@ -102,6 +102,8 @@ uint32_t freeHeap;
 
 unsigned long lightTimerExpires;
 boolean lightTimerActive = false;
+static String keyboardJson;
+
 
 
 X509List cert(TELEGRAM_CERTIFICATE_ROOT);
@@ -513,7 +515,11 @@ void printResetReason() {
 void setup() {
   Serial.begin(115200);
 
-
+      keyboardJson = F("[[{ \"text\" : \"ON\", \"callback_data\" : \"ON\" },{ \"text\" : \"OFF\", \"callback_data\" : \"OFF\" }],");
+        keyboardJson += F("[{ \"text\" : \"10 Mins\", \"callback_data\" : \"TIME10\", \"disable\": \"true\" }, { \"text\" : \"20 Mins\", \"callback_data\" : \"TIME20\" }, { \"text\" : \"30 Mins\", \"callback_data\" : \"TIME30\" }],");
+        keyboardJson += F("[{ \"text\" : \"10 °C\", \"callback_data\" : \"TEMP10\" },{ \"text\" : \"15 °C\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"18 °C\", \"callback_data\" : \"TEMP18\" },{ \"text\" : \"20 °C\", \"callback_data\" : \"TEMP20\" },{ \"text\" : \"21 °C\", \"callback_data\" : \"TEMP21\" }],");
+        keyboardJson += F("[{ \"text\" : \"Scan\", \"callback_data\" : \"/scan\" }]]");
+       
   pinMode(relayPin, OUTPUT); // Initialize the relay pin as an output
   digitalWrite(relayPin, LOW); // Start with the relay off
 
@@ -646,11 +652,8 @@ message += F("External IP: ") + externalIP + F("\nReset reason ") + resetReasonS
 bot.sendMessage(CHAT_ID, message.c_str(), "");
 
 Serial.println(F("send bot menu"));
-        String keyboardJson = F("[[{ \"text\" : \"ON\", \"callback_data\" : \"ON\" },{ \"text\" : \"OFF\", \"callback_data\" : \"OFF\" }],");
-        keyboardJson += F("[{ \"text\" : \"10 Mins\", \"callback_data\" : \"TIME10\" }, { \"text\" : \"20 Mins\", \"callback_data\" : \"TIME20\" }, { \"text\" : \"30 Mins\", \"callback_data\" : \"TIME30\" }],");
-        keyboardJson += F("[{ \"text\" : \"10 °C\", \"callback_data\" : \"TEMP10\" },{ \"text\" : \"15 °C\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"18 °C\", \"callback_data\" : \"TEMP18\" },{ \"text\" : \"20 °C\", \"callback_data\" : \"TEMP20\" },{ \"text\" : \"21 °C\", \"callback_data\" : \"TEMP21\" }],");
-        keyboardJson += F("[{ \"text\" : \"Scan\", \"callback_data\" : \"/scan\" }]]");
-        
+
+     
         bot.sendMessageWithInlineKeyboard(CHAT_ID, F("Thermostat Control\nhttps://t.me/s/Luberth_Dijkman"), "", keyboardJson);
  
  Serial.println(F("send bot temp info"));
@@ -758,6 +761,8 @@ telegramMessage="";
 
 
 
+
+
 void handleNewMessages(int numNewMessages) {
 
   for (int i = 0; i < numNewMessages; i++) {
@@ -771,7 +776,7 @@ void handleNewMessages(int numNewMessages) {
       
       Serial.print(F("Call back button pressed with text: "));
       Serial.println(text);
-       ws.textAll(F("Telegram button Recieved ") + text); 
+      // ws.textAll(F("Telegram button Recieved ") + text); 
 
 
       if (text == F("ON")) {
@@ -780,23 +785,19 @@ void handleNewMessages(int numNewMessages) {
         //digitalWrite(LED_PIN, LOW);
       } else if (text.startsWith("TIME")) {
         text.replace("TIME", "");
-        int timeRequested = text.toInt();
-        
-        
-       // digitalWrite(LED_PIN, HIGH);
-        lightTimerActive = true;
-        lightTimerExpires = millis() + (timeRequested * 1000 * 60);
+        int timeRequested = text.toInt();      
+        // digitalWrite(LED_PIN, HIGH);
+        // lightTimerActive = true;
+        // lightTimerExpires = millis() + (timeRequested * 1000 * 60);
       }else if (text.startsWith("TEMP")) {
         text.replace("TEMP", "");
         temperatureSetpoint = text.toInt();
         
-int freeContStack = ESP.getFreeContStack();
-int freeHeap = ESP.getFreeHeap();
-String message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C\n     Stack: " + String(freeContStack) + " bytes, Heap: " + String(freeHeap) + " bytes";
-  bot.sendMessage(CHAT_ID, message.c_str(), "");
+        String message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C\n     Stack: " + String(ESP.getFreeContStack()) + " bytes, Heap: " + String(ESP.getFreeHeap()) + " bytes";
+        bot.sendMessage(CHAT_ID, message.c_str(), "");
         
        // digitalWrite(LED_PIN, HIGH);
-        //lightTimerActive = true;
+       // lightTimerActive = true;
        // lightTimerExpires = millis() + (timeRequested * 1000 * 60);
       }
 
@@ -825,11 +826,7 @@ String message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current T
         
         bot.sendMessage(CHAT_ID, message.c_str(), "");
         
-        String keyboardJson = F("[[{ \"text\" : \"ON\", \"callback_data\" : \"ON\" },{ \"text\" : \"OFF\", \"callback_data\" : \"OFF\" }],");
-        keyboardJson += F("[{ \"text\" : \"10 Mins\", \"callback_data\" : \"TIME10\" }, { \"text\" : \"20 Mins\", \"callback_data\" : \"TIME20\" }, { \"text\" : \"30 Mins\", \"callback_data\" : \"TIME30\" }],");
-        keyboardJson += F("[{ \"text\" : \"10 °C\", \"callback_data\" : \"TEMP10\" },{ \"text\" : \"15 °C\", \"callback_data\" : \"TEMP15\" }, { \"text\" : \"18 °C\", \"callback_data\" : \"TEMP18\" },{ \"text\" : \"20 °C\", \"callback_data\" : \"TEMP20\" },{ \"text\" : \"21 °C\", \"callback_data\" : \"TEMP21\" }],");
-        keyboardJson += F("[{ \"text\" : \"Scan\", \"callback_data\" : \"/scan\" }]]");
-        
+  
         bot.sendMessageWithInlineKeyboard(CHAT_ID, "Thermostat Control\nhttps://t.me/s/Luberth_Dijkman", "", keyboardJson);
  
         // Assuming temperatureSetpoint is a float
