@@ -625,6 +625,7 @@ void setup() {
 
 Serial.println(F("send bot bottom menu button"));
 // Menu button in send area
+/*
   const String commands = F("["
                             "{\"command\":\"options\",  \"description\":\"Thermostat Control Menu\"},"
                             "{\"command\":\"start\", \"description\":\"Start\"},"
@@ -638,7 +639,23 @@ Serial.println(F("send bot bottom menu button"));
                             "{\"command\":\"status\",\"description\":\"Answer device current status\"}" // no comma on last command
                             "]");
   bot.setMyCommands(commands);
-  
+  */
+
+  // make it better readable with less \ https://www.blackbox.ai/
+  const String commands = F(R"(
+[
+  {"command":"options", "description":"Thermostat Control Menu"},
+  {"command":"start", "description":"Start"},
+  {"command":"scan", "description":"Scan network for other ESP mDNS"},
+  {"command":"set_10", "description":"Temp Setpoint 10 °C"},
+  {"command":"set_15", "description":"Temp Setpoint 15 °C"},
+  {"command":"set_18", "description":"Temp Setpoint 18 °C"},
+  {"command":"set_20", "description":"Temp Setpoint 20 °C"},
+  {"command":"set_21", "description":"Temp Setpoint 21 °C"},
+  {"command":"status","description":"Answer device current status"}
+]
+)");
+bot.setMyCommands(commands);
 // Menu button in send area
 
 
