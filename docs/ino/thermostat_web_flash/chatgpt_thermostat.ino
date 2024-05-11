@@ -702,7 +702,7 @@ Serial.println(F("send bot start info"));
 String message = (F("Thermostat started \n"));
 message += F("WiFi Network: ") + String(ssid)+ "\n";
 message += F("Local URL: http://") + String(mDNS_adress) + ".local\n";
-message += F("Local IP: ") + WiFi.localIP().toString() + "\n";
+message += F("Local IP: http://") + WiFi.localIP().toString() + "\n";
 message += F("External IP: ") + externalIP + F("\nReset reason ") + resetReasonStr+" " + asctime(timeinfo)+"\n";
 
 bot.sendMessage(CHAT_ID, message.c_str(), "");
@@ -916,7 +916,7 @@ const String keyboardJson = F(R"(
         String message = "Thermostat \n";
         message += "WiFi Network: " + String(ssid)+ "\n";
         message += "Local URL: http://" + String(mDNS_adress) + ".local\n";
-        message += "Local IP: " + WiFi.localIP().toString() + "\n";
+        message += "Local IP: http://" + WiFi.localIP().toString() + "\n";
         message += "External IP: " + externalIP + "\nReset reason " + resetReasonStr+"\n";
         
         bot.sendMessage(CHAT_ID, message.c_str(), "");
