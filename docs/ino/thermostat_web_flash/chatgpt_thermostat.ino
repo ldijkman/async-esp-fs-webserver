@@ -599,32 +599,59 @@ void setup() {
 
 //////////////////////////////////////////////////////////////
 // looks like next is needed for Telegram notifications
-  Serial.print(F("Retrieving time: "));
-  configTime(0, 0, "pool.ntp.org", "time.nist.gov"); // Improved NTP server configuration with a 2-hour time offset
+Serial.print(F("Retrieving time: "));
+configTime(0, 0, "pool.ntp.org", "time.nist.gov"); // Improved NTP server configuration with a 2-hour time offset
 
-  time_t now = time(nullptr);
-  while (now < 24 * 3600) {
+time_t now = time(nullptr);
+while (now < 24 * 3600) {
     Serial.print(".");
     delay(1000);
     now = time(nullptr);
-  }
+}
 
-  // Convert the time to a struct tm
-  struct tm *timeinfo;
-  timeinfo = gmtime(&now);
+//////////////////////////////////////////
+// Set the timezone and DST rules
+//////////////////////////////////////////
 
-  // Alternatively, for local time adjusted to your timezone, you might use localtime(&now) instead of gmtime(&now)
+// Set the timezone and DST rules for Central European Time (CET) with DST
+setenv("TZ", "CET-1CEST,M3.5.0,M10.5.0/3", 1);
 
-  // Print the time in human-readable format
-  Serial.println();
-  Serial.print(F("Current time: "));
-  Serial.print(asctime(timeinfo)); // asctime() converts the time to a string in the format: Day Mon Date Hours:Minutes:Seconds Year\n
+// Set the timezone and DST rules for Eastern Standard Time (EST) with DST
+//setenv("TZ", "EST5EDT,M3.2.0,M11.1.0", 1);
 
-  // For more control over formatting, use strftime() instead:
-  char buffer[80];
-  strftime(buffer, 80, "%Y-%m-%d %H:%M:%S", timeinfo);
-  Serial.print(F("Formatted time: "));
-  Serial.println(buffer);
+// Set the timezone and DST rules for Australian Eastern Standard Time (AEST) with DST
+//setenv("TZ", "AEST-10AEDT,M10.1.0,M4.1.0/3", 1);
+
+// Set the timezone and DST rules for Japan Standard Time (JST) with no DST
+//setenv("TZ", "JST-9", 1);
+
+// Set the timezone and DST rules for Indian Standard Time (IST) with no DST
+//setenv("TZ", "IST-5:30", 1);
+
+// Set the timezone and DST rules for Brasilia Time (BRT) with no DST
+//setenv("TZ", "BRT3", 1);
+
+// Set the timezone and DST rules for Central Standard Time (CST) with DST
+//setenv("TZ", "CST6CDT,M3.2.0,M11.1.0", 1);
+
+
+tzset(); // Update the timezone settings
+
+
+// Convert the time to a struct tm
+struct tm *timeinfo;
+timeinfo = localtime(&now);
+
+// Print the time in human-readable format
+Serial.println();
+Serial.print(F("Current time: "));
+Serial.print(asctime(timeinfo)); // asctime() converts the time to a string in the format: Day Mon Date Hours:Minutes:Seconds Year\n
+
+// For more control over formatting, use strftime() instead:
+char buffer[80];
+strftime(buffer, 80, "%Y-%m-%d %H:%M:%S", timeinfo);
+Serial.print(F("Formatted time: "));
+Serial.println(buffer);
 //////////////////////////////////////////////////////////////
 
  // Print the last reset reason
@@ -676,7 +703,7 @@ String message = (F("Thermostat started \n"));
 message += F("WiFi Network: ") + String(ssid)+ "\n";
 message += F("Local URL: http://") + String(mDNS_adress) + ".local\n";
 message += F("Local IP: ") + WiFi.localIP().toString() + "\n";
-message += F("External IP: ") + externalIP + F("\nReset reason ") + resetReasonStr+"\n";
+message += F("External IP: ") + externalIP + F("\nReset reason ") + resetReasonStr+" " + asctime(timeinfo)+"\n";
 
 bot.sendMessage(CHAT_ID, message.c_str(), "");
 
@@ -777,10 +804,10 @@ void browseService(const char* service, const char* proto) {
     
  
    
-    }    // Now send 'telegramMessage' via your Telegram bot
-    // Make sure to replace 'CHAT_ID' with your actual chat ID and 'bot' with your bot instance
- bot.sendMessage(CHAT_ID, telegramMessage, "");
-telegramMessage="";
+    }    
+    // Now send 'telegramMessage' via your Telegram bot
+    bot.sendMessage(CHAT_ID, telegramMessage, "");
+    telegramMessage="";
 /*
       // Add service details to the JSON array
       JsonObject serviceObj = services.createNestedObject();
