@@ -681,25 +681,24 @@ message += F("External IP: ") + externalIP + F("\nReset reason ") + resetReasonS
 bot.sendMessage(CHAT_ID, message.c_str(), "");
 
 Serial.println(F("send bot menu"));
-  const String keyboardJson = F(R"(
+
+  // make it better readable with less \ https://www.blackbox.ai/
+const String keyboardJson = F(R"(
 [[
-  {"text" : "ON", "callback_data" : "ON"},
-  {"text" : "OFF", "callback_data" : "OFF"}
-]
-,[
-  {"text" : "10 Mins", "callback_data" : "TIME10", "disable" : "true"},
-  {"text" : "20 Mins", "callback_data" : "TIME20"},
-  {"text" : "30 Mins", "callback_data" : "TIME30"}
-]
-,[
-  {"text" : "10 °C", "callback_data" : "TEMP10"},
-  {"text" : "15 °C", "callback_data" : "TEMP15"},
-  {"text" : "18 °C", "callback_data" : "TEMP18"},
-  {"text" : "20 °C", "callback_data" : "TEMP20"},
-  {"text" : "21 °C", "callback_data" : "TEMP21"}
-]
-,[
-  {"text" : "Scan", "callback_data" : "/scan"}
+  {"text":"ON","callback_data":"ON"},
+  {"text":"OFF","callback_data":"OFF"}
+],[
+  {"text":"10 Mins","callback_data":"TIME10","disable":"true"},  
+  {"text":"20 Mins","callback_data":"TIME20"},
+  {"text":"30 Mins","callback_data":"TIME30"}
+],[
+  {"text":"10 °C","callback_data":"TEMP10"},
+  {"text":"15 °C","callback_data":"TEMP15"},
+  {"text":"18 °C","callback_data":"TEMP18"},
+  {"text":"20 °C","callback_data":"TEMP20"},
+  {"text":"21 °C","callback_data":"TEMP21"}
+],[
+  {"text":"Scan","callback_data":"/scan"}
 ]]
 )");
      
@@ -813,25 +812,25 @@ telegramMessage="";
 
 
 void handleNewMessages(int numNewMessages) {
-  const String keyboardJson = F(R"(
+
+ 
+  // make it better readable with less \ https://www.blackbox.ai/ 
+const String keyboardJson = F(R"(
 [[
-  {"text" : "ON", "callback_data" : "ON"},
-  {"text" : "OFF", "callback_data" : "OFF"}
-]
-,[
-  {"text" : "10 Mins", "callback_data" : "TIME10", "disable" : "true"},  
-  {"text" : "20 Mins", "callback_data" : "TIME20"},
-  {"text" : "30 Mins", "callback_data" : "TIME30"}
-]
-,[
-  {"text" : "10 °C", "callback_data" : "TEMP10"},
-  {"text" : "15 °C", "callback_data" : "TEMP15"},
-  {"text" : "18 °C", "callback_data" : "TEMP18"},
-  {"text" : "20 °C", "callback_data" : "TEMP20"},
-  {"text" : "21 °C", "callback_data" : "TEMP21"}
-]
-,[
-  {"text" : "Scan", "callback_data" : "/scan"}
+  {"text":"ON","callback_data":"ON"},
+  {"text":"OFF","callback_data":"OFF"}
+],[
+  {"text":"10 Mins","callback_data":"TIME10","disable":"true"},  
+  {"text":"20 Mins","callback_data":"TIME20"},
+  {"text":"30 Mins","callback_data":"TIME30"}
+],[
+  {"text":"10 °C","callback_data":"TEMP10"},
+  {"text":"15 °C","callback_data":"TEMP15"},
+  {"text":"18 °C","callback_data":"TEMP18"},
+  {"text":"20 °C","callback_data":"TEMP20"},
+  {"text":"21 °C","callback_data":"TEMP21"}
+],[
+  {"text":"Scan","callback_data":"/scan"}
 ]]
 )");
   for (int i = 0; i < numNewMessages; i++) {
