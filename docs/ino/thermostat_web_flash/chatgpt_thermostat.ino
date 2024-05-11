@@ -30,14 +30,14 @@
 // search for @Botfather
 // /newbot
 #define BOT_TOKEN "xxxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-#define BOT_TOKEN "7043163635:AAEZPhD3MvypXObn0OuxIt5c7Z123yzbZXQ"
+
 
 // https://t.me/myidbot?start=getid
 // Use magnify search find on main telegram
 // search for @idbot
 // /getid
 #define CHAT_ID "xxxxxxxxxx"
-#define CHAT_ID "7096381205"
+
 
 
 
