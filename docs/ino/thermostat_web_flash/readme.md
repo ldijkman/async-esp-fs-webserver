@@ -1,4 +1,6 @@
-<center>Home_Bot.png <img src="Home_Bot.png" width="50px"></center>
+<center>
+  <img src="Home_Bot.png" alt="Home Bot" width="50px"/>
+</center>
 
 join my Telegram Channel?
 
