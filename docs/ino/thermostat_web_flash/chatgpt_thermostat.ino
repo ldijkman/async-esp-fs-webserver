@@ -116,7 +116,7 @@ uint32_t freeHeap;
 unsigned long lightTimerExpires;
 boolean lightTimerActive = false;
 
- bool RestartTriggered = false;
+bool RestartTriggered = false;
 int numNewMessages=0;
 
 const String keyboardJson;
@@ -138,6 +138,9 @@ DallasTemperature sensors(&oneWire);
 // GPIO where the relay is connected
 const int relayPin = 16;     // gpio16  gpio2=LED gives error on tx on my board
 // const int relayPin = 5;   // wemos D1 mini relais shield has D1(GPIO5) i think
+
+const int LED_PIN = 2; // wemos D1 Mini onboard LED
+
 
 // Hysteresis margin, prevent pinball machine effect
 // deadband around the setpoint, prevent rapid toggling.
@@ -531,10 +534,12 @@ void printResetReason() {
 void setup() {
   Serial.begin(115200);
   
-  pinMode(relayPin, OUTPUT); // Initialize the relay pin as an output
-  digitalWrite(relayPin, LOW); // Start with the relay off
+  pinMode(relayPin, OUTPUT);    // Initialize the relay pin as an output
+  digitalWrite(relayPin, LOW);  // Start with the relay off
 
-
+  
+  pinMode(LED_PIN, OUTPUT);     // Initialize the relay pin as an output
+  digitalWrite(LED_PIN, HIGH);  // Start with the LED high is off 
 
   WiFi.begin(ssid, password);
   secured_client.setTrustAnchors(&cert); // Add root certificate for api.telegram.org
@@ -881,25 +886,22 @@ const String keyboardJson = F(R"(
 
 
       if (text == F("ON")) {
-       // digitalWrite(LED_PIN, HIGH);
+        digitalWrite(LED_PIN, LOW);
       } else if (text == F("OFF")) {
-        //digitalWrite(LED_PIN, LOW);
+        digitalWrite(LED_PIN, HIGH);
       } else if (text.startsWith("TIME")) {
         text.replace("TIME", "");
         int timeRequested = text.toInt();      
-        // digitalWrite(LED_PIN, HIGH);
-        // lightTimerActive = true;
-        // lightTimerExpires = millis() + (timeRequested * 1000 * 60);
+         digitalWrite(LED_PIN, LOW);
+         lightTimerActive = true;
+        lightTimerExpires = millis() + (timeRequested * 1000 * 60);
       }else if (text.startsWith("TEMP")) {
         text.replace("TEMP", "");
         temperatureSetpoint = text.toInt();
         
         String message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C\n     Stack: " + String(ESP.getFreeContStack()) + " bytes, Heap: " + String(ESP.getFreeHeap()) + " bytes";
         bot.sendMessage(CHAT_ID, message.c_str(), "");
-        
-       // digitalWrite(LED_PIN, HIGH);
-       // lightTimerActive = true;
-       // lightTimerExpires = millis() + (timeRequested * 1000 * 60);
+
       }
 
       if (text == "/scan") {
@@ -1011,14 +1013,14 @@ void loop() {
 
     lastTimeChecked = millis();
 
-   // if (lightTimerActive && millis() > lightTimerExpires) {
-   //   lightTimerActive = false;
-   //   digitalWrite(LED_PIN, LOW);
-   // }
+    if (lightTimerActive && millis() > lightTimerExpires) {
+     lightTimerActive = false;
+      digitalWrite(LED_PIN, HIGH);
+    }
 
-   if (RestartTriggered == true) {ESP.restart();}
   }
 
+   if (RestartTriggered == true) {ESP.restart();}
 
 
 
