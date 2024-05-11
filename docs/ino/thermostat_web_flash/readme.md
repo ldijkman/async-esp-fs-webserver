@@ -1,3 +1,8 @@
+<div class="center">
+    Home_Bot.png [Image of Home_Bot](Home_Bot.png width="50px")
+
+    join my Telegram Channel?
+</div>
 <center>
   <img src="Home_Bot.png" alt="Home Bot" width="50px"/>
 </center>
