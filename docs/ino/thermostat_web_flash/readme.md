@@ -1,4 +1,4 @@
-<img src="Home_Bot.png">
+<center><img src="Home_Bot.png" width="50%"></center>
 
 join my Telegram Channel?
 
