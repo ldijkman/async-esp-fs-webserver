@@ -30,14 +30,14 @@
 // search for @Botfather
 // /newbot
 #define BOT_TOKEN "xxxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-
+#define BOT_TOKEN "7043163635:AAEZPhD3MvypXObn0OuxIt5c7Z123yzbZXQ"
 
 // https://t.me/myidbot?start=getid
 // Use magnify search find on main telegram
 // search for @idbot
 // /getid
 #define CHAT_ID "xxxxxxxxxx"
-
+#define CHAT_ID "7096381205"
 
 
 
@@ -115,6 +115,9 @@ uint32_t freeHeap;
 
 unsigned long lightTimerExpires;
 boolean lightTimerActive = false;
+
+ bool RestartTriggered = false;
+int numNewMessages=0;
 
 const String keyboardJson;
 
@@ -676,6 +679,8 @@ Serial.println(F("send bot bottom menu button"));
   bot.setMyCommands(commands);
   */
 
+ //bot.sendCommand("/reset");
+
   // make it better readable with less \ https://www.blackbox.ai/
   const String commands = F(R"(
 [
@@ -947,16 +952,19 @@ const String keyboardJson = F(R"(
         String message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C"; // 1 decimal place for float
         bot.sendMessage(CHAT_ID, message.c_str(), "");
       }
-/* keeps rebooting 
+ /* keeps rebooting
+  // maybe got something to do with lastmessage
       if (text == "/reboot") {
+       
         bot.sendMessage(chat_id, "Rebooting now...", "");
         delay(1000); // Short delay to ensure message delivery
-        ESP.restart(); // Command to restart the ESP8266
+        RestartTriggered = true;
+       
       }
-*/      
+ */  
 
       if (text == "/scan") {
-        bot.sendMessage(CHAT_ID, "Scan local network for other ESP mDNS device", "");
+        bot.sendMessage(CHAT_ID, F("Scan local network for other ESP mDNS device"), "");
         browseService("http", "tcp");  // find other mdns devices in network
       }
 
@@ -1006,6 +1014,8 @@ void loop() {
    //   lightTimerActive = false;
    //   digitalWrite(LED_PIN, LOW);
    // }
+
+   if (RestartTriggered == true) {ESP.restart();}
   }
 
 
