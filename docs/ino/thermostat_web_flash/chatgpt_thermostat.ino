@@ -741,9 +741,12 @@ const String keyboardJson = F(R"(
   {"text":"ON","callback_data":"ON"},
   {"text":"OFF","callback_data":"OFF"}
 ],[
-  {"text":"1 Mins","callback_data":"TIME1"},  
-  {"text":"15 Mins","callback_data":"TIME15"},
-  {"text":"30 Mins","callback_data":"TIME30"}
+  {"text":"1 Min","callback_data":"TIME1"},  
+  {"text":"5 Min","callback_data":"TIME5"},    
+  {"text":"10 Min","callback_data":"TIME10"},  
+  {"text":"15 Min","callback_data":"TIME15"},
+  {"text":"30 Min","callback_data":"TIME30"},
+  {"text":"1 Hr","callback_data":"TIME60"}
 ],[
   {"text":"10 °C","callback_data":"TEMP10"},
   {"text":"15 °C","callback_data":"TEMP15"},
@@ -873,9 +876,12 @@ const String keyboardJson = F(R"(
   {"text":"ON","callback_data":"ON"},
   {"text":"OFF","callback_data":"OFF"}
 ],[
-  {"text":"1 Mins","callback_data":"TIME1"},  
-  {"text":"20 Mins","callback_data":"TIME20"},
-  {"text":"30 Mins","callback_data":"TIME30"}
+  {"text":"1 Min","callback_data":"TIME1"},  
+  {"text":"5 Min","callback_data":"TIME5"},    
+  {"text":"10 Min","callback_data":"TIME10"},  
+  {"text":"15 Min","callback_data":"TIME15"},
+  {"text":"30 Min","callback_data":"TIME30"},
+  {"text":"1 Hr","callback_data":"TIME60"}
 ],[
   {"text":"10 °C","callback_data":"TEMP10"},
   {"text":"15 °C","callback_data":"TEMP15"},
