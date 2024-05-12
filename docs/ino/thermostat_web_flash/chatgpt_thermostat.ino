@@ -712,6 +712,7 @@ Serial.println(F("send bot bottom menu button"));
   // make it better readable with less \ https://www.blackbox.ai/
   const String commands = F(R"(
 [
+  {"command":"menu", "description":"Thermostat Control Menu"},
   {"command":"options", "description":"Thermostat Control Menu"},
   {"command":"start", "description":"Start"},
   {"command":"scan", "description":"Scan network for other ESP mDNS"},
@@ -947,7 +948,7 @@ const String keyboardJson = F(R"(
       String chat_id = String(bot.messages[i].chat_id);
       String text = bot.messages[i].text;
 
-      if (text == F("/options")) {
+      if (text == F("/options")||text == F("/menu")) {
 
         // Keyboard Json is an array of arrays.
         // The size of the main array is how many row options the keyboard has
@@ -977,7 +978,7 @@ const String keyboardJson = F(R"(
       // So this is a good place to let the users know what commands are available
       if (text == F("/start")) {
 
-        bot.sendMessage(CHAT_ID, "/options : returns the inline keyboard\n", "Markdown");
+        bot.sendMessage(CHAT_ID, "/options or /menu : returns the inline keyboard\n", "Markdown");
       }
 
       if (text.startsWith("/set_")) {  // set temp from menu button sendarea
