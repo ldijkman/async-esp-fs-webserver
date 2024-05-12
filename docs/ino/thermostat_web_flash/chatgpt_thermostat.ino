@@ -741,8 +741,8 @@ const String keyboardJson = F(R"(
   {"text":"ON","callback_data":"ON"},
   {"text":"OFF","callback_data":"OFF"}
 ],[
-  {"text":"10 Mins","callback_data":"TIME1"},  
-  {"text":"20 Mins","callback_data":"TIME20"},
+  {"text":"1 Mins","callback_data":"TIME1"},  
+  {"text":"15 Mins","callback_data":"TIME15"},
   {"text":"30 Mins","callback_data":"TIME30"}
 ],[
   {"text":"10 °C","callback_data":"TEMP10"},
