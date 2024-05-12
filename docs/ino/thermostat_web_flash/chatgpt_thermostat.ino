@@ -1,10 +1,22 @@
 
+
 // Join My Telegram Channel?
 //     https://t.me/Luberth_Dijkman
 
 // wifi thermostat and  off delay timed light switch
 // lolin wemos v2 relais shield has solderpads for other pin config
 // to add a second relais
+
+/* 
+   based on 
+      https://github.com/Gianbacchio/ESP8266-TelegramBot
+      https://github.com/CasaJasmina/TelegramBot-Library
+      https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot
+      https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot/tree/master/examples
+      https://randomnerdtutorials.com/telegram-control-esp32-esp8266-nodemcu-outputs/
+      https://randomnerdtutorials.com/esp32-esp8266-thermostat-web-server/
+*/
+
 
 // should be possible to set setpoint from telegram buttons 15 and 20 celsius
 //    https://youtu.be/n8N7pnrjb2A
