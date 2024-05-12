@@ -1,5 +1,13 @@
 
 
+
+// sorry changed the pinout 
+// so it fits my wemos tripple base pinout https://t.me/Luberth_Dijkman/28
+// temperature from the shield DS18B20 needs offset
+
+
+
+
 // Join My Telegram Channel?
 //     https://t.me/Luberth_Dijkman
 
@@ -151,9 +159,9 @@ OneWire oneWire(oneWireBus);
 DallasTemperature sensors(&oneWire);
 
 // GPIO where the relay is connected
-const int relayPin = 16;     // gpio16  gpio2=LED gives error on tx on my board
+//const int relayPin = 16;     // gpio16  gpio2=LED gives error on tx on my board
 // const int relayPin = 5;   // wemos D1 mini relais shield has D1(GPIO5) i think
-
+const int relayPin = 5;     // gpio5 aliexpress d1 mini relais shield
 const int LED_PIN = 2; // wemos D1 Mini onboard LED
 
 
@@ -754,7 +762,8 @@ const String keyboardJson = F(R"(
   {"text":"20 °C","callback_data":"TEMP20"},
   {"text":"21 °C","callback_data":"TEMP21"}
 ],[
-  {"text":"Scan","callback_data":"/scan"}
+  {"text":"Scan","callback_data":"/scan"},
+  {"text":"Reboot","callback_data":"/reboot"}
 ]]
 )");
      
@@ -889,7 +898,8 @@ const String keyboardJson = F(R"(
   {"text":"20 °C","callback_data":"TEMP20"},
   {"text":"21 °C","callback_data":"TEMP21"}
 ],[
-  {"text":"Scan","callback_data":"/scan"}
+  {"text":"Scan","callback_data":"/scan"},
+  {"text":"Reboot","callback_data":"/reboot"}
 ]]
 )");
   for (int i = 0; i < numNewMessages; i++) {
