@@ -741,7 +741,7 @@ const String keyboardJson = F(R"(
   {"text":"ON","callback_data":"ON"},
   {"text":"OFF","callback_data":"OFF"}
 ],[
-  {"text":"10 Mins","callback_data":"TIME10","disable":"true"},  
+  {"text":"10 Mins","callback_data":"TIME1"},  
   {"text":"20 Mins","callback_data":"TIME20"},
   {"text":"30 Mins","callback_data":"TIME30"}
 ],[
@@ -902,14 +902,17 @@ const String keyboardJson = F(R"(
 
       if (text == F("ON")) {
         digitalWrite(LED_PIN, LOW);
+        bot.sendMessage(CHAT_ID, F("LED ON"), "");
       } else if (text == F("OFF")) {
         digitalWrite(LED_PIN, HIGH);
+        bot.sendMessage(CHAT_ID, F("LED OFF"), "");
       } else if (text.startsWith("TIME")) {
         text.replace("TIME", "");
         int timeRequested = text.toInt();      
-         digitalWrite(LED_PIN, LOW);
+         digitalWrite(LED_PIN, LOW);       
+         bot.sendMessage(CHAT_ID, F("LED ON, off delay ")+String(timeRequested)+" Minutes", "");
          lightTimerActive = true;
-        lightTimerExpires = millis() + (timeRequested * 1000 * 60);
+         lightTimerExpires = millis() + (timeRequested * 1000 * 60);
       }else if (text.startsWith("TEMP")) {
         text.replace("TEMP", "");
         temperatureSetpoint = text.toInt();
@@ -1031,6 +1034,7 @@ void loop() {
     if (lightTimerActive && millis() > lightTimerExpires) {
      lightTimerActive = false;
       digitalWrite(LED_PIN, HIGH);
+      bot.sendMessage(CHAT_ID, F("LED OFF delay Time Expired"), "");
     }
 
   }
