@@ -1,10 +1,21 @@
 
-
+// added buzzer shield on D5 GPIO14 if temp <10 or >40 buzzer
 
 // sorry changed the pinout 
 // so it fits my wemos tripple base pinout https://t.me/Luberth_Dijkman/28
 // temperature from the shield DS18B20 needs offset
 
+// Buzzer shield  control port, default D5 = GPIO 14
+// Temp DS18B20 Shield                  D2 = GPIO 4
+// Relais shield default                D1 = GPIO 5
+// onboard LED                          D4 = GPIO 2 (think no good for relais used for flashing) 
+
+/*
+const int oneWireBus = 4; // gpio4     yellow=data     red=3.3v      black/blue=GND
+
+const int relayPin = 5;     // gpio5 aliexpress d1 mini relais shield
+const int LED_PIN = 2; // wemos D1 Mini onboard LED
+*/
 
 
 
@@ -164,6 +175,25 @@ DallasTemperature sensors(&oneWire);
 // const int relayPin = 5;   // wemos D1 mini relais shield has D1(GPIO5) i think
 const int relayPin = 5;     // gpio5 aliexpress d1 mini relais shield
 const int LED_PIN = 2; // wemos D1 Mini onboard LED
+
+
+
+#define BUZZER_PIN  14  //D5 // GPIO14
+
+
+unsigned long previousMillis = 0;
+unsigned long interval = 500; // Interval between tone changes
+
+int tone1Duration = 250; // Duration of the first tone
+int tone2Duration = 250; // Duration of the second tone
+
+int currentTone = LOW; // Initial tone state
+
+
+
+
+
+
 
 
 // Hysteresis margin, prevent pinball machine effect
@@ -565,6 +595,9 @@ void setup() {
   pinMode(LED_PIN, OUTPUT);     // Initialize the relay pin as an output
   digitalWrite(LED_PIN, HIGH);  // Start with the LED high is off 
 
+ pinMode(BUZZER_PIN, OUTPUT);
+
+
   WiFi.begin(ssid, password);
   secured_client.setTrustAnchors(&cert); // Add root certificate for api.telegram.org
 // Only required on 2.5 Beta
@@ -793,6 +826,26 @@ Serial.println(F("server begin"));
 
 }
 
+
+
+void buzzer(){
+unsigned long currentMillis = millis(); // Get the current time
+
+  // Check if it's time to change the tone
+  if (currentMillis - previousMillis >= interval) {
+    // Save the last time the tone was changed
+    previousMillis = currentMillis;
+
+    // Toggle between tones
+    if (currentTone == LOW) {
+      tone(BUZZER_PIN, 1000, tone1Duration); // First tone (1 kHz)
+      currentTone = HIGH;
+    } else {
+      tone(BUZZER_PIN, 2000, tone2Duration); // Second tone (2 kHz)
+      currentTone = LOW;
+    }
+  }
+  }
 
 // Scan local network for other ESP mDNS devices
 void browseService(const char* service, const char* proto) {
@@ -1042,11 +1095,19 @@ static unsigned long lastMillis = 0;
 
 void loop() {
 
+   sensors.requestTemperatures();
+    float temperature = sensors.getTempCByIndex(0);
+      if (temperature < 10 || temperature > 40) {
+    buzzer();
+  }
 
-
+  
   if (millis() > lastTimeChecked + delayBetweenChecks)  {
 
+
+
      ws.cleanupClients();
+
 
     // getUpdates returns 1 if there is a new message from Telegram
     int numNewMessages = bot.getUpdates(bot.last_message_received + 1);
@@ -1094,7 +1155,7 @@ void loop() {
     float temperature = sensors.getTempCByIndex(0);
     String tempString = String(temperature, 1);
 
-
+ 
 
 
     // Print the IP address
@@ -1127,6 +1188,7 @@ void loop() {
       digitalWrite(relayPin, LOW); // Deactivate the relay if temperature goes above the upper threshold
       relayState = false; // Update relay state
     }
+
 
     // No change if the temperature is within the hysteresis band
 
