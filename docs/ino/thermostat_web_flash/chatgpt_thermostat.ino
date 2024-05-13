@@ -150,6 +150,7 @@ WiFiClientSecure secured_client;
 UniversalTelegramBot bot(BOT_TOKEN, secured_client);
 
 
+
 // GPIO where the DS18B20 is connected
 const int oneWireBus = 4; // gpio4     yellow=data     red=3.3v      black/blue=GND
 // needs a 4k7 resistor between data and 3.3v https://duckduckgo.com/?t=lm&q=DS18B20+resistor
@@ -159,7 +160,7 @@ OneWire oneWire(oneWireBus);
 DallasTemperature sensors(&oneWire);
 
 // GPIO where the relay is connected
-//const int relayPin = 16;     // gpio16  gpio2=LED gives error on tx on my board
+// const int relayPin = 16;     // gpio16  gpio2=LED gives error on tx on my board
 // const int relayPin = 5;   // wemos D1 mini relais shield has D1(GPIO5) i think
 const int relayPin = 5;     // gpio5 aliexpress d1 mini relais shield
 const int LED_PIN = 2; // wemos D1 Mini onboard LED
@@ -927,21 +928,31 @@ const String keyboardJson = F(R"(
         text.replace("TIME", "");
         int timeRequested = text.toInt();      
          digitalWrite(LED_PIN, LOW);       
-         bot.sendMessage(CHAT_ID, F("LED ON, off delay ")+String(timeRequested)+" Minutes", "");
+         bot.sendMessage(CHAT_ID, F("LED ON, off delay ")+String(timeRequested)+F(" Minutes"), "");
          lightTimerActive = true;
          lightTimerExpires = millis() + (timeRequested * 1000 * 60);
       }else if (text.startsWith("TEMP")) {
         text.replace("TEMP", "");
         temperatureSetpoint = text.toInt();
         
-        String message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C\n     Stack: " + String(ESP.getFreeContStack()) + " bytes, Heap: " + String(ESP.getFreeHeap()) + " bytes";
+        String message = F("Setpoint: ") + String(temperatureSetpoint, 1) + F("°C, Current Temp: ") + String(sensors.getTempCByIndex(0), 1) + "°C\n     Stack: " + String(ESP.getFreeContStack()) + " bytes, Heap: " + String(ESP.getFreeHeap()) + " bytes";
         bot.sendMessage(CHAT_ID, message.c_str(), "");
 
       }
 
-      if (text == "/scan") {
+      if (text == F("/scan")) {
         bot.sendMessage(CHAT_ID, F("Scan local network for other ESP mDNS device"), "");
         browseService("http", "tcp");  // find other mdns devices in network
+      }
+
+      if (text == F("/reboot")) {
+        bot.sendMessage(CHAT_ID, F("Sorry, Reboot / Restart turned off in code\n Gets into boot loop"), "");
+/* keeps rebooting
+      
+        bot.sendMessage(chat_id, "Rebooting now...", "");
+        delay(1000);                                      // Short delay to ensure message delivery
+        RestartTriggered = true;                          // flag used in loop to restart ESP
+*/        
       }
      
     } else {
@@ -962,15 +973,15 @@ const String keyboardJson = F(R"(
         message += "Local IP: http://" + WiFi.localIP().toString() + "\n";
         message += "External IP: " + externalIP + "\nReset reason " + resetReasonStr+"\n";
         
-        bot.sendMessage(CHAT_ID, message.c_str(), "");
+        bot.sendMessage(chat_id, message.c_str(), "");
         
   
-        bot.sendMessageWithInlineKeyboard(CHAT_ID, "Thermostat Control\nhttps://t.me/s/Luberth_Dijkman", "", keyboardJson);
+        bot.sendMessageWithInlineKeyboard(chat_id, "Thermostat Control\nhttps://t.me/s/Luberth_Dijkman", "", keyboardJson);
  
         // Assuming temperatureSetpoint is a float
         // Assuming currentTemperature holds the current temperature
         message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C"; // 1 decimal place for float
-        bot.sendMessage(CHAT_ID, message.c_str(), "");
+        bot.sendMessage(chat_id, message.c_str(), "");
       
       }
 
@@ -978,7 +989,7 @@ const String keyboardJson = F(R"(
       // So this is a good place to let the users know what commands are available
       if (text == F("/start")) {
 
-        bot.sendMessage(CHAT_ID, "/options or /menu : returns the inline keyboard\n", "Markdown");
+        bot.sendMessage(chat_id, "/options or /menu : returns the inline keyboard\n", "Markdown");
       }
 
       if (text.startsWith("/set_")) {  // set temp from menu button sendarea
@@ -988,21 +999,22 @@ const String keyboardJson = F(R"(
         // Assuming temperatureSetpoint is a float
         // Assuming currentTemperature holds the current temperature
         String message = "Setpoint: " + String(temperatureSetpoint, 1) + "°C, Current Temp: " + String(sensors.getTempCByIndex(0), 1) + "°C"; // 1 decimal place for float
-        bot.sendMessage(CHAT_ID, message.c_str(), "");
+        bot.sendMessage(chat_id, message.c_str(), "");
       }
- /* keeps rebooting
-  // maybe got something to do with lastmessage
-      if (text == "/reboot") {
-       
+
+      if (text == F("/reboot")) {
+        bot.sendMessage(chat_id, F("Sorry, Reboot / Restart turned off in code\n Gets into boot loop"), "");
+/* keeps rebooting
+      
         bot.sendMessage(chat_id, "Rebooting now...", "");
-        delay(1000); // Short delay to ensure message delivery
-        RestartTriggered = true;
-       
+        delay(1000);                                      // Short delay to ensure message delivery
+        RestartTriggered = true;                          // flag used in loop to restart ESP
+*/        
       }
- */  
+
 
       if (text == "/scan") {
-        bot.sendMessage(CHAT_ID, F("Scan local network for other ESP mDNS device"), "");
+        bot.sendMessage(chat_id, F("Scan local network for other ESP mDNS device"), "");
         browseService("http", "tcp");  // find other mdns devices in network
       }
 
