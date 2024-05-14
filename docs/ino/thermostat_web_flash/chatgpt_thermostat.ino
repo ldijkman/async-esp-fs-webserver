@@ -161,7 +161,6 @@ boolean lightTimerActive = false;
 bool RestartTriggered = false;
 int numNewMessages=0;
 
-const String keyboardJson;
 
 
 X509List cert(TELEGRAM_CERTIFICATE_ROOT);
@@ -216,6 +215,34 @@ AsyncWebSocket ws("/ws");
 
 // Temperature setpoint, initialized with a default value
 float temperatureSetpoint = 20.0;
+
+
+// make it better readable with less \ https://www.blackbox.ai/
+const char keyboardJson[] PROGMEM = R"rawliteral(
+[[
+  {"text":"ON","callback_data":"ON"},
+  {"text":"OFF","callback_data":"OFF"}
+],[
+  {"text":"1 Min","callback_data":"TIME1"},
+  {"text":"5 Min","callback_data":"TIME5"},
+  {"text":"10 Min","callback_data":"TIME10"},
+  {"text":"15 Min","callback_data":"TIME15"},
+  {"text":"30 Min","callback_data":"TIME30"},
+  {"text":"1 Hr","callback_data":"TIME60"}
+],[
+  {"text":"10 °C","callback_data":"TEMP10"},
+  {"text":"15 °C","callback_data":"TEMP15"},
+  {"text":"18 °C","callback_data":"TEMP18"},
+  {"text":"20 °C","callback_data":"TEMP20"},
+  {"text":"21 °C","callback_data":"TEMP21"}
+],[
+  {"text":"Scan","callback_data":"/scan"},
+  {"text":"Reboot","callback_data":"/reboot"}
+]]
+)rawliteral";
+
+
+
 
 // HTML content with JavaScript for WebSocket communication
 const char index_html[] PROGMEM = R"rawliteral(
@@ -786,31 +813,7 @@ message += F("External IP: ") + externalIP + F("\nReset reason ") + resetReasonS
 bot.sendMessage(CHAT_ID, message.c_str(), "");
 
 Serial.println(F("send bot menu"));
-
-  // make it better readable with less \ https://www.blackbox.ai/
-const String keyboardJson = F(R"(
-[[
-  {"text":"ON","callback_data":"ON"},
-  {"text":"OFF","callback_data":"OFF"}
-],[
-  {"text":"1 Min","callback_data":"TIME1"},  
-  {"text":"5 Min","callback_data":"TIME5"},    
-  {"text":"10 Min","callback_data":"TIME10"},  
-  {"text":"15 Min","callback_data":"TIME15"},
-  {"text":"30 Min","callback_data":"TIME30"},
-  {"text":"1 Hr","callback_data":"TIME60"}
-],[
-  {"text":"10 °C","callback_data":"TEMP10"},
-  {"text":"15 °C","callback_data":"TEMP15"},
-  {"text":"18 °C","callback_data":"TEMP18"},
-  {"text":"20 °C","callback_data":"TEMP20"},
-  {"text":"21 °C","callback_data":"TEMP21"}
-],[
-  {"text":"Scan","callback_data":"/scan"},
-  {"text":"Reboot","callback_data":"/reboot"}
-]]
-)");
-     
+    
         bot.sendMessageWithInlineKeyboard(CHAT_ID, F("Thermostat Control\nhttps://t.me/s/Luberth_Dijkman"), "", keyboardJson);
  
  Serial.println(F("send bot temp info"));
@@ -935,30 +938,7 @@ void browseService(const char* service, const char* proto) {
 
 void handleNewMessages(int numNewMessages) {
 
- 
-  // make it better readable with less \ https://www.blackbox.ai/ 
-const String keyboardJson = F(R"(
-[[
-  {"text":"ON","callback_data":"ON"},
-  {"text":"OFF","callback_data":"OFF"}
-],[
-  {"text":"1 Min","callback_data":"TIME1"},  
-  {"text":"5 Min","callback_data":"TIME5"},    
-  {"text":"10 Min","callback_data":"TIME10"},  
-  {"text":"15 Min","callback_data":"TIME15"},
-  {"text":"30 Min","callback_data":"TIME30"},
-  {"text":"1 Hr","callback_data":"TIME60"}
-],[
-  {"text":"10 °C","callback_data":"TEMP10"},
-  {"text":"15 °C","callback_data":"TEMP15"},
-  {"text":"18 °C","callback_data":"TEMP18"},
-  {"text":"20 °C","callback_data":"TEMP20"},
-  {"text":"21 °C","callback_data":"TEMP21"}
-],[
-  {"text":"Scan","callback_data":"/scan"},
-  {"text":"Reboot","callback_data":"/reboot"}
-]]
-)");
+
   for (int i = 0; i < numNewMessages; i++) {
       Serial.print(F("bot.messages[i].text "));
       Serial.println(bot.messages[i].text);
