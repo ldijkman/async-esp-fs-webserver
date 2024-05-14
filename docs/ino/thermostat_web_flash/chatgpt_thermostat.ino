@@ -756,6 +756,7 @@ Serial.println(F("send bot bottom menu button"));
 [
   {"command":"menu", "description":"Thermostat Control Menu"},
   {"command":"options", "description":"Thermostat Control Menu"},
+  {"command":"buzzer", "description":"Test buzzer"},
   {"command":"start", "description":"Start"},
   {"command":"scan", "description":"Scan network for other ESP mDNS"},
   {"command":"set_10", "description":"Temp Setpoint 10 °C"},
@@ -1070,6 +1071,11 @@ const String keyboardJson = F(R"(
       if (text == "/scan") {
         bot.sendMessage(chat_id, F("Scan local network for other ESP mDNS device"), "");
         browseService("http", "tcp");  // find other mdns devices in network
+      }
+
+      if (text == "/buzzer") {
+        bot.sendMessage(chat_id, F("Buzzer test D5"), "");
+        buzzer();
       }
 
 
