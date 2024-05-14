@@ -244,6 +244,32 @@ const char keyboardJson[] PROGMEM = R"rawliteral(
 
 
 
+
+
+
+// make it better readable with less \ https://www.blackbox.ai/
+const char commands[] PROGMEM = R"rawliteral(
+[
+  {"command":"menu", "description":"Thermostat Control Menu"},
+  {"command":"options", "description":"Thermostat Control Menu"},
+  {"command":"buzzer", "description":"Test buzzer"},
+  {"command":"start", "description":"Start"},
+  {"command":"scan", "description":"Scan network for other ESP mDNS"},
+  {"command":"set_10", "description":"Temp Setpoint 10 °C"},
+  {"command":"set_15", "description":"Temp Setpoint 15 °C"},
+  {"command":"set_18", "description":"Temp Setpoint 18 °C"},
+  {"command":"set_20", "description":"Temp Setpoint 20 °C"},
+  {"command":"set_21", "description":"Temp Setpoint 21 °C"},
+  {"command":"reboot", "description":"Reboot / Restart"},
+  {"command":"status","description":"Answer device current status"}
+]
+)rawliteral";
+
+
+
+
+
+
 // HTML content with JavaScript for WebSocket communication
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML><html>
@@ -757,50 +783,13 @@ Serial.println(buffer);
  // Print the last reset reason
   printResetReason();
 
+ // bot.sendCommand("/reset");
+ 
+  // Menu button in send area
+  Serial.println(F("send bot bottom menu button"));
 
-Serial.println(F("send bot bottom menu button"));
-// Menu button in send area
-/*
-  const String commands = F("["
-                            "{\"command\":\"options\",  \"description\":\"Thermostat Control Menu\"},"
-                            "{\"command\":\"start\", \"description\":\"Start\"},"
-                             "{\"command\":\"scan\", \"description\":\"Scan network for other ESP mDNS\"},"
-                            "{\"command\":\"set_10\", \"description\":\"Temp Setpoint 10 °C\"},"
-                            "{\"command\":\"set_15\", \"description\":\"Temp Setpoint 15 °C\"},"
-                            "{\"command\":\"set_18\", \"description\":\"Temp Setpoint 18 °C\"},"
-                            "{\"command\":\"set_20\", \"description\":\"Temp Setpoint 20 °C\"},"
-                            "{\"command\":\"set_21\", \"description\":\"Temp Setpoint 21 °C\"},"
-                          
-                            "{\"command\":\"status\",\"description\":\"Answer device current status\"}" // no comma on last command
-                            "]");
   bot.setMyCommands(commands);
-  */
-
- //bot.sendCommand("/reset");
-
-  // make it better readable with less \ https://www.blackbox.ai/
-  const String commands = F(R"(
-[
-  {"command":"menu", "description":"Thermostat Control Menu"},
-  {"command":"options", "description":"Thermostat Control Menu"},
-  {"command":"buzzer", "description":"Test buzzer"},
-  {"command":"start", "description":"Start"},
-  {"command":"scan", "description":"Scan network for other ESP mDNS"},
-  {"command":"set_10", "description":"Temp Setpoint 10 °C"},
-  {"command":"set_15", "description":"Temp Setpoint 15 °C"},
-  {"command":"set_18", "description":"Temp Setpoint 18 °C"},
-  {"command":"set_20", "description":"Temp Setpoint 20 °C"},
-  {"command":"set_21", "description":"Temp Setpoint 21 °C"},
-  {"command":"reboot", "description":"Reboot / Restart"},
-  {"command":"status","description":"Answer device current status"}
-]
-)");
-bot.setMyCommands(commands);
-// Menu button in send area
-
-
-// make it better readable with less \ https://www.blackbox.ai/
-
+  // Menu button in send area
 
 
 Serial.println(F("send bot start info"));
