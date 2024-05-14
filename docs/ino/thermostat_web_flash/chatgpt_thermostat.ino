@@ -5,16 +5,17 @@
 // so it fits my wemos tripple base pinout https://t.me/Luberth_Dijkman/28
 // temperature from the shield DS18B20 needs offset
 
-// Buzzer shield  control port, default D5 = GPIO 14
+// Buzzer shield  control port, default D5 = GPIO 14  ( i had to solder a connection on print for D5)
 // Temp DS18B20 Shield                  D2 = GPIO 4
 // Relais shield default                D1 = GPIO 5
-// onboard LED                          D4 = GPIO 2 (think no good for relais used for flashing) 
+// onboard LED                          D4 = GPIO 2 (think no good for relais used for flashing,  cannot flash program the board when relays is connected) 
 
 /*
 const int oneWireBus = 4; // gpio4     yellow=data     red=3.3v      black/blue=GND
 
 const int relayPin = 5;     // gpio5 aliexpress d1 mini relais shield
 const int LED_PIN = 2; // wemos D1 Mini onboard LED
+
 */
 
 
@@ -58,6 +59,15 @@ const int LED_PIN = 2; // wemos D1 Mini onboard LED
 //       https://youtu.be/-IC-Z78aTOs
 //       https://github.com/witnessmenow/Simple-Home-Automation-With-Telegram/blob/master/LedControl/LedControl.ino
 
+
+
+
+
+
+
+// configure your BOT
+
+
 // https://t.me/botfather
 // Telegram BOT Token (Get from Botfather)
 // Use magnify search find on main telegram
@@ -87,9 +97,6 @@ const int LED_PIN = 2; // wemos D1 Mini onboard LED
 
 
 
-// changed relaispin
-// GPIO where the relay is connected
-// const int relayPin = 16; // gpio16  gpio2=LED gives error on tx i think on my board, cannot flash program the board when relays is connected
 
 
 // https://github.com/ldijkman/async-esp-fs-webserver/tree/master/docs/ino/thermostat_web_flash
@@ -129,7 +136,8 @@ const int LED_PIN = 2; // wemos D1 Mini onboard LED
                                       // https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot
 #include <ArduinoJson.h>
 
-
+// Function declaration
+void buzzer();
 
 
 // Replace with your network WiFi Router credentials
@@ -821,6 +829,8 @@ bot.sendMessage(CHAT_ID, message.c_str(), "");
 
 
 Serial.println(F("server begin"));
+
+buzzer();
   
   server.begin();
 
@@ -829,23 +839,14 @@ Serial.println(F("server begin"));
 
 
 void buzzer(){
-unsigned long currentMillis = millis(); // Get the current time
+  tone(BUZZER_PIN, 1000, tone1Duration);    // Play the first tone (1000 Hz for tone1Duration milliseconds) 
+  delay(tone1Duration + 10);                // Wait for the duration of the first tone plus a little extra to ensure it's fully played
 
-  // Check if it's time to change the tone
-  if (currentMillis - previousMillis >= interval) {
-    // Save the last time the tone was changed
-    previousMillis = currentMillis;
+  tone(BUZZER_PIN, 2000, tone2Duration);    // Play the second tone (2000 Hz for tone2Duration milliseconds)
+  delay(tone2Duration + 10);                // Wait for the duration of the second tone plus a little extra
+}
 
-    // Toggle between tones
-    if (currentTone == LOW) {
-      tone(BUZZER_PIN, 1000, tone1Duration); // First tone (1 kHz)
-      currentTone = HIGH;
-    } else {
-      tone(BUZZER_PIN, 2000, tone2Duration); // Second tone (2 kHz)
-      currentTone = LOW;
-    }
-  }
-  }
+
 
 // Scan local network for other ESP mDNS devices
 void browseService(const char* service, const char* proto) {
