@@ -16,6 +16,21 @@ const int oneWireBus = 4; // gpio4     yellow=data     red=3.3v      black/blue=
 const int relayPin = 5;     // gpio5 aliexpress d1 mini relais shield
 const int LED_PIN = 2; // wemos D1 Mini onboard LED
 
+chat gpt says 
+The pinout for a Wemos D1 Mini (an ESP8266-based development board) typically looks like this:
+
+D0 -> GPIO16
+D1 -> GPIO5
+D2 -> GPIO4
+D3 -> GPIO0
+D4 -> GPIO2
+D5 -> GPIO14
+D6 -> GPIO12
+D7 -> GPIO13
+D8 -> GPIO15
+TX -> GPIO1
+RX -> GPIO3
+A0 -> Analog input
 */
 
 
@@ -170,7 +185,7 @@ UniversalTelegramBot bot(BOT_TOKEN, secured_client);
 
 
 // GPIO where the DS18B20 is connected
-const int oneWireBus = 4; // gpio4     yellow=data     red=3.3v      black/blue=GND
+const int oneWireBus = 4; // D2=gpio4     yellow=data     red=3.3v      black/blue=GND
 // needs a 4k7 resistor between data and 3.3v https://duckduckgo.com/?t=lm&q=DS18B20+resistor
 // Setup a oneWire instance to communicate with any OneWire devices
 OneWire oneWire(oneWireBus);
@@ -185,16 +200,9 @@ const int LED_PIN = 2; // wemos D1 Mini onboard LED
 
 
 
-#define BUZZER_PIN  14  //D5 // GPIO14
+#define BUZZER_PIN  14  // D5 = GPIO14
 
 
-unsigned long previousMillis = 0;
-unsigned long interval = 500; // Interval between tone changes
-
-int tone1Duration = 250; // Duration of the first tone
-int tone2Duration = 250; // Duration of the second tone
-
-int currentTone = LOW; // Initial tone state
 
 
 
@@ -832,11 +840,11 @@ buzzer();
 
 
 void buzzer(){
-  tone(BUZZER_PIN, 1000, tone1Duration);    // Play the first tone (1000 Hz for tone1Duration milliseconds) 
-  delay(tone1Duration + 10);                // Wait for the duration of the first tone plus a little extra to ensure it's fully played
+  tone(BUZZER_PIN, 1000, 250);    // Play the first tone (1000 Hz for 250 milliseconds) 
+  delay(250 + 10);                // Wait for the 250 of the first tone plus a little extra to ensure it's fully played
 
-  tone(BUZZER_PIN, 2000, tone2Duration);    // Play the second tone (2000 Hz for tone2Duration milliseconds)
-  delay(tone2Duration + 10);                // Wait for the duration of the second tone plus a little extra
+  tone(BUZZER_PIN, 2000, 250);    // Play the second tone (2000 Hz for 250 milliseconds)
+  delay(250 + 10);                // Wait for the 250 of the second tone plus a little extra
 }
 
 
@@ -848,9 +856,9 @@ void browseService(const char* service, const char* proto) {
   Serial.printf("Scan mDNS... ");//_%s._%s.local. ... ", service, proto);
   int n = MDNS.queryService(service, proto);  // Query mDNS service
   if (n == 0) {
-    Serial.print("\033[31m"); //red
+    Serial.print(F("\033[31m")); //red
     Serial.println(F("\nDamn, no services found\n Flash more Devices\n  And give each a Unique mDNS name in Setup tab Custom"));
-    Serial.print("\033[0m"); // Reset color
+    Serial.print(F("\033[0m")); // Reset color
     
     // Now send 'telegramMessage' via your Telegram bot
     bot.sendMessage(CHAT_ID, F("Damn, no other ESP mDNS devices found\n Flash more ESP Devices\nhttps://ldijkman.github.io/async-esp-fs-webserver/"), "");
@@ -1000,7 +1008,7 @@ void handleNewMessages(int numNewMessages) {
         bot.sendMessage(chat_id, message.c_str(), "");
         
   
-        bot.sendMessageWithInlineKeyboard(chat_id, "Thermostat Control\nhttps://t.me/s/Luberth_Dijkman", "", keyboardJson);
+        bot.sendMessageWithInlineKeyboard(chat_id, F("Thermostat Control\nhttps://t.me/s/Luberth_Dijkman"), "", keyboardJson);
  
         // Assuming temperatureSetpoint is a float
         // Assuming currentTemperature holds the current temperature
@@ -1013,7 +1021,7 @@ void handleNewMessages(int numNewMessages) {
       // So this is a good place to let the users know what commands are available
       if (text == F("/start")) {
 
-        bot.sendMessage(chat_id, "/options or /menu : returns the inline keyboard\n", "Markdown");
+        bot.sendMessage(chat_id, F("/options or /menu : returns the inline keyboard\n"), "Markdown");
       }
 
       if (text.startsWith("/set_")) {  // set temp from menu button sendarea
@@ -1100,15 +1108,20 @@ void loop() {
     if (lightTimerActive && millis() > lightTimerExpires) {
      lightTimerActive = false;
       digitalWrite(LED_PIN, HIGH);
-      bot.sendMessage(CHAT_ID, F("LED OFF delay Time Expired"), "");
+        // Create a string to hold the message, including the time in seconds
+        String message = F("LED OFF delay Time Expired. \nTime was set for: ");
+        message += String(lightTimerExpires / 1000); // Add the time in seconds to the message
+        message += F(" seconds.");
+
+        // Send the message
+        bot.sendMessage(CHAT_ID, message, "");
     }
 
   }
 
+
+
    if (RestartTriggered == true) {ESP.restart();}
-
-
-
 
   
 
@@ -1135,17 +1148,17 @@ void loop() {
 
 
     // Print the IP address
-    Serial.print("IP Address: ");
+    Serial.print(F("IP Address: "));
     Serial.println(WiFi.localIP());
-    Serial.print("mDNS Address: ");
-    Serial.print("http://");
+    Serial.print(F("mDNS Address: "));
+    Serial.print(F("http://"));
     Serial.print(mDNS_adress);
-    Serial.println(".local");
+    Serial.println(F(".local"));
     // Create a string containing both the local IP address and the mDNS URL, separated by a comma for clarity.
-    String ip = "IP: http://" + WiFi.localIP().toString();
+    String ip = F("IP: http://") + WiFi.localIP().toString();
     ws.textAll(ip.c_str());                          // Send the string to all connected WebSocket clients.
     // Create a string containing both the local IP address and the mDNS URL, separated by a comma for clarity.
-      String mDNS = F("mDNS: http://") + String(mDNS_adress)+".local"; // Corrected to use 'mDNS_adress'
+      String mDNS = F("mDNS: http://") + String(mDNS_adress)+F(".local"); // Corrected to use 'mDNS_adress'
     ws.textAll(mDNS.c_str());                        // Send the string to all connected WebSocket clients.
 
     Serial.print(F("Current temperature: "));
@@ -1169,14 +1182,14 @@ void loop() {
     // No change if the temperature is within the hysteresis band
 
     // Send the temperature to all connected clients
-    String message = "temperature:" + tempString;
+    String message = F("temperature:") + tempString;
     ws.textAll(message.c_str());
     // Inside your loop(), replace the relay state message construction and sending part with:
-    String relayStateMessage = "relays:" + String(relayState ? "1" : "0"); // Converts boolean to "1" or "0"
+    String relayStateMessage = F("relays:") + String(relayState ? "1" : "0"); // Converts boolean to "1" or "0"
     // String relayStateMessage = "relays:" + String(relayState ? "ON" : "OFF"); // Converts boolean to "1" or "0"
     ws.textAll(relayStateMessage.c_str());
     // Construct the setpoint message
-    String setpointMessage = "setpoint:" + String(temperatureSetpoint);
+    String setpointMessage = F("setpoint:") + String(temperatureSetpoint);
     ws.textAll(setpointMessage.c_str());
 
 
