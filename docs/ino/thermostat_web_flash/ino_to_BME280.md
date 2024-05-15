@@ -1,4 +1,4 @@
-note default relais is on D1 wich is i2c
+note default relais is on D1 wich is a pin of i2c
 
 
 
