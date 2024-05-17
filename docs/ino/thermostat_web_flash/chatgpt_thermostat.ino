@@ -74,27 +74,34 @@
 //       https://youtu.be/-IC-Z78aTOs
 //       https://github.com/witnessmenow/Simple-Home-Automation-With-Telegram/blob/master/LedControl/LedControl.ino
 
+/*
 
-
-
-
-
-
+ ____        _           _____             __ _       
+|  _ \      | |         / ____|           / _(_)      
+| |_) | ___ | |_ ______| |     ___  _ __ | |_ _  __ _ 
+|  _ < / _ \| __|______| |    / _ \| '_ \|  _| |/ _` |
+| |_) | (_) | |_       | |___| (_) | | | | | | | (_| |
+|____/ \___/ \__|       \_____\___/|_| |_|_| |_|\__, |
+                                                 __/ |
+                                                |___/ 
+                                                
+*/
 // configure your BOT
 
-
+// go to
 // https://t.me/botfather
+// ask for /newbot
+// answer botfathers questions
 // Telegram BOT Token (Get from Botfather)
-// Use magnify search find on main telegram
-// search for @Botfather
-// /newbot
+// 
 #define BOT_TOKEN "xxxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 
+
+// go to
 // https://t.me/myidbot?start=getid
-// Use magnify search find on main telegram
-// search for @idbot
-// /getid
+// ask for /getid
+// 
 #define CHAT_ID "xxxxxxxxxx"
 
 
