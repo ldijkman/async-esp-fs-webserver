@@ -818,8 +818,8 @@ void setup() {
 
 // static persistent menu at bottom ?
    String keyboardJson = "[[\"/menu\", \"/buzzer\"],[\"/reboot\"]]";
-   bot.sendMessageWithReplyKeyboard(CHAT_ID, "Menu", "", keyboardJson, true);
-
+   bot.sendMessageWithReplyKeyboard(CHAT_ID, "Create Static Menu", "", keyboardJson, true);
+   
 
   Serial.println(F("send bot start info"));
   String message = (F("Thermostat started \n"));
