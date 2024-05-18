@@ -1,4 +1,8 @@
 
+// wemos d1 mini ESP8266 12E / 12F
+//     https://www.google.com/search?q=+wemos+d1+mini+ESP8266+12E+%2F+12F
+
+
 // added buzzer shield on D5 GPIO14 if temp <10 or >40 buzzer
 
 // sorry changed the pinout
@@ -76,15 +80,15 @@
 
 /*
 
- ____        _           _____             __ _       
-|  _ \      | |         / ____|           / _(_)      
-| |_) | ___ | |_ ______| |     ___  _ __ | |_ _  __ _ 
-|  _ < / _ \| __|______| |    / _ \| '_ \|  _| |/ _` |
-| |_) | (_) | |_       | |___| (_) | | | | | | | (_| |
-|____/ \___/ \__|       \_____\___/|_| |_|_| |_|\__, |
+  ____        _           _____             __ _
+  |  _ \      | |         / ____|           / _(_)
+  | |_) | ___ | |_ ______| |     ___  _ __ | |_ _  __ _
+  |  _ < / _ \| __|______| |    / _ \| '_ \|  _| |/ _` |
+  | |_) | (_) | |_       | |___| (_) | | | | | | | (_| |
+  |____/ \___/ \__|       \_____\___/|_| |_|_| |_|\__, |
                                                  __/ |
-                                                |___/ 
-                                                
+                                                |___/
+
 */
 // configure your BOT
 
@@ -93,7 +97,7 @@
 // ask for /newbot
 // answer botfathers questions
 // Telegram BOT Token (Get from Botfather)
-// 
+//
 #define BOT_TOKEN "xxxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 
@@ -101,7 +105,7 @@
 // go to
 // https://t.me/myidbot?start=getid
 // ask for /getid
-// 
+//
 #define CHAT_ID "xxxxxxxxxx"
 
 
@@ -253,7 +257,8 @@ const char keyboardJson[] PROGMEM = R"rawliteral(
   {"text":"21 °C","callback_data":"TEMP21"}
 ],[
   {"text":"Scan","callback_data":"/scan"},
-  {"text":"Reboot","callback_data":"/reboot"}
+   {"text":"Buzzer","callback_data":"/buzzer"},
+  {"text":"Reboot","callback_data":"reboot"}
 ]]
 )rawliteral";
 
@@ -801,6 +806,10 @@ void setup() {
 
   // bot.sendCommand("/reset");
 
+
+
+
+
   // Menu button in send area
   Serial.println(F("send bot bottom menu button"));
 
@@ -985,14 +994,19 @@ void handleNewMessages(int numNewMessages) {
         browseService("http", "tcp");  // find other mdns devices in network
       }
 
-      if (text == F("/reboot")) {
-        bot.sendMessage(CHAT_ID, F("Sorry, Reboot / Restart turned off in code\n Gets into boot loop"), "");
-        /* keeps rebooting
+      if (text == F("reboot")) {
+        // /* keeps rebooting
+        if (millis() > 30000) {           // Check if 30 seconds have passed otherwise do not reboot
+          // old messages keeps it rebooting
 
-                bot.sendMessage(chat_id, "Rebooting now...", "");
-                delay(1000);                                      // Short delay to ensure message delivery
-                RestartTriggered = true;                          // flag used in loop to restart ESP
-        */
+          bot.sendMessage(CHAT_ID, "Rebooting now...\n   Please Wait for a new Menu", "");
+          delay(1000);                                      // Short delay to ensure message delivery
+          RestartTriggered = true;                          // flag used in loop to restart ESP
+
+        } else {
+          bot.sendMessage(CHAT_ID, "Reboot blocked for 30sec after boot", "");
+        }
+        //*/
       }
 
     } else {
@@ -1043,13 +1057,18 @@ void handleNewMessages(int numNewMessages) {
       }
 
       if (text == F("/reboot")) {
-        bot.sendMessage(chat_id, F("Sorry, Reboot / Restart turned off in code\n Gets into boot loop"), "");
-        /* keeps rebooting
+        // /* keeps rebooting
+        if (millis() > 30000) {           // Check if 30 seconds have passed otherwise do not reboot
+          // old messages keeps it rebooting
 
-                bot.sendMessage(chat_id, "Rebooting now...", "");
-                delay(1000);                                      // Short delay to ensure message delivery
-                RestartTriggered = true;                          // flag used in loop to restart ESP
-        */
+          bot.sendMessage(CHAT_ID, "Rebooting now...\n   Please Wait for a new Menu", "");
+          delay(1000);                                      // Short delay to ensure message delivery
+          RestartTriggered = true;                          // flag used in loop to restart ESP
+
+        } else {
+          bot.sendMessage(CHAT_ID, "Reboot blocked for 30sec after boot", "");
+        }
+        //*/
       }
 
 
@@ -1130,6 +1149,7 @@ void loop() {
 
 
   if (RestartTriggered == true) {
+    buzzer();
     ESP.restart();
   }
 
