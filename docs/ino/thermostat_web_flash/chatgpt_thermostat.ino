@@ -816,6 +816,10 @@ void setup() {
   bot.setMyCommands(commands);
   // Menu button in send area
 
+// static persistent menu at bottom ?
+   String keyboardJson = "[[\"/menu\", \"/buzzer\"],[\"/reboot\"]]";
+   bot.sendMessageWithReplyKeyboard(CHAT_ID, "Menu", "", keyboardJson, true);
+
 
   Serial.println(F("send bot start info"));
   String message = (F("Thermostat started \n"));
