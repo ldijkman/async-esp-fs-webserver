@@ -817,7 +817,8 @@ void setup() {
   // Menu button in send area
 
 // static persistent menu at bottom ?
-   String keyboardJson = "[[\"/menu\", \"/buzzer\"],[\"/reboot\"]]";
+
+   String keyboardJson = "[[\"Menu\", \"Buzzer\"],[\"Reboot\"]]";
    bot.sendMessageWithReplyKeyboard(CHAT_ID, "Create Static Menu", "", keyboardJson, true);
    
 
@@ -1019,10 +1020,14 @@ void handleNewMessages(int numNewMessages) {
       }
 
     } else {
+
+
       String chat_id = String(bot.messages[i].chat_id);
       String text = bot.messages[i].text;
+      text.toLowerCase();
 
-      if (text == F("/options") || text == F("/menu")) {
+
+      if (text == F("/options") || text == F("/menu") || text == F("menu")) {
 
         // Keyboard Json is an array of arrays.
         // The size of the main array is how many row options the keyboard has
@@ -1065,7 +1070,7 @@ void handleNewMessages(int numNewMessages) {
         bot.sendMessage(chat_id, message.c_str(), "");
       }
 
-      if (text == F("/reboot")) {
+      if (text == F("/reboot")||text == F("reboot")) {
         // /* keeps rebooting
         if (millis() > 30000) {           // Check if 30 seconds have passed otherwise do not reboot
           // old messages keeps it rebooting
@@ -1086,7 +1091,7 @@ void handleNewMessages(int numNewMessages) {
         browseService("http", "tcp");  // find other mdns devices in network
       }
 
-      if (text == "/buzzer") {
+      if (text == "/buzzer" || text == "buzzer") {
         bot.sendMessage(chat_id, F("Buzzer test D5"), "");
         buzzer();
       }
