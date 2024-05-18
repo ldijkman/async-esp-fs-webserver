@@ -994,6 +994,11 @@ void handleNewMessages(int numNewMessages) {
         browseService("http", "tcp");  // find other mdns devices in network
       }
 
+      if (text == F("/buzzer")) {
+        bot.sendMessage(CHAT_ID, F("Buzzer Test"), "");
+        buzzer();
+      }
+
       if (text == F("reboot")) {
         // /* keeps rebooting
         if (millis() > 30000) {           // Check if 30 seconds have passed otherwise do not reboot
