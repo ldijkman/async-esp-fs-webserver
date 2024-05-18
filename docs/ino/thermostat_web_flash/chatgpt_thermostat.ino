@@ -287,8 +287,10 @@ const char commands[] PROGMEM = R"rawliteral(
 )rawliteral";
 
 
-
-
+ //String bottomkeyboardJson = "[[\"Menu\", \"On\",\"OFF\",\"Buzzer\"],[\"Reboot\"]]";
+   // Define the JSON keyboard layout as a constant character array in program memory
+//const char bottomkeyboardJson[] PROGMEM = R"rawliteral(JSON([[\"Menu\", \"On\",\"OFF\",\"Buzzer\"],[\"Reboot\"]])JSON")rawliteral";;
+const char bottomkeyboardJson[] PROGMEM = R"RAW([["Menu", "ON","OFF","Buzzer"],["Reboot"]])RAW";
 
 
 // HTML content with JavaScript for WebSocket communication
@@ -816,11 +818,24 @@ void setup() {
   bot.setMyCommands(commands);
   // Menu button in send area
 
-// static persistent menu at bottom ?
+  // static persistent menu at bottom ?
 
-   String keyboardJson = "[[\"Menu\", \"Buzzer\"],[\"Reboot\"]]";
-   bot.sendMessageWithReplyKeyboard(CHAT_ID, "Create Static Menu", "", keyboardJson, true);
-   
+  //String bottomkeyboardJson = "[[\"Menu\", \"On\",\"OFF\",\"Buzzer\"],[\"Reboot\"]]";
+  // Define the JSON keyboard layout as a constant character array in program memory
+  //const char bottomkeyboardJson[] PROGMEM = R"JSON([[\"Menu\", \"On\",\"OFF\",\"Buzzer\"],[\"Reboot\"]])JSON";
+  //bot.sendMessageWithReplyKeyboard(CHAT_ID, "Create Static Menu", "", bottomkeyboardJson, true);
+
+
+
+
+  bool resizeKeyboard = true;
+  bool oneTimeKeyboard = false;
+  bool forceReply = false;
+
+  bot.sendMessageWithReplyKeyboard(CHAT_ID, "Create Static Menu", "", bottomkeyboardJson, resizeKeyboard, oneTimeKeyboard, forceReply);
+
+
+
 
   Serial.println(F("send bot start info"));
   String message = (F("Thermostat started \n"));
@@ -965,6 +980,7 @@ void handleNewMessages(int numNewMessages) {
     // If the type is a "callback_query", a inline keyboard button was pressed
     if (bot.messages[i].type ==  F("callback_query")) {
       String text = bot.messages[i].text;
+      //text.toLowerCase();
 
 
       Serial.print(F("Call back button pressed with text: "));
@@ -1019,7 +1035,12 @@ void handleNewMessages(int numNewMessages) {
         //*/
       }
 
+
+
+
     } else {
+
+
 
 
       String chat_id = String(bot.messages[i].chat_id);
@@ -1070,7 +1091,7 @@ void handleNewMessages(int numNewMessages) {
         bot.sendMessage(chat_id, message.c_str(), "");
       }
 
-      if (text == F("/reboot")||text == F("reboot")) {
+      if (text == F("/reboot") || text == F("reboot")) {
         // /* keeps rebooting
         if (millis() > 30000) {           // Check if 30 seconds have passed otherwise do not reboot
           // old messages keeps it rebooting
@@ -1097,7 +1118,13 @@ void handleNewMessages(int numNewMessages) {
       }
 
 
-
+      if (text == F("on")) {
+        digitalWrite(LED_PIN, LOW);
+        bot.sendMessage(CHAT_ID, F("LED ON"), "");
+      } else if (text == F("off")) {
+        digitalWrite(LED_PIN, HIGH);
+        bot.sendMessage(CHAT_ID, F("LED OFF"), "");
+      }
 
     }
   }
