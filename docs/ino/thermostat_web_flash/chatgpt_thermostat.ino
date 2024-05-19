@@ -52,6 +52,7 @@
       https://github.com/CasaJasmina/TelegramBot-Library
       https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot
       https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot/tree/master/examples
+      channel  https://t.me/arduino_telegram_library
       https://randomnerdtutorials.com/telegram-control-esp32-esp8266-nodemcu-outputs/
       https://randomnerdtutorials.com/esp32-esp8266-thermostat-web-server/
 */
@@ -290,8 +291,14 @@ const char commands[] PROGMEM = R"rawliteral(
  //String bottomkeyboardJson = "[[\"Menu\", \"On\",\"OFF\",\"Buzzer\"],[\"Reboot\"]]";
    // Define the JSON keyboard layout as a constant character array in program memory
 //const char bottomkeyboardJson[] PROGMEM = R"rawliteral(JSON([[\"Menu\", \"On\",\"OFF\",\"Buzzer\"],[\"Reboot\"]])JSON")rawliteral";;
-const char bottomkeyboardJson[] PROGMEM = R"RAW([["Menu", "ON","OFF","Buzzer"],["Reboot"]])RAW";
-
+const char bottomkeyboardJson[] PROGMEM = R"RAW(
+[
+  ["Menu", "ON", "OFF", "Buzzer"],
+  ["1Min", "5Min", "10Min", "15Min", "30Min", "60Min"],
+  ["10°", "15°", "18°", "20°", "21°"],
+  ["Reboot"]
+]
+)RAW";
 
 // HTML content with JavaScript for WebSocket communication
 const char index_html[] PROGMEM = R"rawliteral(
@@ -818,23 +825,22 @@ void setup() {
   bot.setMyCommands(commands);
   // Menu button in send area
 
+
+
   // static persistent menu at bottom ?
 
-  //String bottomkeyboardJson = "[[\"Menu\", \"On\",\"OFF\",\"Buzzer\"],[\"Reboot\"]]";
+  // String bottomkeyboardJson = "[[\"Menu\", \"On\",\"OFF\",\"Buzzer\"],[\"Reboot\"]]";
   // Define the JSON keyboard layout as a constant character array in program memory
-  //const char bottomkeyboardJson[] PROGMEM = R"JSON([[\"Menu\", \"On\",\"OFF\",\"Buzzer\"],[\"Reboot\"]])JSON";
-  //bot.sendMessageWithReplyKeyboard(CHAT_ID, "Create Static Menu", "", bottomkeyboardJson, true);
-
-
-
+  // const char bottomkeyboardJson[] PROGMEM = R"JSON([[\"Menu\", \"On\",\"OFF\",\"Buzzer\"],[\"Reboot\"]])JSON";
+  // bot.sendMessageWithReplyKeyboard(CHAT_ID, "Create Static Menu", "", bottomkeyboardJson, true);
 
   bool resizeKeyboard = true;
   bool oneTimeKeyboard = false;
   bool forceReply = false;
 
   bot.sendMessageWithReplyKeyboard(CHAT_ID, "Create Static Menu", "", bottomkeyboardJson, resizeKeyboard, oneTimeKeyboard, forceReply);
-
-
+  Serial.println(F("send bottom bot menu "));
+  
 
 
   Serial.println(F("send bot start info"));
@@ -845,9 +851,8 @@ void setup() {
   message += F("External IP: ") + externalIP + F("\nReset reason ") + resetReasonStr + " " + asctime(timeinfo) + "\n";
 
   bot.sendMessage(CHAT_ID, message.c_str(), "");
-
-  Serial.println(F("send bot menu"));
-
+  
+  Serial.println(F("send message area bot menu"));
   bot.sendMessageWithInlineKeyboard(CHAT_ID, F("Thermostat Control\nhttps://t.me/s/Luberth_Dijkman"), "", keyboardJson);
 
   Serial.println(F("send bot temp info"));
@@ -1010,6 +1015,7 @@ void handleNewMessages(int numNewMessages) {
 
       }
 
+    
       if (text == F("/scan")) {
         bot.sendMessage(CHAT_ID, F("Scan local network for other ESP mDNS device"), "");
         browseService("http", "tcp");  // find other mdns devices in network
@@ -1034,6 +1040,7 @@ void handleNewMessages(int numNewMessages) {
         }
         //*/
       }
+      
 
 
 
@@ -1125,6 +1132,32 @@ void handleNewMessages(int numNewMessages) {
         digitalWrite(LED_PIN, HIGH);
         bot.sendMessage(CHAT_ID, F("LED OFF"), "");
       }
+
+
+//used text tolower earlier so Min is min
+if (text == F("1min") || text == F("5min") || text == F("10min") || text == F("15min") || text == F("30min") || text == F("60min")) {
+        text.replace("min", ""); // Remove the "Min" suffix to isolate the number
+        timeRequested = text.toInt(); // Convert the remaining text to an integer
+        digitalWrite(LED_PIN, LOW);
+        bot.sendMessage(CHAT_ID, F("LED ON, off delay ") + String(timeRequested) + F(" Minutes"), "");
+        lightTimerActive = true;
+        lightTimerExpires = millis() + (timeRequested * 1000 * 60);
+}
+
+
+
+if (text == F("10°") || text == F("15°") || text == F("18°") || text == F("20°") || text == F("21°")) {
+    
+    text.replace("°", "");                    // Replace the degree symbol with an empty string
+    int tempSetpoint = text.toInt();          // Now convert the text to an integer
+    temperatureSetpoint = tempSetpoint;       // Update the temperature setpoint 
+    
+    // Construct the message to send back to the user
+    String message = F("Setpoint: ") + String(temperatureSetpoint, 1) + F("°C, Current Temp: ") + String(sensors.getTempCByIndex(0), 1) + "°C\n     Stack: " + String(ESP.getFreeContStack()) + " bytes, Heap: " + String(ESP.getFreeHeap()) + " bytes";
+    bot.sendMessage(CHAT_ID, message.c_str(), "");
+}
+
+
 
     }
   }
