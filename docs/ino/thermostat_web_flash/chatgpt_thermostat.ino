@@ -295,7 +295,7 @@ const char bottomkeyboardJson[] PROGMEM = R"RAW(
 [
   ["Menu", "ON", "OFF", "Buzzer"],
   ["1Min", "5Min", "10Min", "15Min", "30Min", "60Min"],
-  ["10°", "15°", "18°", "20°", "21°"],
+  ["10°", "15°", "15°", "16°", "17°", "19°" "20°", "21°", "22°"],
   ["Reboot"]
 ]
 )RAW";
@@ -1057,6 +1057,21 @@ void handleNewMessages(int numNewMessages) {
 
       if (text == F("/options") || text == F("/menu") || text == F("menu")) {
 
+  // static persistent menu at bottom ?
+
+  // String bottomkeyboardJson = "[[\"Menu\", \"On\",\"OFF\",\"Buzzer\"],[\"Reboot\"]]";
+  // Define the JSON keyboard layout as a constant character array in program memory
+  // const char bottomkeyboardJson[] PROGMEM = R"JSON([[\"Menu\", \"On\",\"OFF\",\"Buzzer\"],[\"Reboot\"]])JSON";
+  // bot.sendMessageWithReplyKeyboard(CHAT_ID, "Create Static Menu", "", bottomkeyboardJson, true);
+
+  bool resizeKeyboard = true;
+  bool oneTimeKeyboard = false;
+  bool forceReply = false;
+
+  bot.sendMessageWithReplyKeyboard(CHAT_ID, "Create Static Menu", "", bottomkeyboardJson, resizeKeyboard, oneTimeKeyboard, forceReply);
+  Serial.println(F("send bottom bot menu "));
+        
+
         // Keyboard Json is an array of arrays.
         // The size of the main array is how many row options the keyboard has
         // The size of the sub arrays is how many coloums that row has
@@ -1146,7 +1161,7 @@ if (text == F("1min") || text == F("5min") || text == F("10min") || text == F("1
 
 
 
-if (text == F("10°") || text == F("15°") || text == F("18°") || text == F("20°") || text == F("21°")) {
+if (text == F("10°") || text == F("15°") || text == F("16°") || text == F("17°") || text == F("18°") || text == F("19°") || text == F("20°") || text == F("21°") || text == F("22°")) {
     
     text.replace("°", "");                    // Replace the degree symbol with an empty string
     int tempSetpoint = text.toInt();          // Now convert the text to an integer
