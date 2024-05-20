@@ -114,7 +114,6 @@
 
 
 
-
 // Home image for your Home Bot profile (Manage Bot. (click on image to change))
 //   https://raw.githubusercontent.com/ldijkman/async-esp-fs-webserver/master/docs/ino/thermostat_web_flash/Home_Bot.png
 
@@ -1290,9 +1289,9 @@ if (text == F("info")) {
 
   message += F("LittleFS Total Bytes: ") + String(totalBytes) + F("\n");
   message += F("LittleFS Used Bytes: ") + String(usedBytes) + F("\n");
-  message += F("LittleFS Free Bytes: ") + String(freeBytes) + F("\n");
+  message += F("LittleFS Free Bytes: ") + String(freeBytes) + F("\n\n");
   
-
+  message += F("a Penny for Sharing my Thoughts?!") ;
   bot.sendMessage(CHAT_ID, message);
   browseService("http", "tcp");  // find other mdns devices in network
 }
