@@ -176,9 +176,22 @@
 void buzzer();
 
 
+ __          ___ ______ _    _____             __ _       
+ \ \        / (_)  ____(_)  / ____|           / _(_)      
+  \ \  /\  / / _| |__   _  | |     ___  _ __ | |_ _  __ _ 
+   \ \/  \/ / | |  __| | | | |    / _ \| '_ \|  _| |/ _` |
+    \  /\  /  | | |    | | | |___| (_) | | | | | | | (_| |
+     \/  \/   |_|_|    |_|  \_____\___/|_| |_|_| |_|\__, |
+                                                     __/ |
+                                                    |___/ 
+
 // Replace with your network WiFi Router credentials
 const char* ssid = "Bangert_30_Andijk";      // wifi router name broadcasted in the air
 const char* password = "ookikwilerin";       // your password
+
+
+
+
 
 const char* mDNS_adress = "thermostat";  // .local is added by ESP
 
