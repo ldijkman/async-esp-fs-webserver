@@ -1,7 +1,8 @@
 
-// wemos d1 mini ESP8266 12E / 12F
+// 4mb wemos d1 mini ESP8266 12E / 12F
 //     https://www.google.com/search?q=+wemos+d1+mini+ESP8266+12E+%2F+12F
-
+// for test Flashed a 16mb version with 4mb settings
+//     https://www.wemos.cc/en/latest/d1/d1_mini_pro.html
 
 // added buzzer shield on D5 GPIO14 if temp <10 or >40 buzzer
 
@@ -1228,7 +1229,7 @@ if (text == F("time")) {
 
 //used text tolower earlier so Min is min
 if (text == F("info")) {
-size_t freeHeap = ESP.getFreeHeap();
+  size_t freeHeap = ESP.getFreeHeap();
   size_t freeStack = ESP.getFreeContStack();
   uint32_t chipId = ESP.getChipId();
   uint32_t flashChipId = ESP.getFlashChipId();
@@ -1253,9 +1254,12 @@ size_t freeHeap = ESP.getFreeHeap();
   uint32_t usedBytes = fs_info.usedBytes;
   uint32_t freeBytes = totalBytes - usedBytes;
 
-  String message = F("http://paypal.me/LDijkman\n");
+  // mDNS Information
+  String mdnsInfo = F("http://") + String(mDNS_adress) + F(".local");
+
+  String message = F("http://paypal.me/LDijkman\n\n");
   message += F("Stack: ") + String(freeStack) + F(" bytes\n");
-  message += F("Heap: ") + String(freeHeap) + F(" bytes\n");
+  message += F("Heap: ") + String(freeHeap) + F(" bytes\n\n");
   message += F("Chip ID: ") + String(chipId) + F("\n");
   message += F("Flash Chip ID: ") + String(flashChipId) + F("\n");
   message += F("Flash Chip Size: ") + String(flashChipSize) + F(" bytes\n");
@@ -1264,15 +1268,16 @@ size_t freeHeap = ESP.getFreeHeap();
   message += F("Sketch Size: ") + String(sketchSize) + F(" bytes\n");
   message += F("CPU Frequency: ") + String(cpuFreqMHz) + F(" MHz\n");
   message += F("SDK Version: ") + sdkVersion + F("\n");
-  message += F("Boot Version: ") + String(bootVersion) + F("\n");
-  message += F("IP Address: ") + ipAddress + F("\n");
+  message += F("Boot Version: ") + String(bootVersion) + F("\n\n");
+  message += F("IP Address: http://") + ipAddress + F("\n");
   message += F("MAC Address: ") + macAddress + F("\n");
+  message += F("mDNS: ") + mdnsInfo + F("\n");
   message += F("SSID: ") + ssid + F("\n");
-  message += F("RSSI: ") + String(rssi) + F(" dBm\n");
+  message += F("RSSI: ") + String(rssi) + F(" dBm\n\n");
   message += F("LittleFS Total Bytes: ") + String(totalBytes) + F("\n");
   message += F("LittleFS Used Bytes: ") + String(usedBytes) + F("\n");
-  message += F("LittleFS Free Bytes: ") + String(freeBytes);
-
+  message += F("LittleFS Free Bytes: ") + String(freeBytes) + F("\n");
+  
 
   bot.sendMessage(CHAT_ID, message);
 
