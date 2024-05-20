@@ -320,7 +320,7 @@ const char bottomkeyboardJson[] PROGMEM = R"RAW(
   ["Menu", "ON", "OFF", "Time", "Buzzer"],
   ["1Min", "5Min", "10Min", "15Min", "30Min", "60Min"],
   ["10°", "15°", "16°", "17°", "18°", "19°", "20°", "21°", "22°"],
-  ["Reboot"]
+  ["Reboot", "Info"]
 ]
 )RAW";
 
@@ -1226,6 +1226,13 @@ if (text == F("time")) {
     bot.sendMessage(CHAT_ID, asctime(timeinfo), "");
 }
 
+//used text tolower earlier so Min is min
+if (text == F("info")) {
+
+        bot.sendMessage(CHAT_ID, F("http://paypal.me/LDijkman\nStack: ") + String(freeStack) + F(" bytes, Heap: ") + String(freeHeap) + F(" bytes"), "");
+
+}
+
     }
   }
 }
@@ -1254,16 +1261,17 @@ void loop() {
   }
 
 
+
+  
+  
   if (millis() > lastTimeChecked + delayBetweenChecks)  {
-
-
 
     ws.cleanupClients();
 
-
     // getUpdates returns 1 if there is a new message from Telegram
     int numNewMessages = bot.getUpdates(bot.last_message_received + 1);
-
+ //Serial.println(bot.getUpdates(bot.last_message_received));
+  // Serial.println(bot.getUpdates(bot.last_sent_message_id));
     Serial.println(F("numNewMessages ") + String(numNewMessages));
 
     if (numNewMessages) {
