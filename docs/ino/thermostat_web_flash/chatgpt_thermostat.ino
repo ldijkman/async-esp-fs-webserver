@@ -91,20 +91,21 @@
                                                 |___/
 
 */
-// configure your BOT
+// Configure your BOT
+// Create a Bot on Telegram
 
 // go to
 // https://t.me/botfather
 // ask for /newbot
-// answer botfathers questions
-// Telegram BOT Token (Get from Botfather)
+// answer the questions
+// and you get Telegram BOT Token (Get from Botfather)
 //
 #define BOT_TOKEN "xxxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 
 
 // go to
-// https://t.me/myidbot?start=getid
+// https://t.me/myidbot
 // ask for /getid
 //
 #define CHAT_ID "xxxxxxxxxx"
