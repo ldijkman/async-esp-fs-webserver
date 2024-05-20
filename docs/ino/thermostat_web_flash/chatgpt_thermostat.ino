@@ -192,7 +192,7 @@ const char* ssid = "Bangert_30_Andijk";      // wifi router name broadcasted in 
 const char* password = "ookikwilerin";       // your password
 
 
-
+  struct tm *timeinfo;
 
 
 const char* mDNS_adress = "thermostat";  // .local is added by ESP
@@ -317,7 +317,7 @@ const char commands[] PROGMEM = R"rawliteral(
 //const char bottomkeyboardJson[] PROGMEM = R"rawliteral(JSON([[\"Menu\", \"On\",\"OFF\",\"Buzzer\"],[\"Reboot\"]])JSON")rawliteral";;
 const char bottomkeyboardJson[] PROGMEM = R"RAW(
 [
-  ["Menu", "ON", "OFF", "Buzzer"],
+  ["Menu", "ON", "OFF", "Time", "Buzzer"],
   ["1Min", "5Min", "10Min", "15Min", "30Min", "60Min"],
   ["10°", "15°", "16°", "17°", "18°", "19°", "20°", "21°", "22°"],
   ["Reboot"]
@@ -819,7 +819,7 @@ void setup() {
 
 
   // Convert the time to a struct tm
-  struct tm *timeinfo;
+ // struct tm *timeinfo;
   timeinfo = localtime(&now);
 
   // Print the time in human-readable format
@@ -1222,7 +1222,9 @@ if (text == F("10°") || text == F("15°") || text == F("16°") || text == F("17
     bot.sendMessage(CHAT_ID, message.c_str(), "");
 }
 
-
+if (text == F("time")) {
+    bot.sendMessage(CHAT_ID, asctime(timeinfo), "");
+}
 
     }
   }
