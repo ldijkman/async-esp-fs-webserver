@@ -154,7 +154,7 @@
 // Easy find your ESP devices on Android
 // https://play.google.com/store/apps/details?id=de.wellenvogel.bonjourbrowser&pli=1
 
-
+#include <LittleFS.h>
 #include <time.h>
 //#include <ESP8266WiFi.h>
 #include <ESPAsyncTCP.h>
@@ -1228,8 +1228,53 @@ if (text == F("time")) {
 
 //used text tolower earlier so Min is min
 if (text == F("info")) {
+size_t freeHeap = ESP.getFreeHeap();
+  size_t freeStack = ESP.getFreeContStack();
+  uint32_t chipId = ESP.getChipId();
+  uint32_t flashChipId = ESP.getFlashChipId();
+  uint32_t flashChipSize = ESP.getFlashChipSize();
+  uint32_t flashChipRealSize = ESP.getFlashChipRealSize();
+  uint32_t freeSketchSpace = ESP.getFreeSketchSpace();
+  uint32_t sketchSize = ESP.getSketchSize();
+  uint8_t cpuFreqMHz = ESP.getCpuFreqMHz();
+  String sdkVersion = ESP.getSdkVersion();
+  uint8_t bootVersion = ESP.getBootVersion();
 
-        bot.sendMessage(CHAT_ID, F("http://paypal.me/LDijkman\nStack: ") + String(freeStack) + F(" bytes, Heap: ") + String(freeHeap) + F(" bytes"), "");
+  // Network Information
+  String ipAddress = WiFi.localIP().toString();
+  String macAddress = WiFi.macAddress();
+  String ssid = WiFi.SSID();
+  int32_t rssi = WiFi.RSSI();
+
+  // LittleFS Information
+  FSInfo fs_info;
+  LittleFS.info(fs_info);
+  uint32_t totalBytes = fs_info.totalBytes;
+  uint32_t usedBytes = fs_info.usedBytes;
+  uint32_t freeBytes = totalBytes - usedBytes;
+
+  String message = F("http://paypal.me/LDijkman\n");
+  message += F("Stack: ") + String(freeStack) + F(" bytes\n");
+  message += F("Heap: ") + String(freeHeap) + F(" bytes\n");
+  message += F("Chip ID: ") + String(chipId) + F("\n");
+  message += F("Flash Chip ID: ") + String(flashChipId) + F("\n");
+  message += F("Flash Chip Size: ") + String(flashChipSize) + F(" bytes\n");
+  message += F("Flash Chip Real Size: ") + String(flashChipRealSize) + F(" bytes\n");
+  message += F("Free Sketch Space: ") + String(freeSketchSpace) + F(" bytes\n");
+  message += F("Sketch Size: ") + String(sketchSize) + F(" bytes\n");
+  message += F("CPU Frequency: ") + String(cpuFreqMHz) + F(" MHz\n");
+  message += F("SDK Version: ") + sdkVersion + F("\n");
+  message += F("Boot Version: ") + String(bootVersion) + F("\n");
+  message += F("IP Address: ") + ipAddress + F("\n");
+  message += F("MAC Address: ") + macAddress + F("\n");
+  message += F("SSID: ") + ssid + F("\n");
+  message += F("RSSI: ") + String(rssi) + F(" dBm\n");
+  message += F("LittleFS Total Bytes: ") + String(totalBytes) + F("\n");
+  message += F("LittleFS Used Bytes: ") + String(usedBytes) + F("\n");
+  message += F("LittleFS Free Bytes: ") + String(freeBytes);
+
+
+  bot.sendMessage(CHAT_ID, message);
 
 }
 
