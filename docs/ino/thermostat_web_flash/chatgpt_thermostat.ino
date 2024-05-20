@@ -1004,7 +1004,7 @@ void handleNewMessages(int numNewMessages) {
 
      // Here you can process the callback query
       // For example, answer the callback query to stop the loading spinner on the button
-      String notificationText = "Button pressed!"; // Notification text to send to user (optional)
+      String notificationText = F("Button pressed!"); // Notification text to send to user (optional)
       //bool showAlert = true; // Choose whether to show an alert box or a toast notification
       bool showAlert = false; // Choose whether to show an alert box or a toast notification
 // this stops the inline keyboard button click spinner animation       
@@ -1057,12 +1057,12 @@ void handleNewMessages(int numNewMessages) {
         if (millis() > 30000) {           // Check if 30 seconds have passed otherwise do not reboot
           // old messages keeps it rebooting
 
-          bot.sendMessage(CHAT_ID, "Rebooting now...\n   Please Wait for a new Menu", "");
+          bot.sendMessage(CHAT_ID, F("Rebooting now...\n   Please Wait for a new Menu"), "");
           delay(1000);                                      // Short delay to ensure message delivery
           RestartTriggered = true;                          // flag used in loop to restart ESP
 
         } else {
-          bot.sendMessage(CHAT_ID, "Reboot blocked for 30sec after boot", "");
+          bot.sendMessage(CHAT_ID, F("Reboot blocked for 30sec after boot"), "");
         }
         //*/
       }
