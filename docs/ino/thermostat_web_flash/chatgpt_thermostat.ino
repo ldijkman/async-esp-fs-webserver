@@ -113,6 +113,13 @@
 
 
 
+// Home image for your Home Bot profile (Manage Bot. (click on image to change))
+//   https://raw.githubusercontent.com/ldijkman/async-esp-fs-webserver/master/docs/ino/thermostat_web_flash/Home_Bot.png
+
+
+
+
+
 // if you cannot get telegram Bot to work
 //    maybe try and play first with
 //           https://randomnerdtutorials.com/telegram-control-esp32-esp8266-nodemcu-outputs/
