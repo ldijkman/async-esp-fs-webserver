@@ -985,7 +985,33 @@ void handleNewMessages(int numNewMessages) {
     // If the type is a "callback_query", a inline keyboard button was pressed
     if (bot.messages[i].type ==  F("callback_query")) {
       String text = bot.messages[i].text;
-      //text.toLowerCase();
+
+     // Extract callback_query_id from the callback query
+      String callbackQueryId = bot.messages[i].query_id;
+      
+      // Optionally, extract the message text sent with the callback query
+      // Note: This is the data associated with the button that was pressed, not a text message from the user
+      //String callbackData = bot.messages[i].query_data;
+      // 'struct telegramMessage' has no member named 'query_data'; did you mean 'query_id'?
+      String callbackData = bot.messages[i].text;
+      
+      Serial.print(F("Callback Query ID: "));
+      Serial.println(callbackQueryId);
+      
+      Serial.print(F("Callback Query Data: "));
+      Serial.println(callbackData);
+      
+
+     // Here you can process the callback query
+      // For example, answer the callback query to stop the loading spinner on the button
+      String notificationText = "Button pressed!"; // Notification text to send to user (optional)
+      //bool showAlert = true; // Choose whether to show an alert box or a toast notification
+      bool showAlert = false; // Choose whether to show an alert box or a toast notification
+// this stops the inline keyboard button click spinner animation       
+      bot.answerCallbackQuery(callbackQueryId, notificationText, showAlert);
+
+
+
 
 
       Serial.print(F("Call back button pressed with text: "));
@@ -1245,7 +1271,7 @@ void loop() {
 
 
   if (millis() - lastMillis > 5000) {  // delay without Delay(), do it every 5 seconds
-    lastMillis = millis();
+    lastMillis = millis();//
 
     // Get free stack and heap memory
     freeStack = ESP.getFreeContStack();
