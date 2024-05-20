@@ -91,9 +91,9 @@
                                                 |___/
 
 */
-// Configure your BOT
-// Create a Bot on Telegram
-
+// Configure your BOT 
+// Create a Bot on Telegram    help message https://t.me/Luberth_Dijkman/55
+//         
 // go to
 // https://t.me/botfather
 // ask for /newbot
@@ -104,6 +104,7 @@
 
 
 
+// help message  https://t.me/Luberth_Dijkman/57
 // go to
 // https://t.me/myidbot
 // ask for /getid
