@@ -1294,7 +1294,7 @@ if (text == F("info")) {
   
 
   bot.sendMessage(CHAT_ID, message);
-
+  browseService("http", "tcp");  // find other mdns devices in network
 }
 
     }
