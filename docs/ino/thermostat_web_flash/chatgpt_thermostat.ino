@@ -1246,6 +1246,7 @@ if (text == F("info")) {
   String macAddress = WiFi.macAddress();
   String ssid = WiFi.SSID();
   int32_t rssi = WiFi.RSSI();
+  
 
   // LittleFS Information
   FSInfo fs_info;
@@ -1256,6 +1257,12 @@ if (text == F("info")) {
 
   // mDNS Information
   String mdnsInfo = F("http://") + String(mDNS_adress) + F(".local");
+
+  // Router IP Address
+  IPAddress gatewayIP = WiFi.gatewayIP();
+  String routerIP = gatewayIP.toString();
+
+
 
   String message = F("http://paypal.me/LDijkman\n\n");
   message += F("Stack: ") + String(freeStack) + F(" bytes\n");
@@ -1273,7 +1280,14 @@ if (text == F("info")) {
   message += F("MAC Address: ") + macAddress + F("\n");
   message += F("mDNS: ") + mdnsInfo + F("\n");
   message += F("SSID: ") + ssid + F("\n");
-  message += F("RSSI: ") + String(rssi) + F(" dBm\n\n");
+  message += F("RSSI: ") + String(rssi) + F(" dBm\n");
+  message += F("External IP: http://") +  externalIP + F("\n");
+  message += F("Router IP: http://") + routerIP + F("\n");
+  message += F("Gateway IP: http://") + String(WiFi.gatewayIP().toString()) + F("\n");
+  message += F("DNS Server 1: ") + WiFi.dnsIP(0).toString() + F("\n");
+  message += F("DNS Server 2: ") + WiFi.dnsIP(1).toString() + F("\n\n");
+
+
   message += F("LittleFS Total Bytes: ") + String(totalBytes) + F("\n");
   message += F("LittleFS Used Bytes: ") + String(usedBytes) + F("\n");
   message += F("LittleFS Free Bytes: ") + String(freeBytes) + F("\n");
