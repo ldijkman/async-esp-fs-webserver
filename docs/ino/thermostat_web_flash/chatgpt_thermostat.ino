@@ -1262,7 +1262,7 @@ if (text == F("task")) {
                 // Further processing here...
 
                 // For demonstration: Just acknowledging the extracted task details
-                bot.sendMessage(CHAT_ID, F("Task scheduled for ") + timePart + F(" with a duration of ") + durationPart + F(" minutes."), "");
+                bot.sendMessage(CHAT_ID, F("Task scheduled Each Day StartTime ") + timePart + F(" with a duration of ") + durationPart + F(" minutes."), "");
             } else {
                 // Handle invalid format or provide feedback to user
                 bot.sendMessage(CHAT_ID, errormessage, "");
