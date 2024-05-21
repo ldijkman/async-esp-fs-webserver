@@ -214,6 +214,17 @@ int timeRequested;
 bool RestartTriggered = false;
 int numNewMessages = 0;
 
+struct Task {
+  int taskNumber;
+  String time;
+  int duration;
+};
+
+// Assuming a maximum of 4 tasks as per your requirement
+const int maxTasks = 4;
+Task tasks[maxTasks];
+
+
 
 
 X509List cert(TELEGRAM_CERTIFICATE_ROOT);
@@ -1229,12 +1240,12 @@ if (text == F("time")) {
 
 //used text tolower earlier so Min is min
 if (text == F("task")) {
-        bot.sendMessage(CHAT_ID, F("Schedule Daily Repeat\ntask HH:MM duration_in_minutes\nlike\ntask 06:30 30\nor /list_task"), "");
+        bot.sendMessage(CHAT_ID, F("Schedule 1 to 4 Daily Repeat\ntask tasknumber_1_to_4 HH:MM duration_in_minutes\nlike\ntask 1 06:30 30\nor /list_tasks"), "");
  
 }
 
 
-
+/*
         // Check if the text starts with "task"
     if (text.startsWith("task ")) {
         // Remove "task " prefix
@@ -1271,6 +1282,73 @@ if (text == F("task")) {
             // In case the message doesn't follow the expected format
             bot.sendMessage(CHAT_ID, errormessage, "");
         }
+    }
+*/
+
+if (text.startsWith("task ")) {
+        String taskDetails = text.substring(5);
+        taskDetails.trim();
+
+        int firstSpaceIndex = taskDetails.indexOf(" ");
+        if (firstSpaceIndex != -1) {
+            String taskNumberStr = taskDetails.substring(0, firstSpaceIndex);
+            int taskNumber = taskNumberStr.toInt();
+
+            if (taskNumber >= 1 && taskNumber <= 4) {
+                String timeAndDuration = taskDetails.substring(firstSpaceIndex + 1);
+                timeAndDuration.trim();
+
+                int lastSpaceIndex = timeAndDuration.lastIndexOf(" ");
+                if (lastSpaceIndex != -1) {
+                    String timePart = timeAndDuration.substring(0, lastSpaceIndex);
+                    String durationPart = timeAndDuration.substring(lastSpaceIndex + 1);
+
+                    if (timePart.length() == 5 && durationPart.toInt() > 0) {
+                        // Store task details in the corresponding array position
+                        tasks[taskNumber - 1].taskNumber = taskNumber; // Task numbers start from 1, array indices from 0
+                        tasks[taskNumber - 1].time = timePart;
+                        tasks[taskNumber - 1].duration = durationPart.toInt();
+
+                        Serial.print(F("Task Number: "));
+                        Serial.println(taskNumber);
+                        Serial.print(F("Task Time: "));
+                        Serial.println(timePart);
+                        Serial.print(F("Task Duration: "));
+                        Serial.println(durationPart);
+
+                        bot.sendMessage(CHAT_ID, "Task #" + String(taskNumber) + " scheduled for " + timePart + " with a duration of " + durationPart + " minutes.", "");
+                    } else {
+                        bot.sendMessage(CHAT_ID, "Invalid time or duration format. Please use 'task # HH:MM duration' format.", "");
+                    }
+                } else {
+                    bot.sendMessage(CHAT_ID, "Invalid format. Please use 'task # HH:MM duration' format.", "");
+                }
+            } else {
+                bot.sendMessage(CHAT_ID, "Invalid task number. Please use a number from 1 to 4.", "");
+            }
+        } else {
+            bot.sendMessage(CHAT_ID, "Invalid task format. Please use 'task # HH:MM duration' format.", "");
+        }
+    }
+
+    if (text == "/list_tasks") {
+        String message = "Scheduled Tasks:\n";
+        bool hasTasks = false;
+
+        for (int j = 0; j < maxTasks; j++) {
+            if (tasks[j].taskNumber > 0) { // Assuming taskNumber > 0 as indicator of a used slot
+                hasTasks = true;
+                message += "Task #" + String(tasks[j].taskNumber) + ": ";
+                message += "Time: " + tasks[j].time + ", ";
+                message += "Duration: " + String(tasks[j].duration) + " minutes\n";
+            }
+        }
+
+        if (!hasTasks) {
+            message += "No tasks scheduled.";
+        }
+
+        bot.sendMessage(CHAT_ID, message, "");
     }
 
 //used text tolower earlier so Min is min
