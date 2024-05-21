@@ -1229,7 +1229,7 @@ if (text == F("time")) {
 
 //used text tolower earlier so Min is min
 if (text == F("task")) {
-        bot.sendMessage(CHAT_ID, F("Schedule Daily Repeat\ntask HH:MM duration_in_minutes\nlike\ntask 06:30 30"), "");
+        bot.sendMessage(CHAT_ID, F("Schedule Daily Repeat\ntask HH:MM duration_in_minutes\nlike\ntask 06:30 30\nor /list_task"), "");
  
 }
 
@@ -1238,7 +1238,8 @@ if (text == F("task")) {
         // Check if the text starts with "task"
     if (text.startsWith("task ")) {
         // Remove "task " prefix
-        String taskDetails = text.substring(5);
+        String taskDetails = text.substring(5);  
+        String errormessage = F("Invalid task format. Please use 'task HH:MM duration' format.");
         // Trim any leading/trailing whitespace from the taskDetails string
         taskDetails.trim(); // This modifies taskDetails in-place
 
@@ -1247,6 +1248,7 @@ if (text == F("task")) {
         if (spaceIndex != -1) {
             String timePart = taskDetails.substring(0, spaceIndex); // Extract time part
             String durationPart = taskDetails.substring(spaceIndex + 1); // Extract duration part
+          
 
             // Basic validation: check time part length and positive duration
             if (timePart.length() == 5 && durationPart.toInt() > 0) {
@@ -1260,14 +1262,14 @@ if (text == F("task")) {
                 // Further processing here...
 
                 // For demonstration: Just acknowledging the extracted task details
-                bot.sendMessage(CHAT_ID, "Task scheduled for " + timePart + " with a duration of " + durationPart + " minutes.", "");
+                bot.sendMessage(CHAT_ID, F("Task scheduled for ") + timePart + F(" with a duration of ") + durationPart + F(" minutes."), "");
             } else {
                 // Handle invalid format or provide feedback to user
-                bot.sendMessage(CHAT_ID, "Invalid task format. Please use 'task HH:MM duration' format.", "");
+                bot.sendMessage(CHAT_ID, errormessage, "");
             }
         } else {
             // In case the message doesn't follow the expected format
-            bot.sendMessage(CHAT_ID, "Invalid task format. Please use 'task HH:MM duration' format.", "");
+            bot.sendMessage(CHAT_ID, errormessage, "");
         }
     }
 
