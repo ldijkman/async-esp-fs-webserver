@@ -317,10 +317,10 @@ const char commands[] PROGMEM = R"rawliteral(
 //const char bottomkeyboardJson[] PROGMEM = R"rawliteral(JSON([[\"Menu\", \"On\",\"OFF\",\"Buzzer\"],[\"Reboot\"]])JSON")rawliteral";;
 const char bottomkeyboardJson[] PROGMEM = R"RAW(
 [
-  ["Menu", "ON", "OFF", "Time", "Buzzer"],
+  ["Menu", "ON", "OFF", "Task"],
   ["1Min", "5Min", "10Min", "15Min", "30Min", "60Min"],
   ["10°", "15°", "16°", "17°", "18°", "19°", "20°", "21°", "22°"],
-  ["Reboot", "Info"]
+  ["Reboot", "Time", "Buzzer", "Info"]
 ]
 )RAW";
 
@@ -1225,6 +1225,50 @@ if (text == F("10°") || text == F("15°") || text == F("16°") || text == F("17
 if (text == F("time")) {
     bot.sendMessage(CHAT_ID, asctime(timeinfo), "");
 }
+
+//used text tolower earlier so Min is min
+if (text == F("task")) {
+        bot.sendMessage(CHAT_ID, F("Schedule repeat daily\nEnter task StartTime duration in minutes\nlike\ntask 06:30 30"), "");
+ 
+}
+
+
+
+        // Check if the text starts with "task"
+    if (text.startsWith("task ")) {
+        // Remove "task " prefix
+        String taskDetails = text.substring(5);
+        // Trim any leading/trailing whitespace from the taskDetails string
+        taskDetails.trim(); // This modifies taskDetails in-place
+
+        // Find the space between the time and duration to split the string
+        int spaceIndex = taskDetails.lastIndexOf(" "); // Assuming the last space separates time and duration
+        if (spaceIndex != -1) {
+            String timePart = taskDetails.substring(0, spaceIndex); // Extract time part
+            String durationPart = taskDetails.substring(spaceIndex + 1); // Extract duration part
+
+            // Basic validation: check time part length and positive duration
+            if (timePart.length() == 5 && durationPart.toInt() > 0) {
+                Serial.print(F("Task Time: "));
+                Serial.println(timePart);
+                Serial.print(F("Task Duration: "));
+                Serial.println(durationPart);
+
+                // Now you can convert timePart and durationPart to your required format and use them
+                // For example, scheduling a task or setting a timer based on the extracted details
+                // Further processing here...
+
+                // For demonstration: Just acknowledging the extracted task details
+                bot.sendMessage(CHAT_ID, "Task scheduled for " + timePart + " with a duration of " + durationPart + " minutes.", "");
+            } else {
+                // Handle invalid format or provide feedback to user
+                bot.sendMessage(CHAT_ID, "Invalid task format. Please use 'task HH:MM duration' format.", "");
+            }
+        } else {
+            // In case the message doesn't follow the expected format
+            bot.sendMessage(CHAT_ID, "Invalid task format. Please use 'task HH:MM duration' format.", "");
+        }
+    }
 
 //used text tolower earlier so Min is min
 if (text == F("info")) {
