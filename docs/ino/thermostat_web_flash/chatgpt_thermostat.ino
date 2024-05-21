@@ -114,6 +114,7 @@
 
 
 
+
 // Home image for your Home Bot profile (Manage Bot. (click on image to change))
 //   https://raw.githubusercontent.com/ldijkman/async-esp-fs-webserver/master/docs/ino/thermostat_web_flash/Home_Bot.png
 
@@ -1228,7 +1229,7 @@ if (text == F("time")) {
 
 //used text tolower earlier so Min is min
 if (text == F("task")) {
-        bot.sendMessage(CHAT_ID, F("Schedule repeat daily\nEnter task StartTime duration in minutes\nlike\ntask 06:30 30"), "");
+        bot.sendMessage(CHAT_ID, F("Schedule Daily Repeat\ntask HH:MM duration_in_minutes\nlike\ntask 06:30 30"), "");
  
 }
 
