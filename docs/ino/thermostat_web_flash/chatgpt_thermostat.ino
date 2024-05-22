@@ -759,7 +759,29 @@ void writeTasksToEEPROM() {
     EEPROM.commit(); // Make sure to commit changes to EEPROM
 }
 
+void deleteTask(int taskNumber) {
+    bool found = false;
+    for (int i = 0; i < maxTasks; i++) {
+        // If the task is found, mark as found and start shifting remaining tasks
+        if (tasks[i].taskNumber == taskNumber) {
+            found = true;
+        }
 
+        // Shift tasks to "delete" the task from the array
+        if (found && i < maxTasks - 1) {
+            tasks[i] = tasks[i + 1];
+        }
+    }
+
+    // If the last task was deleted or a shift was made, clear the last task
+    if (found) {
+        tasks[maxTasks - 1].taskNumber = 0; // Indicate an empty slot
+        tasks[maxTasks - 1].time = "";
+        tasks[maxTasks - 1].duration = 0;
+
+        writeTasksToEEPROM(); // Update EEPROM storage
+    }
+}
 
 void setup() {
   Serial.begin(115200);
@@ -1293,7 +1315,7 @@ if (text == F("time")) {
 
 //used text tolower earlier so Min is min
 if (text == F("task")) {
-        bot.sendMessage(CHAT_ID, F("Schedule 1 to 4 Daily Repeat\ntask tasknumber_1_to_4 HH:MM duration_in_minutes\nlike\ntask 1 06:30 30\nor /list_tasks"), "");
+        bot.sendMessage(CHAT_ID, F("Schedule 1 to 4 Daily Repeat\ntask tasknumber_1_to_4 HH:MM duration_in_minutes\nlike\ntask 1 06:30 30\n/list_tasks\n/delete_task"), "");
  
 }
 
@@ -1385,6 +1407,25 @@ if (text.startsWith("task ")) {
             bot.sendMessage(CHAT_ID, "Invalid task format. Please use 'task # HH:MM duration' format.", "");
         }
     }
+
+
+
+// Inside your message handling loop
+
+if (text.startsWith("/delete_task")) {
+    int taskNumber = text.substring(12).toInt(); // Extract task number from command
+    if (taskNumber > 0) {
+        deleteTask(taskNumber);
+        bot.sendMessage(CHAT_ID, "Task #" + String(taskNumber) + " deleted.", "");
+    } else {
+        bot.sendMessage(CHAT_ID, "Invalid task number.", "");
+    }
+}
+
+
+
+
+
 
     if (text == "/list_tasks") {
         String message = "Scheduled Tasks:\n";
