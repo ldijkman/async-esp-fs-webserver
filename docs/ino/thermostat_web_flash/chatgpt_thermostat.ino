@@ -237,7 +237,7 @@ struct Task {
 const int maxTasks = 4;
 Task tasks[maxTasks];
 
-
+bool manual=0;
 
 
 X509List cert(TELEGRAM_CERTIFICATE_ROOT);
@@ -1132,12 +1132,15 @@ void handleNewMessages(int numNewMessages) {
 
 
       if (text == F("ON")) {
+        manual=1;
         digitalWrite(LED_PIN, LOW);
         bot.sendMessage(CHAT_ID, F("LED ON"), "");
       } else if (text == F("OFF")) {
         digitalWrite(LED_PIN, HIGH);
+        manual=0;
         bot.sendMessage(CHAT_ID, F("LED OFF"), "");
       } else if (text.startsWith("TIME")) {
+        manual=1;
         text.replace("TIME", "");
         timeRequested = text.toInt();
         digitalWrite(LED_PIN, LOW);
@@ -1279,9 +1282,11 @@ void handleNewMessages(int numNewMessages) {
 
 
       if (text == F("on")) {
+        manual=1;
         digitalWrite(LED_PIN, LOW);
         bot.sendMessage(CHAT_ID, F("LED ON"), "");
       } else if (text == F("off")) {
+        manual=0;
         digitalWrite(LED_PIN, HIGH);
         bot.sendMessage(CHAT_ID, F("LED OFF"), "");
       }
@@ -1289,6 +1294,7 @@ void handleNewMessages(int numNewMessages) {
 
 //used text tolower earlier so Min is min
 if (text == F("1min") || text == F("5min") || text == F("10min") || text == F("15min") || text == F("30min") || text == F("60min")) {
+        manual=1;
         text.replace("min", ""); // Remove the "Min" suffix to isolate the number
         timeRequested = text.toInt(); // Convert the remaining text to an integer
         digitalWrite(LED_PIN, LOW);
@@ -1529,9 +1535,47 @@ if (text == F("info")) {
 
 
 
+void checkAndActivateTasks() {
+    bool isAnyTaskActive = false; // Flag to track if any task is currently active
 
+    time_t now = time(nullptr);
+    struct tm *timeinfo = localtime(&now);
+    unsigned long currentTime = timeinfo->tm_hour * 60 + timeinfo->tm_min; // Convert current time to minutes from midnight
+    
+    for (int i = 0; i < 4; i++) { // Correct loop condition to iterate correctly through tasks
+        if (tasks[i].taskNumber != 0) { // Skip empty tasks
+            int taskHour = tasks[i].time.substring(0, 2).toInt();
+            int taskMinute = tasks[i].time.substring(3, 5).toInt();
+            int duration = tasks[i].duration;
+            
+            // Calculate the task's start and end time
+            unsigned long taskStartTime = taskHour * 60 + taskMinute;
+            unsigned long taskEndTime = taskStartTime + duration;
 
-
+            // Check if current time is within the task's active period
+            if (currentTime >= taskStartTime && currentTime < taskEndTime) {
+                isAnyTaskActive = true; // Mark that at least one task is active
+                break; // Exit the loop as we found an active task
+            }
+        }
+    }
+bool currentLedState = isAnyTaskActive ? LOW : HIGH;
+  if(manual==0){    // manual on switch or off delay time on  override tasks
+    // Set the LED (or relay) state based on whether any task is active
+    if (isAnyTaskActive) {
+        digitalWrite(LED_PIN, LOW); // Activate relay
+    } else {
+        digitalWrite(LED_PIN, HIGH); // Deactivate relay
+    } 
+  }
+    // Send a message through the bot indicating the state change
+    //    if (currentLedState == LOW) {
+    //        bot.sendMessage(CHAT_ID, F("LED_PIN LOW: Task Active"), "");
+     //   } else {
+     //       bot.sendMessage(CHAT_ID, F("LED_PIN HIGH: No Active Task"), "");
+     //   }
+}
+       
 
 int delayBetweenChecks = 1000;
 unsigned long lastTimeChecked;   //last time messages' scan has been done
@@ -1551,6 +1595,8 @@ void loop() {
   
   
   if (millis() > lastTimeChecked + delayBetweenChecks)  {
+// checks all scheduled tasks against the current time and activates a relay if the current time is within a task's active period
+    checkAndActivateTasks();
 
     ws.cleanupClients();
 
@@ -1568,6 +1614,7 @@ void loop() {
     lastTimeChecked = millis();
 
     if (lightTimerActive && millis() > lightTimerExpires) {
+      manual=0;
       lightTimerActive = false;
       digitalWrite(LED_PIN, HIGH);
       // Create a string to hold the message, including the time in seconds
