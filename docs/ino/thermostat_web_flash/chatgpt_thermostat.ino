@@ -173,6 +173,14 @@
 // https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot
 #include <ArduinoJson.h>
 
+#include <EEPROM.h>
+
+
+
+
+
+
+
 // Function declaration
 void buzzer();
 
@@ -707,13 +715,54 @@ void printResetReason() {
 
 
 
+void readTasksFromEEPROM() {
+    int addr = 0; // Start reading at the beginning of EEPROM
+    for (int i = 0; i < maxTasks; i++) {
+        EEPROM.get(addr, tasks[i].taskNumber);
+        addr += sizeof(int);
+        
+        int hour, minute;
+        hour = EEPROM.read(addr);
+        addr++;
+        minute = EEPROM.read(addr);
+        addr++;
+        
+        // Convert hour and minute back to String HH:MM
+        tasks[i].time = String(hour / 10) + String(hour % 10) + ":" + String(minute / 10) + String(minute % 10);
+        
+        EEPROM.get(addr, tasks[i].duration);
+        addr += sizeof(int);
+    }
+}
 
-
+void writeTasksToEEPROM() {
+    int addr = 0; // Start writing at the beginning of EEPROM
+    for (int i = 0; i < maxTasks; i++) {
+        EEPROM.put(addr, tasks[i].taskNumber);
+        addr += sizeof(int); // Move to the next address
+        
+        // Assuming time is stored as a String HH:MM, convert and store as two bytes
+        int hour = tasks[i].time.substring(0, 2).toInt();
+        int minute = tasks[i].time.substring(3, 5).toInt();
+        EEPROM.write(addr, hour);
+        addr++; // Next address
+        EEPROM.write(addr, minute);
+        addr++; // Next address
+        
+        EEPROM.put(addr, tasks[i].duration);
+        addr += sizeof(int); // Move to the next address
+    }
+    EEPROM.commit(); // Make sure to commit changes to EEPROM
+}
 
 
 
 void setup() {
   Serial.begin(115200);
+
+ EEPROM.begin(512); // Allocate 512 bytes for EEPROM, adjust size as needed
+
+  readTasksFromEEPROM();
 
   pinMode(relayPin, OUTPUT);    // Initialize the relay pin as an output
   digitalWrite(relayPin, LOW);  // Start with the relay off
@@ -1316,6 +1365,8 @@ if (text.startsWith("task ")) {
                         Serial.print(F("Task Duration: "));
                         Serial.println(durationPart);
 
+                        writeTasksToEEPROM();
+
                         bot.sendMessage(CHAT_ID, "Task #" + String(taskNumber) + " scheduled for " + timePart + " with a duration of " + durationPart + " minutes.", "");
                     } else {
                         bot.sendMessage(CHAT_ID, "Invalid time or duration format. Please use 'task # HH:MM duration' format.", "");
@@ -1418,6 +1469,7 @@ if (text == F("info")) {
   
   message += F("a Penny for Sharing my Thoughts?!") ;
   bot.sendMessage(CHAT_ID, message);
+  bot.sendMessage(CHAT_ID, "/list_tasks");
   browseService("http", "tcp");  // find other mdns devices in network
 }
 
