@@ -119,6 +119,7 @@
 
 
 
+
 // Home image for your Home Bot profile (Manage Bot. (click on image to change))
 //   https://raw.githubusercontent.com/ldijkman/async-esp-fs-webserver/master/docs/ino/thermostat_web_flash/Home_Bot.png
 
@@ -1418,7 +1419,7 @@ if (text.startsWith("/delete_task")) {
         deleteTask(taskNumber);
         bot.sendMessage(CHAT_ID, "Task #" + String(taskNumber) + " deleted.", "");
     } else {
-        bot.sendMessage(CHAT_ID, "Invalid task number.", "");
+        bot.sendMessage(CHAT_ID, F("Invalid task number.\n/delete_task1\n/delete_task2\n/delete_task3\n/delete_task4\n/list_tasks"), "");
     }
 }
 
