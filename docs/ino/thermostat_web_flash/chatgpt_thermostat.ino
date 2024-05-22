@@ -1,4 +1,10 @@
 
+
+// Join My Telegram Channel?
+//     https://t.me/Luberth_Dijkman
+
+
+
 // 4mb wemos d1 mini ESP8266 12E / 12F
 //     https://www.google.com/search?q=+wemos+d1+mini+ESP8266+12E+%2F+12F
 // for test Flashed a 16mb version with 4mb settings
@@ -40,8 +46,7 @@
 
 
 
-// Join My Telegram Channel?
-//     https://t.me/Luberth_Dijkman
+
 
 // wifi thermostat and  off delay timed light switch
 // lolin wemos v2 relais shield has solderpads for other pin config
@@ -111,7 +116,6 @@
 // ask for /getid
 //
 #define CHAT_ID "xxxxxxxxxx"
-
 
 
 
