@@ -6,9 +6,10 @@
 
 
 // 4mb wemos d1 mini ESP8266 12E / 12F
+//     https://t.me/Luberth_Dijkman/22
 //     https://www.google.com/search?q=+wemos+d1+mini+ESP8266+12E+%2F+12F
 // for test Flashed a 16mb version with 4mb settings
-//     https://www.wemos.cc/en/latest/d1/d1_mini_pro.html
+//     https://t.me/Luberth_Dijkman/61
 
 // added buzzer shield on D5 GPIO14 if temp <10 or >40 buzzer
 
