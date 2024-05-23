@@ -1327,47 +1327,9 @@ if (text == F("task")) {
 }
 
 
-/*
-        // Check if the text starts with "task"
-    if (text.startsWith("task ")) {
-        // Remove "task " prefix
-        String taskDetails = text.substring(5);  
-        String errormessage = F("Invalid task format. Please use 'task HH:MM duration' format.");
-        // Trim any leading/trailing whitespace from the taskDetails string
-        taskDetails.trim(); // This modifies taskDetails in-place
 
-        // Find the space between the time and duration to split the string
-        int spaceIndex = taskDetails.lastIndexOf(" "); // Assuming the last space separates time and duration
-        if (spaceIndex != -1) {
-            String timePart = taskDetails.substring(0, spaceIndex); // Extract time part
-            String durationPart = taskDetails.substring(spaceIndex + 1); // Extract duration part
-          
 
-            // Basic validation: check time part length and positive duration
-            if (timePart.length() == 5 && durationPart.toInt() > 0) {
-                Serial.print(F("Task Time: "));
-                Serial.println(timePart);
-                Serial.print(F("Task Duration: "));
-                Serial.println(durationPart);
-
-                // Now you can convert timePart and durationPart to your required format and use them
-                // For example, scheduling a task or setting a timer based on the extracted details
-                // Further processing here...
-
-                // For demonstration: Just acknowledging the extracted task details
-                bot.sendMessage(CHAT_ID, F("Task scheduled Each Day StartTime ") + timePart + F(" with a duration of ") + durationPart + F(" minutes."), "");
-            } else {
-                // Handle invalid format or provide feedback to user
-                bot.sendMessage(CHAT_ID, errormessage, "");
-            }
-        } else {
-            // In case the message doesn't follow the expected format
-            bot.sendMessage(CHAT_ID, errormessage, "");
-        }
-    }
-*/
-
-if (text.startsWith("task ")) {
+if (text.startsWith(F("task "))) {
         String taskDetails = text.substring(5);
         taskDetails.trim();
 
@@ -1400,18 +1362,18 @@ if (text.startsWith("task ")) {
 
                         writeTasksToEEPROM();
 
-                        bot.sendMessage(CHAT_ID, "Task #" + String(taskNumber) + " scheduled for " + timePart + " with a duration of " + durationPart + " minutes.", "");
+                        bot.sendMessage(CHAT_ID, F("Task #") + String(taskNumber) + F(" scheduled for ") + timePart + F(" with a duration of ") + durationPart + F(" minutes."), "");
                     } else {
-                        bot.sendMessage(CHAT_ID, "Invalid time or duration format. Please use 'task # HH:MM duration' format.", "");
+                        bot.sendMessage(CHAT_ID, F("Invalid time or duration format. Please use 'task # HH:MM duration' format."), "");
                     }
                 } else {
-                    bot.sendMessage(CHAT_ID, "Invalid format. Please use 'task # HH:MM duration' format.", "");
+                    bot.sendMessage(CHAT_ID, F("Invalid format. Please use 'task # HH:MM duration' format."), "");
                 }
             } else {
-                bot.sendMessage(CHAT_ID, "Invalid task number. Please use a number from 1 to 4.", "");
+                bot.sendMessage(CHAT_ID, F("Invalid task number. Please use a number from 1 to 4."), "");
             }
         } else {
-            bot.sendMessage(CHAT_ID, "Invalid task format. Please use 'task # HH:MM duration' format.", "");
+            bot.sendMessage(CHAT_ID, F("Invalid task format. Please use 'task # HH:MM duration' format."), "");
         }
     }
 
@@ -1419,11 +1381,11 @@ if (text.startsWith("task ")) {
 
 // Inside your message handling loop
 
-if (text.startsWith("/delete_task")) {
+if (text.startsWith(F("/delete_task"))) {
     int taskNumber = text.substring(12).toInt(); // Extract task number from command
     if (taskNumber > 0) {
         deleteTask(taskNumber);
-        bot.sendMessage(CHAT_ID, "Task #" + String(taskNumber) + " deleted.", "");
+        bot.sendMessage(CHAT_ID, F("Task #") + String(taskNumber) + F(" deleted."), "");
     } else {
         bot.sendMessage(CHAT_ID, F("Invalid task number.\n/delete_task1\n/delete_task2\n/delete_task3\n/delete_task4\n/list_tasks"), "");
     }
@@ -1434,21 +1396,21 @@ if (text.startsWith("/delete_task")) {
 
 
 
-    if (text == "/list_tasks") {
-        String message = "Scheduled Tasks:\n";
+    if (text == F("/list_tasks")) {
+        String message = F("Scheduled Tasks:\n");
         bool hasTasks = false;
 
         for (int j = 0; j < maxTasks; j++) {
             if (tasks[j].taskNumber > 0) { // Assuming taskNumber > 0 as indicator of a used slot
                 hasTasks = true;
-                message += "Task #" + String(tasks[j].taskNumber) + ": ";
-                message += "Time: " + tasks[j].time + ", ";
-                message += "Duration: " + String(tasks[j].duration) + " minutes\n";
+                message += F("Task #") + String(tasks[j].taskNumber) + F(": ");
+                message += F("Time: ") + tasks[j].time + F(", ");
+                message += F("Duration: ") + String(tasks[j].duration) + F(" minutes\n");
             }
         }
 
         if (!hasTasks) {
-            message += "No tasks scheduled.";
+            message += F("No tasks scheduled.");
         }
 
         bot.sendMessage(CHAT_ID, message, "");
@@ -1521,7 +1483,7 @@ if (text == F("info")) {
   
   message += F("a Penny for Sharing my Thoughts?!") ;
   bot.sendMessage(CHAT_ID, message);
-  bot.sendMessage(CHAT_ID, "/list_tasks");
+  bot.sendMessage(CHAT_ID, F("/list_tasks"));
   browseService("http", "tcp");  // find other mdns devices in network
 }
 
