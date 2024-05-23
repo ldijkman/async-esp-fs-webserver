@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Scheduler</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+    <h2>Schedule a Task</h2>
+    <form id="scheduleForm">
+        <label for="taskTime">Task Time (HH:MM):</label>
+        <input type="time" id="taskTime" name="taskTime" required>
+        <label for="duration">Duration (minutes):</label>
+        <input type="number" id="duration" name="duration" min="1" required>
+        <button type="submit">Schedule Task</button>
+    </form>
+    <script>
+        document.getElementById('scheduleForm').onsubmit = function(e) {
+            e.preventDefault();
+            const time = document.getElementById('taskTime').value;
+            const duration = document.getElementById('duration').value;
+            
+            // Use Telegram Web App API to send data back to the bot
+            Telegram.WebApp.sendData(JSON.stringify({time: time, duration: duration}));
+        };
+    </script>
+</body>
+</html>
