@@ -30,7 +30,8 @@
 
   chat gpt says
   The pinout for a Wemos D1 Mini (an ESP8266-based development board) typically looks like this:
-
+  https://t.me/Luberth_Dijkman/28
+  
   D0 -> GPIO16
   D1 -> GPIO5
   D2 -> GPIO4
@@ -43,6 +44,8 @@
   TX -> GPIO1
   RX -> GPIO3
   A0 -> Analog input
+
+ https://t.me/Luberth_Dijkman/28 
 */
 
 
