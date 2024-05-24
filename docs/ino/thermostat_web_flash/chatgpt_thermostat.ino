@@ -1,5 +1,11 @@
 
 
+// you can run the code on bare board Wemos d1 mini 4mb esp8266
+// and amybe on many more ESP8266 Board
+// you do not need the shields to program/run the code
+
+
+
 // Join My Telegram Channel?
 //     https://t.me/Luberth_Dijkman
 
@@ -788,6 +794,44 @@ void deleteTask(int taskNumber) {
     }
 }
 
+
+
+
+
+
+#include <ArduinoJson.h>  // Make sure you have the ArduinoJson library
+
+void sendWebAppButton(const String& chat_id) {
+    // Create the JSON object for the inline keyboard
+    StaticJsonDocument<512> jsonDoc;
+    JsonArray rows = jsonDoc.createNestedArray("inline_keyboard");
+    JsonArray buttonsRow = rows.createNestedArray(); // Create a new row of buttons
+    
+    // Add a button that opens the Web App
+    JsonObject button = buttonsRow.createNestedObject();
+    button["text"] = "Open Web App";
+    JsonObject web_app = button.createNestedObject("web_app");
+    web_app["url"] = "https://t.me/LuberthDijkmanbot/schedule";
+
+    // Serialize the JSON object to a String
+    String jsonString;
+    serializeJson(jsonDoc, jsonString);
+    Serial.println("jsonString ");
+    Serial.println(jsonString);
+
+    // Now, send the message with the inline keyboard
+    String message = "Click the button to open the Web App:";
+    bot.sendMessageWithReplyKeyboard(chat_id, message, "", jsonString, true);
+}
+
+
+
+
+
+
+
+
+
 void setup() {
   Serial.begin(115200);
 
@@ -806,7 +850,9 @@ void setup() {
 
 
   WiFi.begin(ssid, password);
-  secured_client.setTrustAnchors(&cert); // Add root certificate for api.telegram.org
+ // secured_client.setTrustAnchors(&cert); // Add root certificate for api.telegram.org
+  
+    secured_client.setInsecure(); // Not recommended for production, only for testing
   // Only required on 2.5 Beta
   // client.setInsecure();
 
@@ -993,11 +1039,15 @@ void setup() {
 
   server.begin();
 
+
+ 
+
 }
 
 
 
 void buzzer() {
+ 
   tone(BUZZER_PIN, 1000, 250);    // Play the first tone (1000 Hz for 250 milliseconds)
   delay(250 + 10);                // Wait for the 250 of the first tone plus a little extra to ensure it's fully played
 
@@ -1133,7 +1183,18 @@ void handleNewMessages(int numNewMessages) {
       Serial.print(F("Call back button pressed with text: "));
       Serial.println(text);
       // ws.textAll(F("Telegram button Recieved ") + text);
+    if (text.startsWith("/schedule ")) {
+      // Extract time and duration from the command
+      text.remove(0, 10); // Remove the command part
+      int splitIndex = text.indexOf(' ');
+      String time = text.substring(0, splitIndex);
+      String duration = text.substring(splitIndex + 1);
 
+      // Here you can handle the scheduling logic based on extracted 'time' and 'duration'
+      // For demonstration, just echo back the scheduled time and duration
+      String reply = "Task scheduled at " + time + " for " + duration + " minutes.";
+      bot.sendMessage(CHAT_ID, reply, "");
+    }
 
       if (text == F("ON")) {
         manual=1;
@@ -1321,6 +1382,7 @@ if (text == F("10°") || text == F("15°") || text == F("16°") || text == F("17
 }
 
 if (text == F("time")) {
+   sendWebAppButton(CHAT_ID);
     bot.sendMessage(CHAT_ID, asctime(timeinfo), "");
 }
 
