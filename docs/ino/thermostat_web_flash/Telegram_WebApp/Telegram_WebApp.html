@@ -72,6 +72,7 @@
         document.getElementById('sendMenu').addEventListener('click', function() {
             // Sending a specific object indicating the /menu command should be triggered
             Telegram.WebApp.sendData(JSON.stringify({command: '/menu'}));
+             Telegram.WebApp.sendData("/menu");
         });
     </script>
 </body>
