@@ -1,45 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Scheduler</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
 </head>
 <body>
     <h2>Schedule a Task</h2>
-    <form id="scheduleForm">
-        <label for="taskTime">Task Time (HH:MM):</label>
+    <form id="taskForm">
+        <input type="text" id="taskName" name="taskName" placeholder="Task Name" required>
         <input type="time" id="taskTime" name="taskTime" required>
-        <label for="duration">Duration (minutes):</label>
-        <input type="number" id="duration" name="duration" min="1" required>
-        <button type="submit">Schedule Task</button>
+        <button type="submit">Submit Task</button>
     </form>
-    <button id="nextButton">Next</button> <!-- Added button -->
-    <div id="confirmationMessage" style="display:none;">
-        <p>Task scheduled successfully!</p>
-    </div>
+
     <script>
-        document.getElementById('scheduleForm').onsubmit = function(e) {
+        document.getElementById('taskForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            const time = document.getElementById('taskTime').value;
-            const duration = document.getElementById('duration').value;
+            const taskName = document.getElementById('taskName').value;
+            const taskTime = document.getElementById('taskTime').value;
+            
+            // Construct the data object to send
+            const data = {
+                taskName: taskName,
+                taskTime: taskTime
+            };
             
             // Use Telegram Web App API to send data back to the bot
-            Telegram.WebApp.sendData(JSON.stringify({time: time, duration: duration})).then(() => {
-                // Display confirmation message
-                document.getElementById('scheduleForm').style.display = 'none'; // Hide the form
-                document.getElementById('confirmationMessage').style.display = 'block'; // Show confirmation
-                
-                // Optionally, close the Web App after a short delay
-                setTimeout(() => {
-                    Telegram.WebApp.close(); // Close the Web App
-                }, 2000); // Adjust delay as needed
-            });
-        };
-
-        // Event listener for the "Next" button
-        document.getElementById('nextButton').addEventListener('click', function() {
-            // Send a predefined string "Next" back to the bot
-            Telegram.WebApp.sendData("Next");
+            Telegram.WebApp.sendData(JSON.stringify(data));
+            
+            // Optionally, provide feedback or close the Web App
+            alert('Task submitted!');
+            Telegram.WebApp.close();
         });
     </script>
 </body>
