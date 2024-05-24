@@ -44,24 +44,18 @@
         <button type="submit">Submit Task</button>
     </form>
 
+      <!-- Added a button to send /menu -->
+    <button id="sendMenu">Send /menu</button>
+
     <script>
         document.getElementById('taskForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const taskName = document.getElementById('taskName').value;
-            const taskTime = document.getElementById('taskTime').value;
-            
-            // Construct the data object to send
-            const data = {
-                taskName: taskName,
-                taskTime: taskTime
-            };
-            
-            // Use Telegram Web App API to send data back to the bot
-            Telegram.WebApp.sendData(JSON.stringify(data));
-            
-            // Optionally, provide feedback or close the Web App
-            alert('Task submitted!');
-            Telegram.WebApp.close();
+            // Your existing form submission logic
+        });
+
+        // Event listener for the "Send /menu" button
+        document.getElementById('sendMenu').addEventListener('click', function() {
+            // Sending a specific object indicating the /menu command should be triggered
+            Telegram.WebApp.sendData(JSON.stringify({command: '/menu'}));
         });
     </script>
 </body>
