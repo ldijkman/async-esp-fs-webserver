@@ -13,6 +13,7 @@
         <input type="number" id="duration" name="duration" min="1" required>
         <button type="submit">Schedule Task</button>
     </form>
+    <button id="nextButton">Next</button> <!-- Added button -->
     <div id="confirmationMessage" style="display:none;">
         <p>Task scheduled successfully!</p>
     </div>
@@ -34,6 +35,12 @@
                 }, 2000); // Adjust delay as needed
             });
         };
+
+        // Event listener for the "Next" button
+        document.getElementById('nextButton').addEventListener('click', function() {
+            // Send a predefined string "Next" back to the bot
+            Telegram.WebApp.sendData("Next");
+        });
     </script>
 </body>
 </html>
