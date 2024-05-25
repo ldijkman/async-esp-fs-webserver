@@ -37,55 +37,49 @@
     </style>
 </head>
 <body>
-    <!--<script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>-->
     <h2>Schedule a Task</h2>
     <form id="taskForm">
-        <input type="text" id="taskName" name="taskName" placeholder="Task Name" value="test">
-        <input type="time" id="taskTime" name="taskTime" value="23:00">
+        <input type="text" id="taskName" name="taskName" placeholder="Task Name" value="task 1">
+        <input type="time" id="taskTime1" name="taskTime1" value="23:00">
+        <input type="time" id="taskTime2" name="taskTime2">
+        <input type="time" id="taskTime3" name="taskTime3">
+        <input type="time" id="taskTime4" name="taskTime4">
+        <input type="time" id="taskTime5" name="taskTime5">
         <button type="submit">Submit Task</button>
     </form>
-
     
     <button id="sendMenu">Send /menu</button>
 
     <script>
-console.log(Telegram.WebApp.initData); 
-console.log("Sending data to bot:");
-  // Telegram.WebApp.sendData("/menu");
         console.log(Telegram.WebApp.initData); 
- 
-
-     
-
+        console.log("Sending data to bot:");
+        console.log(Telegram.WebApp.initData); 
         
-       document.getElementById('taskForm').addEventListener('submit', function(e) {
+        document.getElementById('taskForm').addEventListener('submit', function(e) {
             e.preventDefault();
             const taskName = document.getElementById('taskName').value;
-            const taskTime = document.getElementById('taskTime').value;
-            
+            const taskTimes = [
+                document.getElementById('taskTime1').value,
+                document.getElementById('taskTime2').value,
+                document.getElementById('taskTime3').value,
+                document.getElementById('taskTime4').value,
+                document.getElementById('taskTime5').value
+            ];
+
             // Construct the data object to send
             const data = {
                 taskName: taskName,
-                taskTime: taskTime
+                taskTimes: taskTimes
             };
-            
+
             // Use Telegram Web App API to send data back to the bot
             Telegram.WebApp.sendData(JSON.stringify(data));
-           //Telegram.WebApp.sendData("/menu");
-            
-            // Optionally, provide feedback or close the Web App
-            //alert('Task submitted!');
-            //Telegram.WebApp.close();
         });
 
         // Event listener for the "Send /menu" button
         document.getElementById('sendMenu').addEventListener('click', function() {
-            // Sending a specific object indicating the /menu command should be triggered
             Telegram.WebApp.sendData(JSON.stringify({command: '/menu'}));
-            // Telegram.WebApp.sendData("/menu");
         });
-
-     
     </script>
 </body>
 </html>
