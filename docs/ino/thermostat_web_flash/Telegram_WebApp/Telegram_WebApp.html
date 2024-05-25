@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task Scheduler</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
     <style>
         body {
             display: flex;
@@ -39,61 +38,48 @@
 </head>
 <body>
     <h2>Schedule a Task</h2>
-<form id="taskForm">
-    <input type="text" id="taskName" name="taskName" placeholder="Task Name" value="task 1">
-    <div id="timePicker1" class="time-picker"></div>
-    <div id="timePicker2" class="time-picker"></div>
-    <div id="timePicker3" class="time-picker"></div>
-    <div id="timePicker4" class="time-picker"></div>
-    <div id="timePicker5" class="time-picker"></div>
-    <button type="submit">Submit Task</button>
-</form>
+    <form id="taskForm">
+        <input type="text" id="taskName" name="taskName" placeholder="Task Name" value="task 1">
+        <input type="time" id="taskTime1" name="taskTime1" value="23:00">
+        <input type="time" id="taskTime2" name="taskTime2">
+        <input type="time" id="taskTime3" name="taskTime3">
+        <input type="time" id="taskTime4" name="taskTime4">
+        <input type="time" id="taskTime5" name="taskTime5">
+        <button type="submit">Submit Task</button>
+    </form>
     
     <button id="sendMenu">Send /menu</button>
-            <!-- Swiper JS -->
-<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const createPicker = (pickerId, initialValue) => {
-        const container = document.getElementById(pickerId);
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.className = 'time-input';
-        input.value = initialValue;
-        input.readOnly = true;
-        input.onclick = () => showTimePicker(input);
-        container.appendChild(input);
-    };
+    <script>
+        console.log(Telegram.WebApp.initData); 
+        console.log("Sending data to bot:");
+        console.log(Telegram.WebApp.initData); 
+        
+        document.getElementById('taskForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const taskName = document.getElementById('taskName').value;
+            const taskTimes = [
+                document.getElementById('taskTime1').value,
+                document.getElementById('taskTime2').value,
+                document.getElementById('taskTime3').value,
+                document.getElementById('taskTime4').value,
+                document.getElementById('taskTime5').value
+            ];
 
-    const showTimePicker = (input) => {
-        // Placeholder for time picker logic
-        //alert('Time picker for ' + input.value);
-        // Implement the logic to show a time picker and update the input value
-    };
+            // Construct the data object to send
+            const data = {
+                taskName: taskName,
+                taskTimes: taskTimes
+            };
 
-    // Initialize the time pickers with default values
-    createPicker('timePicker1', '06:30');
-    createPicker('timePicker2', '09:00');
-    createPicker('timePicker3', '12:00');
-    createPicker('timePicker4', '15:00');
-    createPicker('timePicker5', '22:30');
-});
+            // Use Telegram Web App API to send data back to the bot
+            Telegram.WebApp.sendData(JSON.stringify(data));
+        });
 
-document.getElementById('taskForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const taskName = document.getElementById('taskName').value;
-    const taskTimes = Array.from(document.querySelectorAll('.time-input')).map(input => input.value);
-
-    // Construct the data object to send
-    const data = {
-        taskName: taskName,
-        taskTimes: taskTimes
-    };
-
-    // Use Telegram Web App API to send data back to the bot
-    Telegram.WebApp.sendData(JSON.stringify(data));
-});
-</script>
+        // Event listener for the "Send /menu" button
+        document.getElementById('sendMenu').addEventListener('click', function() {
+            Telegram.WebApp.sendData(JSON.stringify({command: '/menu'}));
+        });
+    </script>
 </body>
 </html>
