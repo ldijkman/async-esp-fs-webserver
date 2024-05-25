@@ -34,6 +34,121 @@
         button:hover {
             background-color: #45a049;
         }
+        pre {
+            font-size: 8px; /* Adjust font size of <pre> elements */
+            margin: 25px;
+            white-space: pre-wrap; /* Ensures long lines wrap */
+        }
+    </style>
+</head>
+<body>
+    <h2>Schedule a Task</h2>
+    <form id="taskForm">
+        <input type="text" id="taskName" name="taskName" placeholder="Task Name" value="task 1">
+        <!-- Task 1 ON Time -->
+        <input type="time" id="taskTime1_on" name="taskTime1_on" value="23:00">
+        <!-- Task 1 OFF Time -->
+        <input type="time" id="taskTime1_off" name="taskTime1_off">
+        
+        <!-- Task 2 ON Time -->
+        <input type="time" id="taskTime2_on" name="taskTime2_on">
+        <!-- Task 2 OFF Time -->
+        <input type="time" id="taskTime2_off" name="taskTime2_off">
+        
+        <!-- Task 3 ON Time -->
+        <input type="time" id="taskTime3_on" name="taskTime3_on">
+        <!-- Task 3 OFF Time -->
+        <input type="time" id="taskTime3_off" name="taskTime3_off">
+        
+        <!-- Task 4 ON Time -->
+        <input type="time" id="taskTime4_on" name="taskTime4_on">
+        <!-- Task 4 OFF Time -->
+        <input type="time" id="taskTime4_off" name="taskTime4_off">
+        
+        <!-- Task 5 ON Time -->
+        <input type="time" id="taskTime5_on" name="taskTime5_on">
+        <!-- Task 5 OFF Time -->
+        <input type="time" id="taskTime5_off" name="taskTime5_off">
+        
+        <button type="submit">Submit Task</button>
+    </form>
+    
+    <button id="sendMenu">Send /menu</button>
+
+    <script>
+        console.log(Telegram.WebApp.initData); 
+        console.log("Sending data to bot:");
+        
+        document.getElementById('taskForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const taskName = document.getElementById('taskName').value;
+            const taskTimes = [];
+            for (let i = 1; i <= 5; ++i) {
+                const onTime = document.getElementById(`taskTime${i}_on`).value;
+                const offTime = document.getElementById(`taskTime${i}_off`).value;
+                if (onTime && offTime) { // Only add times if both on and off times are set
+                    taskTimes.push({ on: onTime, off: offTime });
+                }
+            }
+
+            // Construct the data object to send
+            const data = {
+                taskName: taskName,
+                taskTimes: taskTimes
+            };
+
+            // Use Telegram Web App API to send data back to the bot
+            Telegram.WebApp.sendData(JSON.stringify(data));
+        });
+
+        document.getElementById('sendMenu').addEventListener('click', function() {
+            Telegram.WebApp.sendData(JSON.stringify({command: '/menu'}));
+        });
+    </script>
+    <pre> 
+    <!-- Placeholder for any additional notes or scripts -->
+    </pre>
+</body>
+</html>
+
+
+<!--
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Scheduler</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
     pre {
         font-size: 8px; /* Change this value to adjust the font size of <pre> elements */
         margin: 25px; /* Optional: Adds some margin around the <pre> elements */
