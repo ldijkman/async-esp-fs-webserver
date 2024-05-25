@@ -1,6 +1,184 @@
 
 <!DOCTYPE html>
 <html lang="en">
+    <!-- Send a Telegram Message from Browser-->
+    <head>
+        <meta charset="UTF-8" />
+        <title>Send Data to Telegram</title>
+    </head>
+    <body>
+        <a href="https://t.me/Luberth_Dijkman/26" target="_blank"
+            >https://t.me/Luberth_Dijkman/26</a
+        ><br />
+        <h1>Send Telegram Message from Browser</h1>
+        <br /><br />
+        BotToken and Chat id are saved in your local browser storage<br /><br />
+
+        <label for="botToken">Bot Token:</label>
+        <input
+            type="password"
+            id="botToken"
+            placeholder="Enter your bot token"
+        />
+
+        <br /><br />
+
+        <label for="chatId">Chat ID:</label>
+        <input type="password" id="chatId" placeholder="Enter the chat ID" />
+
+        <br /><br />
+
+        <button id="saveButton">Save to Browser Storage</button>
+
+        <button id="clearButton">Clear Browser Storage</button>
+        <br /><br />
+        <label for="message">Message:</label><br />
+        <textarea
+            id="message"
+            rows="4"
+            cols="50"
+            placeholder="Enter your message"
+        >
+Hello World</textarea
+        >
+        <br /><button id="sendButton">Send Data</button>
+        <br />
+        <br /><br />
+        <br /><br />
+        <a href="https://t.me/Luberth_Dijkman/26" target="_blank"
+            >https://t.me/Luberth_Dijkman/26</a
+        ><br />
+
+        <script>
+            const botTokenInput = document.getElementById('botToken');
+            const chatIdInput = document.getElementById('chatId');
+            const saveButton = document.getElementById('saveButton');
+            const sendButton = document.getElementById('sendButton');
+            const clearButton = document.getElementById('clearButton');
+            const messageInput = document.getElementById('message');
+
+            // Function to retrieve data from local storage
+            function getDataFromStorage(key) {
+                return localStorage.getItem(key);
+            }
+
+            // Function to store data in local storage
+            function storeDataInStorage(key, value) {
+                localStorage.setItem(key, value);
+            }
+
+            // Function to clear all data from local storage
+            function clearLocalStorage() {
+                localStorage.clear();
+                alert('Local storage cleared successfully!');
+            }
+
+            // Toggle input type between text and password
+            function togglePasswordVisibility(input) {
+                input.type = input.type === 'text' ? 'password' : 'text';
+            }
+
+            // Add click event listener to the save button
+            saveButton.addEventListener('click', () => {
+                const botToken = botTokenInput.value.trim();
+                const chatId = chatIdInput.value.trim();
+
+                if (botToken === '' || chatId === '') {
+                    alert('Bot token or chat ID cannot be empty.');
+                    return;
+                }
+
+                storeDataInStorage('botToken', botToken);
+                storeDataInStorage('chatId', chatId);
+                alert('Bot token and chat ID saved successfully!');
+            });
+
+            // Add click event listener to the send button
+            sendButton.addEventListener('click', async () => {
+                const yourBotToken = getDataFromStorage('botToken');
+                const chatId = getDataFromStorage('chatId');
+                const message =
+                    messageInput.value.trim() +
+                    '\n   https://plnkr.co/edit/Q2iPP3ykEXlCth9Q?open=lib%2Fscript.js&preview'; // Retrieve message from input field
+                if (!yourBotToken || !chatId || !message) {
+                    alert(
+                        'Bot token, chat ID, or message not set. Please set them first.'
+                    );
+                    return;
+                }
+
+                const data = {
+                    chat_id: chatId,
+                    text: message, // Use the retrieved message
+                };
+
+                const jsonData = JSON.stringify(data);
+
+                const response = await fetch(
+                    `https://api.telegram.org/bot${yourBotToken}/sendMessage`,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: jsonData,
+                    }
+                );
+
+                if (response.ok) {
+                    console.log('Data sent successfully!');
+                } else {
+                    console.error('Error sending data:', await response.text());
+                }
+            });
+
+            // Add click event listener to the clear button
+            clearButton.addEventListener('click', () => {
+                clearLocalStorage();
+            });
+
+            // Toggle password visibility for bot token input field
+            botTokenInput.addEventListener('focus', () =>
+                togglePasswordVisibility(botTokenInput)
+            );
+            botTokenInput.addEventListener('blur', () =>
+                togglePasswordVisibility(botTokenInput)
+            );
+
+            // Toggle password visibility for chat ID input field
+            chatIdInput.addEventListener('focus', () =>
+                togglePasswordVisibility(chatIdInput)
+            );
+            chatIdInput.addEventListener('blur', () =>
+                togglePasswordVisibility(chatIdInput)
+            );
+        </script>
+
+        <center>Home_Bot<img src="Home_Bot.png" width="60px"></center>
+        <pre>
+
+Enter your Telegram Bot Token and Chat ID.
+Optionally, 
+   you can save this information 
+   to your local browser storage by clicking "Save to Browser Storage".
+
+Enter your message in the textarea provided.
+
+Click "Send Data" to send the message to Telegram.
+
+You can clear the saved information from your browser storage 
+by clicking "Clear Browser Storage".
+            </pre>
+    </body>
+</html>
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
