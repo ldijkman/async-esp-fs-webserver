@@ -35,9 +35,29 @@
         button:hover {
             background-color: #45a049;
         }
+        .swiper-container {
+    width: 100px;
+    height: 200px;
+}
+
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+}
     </style>
+    <!-- Swiper's CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css"/>
+
+    <!-- Rest of your head content -->
 </head>
 <body>
+    <!-- Your body content -->
+
+    <!-- Swiper's JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    
     <!--<script src="https://ldijkman.github.io/Ace_Seventh_Heaven/console.js"></script>-->
     <h2>Schedule a Task</h2>
     <form id="taskForm">
@@ -49,6 +69,24 @@
     
     <button id="sendMenu">Send /menu</button>
 
+<div class="swiper-container hour-swiper">
+    <div class="swiper-wrapper">
+        <!-- Generate hour slides dynamically with JS -->
+    </div>
+</div>
+
+<div class="swiper-container minute-swiper">
+    <div class="swiper-wrapper">
+        <!-- Generate minute slides dynamically with JS -->
+    </div>
+</div>
+
+<button id="sendTime">Submit Time</button>
+
+
+
+
+    
     <script>
 console.log(Telegram.WebApp.initData); 
 console.log("Sending data to bot:");
@@ -86,7 +124,67 @@ console.log("Sending data to bot:");
             // Telegram.WebApp.sendData("/menu");
         });
 
-     
+
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Initialize hour swiper
+    const hourSwiper = new Swiper('.hour-swiper', {
+        direction: 'vertical',
+        loop: true,
+    });
+
+    // Populate hour swiper
+    for (let i = 0; i <= 23; i++) {
+        const slide = document.createElement('div');
+        slide.className = 'swiper-slide';
+        slide.textContent = i.toString().padStart(2, '0');
+        hourSwiper.appendSlide(slide);
+    }
+
+    // Initialize minute swiper
+    const minuteSwiper = new Swiper('.minute-swiper', {
+        direction: 'vertical',
+        loop: true,
+    });
+
+    // Populate minute swiper
+    for (let i = 0; i <= 59; i++) {
+        const slide = document.createElement('div');
+        slide.className = 'swiper-slide';
+        slide.textContent = i.toString().padStart(2, '0');
+        minuteSwiper.appendSlide(slide);
+    }
+
+    // Submit time
+    document.getElementById('sendTime').addEventListener('click', function () {
+        const hour = hourSwiper.slides[hourSwiper.activeIndex].textContent;
+        const minute = minuteSwiper.slides[minuteSwiper.activeIndex].textContent;
+
+        // Construct the data object to send
+        const data = {
+            taskTime: `${hour}:${minute}`
+        };
+
+        // Use Telegram Web App API to send data back to the bot
+        Telegram.WebApp.sendData(JSON.stringify(data));
+
+        // Optionally, provide feedback or close the Web App
+        // alert('Task submitted!');
+        // Telegram.WebApp.close();
+    });
+});
+
+
+
+
+
+        
     </script>
 </body>
 </html>
