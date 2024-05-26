@@ -1,0 +1,280 @@
+FastMouse<br>
+swiper js better fast on mouse scroll wheel<br>
+custom mouse scrollwheel listener<br>
+<br><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time Picker with Swiper JS</title>
+<!-- Link Swiper's CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
+
+<style>
+/* Styles for the time picker, swiper, and other elements */
+.time-picker {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.swiper-container {
+  height: 250px;
+  width: 80px;
+  overflow: hidden; /* Hide overflowed slides */
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  opacity: 0.5;
+}
+
+.swiper-slide-active {
+  opacity: 1;
+  font-size: 36px;
+  color: #333;
+}
+
+.time-picker-popup {
+  display: none;
+  position: absolute;
+  background: white;
+  border: 1px solid #ddd;
+  z-index: 10;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.time-picker-popup.active {
+  display: flex;
+}
+
+.timeInput {
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+#doneButton {
+  margin-top: 10px;
+  padding: 5px 10px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#doneButton:hover {
+  background-color: #0056b3;
+}
+</style>
+</head>
+<body>
+
+<!-- Input fields for the time picker -->
+<input type="text" class="timeInput" placeholder="Select Time" > <!-- readonly to prevent mobile keyboard from poping up on phone -->
+<input type="text" class="timeInput" placeholder="Select Time" >
+<input type="text" class="timeInput" placeholder="Select Time" >
+
+<!-- Time Picker Popup Container -->
+<div class="time-picker-popup" id="timePickerPopup">
+  <div class="time-picker">
+    <!-- Swiper for hours -->
+    <div class="swiper-container hour-swiper">
+      <div class="swiper-wrapper" id="hourWrapper"></div>
+    </div>
+    <!-- Swiper for minutes -->
+    <div class="swiper-container minute-swiper">
+      <div class="swiper-wrapper" id="minuteWrapper"></div>
+    </div>
+  </div>
+  <button id="doneButton" type="button">Done</button>
+</div>
+
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+
+<script>
+/* JS for creating Swiper slides */
+function createSwiperSlides(elementId, start, end) {
+  const wrapper = document.getElementById(elementId);
+  for (let i = start; i <= end; i++) {
+    const slide = document.createElement('div');
+    slide.className = 'swiper-slide';
+    slide.textContent = i.toString().padStart(2, '0');
+    wrapper.appendChild(slide);
+  }
+}
+
+/* Create hour and minute slides */
+createSwiperSlides('hourWrapper', 0, 23);
+createSwiperSlides('minuteWrapper', 0, 59);
+
+/* Initialize Swiper instances with increased speed and sensitivity */
+const hourSwiper = new Swiper('.hour-swiper', {
+  direction: 'vertical',
+  loop: true,
+  slidesPerView: 5,
+  centeredSlides: true,
+  speed: 0, // Transition speed in milliseconds
+   mousewheel: false, // Disable default mousewheel control
+});
+
+const minuteSwiper = new Swiper('.minute-swiper', {
+  direction: 'vertical',
+  loop: true,
+  slidesPerView: 5,
+  centeredSlides: true,
+  speed: 0, // Transition speed in milliseconds
+   mousewheel: false, // Disable default mousewheel control
+});
+
+/* Function to update the selected time */
+function updateSelectedTime() {
+  const selectedHour = hourSwiper.slides[hourSwiper.activeIndex].textContent;
+  const selectedMinute = minuteSwiper.slides[minuteSwiper.activeIndex].textContent;
+  if (currentInput) {
+    currentInput.value = `${selectedHour}:${selectedMinute}`;
+  }
+}
+
+/* Function to show and hide the time picker */
+function showTimePicker(input) {
+  const timePickerPopup = document.getElementById('timePickerPopup');
+  timePickerPopup.style.display = 'flex';
+  currentInput = input;
+}
+
+function hideTimePicker() {
+  const timePickerPopup = document.getElementById('timePickerPopup');
+   updateSelectedTime(); // Make sure to call this to update the input field
+  timePickerPopup.style.display = 'none';
+  currentInput = null;
+}
+
+/* Event listeners for input fields */
+document.querySelectorAll('.timeInput').forEach(input => {
+  input.addEventListener('click', function() {
+    showTimePicker(input);
+  });
+});
+
+/* Event listener for the "Done" button */
+document.getElementById('doneButton').addEventListener('click', hideTimePicker);
+
+/* 
+Custom mouse wheel event handling for hour swiper 
+made with Ai by Dirk Luberth Dijkman 2023 
+for Visual timeslot schedule 
+https://codepen.io/ldijkman/pen/LYaOgvW
+https://plnkr.co/edit/ikOuTjDZvqbPR5jr
+https://jsfiddle.net/luberth/9cLvhm5y/
+
+https://github.com/nolimits4web/swiper/discussions/7283
+*/
+document.querySelector('.hour-swiper').addEventListener('wheel', function(event) {
+  if (document.getElementById('timePickerPopup').style.display === 'flex') {
+    // Prevent scrolling the page
+    event.preventDefault();
+    const delta = event.deltaY;
+    if (delta > 0) {
+      hourSwiper.slideNext(); // Move 1 slide forward
+    } else {
+      hourSwiper.slidePrev(); // Move 1 slide backward
+    }
+    updateSelectedTime();
+  }
+}, { passive: false });
+
+/* 
+Custom mouse wheel event handling for minute swiper
+made with Ai by Dirk Luberth Dijkman 2023 
+for Visual timeslot schedule 
+https://codepen.io/ldijkman/pen/LYaOgvW
+https://plnkr.co/edit/ikOuTjDZvqbPR5jr
+https://jsfiddle.net/luberth/9cLvhm5y/
+
+https://github.com/nolimits4web/swiper/discussions/7283
+*/
+document.querySelector('.minute-swiper').addEventListener('wheel', function(event) {
+  if (document.getElementById('timePickerPopup').style.display === 'flex') {
+    // Prevent scrolling the page
+    event.preventDefault();
+    const delta = event.deltaY;
+    if (delta > 0) {
+      minuteSwiper.slideNext(); // Move 1 slide forward
+    } else {
+      minuteSwiper.slidePrev(); // Move 1 slide backward
+    }
+    updateSelectedTime();
+  }
+}, { passive: false });
+
+/* Variable to keep track of the currently focused input */
+let currentInput = null;
+  
+  
+  
+</script>
+<br>
+wheel timepicker for visual timeslots schedule<br>
+<a href="#" onclick="openInPopup('https://plnkr.co/edit/ikOuTjDZvqbPR5jr?preview'); return false;">Plunker Preview</a><br>
+<a href="#" onclick="openInPopup('https://codepen.io/ldijkman/pen/LYaOgvW'); return false;">CodePen Preview</a><br>
+<a href="#" onclick="openInPopup('https://jsfiddle.net/luberth/9cLvhm5y/'); return false;">JSFiddle Preview</a><br>
+
+
+<br>
+
+<script>
+function openInPopup(url) {
+  window.open(url, 'popupWindow', 'width=800, height=600, left=100, top=100, resizable=yes, scrollbars=yes, toolbar=yes, menubar=no, location=no, directories=no, status=yes');
+}
+  </script>
+  <br> 
+  https://github.com/nolimits4web/swiper/discussions/7283
+  
+  
+ <script src="https://cdn.jsdelivr.net/npm/ismobilejs@1.1.1/dist/isMobile.min.js"></script>
+  <script>
+    // prevent keyboard popup on mobile devices, on time input annoying keyboard
+    
+//Then, use the library in your JavaScript to set the input fields to read-only if the user is on a mobile device:
+
+// Function to set input fields read-only if on a mobile device
+function setInputFieldsReadOnly() {
+  if (isMobile.any) { // Using isMobile.js to check for any mobile device
+    // Select all input fields you want to make read-only
+    const inputs = document.querySelectorAll('.timeInput');
+    inputs.forEach(function(input) {
+      input.readOnly = true; // Make input fields read-only
+    });
+  }
+}
+
+// Call the function on page load
+document.addEventListener("DOMContentLoaded", setInputFieldsReadOnly);
+  </script>
+  
+  <br>
+<center><h3>
+The Art of Time Controlled. Visual TimeSlots Schedule.<br>
+<br>
+<a href="#" onclick="openInPopup('https://plnkr.co/edit/ikOuTjDZvqbPR5jr?preview'); return false;">Plunker</a> | 
+<a href="#" onclick="openInPopup('https://codepen.io/ldijkman/pen/LYaOgvW'); return false;">CodePen</a> | 
+<a href="#" onclick="openInPopup('https://jsfiddle.net/luberth/9cLvhm5y/'); return false;">JSFiddle</a><br>
+
+
+<br>
+
+<script>
+function openInPopup(url) {
+  window.open(url, 'popupWindow', 'width=800, height=600, left=100, top=100, resizable=yes, scrollbars=yes, toolbar=yes, menubar=no, location=no, directories=no, status=yes');
+}
+</script>
+</body>
+</html>
