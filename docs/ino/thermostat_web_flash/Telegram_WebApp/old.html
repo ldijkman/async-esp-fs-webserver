@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Scheduler</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #2F3330;
+            color: lightgray;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        input, button {
+            padding: 10px;
+            font-size: 12px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .time-entry {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            align-items: center;
+        }
+        label {
+            font-size: 12px;
+        }
+        .time-label {
+            margin-right: 2px;
+        }
+        pre {
+            font-size: 8px;
+            
+        }
+        /* Change link color to yellow */
+a {
+    color: orange;
+}
+
+/* Optional: Change color for hovered links */
+a:hover {
+    color: yellow;
+}
+    </style>
+</head>
+<body>
+   
+     <a href=" https://github.com/ldijkman/Universal-Arduino-Telegram-Bot" target="_blank">Forked Universal-Arduino-Telegram-Bot</a><br>
+    <a href="https://t.me/Luberth_Dijkman/84" target="_blank">https://t.me/Luberth_Dijkman</a><br>
+    
+    <h2>Schedule Daily Task</h2>
+    <form id="taskForm">
+        <input type="text" id="taskName" name="taskName" placeholder="Task Name" value="task 1" hidden>
+        <!-- Dynamically numbered tasks will be inserted here -->
+        
+        <button type="submit">Submit Task</button>
+    </form>
+    <br><br>
+    <button id="sendMenu">Send /menu</button>
+
+    <script>
+function addTimeEntry(taskNumber) {
+    // Check for stored times in local storage
+    const storedOnTime = localStorage.getItem(`taskTime${taskNumber}_on`);
+    const storedOffTime = localStorage.getItem(`taskTime${taskNumber}_off`);
+
+    const defaultOnTime = storedOnTime || '08:00'; // Use stored time or default to '08:00'
+    const defaultOffTime = storedOffTime || '18:00'; // Use stored time or default to '18:00'
+
+    const timeEntryDiv = document.createElement('div');
+    timeEntryDiv.className = 'time-entry';
+    timeEntryDiv.innerHTML = `
+        <label for="taskTime${taskNumber}_on" class="time-label">On:</label>
+        <input type="time" id="taskTime${taskNumber}_on" name="taskTime${taskNumber}_on" value="${defaultOnTime}">
+        <label for="taskTime${taskNumber}_off" class="time-label">Off:</label>
+        <input type="time" id="taskTime${taskNumber}_off" name="taskTime${taskNumber}_off" value="${defaultOffTime}">
+    `;
+    document.getElementById('taskForm').insertBefore(timeEntryDiv, document.getElementById('taskForm').lastChild);
+}
+
+        // Example: Add 4 time entries
+        for (let i = 1; i <= 5; i++) {
+            addTimeEntry(i);
+        }
+
+        console.log(Telegram.WebApp.initData); 
+        console.log("Sending data to bot:");
+        
+document.getElementById('taskForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const taskName = document.getElementById('taskName').value;
+    const taskTimes = [];
+    for (let i = 1; i <= 5; i++) {
+        const onTime = document.getElementById(`taskTime${i}_on`).value;
+        const offTime = document.getElementById(`taskTime${i}_off`).value;
+        if (onTime && offTime) { // Ensure both times are set
+            taskTimes.push({on: onTime, off: offTime});
+            // Save each time to local storage
+            localStorage.setItem(`taskTime${i}_on`, onTime);
+            localStorage.setItem(`taskTime${i}_off`, offTime);
+        }
+    }
+
+    // Construct the data object to send
+    const data = {
+        taskName: taskName,
+        taskTimes: taskTimes
+    };
+
+    // Use Telegram Web App API to send data back to the bot
+    Telegram.WebApp.sendData(JSON.stringify(data));
+    console.log("Data sent:", data);
+});
+
+        document.getElementById('sendMenu').addEventListener('click', function() {
+            // Additional logic for sending a /menu command
+            Telegram.WebApp.sendData(JSON.stringify({command: '/menu'}));
+        });
+    </script> 
+
+<br>
+<a href="https://ldijkman.github.io/async-esp-fs-webserver/ino/thermostat_web_flash/Telegram_WebApp/Telegram_WebApp.html" target="_blank">page served by https://ldijkman.github.io </a><br>
+ <a href="https://github.com/ldijkman/async-esp-fs-webserver/blob/master/docs/ino/thermostat_web_flash/Telegram_WebApp/Telegram_WebApp.html" target="_blank">page Source https://github.com/ldijkman </a><br>
+    <a href="test.html">Time Picker test.html</a><br>    
+    <pre> 
+    telegram web app closing after Telegram.WebApp.sendData
+        is this normal?
+    html5 time input does behave different in telegram 
+        https://ldijkman.github.io/async-esp-fs-webserver/ino/thermostat_web_flash/Telegram_WebApp/Telegram_WebApp.html
+    How to inspect Telegram web app?
+        Telegram Desktop on Windows and Linux​
+            Go to Settings > Advanced > Experimental settings > Enable webview inspection. 
+            Right click in the WebView and choose Inspect.
+
+   
+    create a bot 
+        https://t.me/BotFather  and ask for /newbot            and get a bot token
+   
+    get id     
+        https://t.me/myidbot and ask for /getid               and get chat_id
+   
+    new webapp url setting
+       https://t.me/BotFather
+            /newapp
+            /editapp
+            /myapps
+
+   arduno ESP8266 telegram webapp only sends data when launched/opened from bottom keyboard  
+        Mini Apps launched from a web_app type keyboard button
+        can send data back to the bot in a service message using Telegram.WebApp.sendData.
+        This makes it possible for the bot to produce a response without communicating with any external servers.   
+        
+  times are saved to browser local storage
+        if you use the same device / browser it should save the times
+
+    </pre>
+</body>
+</html>
