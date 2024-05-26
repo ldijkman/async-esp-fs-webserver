@@ -1,3 +1,9 @@
+// maybe needs my modifeid version of
+// https://github.com/ldijkman/Universal-Arduino-Telegram-Bot
+// added webapp send web app data
+// https://t.me/Luberth_Dijkman/84
+
+
 
 
 // you can run the code on bare board Wemos d1 mini 4mb esp8266
@@ -117,7 +123,7 @@
 // and you get Telegram BOT Token (Get from Botfather)
 //
 #define BOT_TOKEN "xxxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-
+#define BOT_TOKEN "7108291748:AAFt4sw-HdjvKlyL2eSGQfgUNJG3J40x8rI"
 
 
 // help message  https://t.me/Luberth_Dijkman/57
@@ -126,7 +132,7 @@
 // ask for /getid
 //
 #define CHAT_ID "xxxxxxxxxx"
-
+#define CHAT_ID "7096381205"
 
 
 
@@ -186,9 +192,18 @@
 #include <UniversalTelegramBot.h>     // manage libraries, 
 // search for Universal Telegram Bot Library
 // https://github.com/witnessmenow/Universal-Arduino-Telegram-Bot
+
+// maybe needs my modifeid version of
+// https://github.com/ldijkman/Universal-Arduino-Telegram-Bot
+// added webapp send web app data
+// https://t.me/Luberth_Dijkman/84
+
+
 #include <ArduinoJson.h>
 
 #include <EEPROM.h>
+
+#include <ArduinoJson.h>  // Make sure you have the ArduinoJson library
 
 
 
@@ -297,6 +312,13 @@ AsyncWebSocket ws("/ws");
 float temperatureSetpoint = 20.0;
 
 
+
+
+
+
+
+
+
 // make it better readable with less \ https://www.blackbox.ai/
 const char keyboardJson[] PROGMEM = R"rawliteral(
 [[
@@ -355,10 +377,19 @@ const char bottomkeyboardJson[] PROGMEM = R"RAW(
   ["Menu", "ON", "OFF", "Task"],
   ["1Min", "5Min", "10Min", "15Min", "30Min", "60Min"],
   ["10°", "15°", "16°", "17°", "18°", "19°", "20°", "21°", "22°"],
-  ["Reboot", "Time", "Buzzer", "Info"]
+  ["Reboot", "Time", "Buzzer", "Info", {"text": "web_app", "web_app": {"url": "https://ldijkman.github.io/async-esp-fs-webserver/ino/thermostat_web_flash/Telegram_WebApp/Telegram_WebApp.html"}}]
 ]
 )RAW";
 
+// maybe needs my modifeid version of
+// https://github.com/ldijkman/Universal-Arduino-Telegram-Bot
+// added webapp send web app data
+// https://t.me/Luberth_Dijkman/84
+
+
+
+
+ 
 // HTML content with JavaScript for WebSocket communication
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML><html>
@@ -799,30 +830,8 @@ void deleteTask(int taskNumber) {
 
 
 
-#include <ArduinoJson.h>  // Make sure you have the ArduinoJson library
 
-void sendWebAppButton(const String& chat_id) {
-    // Create the JSON object for the inline keyboard
-    StaticJsonDocument<512> jsonDoc;
-    JsonArray rows = jsonDoc.createNestedArray("inline_keyboard");
-    JsonArray buttonsRow = rows.createNestedArray(); // Create a new row of buttons
-    
-    // Add a button that opens the Web App
-    JsonObject button = buttonsRow.createNestedObject();
-    button["text"] = "Open Web App";
-    JsonObject web_app = button.createNestedObject("web_app");
-    web_app["url"] = "https://t.me/LuberthDijkmanbot/schedule";
 
-    // Serialize the JSON object to a String
-    String jsonString;
-    serializeJson(jsonDoc, jsonString);
-    Serial.println("jsonString ");
-    Serial.println(jsonString);
-
-    // Now, send the message with the inline keyboard
-    String message = "Click the button to open the Web App:";
-    bot.sendMessageWithReplyKeyboard(chat_id, message, "", jsonString, true);
-}
 
 
 
@@ -1000,9 +1009,8 @@ void setup() {
   bool oneTimeKeyboard = false;
   bool forceReply = false;
 
-  bot.sendMessageWithReplyKeyboard(CHAT_ID, "Create Static Menu", "", bottomkeyboardJson, resizeKeyboard, oneTimeKeyboard, forceReply);
-  Serial.println(F("send bottom bot menu "));
-  
+ bot.sendMessageWithReplyKeyboard(CHAT_ID, "Create Static Menu", "", bottomkeyboardJson, resizeKeyboard, oneTimeKeyboard, forceReply);
+Serial.println(F("send bottom bot menu "));
 
 
   Serial.println(F("send bot start info"));
@@ -1031,6 +1039,7 @@ void setup() {
 
   // Print the last reset reason
   printResetReason();
+  
 
 
   Serial.println(F("server begin"));
@@ -1145,8 +1154,21 @@ void handleNewMessages(int numNewMessages) {
 
 
   for (int i = 0; i < numNewMessages; i++) {
+     Serial.println("\n");
     Serial.print(F("bot.messages[i].text "));
     Serial.println(bot.messages[i].text);
+
+
+    if (bot.messages[i].web_app_data != "") {
+      // Process the web_app_data
+      Serial.println(F("jajaja Web App Data: "));
+      Serial.println("Web App Data: " + bot.messages[i].web_app_data);
+      
+      // Example: Send a confirmation message back to the chat
+      String chat_id = bot.messages[i].chat_id;
+      bot.sendMessage(CHAT_ID, "Received data from the web app!", "");
+    }
+
 
     // If the type is a "callback_query", a inline keyboard button was pressed
     if (bot.messages[i].type ==  F("callback_query")) {
@@ -1154,6 +1176,13 @@ void handleNewMessages(int numNewMessages) {
 
      // Extract callback_query_id from the callback query
       String callbackQueryId = bot.messages[i].query_id;
+
+
+
+
+
+
+
       
       // Optionally, extract the message text sent with the callback query
       // Note: This is the data associated with the button that was pressed, not a text message from the user
@@ -1274,8 +1303,8 @@ void handleNewMessages(int numNewMessages) {
   bool oneTimeKeyboard = false;
   bool forceReply = false;
 
-  bot.sendMessageWithReplyKeyboard(CHAT_ID, "Create Static Menu", "", bottomkeyboardJson, resizeKeyboard, oneTimeKeyboard, forceReply);
-  Serial.println(F("send bottom bot menu "));
+bot.sendMessageWithReplyKeyboard(CHAT_ID, "Create Static Menu", "", bottomkeyboardJson, resizeKeyboard, oneTimeKeyboard, forceReply);
+Serial.println(F("send bottom bot menu "));
         
 
         // Keyboard Json is an array of arrays.
@@ -1382,7 +1411,7 @@ if (text == F("10°") || text == F("15°") || text == F("16°") || text == F("17
 }
 
 if (text == F("time")) {
-   sendWebAppButton(CHAT_ID);
+  
     bot.sendMessage(CHAT_ID, asctime(timeinfo), "");
 }
 
@@ -1633,6 +1662,9 @@ void loop() {
  //Serial.println(bot.getUpdates(bot.last_message_received));
   // Serial.println(bot.getUpdates(bot.last_sent_message_id));
     Serial.println(F("numNewMessages ") + String(numNewMessages));
+
+
+
 
     if (numNewMessages) {
       Serial.println(F("got response"));
