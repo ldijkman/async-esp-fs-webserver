@@ -123,7 +123,7 @@
 // and you get Telegram BOT Token (Get from Botfather)
 //
 #define BOT_TOKEN "xxxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-#define BOT_TOKEN "7108291748:AAFt4sw-HdjvKlyL2eSGQfgUNJG3J40x8rI"
+
 
 
 // help message  https://t.me/Luberth_Dijkman/57
@@ -132,7 +132,7 @@
 // ask for /getid
 //
 #define CHAT_ID "xxxxxxxxxx"
-#define CHAT_ID "7096381205"
+
 
 
 
@@ -1161,12 +1161,14 @@ void handleNewMessages(int numNewMessages) {
 
     if (bot.messages[i].web_app_data != "") {
       // Process the web_app_data
-      Serial.println(F("jajaja Web App Data: "));
+      Serial.println(F("XXXXXXXXXXXXXXXXXXXXX Web App Data: "));
       Serial.println("Web App Data: " + bot.messages[i].web_app_data);
       
       // Example: Send a confirmation message back to the chat
       String chat_id = bot.messages[i].chat_id;
       bot.sendMessage(CHAT_ID, "Received data from the web app!", "");
+      bot.sendMessage(CHAT_ID,bot.messages[i].web_app_data, "");
+      Serial.println(F("XXXXXXXXXXXXXXXXXXXXX Web App Data: "));
     }
 
 
