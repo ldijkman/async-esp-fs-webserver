@@ -62,18 +62,47 @@
     <button id="sendMenu">Send /menu</button>
 
     <script>
-        // Dynamically add time entries for tasks
-        function addTimeEntry(taskNumber) {
-            const timeEntryDiv = document.createElement('div');
-            timeEntryDiv.className = 'time-entry';
-            timeEntryDiv.innerHTML = `
-                <label for="taskTime${taskNumber}_on" class="time-label"><!--Task ${taskNumber} -->On:</label>
-                <input type="time" id="taskTime${taskNumber}_on" name="taskTime${taskNumber}_on">
-                <label for="taskTime${taskNumber}_off" class="time-label">Off:</label>
-                <input type="time" id="taskTime${taskNumber}_off" name="taskTime${taskNumber}_off">
-            `;
-            document.getElementById('taskForm').insertBefore(timeEntryDiv, document.getElementById('taskForm').lastChild);
-        }
+function addTimeEntry(taskNumber) {
+    // Define specific times for each task
+    let defaultOnTime = '08:00'; // Default ON time
+    let defaultOffTime = '18:00'; // Default OFF time
+    
+    // Example of setting different times for each task
+    switch(taskNumber) {
+        case 1:
+            defaultOnTime = '05:00';
+            defaultOffTime = '06:45';
+            break;
+        case 2:
+            defaultOnTime = '10:00';
+            defaultOffTime = '12:00';
+            break;
+        case 3:
+            defaultOnTime = '18:00';
+            defaultOffTime = '19:00';
+            break;
+        case 4:
+            defaultOnTime = '20:30';
+            defaultOffTime = '21:00';
+            break;
+        case 5:
+            defaultOnTime = '22:30';
+            defaultOffTime = '23:15';
+            break;
+        // Add more cases as needed for each task number
+        // Default times are already set above
+    }
+
+    const timeEntryDiv = document.createElement('div');
+    timeEntryDiv.className = 'time-entry';
+    timeEntryDiv.innerHTML = `
+        <label for="taskTime${taskNumber}_on" class="time-label">On:</label>
+        <input type="time" id="taskTime${taskNumber}_on" name="taskTime${taskNumber}_on" value="${defaultOnTime}">
+        <label for="taskTime${taskNumber}_off" class="time-label">Off:</label>
+        <input type="time" id="taskTime${taskNumber}_off" name="taskTime${taskNumber}_off" value="${defaultOffTime}">
+    `;
+    document.getElementById('taskForm').insertBefore(timeEntryDiv, document.getElementById('taskForm').lastChild);
+}
 
         // Example: Add 4 time entries
         for (let i = 1; i <= 5; i++) {
