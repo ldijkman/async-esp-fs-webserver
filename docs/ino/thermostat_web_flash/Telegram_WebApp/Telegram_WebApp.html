@@ -21,8 +21,8 @@
             gap: 10px;
         }
         input, button {
-            padding: 12px;
-            font-size: 13px;
+            padding: 10px;
+            font-size: 12px;
             border-radius: 5px;
             border: 1px solid #ccc;
         }
@@ -37,14 +37,14 @@
         .time-entry {
             display: flex;
             justify-content: center;
-            gap: 12px;
+            gap: 10px;
             align-items: center;
         }
         label {
-            font-size: 14px;
+            font-size: 12px;
         }
         .time-label {
-            margin-right: 5px;
+            margin-right: 2px;
         }
     </style>
 </head>
@@ -64,7 +64,7 @@
             const timeEntryDiv = document.createElement('div');
             timeEntryDiv.className = 'time-entry';
             timeEntryDiv.innerHTML = `
-                <label for="taskTime${taskNumber}_on" class="time-label" hidden>Task ${taskNumber} On:</label>
+                <label for="taskTime${taskNumber}_on" class="time-label"><!--Task ${taskNumber} -->On:</label>
                 <input type="time" id="taskTime${taskNumber}_on" name="taskTime${taskNumber}_on">
                 <label for="taskTime${taskNumber}_off" class="time-label">Off:</label>
                 <input type="time" id="taskTime${taskNumber}_off" name="taskTime${taskNumber}_off">
@@ -121,5 +121,3 @@
     </pre>
 </body>
 </html>
-
-
