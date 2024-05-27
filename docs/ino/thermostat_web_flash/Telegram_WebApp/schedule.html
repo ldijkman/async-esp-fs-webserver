@@ -659,6 +659,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 // function to remove the leading zero for hours less than 10:
+/*
 function minutesToTime(minutes) {
     const hours = Math.floor(minutes / 60);
     const mins = minutes % 60;
@@ -668,9 +669,25 @@ function minutesToTime(minutes) {
     const formattedMinutes = mins.toString().padStart(2, '0');
     return `${formattedHours}:${formattedMinutes}`;
 }
+*/ 
+function minutesToTime(minutes) {
+    // Convert minutes to hours and minutes
+    let hours = Math.floor(minutes / 60);
+    let mins = minutes % 60;
+    
+    // Format hours and minutes to strings with leading zeros if necessary
+    let hoursStr = hours.toString().padStart(2, '0');
+    let minsStr = mins.toString().padStart(2, '0');
+    
+    // Check if the time equals 00:00 and adjust to 24:00 if necessary
+    if (hoursStr === '00' && minsStr === '00') {
+        hoursStr = '24';
+    }
+    
+    return `${hoursStr}:${minsStr}`;
+}
 
-
-
+/*
 function updateTimeBar(onOffTimes) {
     const timeBar = document.getElementById('time-bar');
     // Clear existing segments
@@ -727,6 +744,35 @@ function updateTimeBar(onOffTimes) {
         //}
     });
 }
+*/
+
+function updateTimeBar(onOffTimes) {
+    const timeBar = document.getElementById('time-bar');
+    // Clear existing segments
+    timeBar.innerHTML = '';
+
+    onOffTimes.forEach(({ on, off }, index) => {
+        const segment = document.createElement('div');
+        segment.className = 'time-segment';
+
+        // Calculate left position based on the 'on' time
+        const leftPercentage = (on / 1440) * 100;
+        segment.style.left = `${leftPercentage}%`;
+
+        // Adjust off time if it's 0 (midnight) to be 1440 (for calculation purposes)
+        const adjustedOffTime = off === 0 ? 1440 : off;
+
+        // Calculate width percentage, ensuring we account for crossing over midnight
+        const duration = adjustedOffTime - on;
+        const widthPercentage = (duration / 1440) * 100;
+        segment.style.width = `${widthPercentage}%`;
+
+        timeBar.appendChild(segment);
+    });
+} 
+
+
+
             // Move the showPopup function outside of the updateTimeBar function
             function showPopup(index) {
                 const onOffTime = onOffTimes[index];
