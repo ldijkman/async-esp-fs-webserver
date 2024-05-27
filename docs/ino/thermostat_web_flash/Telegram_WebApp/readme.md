@@ -1,3 +1,7 @@
+https://ldijkman.github.io/async-esp-fs-webserver/ino/thermostat_web_flash/Telegram_WebApp/Telegram_WebApp.html
+
+https://ldijkman.github.io/async-esp-fs-webserver/ino/thermostat_web_flash/Telegram_WebApp/schedule.html
+
 could i add a telegram webapp 
    for easier html javascripts time input
 
