@@ -7,7 +7,9 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
 >
     <head>
         <meta charset="UTF-8" />
-        <title>%MDNS% The Art of Time Controlled. Visual TimeSlots Schedule. On/Off Switch Times</title>
+        <title>Telegram WebApp MiniApp Arduino ESP8266, The Art of Time Controlled. Visual TimeSlots Schedule. On/Off Switch Times</title>
+       <script src="https://telegram.org/js/telegram-web-app.js"></script>
+      
       <!-- Link Swiper's CSS -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
 
@@ -345,7 +347,7 @@ function reloadPage() {
 </div>      
 
         <button id="save-times" hidden>Save Times</button>
-
+<button id="send-times-btn" style="margin-top: 20px;">Send Times To Bot</button> 
  <br><br><br><br>
         <div id="time-bar-container">
             <div id="time-bar">
@@ -1395,6 +1397,22 @@ if (window.location.protocol === "https:") {
     console.info("Good for WS Websocket.");
 
 }
+
+
+
+function sendTimesToBot() {
+    // Ensure onOffTimes is up to date and contains the times you want to send
+    if (Telegram.WebApp.ready) {
+        Telegram.WebApp.sendData(JSON.stringify(onOffTimes));
+        console.log("On/Off times sent to bot:", onOffTimes);
+    } else {
+        console.error("Telegram WebApp is not ready.");
+    }
+}
+
+document.getElementById('send-times-btn').addEventListener('click', sendTimesToBot);
+
+
 </script>  
 
    <pre> 
