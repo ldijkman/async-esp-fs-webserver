@@ -377,7 +377,11 @@ const char bottomkeyboardJson[] PROGMEM = R"RAW(
   ["Menu", "ON", "OFF", "Task"],
   ["1Min", "5Min", "10Min", "15Min", "30Min", "60Min"],
   ["10°", "15°", "16°", "17°", "18°", "19°", "20°", "21°", "22°"],
-  ["Reboot", "Time", "Buzzer", "Info", {"text": "web_app", "web_app": {"url": "https://ldijkman.github.io/async-esp-fs-webserver/ino/thermostat_web_flash/Telegram_WebApp/Telegram_WebApp.html"}}]
+  [
+    "Reboot", "Time", "Buzzer", "Info",
+    {"text": "web_app", "web_app": {"url": "https://ldijkman.github.io/async-esp-fs-webserver/ino/thermostat_web_flash/Telegram_WebApp/Telegram_WebApp.html"}},
+    {"text": "web_app", "web_app": {"url": "https://ldijkman.github.io/async-esp-fs-webserver/ino/thermostat_web_flash/Telegram_WebApp/schedule.html"}}
+  ]
 ]
 )RAW";
 
