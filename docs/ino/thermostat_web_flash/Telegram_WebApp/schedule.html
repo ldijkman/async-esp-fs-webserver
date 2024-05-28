@@ -11,7 +11,7 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
        <script src="https://telegram.org/js/telegram-web-app.js"></script>
       
       <!-- Link Swiper's CSS -->
-            <script>
+  <script>
         window.onload = function() {
             // Check if Telegram Web Apps is available
             if (window.Telegram.WebApp) {
@@ -23,6 +23,18 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
                 // Display user ID and name
                 document.getElementById('userId').innerText = `User ID: ${user.id}`;
                 document.getElementById('userName').innerText = `User Name: ${user.first_name} ${user.last_name ? user.last_name : ''}`;
+                document.getElementById('userUsername').innerText = `Username: ${user.username ? user.username : 'N/A'}`;
+                document.getElementById('userLanguage').innerText = `Language: ${telegramWebApp.initDataUnsafe.language_code}`;
+
+                // Profile photo (assuming URL is given, replace with actual photo URL fetching if available)
+                const profilePic = user.photo_url ? user.photo_url : 'https://via.placeholder.com/100';
+                document.getElementById('profilePic').src = profilePic;
+
+                // Send data back to Telegram
+                document.getElementById('sendDataButton').onclick = function() {
+                    telegramWebApp.sendData(`Hello, ${user.first_name}! Your ID is ${user.id}`);
+                };
+
             } else {
                 alert('Telegram Web Apps is not available');
             }
@@ -1501,6 +1513,15 @@ document.getElementById('send-times-btn').addEventListener('click', sendTimesToB
     <p id="userId" class="bordered">User ID: </p>
     <p id="userName" class="bordered">User Name: </p>
     <button onclick="Telegram.WebApp.close()">Close Web App</button>
+
+    <img id="profilePic" class="profile-pic" src="" alt="Profile Picture">
+    <p id="userId" class="bordered">User ID: </p>
+    <p id="userName" class="bordered">User Name: </p>
+    <p id="userUsername" class="bordered">Username: </p>
+    <p id="userLanguage" class="bordered">Language: </p>
+    <button id="sendDataButton" class="bordered">Send Data to Telegram</button>
+    <button onclick="Telegram.WebApp.close()" class="bordered">Close Web App</button>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
       
