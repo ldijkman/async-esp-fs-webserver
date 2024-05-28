@@ -121,6 +121,7 @@
 // ask for /newbot
 // answer the questions
 // and you get Telegram BOT Token (Get from Botfather)
+// watch this video  https://youtu.be/6ehNbx6aFtk
 //
 #define BOT_TOKEN "xxxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
@@ -130,6 +131,7 @@
 // go to
 // https://t.me/myidbot
 // ask for /getid
+// watch this video  https://youtu.be/6ehNbx6aFtk
 //
 #define CHAT_ID "xxxxxxxxxx"
 
