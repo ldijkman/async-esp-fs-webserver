@@ -279,6 +279,14 @@ place a label below the .time-segment::before and after line, with the correspon
   background-color: #0056b3;
 }
 </style>
+
+            <style>
+        .bordered {
+            border: 2px solid blue;
+            padding: 10px;
+            margin: 10px 0;
+        }
+    </style>
     </head>
     <body>
       <div style="background-color: #f1f1f1; padding: 10px; text-align: center;">
@@ -1490,8 +1498,8 @@ document.getElementById('send-times-btn').addEventListener('click', sendTimesToB
 </script>  
 
     <h1>Welcome to Telegram Web App Demo</h1>
-    <p id="userId">User ID: </p>
-    <p id="userName">User Name: </p>
+    <p id="userId" class="bordered">User ID: </p>
+    <p id="userName" class="bordered">User Name: </p>
     <button onclick="Telegram.WebApp.close()">Close Web App</button>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
