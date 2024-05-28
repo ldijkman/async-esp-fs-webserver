@@ -11,6 +11,23 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
        <script src="https://telegram.org/js/telegram-web-app.js"></script>
       
       <!-- Link Swiper's CSS -->
+            <script>
+        window.onload = function() {
+            // Check if Telegram Web Apps is available
+            if (window.Telegram.WebApp) {
+                const telegramWebApp = window.Telegram.WebApp;
+
+                // Get user information
+                const user = telegramWebApp.initDataUnsafe.user;
+
+                // Display user ID and name
+                document.getElementById('userId').innerText = `User ID: ${user.id}`;
+                document.getElementById('userName').innerText = `User Name: ${user.first_name} ${user.last_name ? user.last_name : ''}`;
+            } else {
+                alert('Telegram Web Apps is not available');
+            }
+        };
+    </script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"/>
 
         <style>
@@ -1472,6 +1489,13 @@ document.getElementById('send-times-btn').addEventListener('click', sendTimesToB
 
 </script>  
 
+    <h1>Welcome to Telegram Web App Demo</h1>
+    <p id="userId">User ID: </p>
+    <p id="userName">User Name: </p>
+    <button onclick="Telegram.WebApp.close()">Close Web App</button>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+      
    <pre> 
     telegram webapp miniapp closing after Telegram.WebApp.sendData
         is this normal?
