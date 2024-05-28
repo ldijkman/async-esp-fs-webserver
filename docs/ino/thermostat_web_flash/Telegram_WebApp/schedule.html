@@ -313,7 +313,7 @@ place a label below the .time-segment::before and after line, with the correspon
 The Art of Time Controlled. <br>
 
 
-<h4>Sprinkler or Light On/Off Times Schedule<br>Visual TimeSlots Schedule.</h4>
+<h4>Sprinkler or Light On/Off Times <br>Visual TimeSlots Schedule.</h4>
 <br>
 
 <script>
@@ -546,7 +546,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 });
-*/
+ */  
             function timeToMinutes(timeString) {
                 const [hours, minutes] = timeString.split(':').map(Number);
                 return (hours % 24) * 60 + minutes;
@@ -559,6 +559,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     .toString()
                     .padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
             }
+            
+          
+            
+            
+            
+            
+            
+            
+            
+            
+            
             function displaySavedTimes() {
                 // Retrieve saved times from localStorage
                 const savedTimes =
@@ -687,7 +698,7 @@ function minutesToTime(minutes) {
     return `${hoursStr}:${minsStr}`;
 }
 
-/*
+
 function updateTimeBar(onOffTimes) {
     const timeBar = document.getElementById('time-bar');
     // Clear existing segments
@@ -744,7 +755,7 @@ function updateTimeBar(onOffTimes) {
         //}
     });
 }
-*/
+/* 
 
 function updateTimeBar(onOffTimes) {
     const timeBar = document.getElementById('time-bar');
@@ -771,7 +782,7 @@ function updateTimeBar(onOffTimes) {
     });
 } 
 
-
+*/
 
             // Move the showPopup function outside of the updateTimeBar function
             function showPopup(index) {
