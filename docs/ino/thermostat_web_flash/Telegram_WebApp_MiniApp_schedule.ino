@@ -660,32 +660,6 @@ function sendSetpoint(value) {
     setInterval(updateCurrentTime, 1000);
 </script>
 
-
-
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyA4sobHNI_CzjwpulbRTF5UXIOhOaCC7D0",
-    authDomain: "telegram-8452d.firebaseapp.com",
-    projectId: "telegram-8452d",
-    storageBucket: "telegram-8452d.appspot.com",
-    messagingSenderId: "779791074647",
-    appId: "1:779791074647:web:16936fa1849f5e3e7a2a12",
-    measurementId: "G-RF3PP7HSZ8"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
-
 </body>
 </html>)rawliteral";
 
