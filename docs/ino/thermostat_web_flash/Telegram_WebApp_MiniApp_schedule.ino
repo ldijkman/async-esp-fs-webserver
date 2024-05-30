@@ -1170,45 +1170,71 @@ void handleNewMessages(int numNewMessages) {
       // Process the web_app_data
       Serial.println(F("XXXXXXXXXXXXXXXXXXXXX Web App Data: "));
 
-      // Parse the JSON data
-      DynamicJsonDocument doc(1024); // Adjust the size according to your needs
-      deserializeJson(doc, bot.messages[i].web_app_data);
 
-      // Initialize a String to build the message
-      String message = "Schedule:\n";
 
-      // Example of how to process the JSON array
-      for (JsonVariant v : doc.as<JsonArray>()) {
-        int onTime = v["on"];
-        int offTime = v["off"];
-        
-        // Convert minutes into hours and minutes format
-        String onHours = String(onTime / 60);
-        String onMinutes = String(onTime % 60);
-        if (onMinutes.length() < 2) onMinutes = "0" + onMinutes; // Add leading zero if needed
-        
-        String offHours = String(offTime / 60);
-        String offMinutes = String(offTime % 60);
-        if (offMinutes.length() < 2) offMinutes = "0" + offMinutes; // Add leading zero if needed
+    // Parse the JSON data
+    DynamicJsonDocument doc(1024); // Adjust the size according to your needs
+    deserializeJson(doc, bot.messages[i].web_app_data);
+    
+    JsonArray arr = doc.as<JsonArray>();
 
-        // Append the current on/off pair to the message
-        message += "On: " + onHours + ":" + onMinutes + ", Off: " + offHours + ":" + offMinutes + "\n";
+    // Simple Bubble Sort for "on" times
+    bool swapped;
+    do {
+      swapped = false;
+      for (int j = 0; j < arr.size() - 1; j++) {
+        if (arr[j]["on"] > arr[j + 1]["on"]) {
+          // Swap
+          JsonObject temp = arr.createNestedObject();
+          temp.set(arr[j]);
+          
+          arr[j].set(arr[j + 1]);
+          arr[j + 1].set(temp);
 
-        // For debugging
-        Serial.print(F("On Time: "));
-        Serial.print(onHours + ":" + onMinutes);
-        Serial.print(F(", Off Time: "));
-        Serial.println(offHours + ":" + offMinutes);
+          // Remove temporary object at the end
+          arr.remove(arr.size() - 1);
+
+          swapped = true;
+        }
       }
+    } while (swapped);
 
-      // Send a confirmation message back to the chat
-      String chat_id = bot.messages[i].chat_id;
-      bot.sendMessage(chat_id, "Received data from the web app!", ""); // Confirmation message
-      bot.sendMessage(chat_id, message, ""); // Send the organized schedule message
-      Serial.println(F("XXXXXXXXXXXXXXXXXXXXX Data processed."));
+    // Initialize a String to build the message
+    String message = "Schedule:\n";
+
+    // Process and build message from sorted JSON array
+    for (JsonVariant v : arr) {
+      int onTime = v["on"];
+      int offTime = v["off"];
+      
+      // Convert minutes into hours and minutes format
+      String onHours = String(onTime / 60);
+      String onMinutes = String(onTime % 60);
+      if (onMinutes.length() < 2) onMinutes = "0" + onMinutes; // Add leading zero if needed
+      
+      String offHours = String(offTime / 60);
+      String offMinutes = String(offTime % 60);
+      if (offMinutes.length() < 2) offMinutes = "0" + offMinutes; // Add leading zero if needed
+
+      // Append the current on/off pair to the message
+      message += "On: " + onHours + ":" + onMinutes + ", Off: " + offHours + ":" + offMinutes + "\n";
+      
+      Serial.print(F("On Time: "));
+      Serial.print(onHours + ":" + onMinutes);
+      Serial.print(F(", Off Time: "));
+      Serial.println(offHours + ":" + offMinutes);
     }
+
+    // Send messages back to the chat
+    String chat_id = bot.messages[i].chat_id;
+    bot.sendMessage(chat_id, bot.messages[i].web_app_data, ""); // json
+    bot.sendMessage(chat_id, "Received data from the web app!", ""); // Confirmation message
+    bot.sendMessage(chat_id, message, ""); // Send the organized schedule message
+    Serial.println(F("XXXXXXXXXXXXXXXXXXXXX Data processed."));
+  }
+}
   
-    }
+    
 
 
     // If the type is a "callback_query", a inline keyboard button was pressed
