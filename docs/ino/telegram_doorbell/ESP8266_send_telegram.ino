@@ -45,7 +45,7 @@
      search for @Botfather
     /newbot
 */
-#define BOT_TOKEN "703453455:AA45642564562462456245234254ZXQ"
+#define BOT_TOKEN "xxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 
 /*
     https://t.me/myidbot
