@@ -3,26 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Telegram Web App Storage</title>
+    <title>Telegram Cloud Storage Example</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <script>
+        // Function to store a JSON string in cloud storage
         function storeJson() {
             const jsonString = '{"name":"John Doe","age":30,"city":"New York"}';
-            try {
-                Telegram.WebApp.storage.setItem('user_data', jsonString);
-                console.log('JSON string stored successfully');
-            } catch (error) {
-                console.error('Error storing JSON string', error);
-            }
+            const key = 'user_data';
+
+            Telegram.WebApp.CloudStorage.setItem(key, jsonString, (error, success) => {
+                if (error) {
+                    console.error('Error storing JSON string:', error);
+                } else if (success) {
+                    console.log('JSON string stored successfully');
+                }
+            });
         }
 
+        // Function to retrieve a JSON string from cloud storage
         function retrieveJson() {
-            try {
-                const storedJsonString = Telegram.WebApp.storage.getItem('user_data');
-                console.log('Retrieved JSON string:', storedJsonString);
-            } catch (error) {
-                console.error('Error retrieving JSON string', error);
-            }
+            const key = 'user_data';
+
+            Telegram.WebApp.CloudStorage.getItem(key, (error, value) => {
+                if (error) {
+                    console.error('Error retrieving JSON string:', error);
+                } else {
+                    console.log('Retrieved JSON string:', value);
+                }
+            });
         }
 
         window.onload = () => {
@@ -33,6 +41,6 @@
     </script>
 </head>
 <body>
-    <h1>Telegram Web App Storage Example</h1>
+    <h1>Telegram Cloud Storage Example</h1>
 </body>
 </html>
