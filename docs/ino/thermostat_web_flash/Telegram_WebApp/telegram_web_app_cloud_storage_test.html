@@ -8,7 +8,7 @@
     <script>
         // Function to store a JSON string in cloud storage
         function storeJson() {
-            const jsonString = '{"name":"John Doe","age":30,"city":"New York"}';
+            const jsonString = '[{"on":60,"off":75},{"on":135,"off":150},{"on":180,"off":195},{"on":240,"off":255},{"on":300,"off":315},{"on":405,"off":420},{"on":450,"off":465},{"on":495,"off":510},{"on":540,"off":555},{"on":615,"off":630},{"on":690,"off":705},{"on":735,"off":750},{"on":810,"off":825},{"on":870,"off":885},{"on":960,"off":975},{"on":1020,"off":1035},{"on":1125,"off":1140},{"on":1170,"off":1185},{"on":1260,"off":1275},{"on":1305,"off":1320},{"on":1380,"off":1425}]';
             const key = 'user_data';
 
             Telegram.WebApp.CloudStorage.setItem(key, jsonString, (error, success) => {
