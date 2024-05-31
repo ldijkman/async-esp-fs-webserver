@@ -53,7 +53,7 @@
      search for @idbot
     /getid
 */
-#define CHAT_ID "623654364565"
+#define CHAT_ID "xxxxxxxxxxxxxxx"
 
 X509List cert(TELEGRAM_CERTIFICATE_ROOT);
 WiFiClientSecure secured_client;
