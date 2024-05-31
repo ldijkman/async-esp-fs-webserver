@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Web App Storage</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script>
+        function storeJson() {
+            const jsonString = '{"name":"John Doe","age":30,"city":"New York"}';
+            try {
+                Telegram.WebApp.storage.setItem('user_data', jsonString);
+                console.log('JSON string stored successfully');
+            } catch (error) {
+                console.error('Error storing JSON string', error);
+            }
+        }
+
+        function retrieveJson() {
+            try {
+                const storedJsonString = Telegram.WebApp.storage.getItem('user_data');
+                console.log('Retrieved JSON string:', storedJsonString);
+            } catch (error) {
+                console.error('Error retrieving JSON string', error);
+            }
+        }
+
+        window.onload = () => {
+            Telegram.WebApp.ready();
+            storeJson();
+            retrieveJson();
+        };
+    </script>
+</head>
+<body>
+    <h1>Telegram Web App Storage Example</h1>
+</body>
+</html>
