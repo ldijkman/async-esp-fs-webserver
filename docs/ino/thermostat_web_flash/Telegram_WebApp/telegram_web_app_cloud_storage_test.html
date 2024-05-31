@@ -15,7 +15,7 @@
                 if (error) {
                     console.error('Error storing JSON string:', error);
                 } else if (success) {
-                    console.log('JSON string stored successfully');
+                    console.warn('JSON string stored successfully');
                 }
             });
         }
@@ -28,7 +28,7 @@
                 if (error) {
                     console.error('Error retrieving JSON string:', error);
                 } else {
-                    console.log('Retrieved JSON string:', value);
+                    console.warn('Retrieved JSON string:', value);
                 }
             });
         }
