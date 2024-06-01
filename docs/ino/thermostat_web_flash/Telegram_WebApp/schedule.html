@@ -2445,9 +2445,10 @@ also highlights the corresponing inputfields<br>
                 { on: 23 * 60, off: 23 * 60 + 15 },
             ];
 
-          //  let storedOnOffTimes = JSON.parse(
-          //      localStorage.getItem('onOffTimes')
-          //  );
+            let storedOnOffTimes = JSON.parse(
+                localStorage.getItem('onOffTimes')
+           );
+            /*
            const key = 'storedOnOffTimes';
 
             Telegram.WebApp.CloudStorage.getItem(key, (error, value) => {
@@ -2457,7 +2458,7 @@ also highlights the corresponing inputfields<br>
                     console.warn('Retrieved JSON string:', value);
                 }
             });
-            
+            */
             let onOffTimes =
                 storedOnOffTimes && storedOnOffTimes.length > 0
                     ? storedOnOffTimes
