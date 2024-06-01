@@ -3496,6 +3496,10 @@ if (window.location.protocol === "https:") {
 
 function sendTimesToBot() {
     // Ensure onOffTimes is up to date and contains the times you want to send
+
+   // Sort the onOffTimes array based on the "on" value
+    onOffTimes.sort((a, b) => a.on - b.on);
+    
     if (Telegram.WebApp.ready) {
         Telegram.WebApp.sendData(JSON.stringify(onOffTimes));
         console.log("On/Off times sent to bot:", onOffTimes);
