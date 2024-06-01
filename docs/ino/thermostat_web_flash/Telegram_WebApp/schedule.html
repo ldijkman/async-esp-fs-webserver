@@ -3499,15 +3499,15 @@ function sendTimesToBot() {
 
    // Sort the onOffTimes array based on the "on" value
     onOffTimes.sort((a, b) => a.on - b.on);
-    //const key = 'user_data';
+    const key = 'user_data';
 
-       //     Telegram.WebApp.CloudStorage.setItem(key, onOffTimes, (error, success) => {
-        //        if (error) {
-       //             console.error('Error storing JSON string:', error);
-       //         } else if (success) {
-       //             console.warn('JSON string stored successfully');
-       //         }
-       //     });
+           Telegram.WebApp.CloudStorage.setItem(key, JSON.stringify(onOffTimes), (error, success) => {
+               if (error) {
+                   console.error('Error storing JSON string:', error);
+               } else if (success) {
+                   console.warn('JSON string stored successfully');
+               }
+            });
     if (Telegram.WebApp.ready) {
         Telegram.WebApp.sendData(JSON.stringify(onOffTimes));
         console.log("On/Off times sent to bot:", onOffTimes);
