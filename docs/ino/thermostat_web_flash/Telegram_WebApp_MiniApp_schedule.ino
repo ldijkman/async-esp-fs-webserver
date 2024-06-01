@@ -659,7 +659,6 @@ function sendSetpoint(value) {
     updateCurrentTime();
     setInterval(updateCurrentTime, 1000);
 </script>
-
 </body>
 </html>)rawliteral";
 
@@ -1165,7 +1164,7 @@ void handleNewMessages(int numNewMessages) {
     Serial.print(F("bot.messages[i].text "));
     Serial.println(bot.messages[i].text);
 
-
+///*
     if (bot.messages[i].web_app_data != "") {
         if (bot.messages[i].web_app_data != "") {
       // Process the web_app_data
@@ -1175,10 +1174,19 @@ void handleNewMessages(int numNewMessages) {
 
     // Parse the JSON data
     DynamicJsonDocument doc(1024); // Adjust the size according to your needs
-    deserializeJson(doc, bot.messages[i].web_app_data);
-    
-    JsonArray arr = doc.as<JsonArray>();
+    //deserializeJson(doc, bot.messages[i].web_app_data);
+      DeserializationError error = deserializeJson(doc, bot.messages[i].web_app_data);
 
+  if (error) {
+    Serial.print(F("deserializeJson() failed: "));
+    Serial.println(error.c_str());
+    return; // Stop execution if parsing fails
+  }
+    JsonArray arr = doc.as<JsonArray>();
+/*
+ * 
+ * if json string is not correct next brings wdt reset
+ * 
     // Simple Bubble Sort for "on" times
     bool swapped;
     do {
@@ -1199,7 +1207,7 @@ void handleNewMessages(int numNewMessages) {
         }
       }
     } while (swapped);
-
+*/
     // Initialize a String to build the message
     String message = "Schedule:\n";
 
@@ -1234,7 +1242,7 @@ void handleNewMessages(int numNewMessages) {
     Serial.println(F("XXXXXXXXXXXXXXXXXXXXX Data processed."));
   }
 }
-  
+ // */
     
 
 
