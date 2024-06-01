@@ -2368,6 +2368,20 @@ function openInPopup(url) {
 function reloadPage() {
     // Reloads the current document.
     location.reload();
+
+
+           Telegram.WebApp.ready();
+ const key = 'user_data';
+
+    Telegram.WebApp.CloudStorage.getItem(key, (error, value) => {
+        if (error) {
+            console.error('Error retrieving JSON string:', error);
+            document.getElementById('jsonDisplay').innerText = 'Error retrieving JSON string.';
+        } else {
+            console.warn('Retrieved JSON string:', value);
+            document.getElementById('jsonDisplay').innerText = value ? value : 'No data found.';
+        }
+    });
 }
 </script>
 <div id="The_Art_of_Time_Controlled" class="The_Art_of_Time_Controlled" style="display: flex; justify-content: center; ">
@@ -3455,18 +3469,7 @@ makePopupDraggable(popup, header);
     }
   }
 
-       Telegram.WebApp.ready();
- const key = 'user_data';
 
-    Telegram.WebApp.CloudStorage.getItem(key, (error, value) => {
-        if (error) {
-            console.error('Error retrieving JSON string:', error);
-            document.getElementById('jsonDisplay').innerText = 'Error retrieving JSON string.';
-        } else {
-            console.warn('Retrieved JSON string:', value);
-            document.getElementById('jsonDisplay').innerText = value ? value : 'No data found.';
-        }
-    });
     
 
 
