@@ -2349,19 +2349,7 @@ function openInPopup(url) {
   window.open(url, 'popupWindow', 'width=800, height=600, left=100, top=100, resizable=yes, scrollbars=yes, toolbar=yes, menubar=no, location=no, directories=no, status=yes');
 }
 
- Telegram.WebApp.ready();
- const key = 'user_data';
 
-    Telegram.WebApp.CloudStorage.getItem(key, (error, value) => {
-        if (error) {
-            console.error('Error retrieving JSON string:', error);
-            document.getElementById('jsonDisplay').innerText = 'Error retrieving JSON string.';
-        } else {
-            console.warn('Retrieved JSON string:', value);
-            document.getElementById('jsonDisplay').innerText = value ? value : 'No data found.';
-        }
-    });
-    
 </script>
 <!--
         <a
@@ -3466,6 +3454,21 @@ makePopupDraggable(popup, header);
       console.error('WebSocket connection is not open.');
     }
   }
+
+       Telegram.WebApp.ready();
+ const key = 'user_data';
+
+    Telegram.WebApp.CloudStorage.getItem(key, (error, value) => {
+        if (error) {
+            console.error('Error retrieving JSON string:', error);
+            document.getElementById('jsonDisplay').innerText = 'Error retrieving JSON string.';
+        } else {
+            console.warn('Retrieved JSON string:', value);
+            document.getElementById('jsonDisplay').innerText = value ? value : 'No data found.';
+        }
+    });
+    
+
 
   // When the connection is open, send the on/off times
   ws.onopen = function() {
