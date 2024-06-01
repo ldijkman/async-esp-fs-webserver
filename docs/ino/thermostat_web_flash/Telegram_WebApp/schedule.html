@@ -3499,9 +3499,11 @@ function sendTimesToBot() {
 
    // Sort the onOffTimes array based on the "on" value
     onOffTimes.sort((a, b) => a.on - b.on);
+    
+const jsonString = JSON.stringify(onOffTimes);
     const key = 'user_data';
-
-           Telegram.WebApp.CloudStorage.setItem(key, JSON.stringify(onOffTimes), (error, success) => {
+          
+           Telegram.WebApp.CloudStorage.setItem(key, jsonString, (error, success) => {
                if (error) {
                    console.error('Error storing JSON string:', error);
                } else if (success) {
