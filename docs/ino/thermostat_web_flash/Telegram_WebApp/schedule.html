@@ -2342,6 +2342,7 @@ The Art of Time Controlled. <br>
 <h4>Sprinkler or Light On/Off Times <br>Visual TimeSlots Schedule.</h4>
 <br><button onclick="window.location.reload();">Reload Page</button><br>
       Telegram WebApp MiniApp Web Storage Cloud Storage<br>
+      web api version <p id="webAppVersion">Loading version...</p>
 <div id="jsonDisplay"></div>
       <br>
 <script>
@@ -2371,7 +2372,17 @@ function reloadPage() {
 }
 
            Telegram.WebApp.ready();
- const key = 'user_data';
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (window.Telegram && Telegram.WebApp) {
+        Telegram.WebApp.ready();
+        
+        const versionElement = document.getElementById('webAppVersion');
+        // Update the text content of the paragraph with the version
+        versionElement.textContent = 'Telegram Web App Version: ' + Telegram.WebApp.version;
+
+
+    const key = 'user_data';
 
     Telegram.WebApp.CloudStorage.getItem(key, (error, value) => {
         if (error) {
@@ -2382,6 +2393,14 @@ function reloadPage() {
             document.getElementById('jsonDisplay').innerText = value ? value : 'No data found.';
         }
     });
+
+
+        
+    }
+});  
+    
+    
+
 
 </script>
 <div id="The_Art_of_Time_Controlled" class="The_Art_of_Time_Controlled" style="display: flex; justify-content: center; ">
