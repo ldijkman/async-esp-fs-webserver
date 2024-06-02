@@ -138,7 +138,7 @@
 // watch this video  https://youtu.be/6ehNbx6aFtk
 //
 #define BOT_TOKEN "xxxxxxxxxx:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-#define BOT_TOKEN "7108291748:AAFt4sw-HdjvKlyL2eSGQfgUNJG3J40x8rI"
+
 
 
 // help message  https://t.me/Luberth_Dijkman/57
@@ -148,7 +148,7 @@
 // watch this video  https://youtu.be/6ehNbx6aFtk
 //
 #define CHAT_ID "xxxxxxxxxx"
-#define CHAT_ID "7096381205"
+
 
 
 
