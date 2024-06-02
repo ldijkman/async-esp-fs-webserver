@@ -4,7 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Telegram WebApp MiniApp Arduino ESP8266, Task Scheduler</title>
+    
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <!-- Include jQuery from a CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Include Clock Time Picker CSS and JS -->
+    <link rel="stylesheet" href="path/to/clock-time-picker.min.css">
+    <script src="path/to/clock-time-picker.min.js"></script>
+
+    
     <style>
         body {
             display: flex;
@@ -180,5 +189,21 @@ document.getElementById('taskForm').addEventListener('submit', function(e) {
         if you use the same device / browser it should save the times
 
     </pre>
+
+
+
+        <script>
+        // Your existing JavaScript here
+
+        // After the page has loaded, initialize the Clock Time Picker for the time input fields
+        $(document).ready(function() {
+            // Initialize Clock Time Picker
+            $('input[type="time"]').clockTimePicker({
+                // Clock Time Picker options as per your need
+                alwaysSelectHoursFirst: true,
+                // Example option: customize as needed
+            });
+        });
+    </script>
 </body>
 </html>
