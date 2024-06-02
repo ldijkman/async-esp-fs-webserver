@@ -64,16 +64,18 @@
 
     <a href="https://github.com/ldijkman/Universal-Arduino-Telegram-Bot" target="_blank">Forked Universal-Arduino-Telegram-Bot</a><br>
     <a href="https://t.me/Luberth_Dijkman/84" target="_blank">https://t.me/Luberth_Dijkman</a><br>
-    
+    <!--
     <h2>Schedule Daily Task</h2>
     <form id="taskForm">
         <input type="text" id="taskName" name="taskName" placeholder="Task Name" value="task 1" hidden>
-        <!-- Dynamically numbered tasks will be inserted here -->
+    -->   
+    <!-- Dynamically numbered tasks will be inserted here -->
+    <!--
         <button type="submit">Submit Task</button>
     </form>
     <br><br>
     <button id="sendMenu">Send /menu</button>
-
+-->
     <!-- Additional fields for sending and receiving data -->
     <div>
         <label for="dataToSend">Data to Send:</label>
@@ -105,9 +107,9 @@
             document.getElementById('taskForm').insertBefore(timeEntryDiv, document.getElementById('taskForm').lastChild);
         }
 
-        for (let i = 1; i <= 5; i++) {
-            addTimeEntry(i);
-        }
+       // for (let i = 1; i <= 5; i++) {
+       ///     addTimeEntry(i);
+      //  }
 
         document.getElementById('taskForm').addEventListener('submit', function(e) {
             e.preventDefault();
