@@ -1,6 +1,3 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -23,7 +20,7 @@
             });
         }
 
-        // Function to retrieve a JSON string from cloud storage
+        // Function to retrieve a JSON string from cloud storage and display it
         function retrieveJson() {
             const key = 'user_data';
 
@@ -31,7 +28,8 @@
                 if (error) {
                     console.error('Error retrieving JSON string:', error);
                 } else {
-                    console.warn('Retrieved JSON string:', value);
+                    // Display the retrieved JSON in an HTML element
+                    document.getElementById('jsonDataDisplay').textContent = value ? value : 'No data found';
                 }
             });
         }
@@ -40,41 +38,37 @@
             Telegram.WebApp.ready();
             retrieveJson();
             storeJson();
-            retrieveJson();
+            setTimeout(retrieveJson, 1000); // Retrieve the JSON again after a delay to ensure it is updated
         };
     </script>
 </head>
 <body>
     <h1>Telegram Cloud Storage Example</h1>
+    <h2>Stored JSON Data:</h2>
+    <pre id="jsonDataDisplay">Loading...</pre> <!-- Element to display the JSON data -->
 
-      <h1>Send Inline Message via Telegram Web App</h1>
+    <h1>Send Inline Message via Telegram Web App</h1>
     <button id="sendBtn">Send Message</button>
 
     <script>
         document.getElementById('sendBtn').addEventListener('click', () => {
-            // This assumes you have obtained the 'inline_message_id' in some way,
-            // for example, after a user has interacted with a previous inline message sent by your bot.
-            const inlineMessageId = 'obtained_inline_message_id'; // Placeholder, replace with actual ID
+            const inlineMessageId = 'obtained_inline_message_id'; // Replace with actual ID
 
-            // Define the inline keyboard layout
             const inlineKeyboard = [
                 [{ text: "Option 1", callback_data: "option1" }],
                 [{ text: "Option 2", callback_data: "option2" }]
             ];
 
-            // Prepare the message content and the keyboard in the format required by Telegram API
             const messageData = {
-                method: "editMessageText", // Assuming you're editing an existing inline message
+                method: "editMessageText",
                 inline_message_id: inlineMessageId,
                 text: "Choose an option:",
                 reply_markup: JSON.stringify({ inline_keyboard: inlineKeyboard })
             };
 
-            // Use Telegram Web App API to send the message
             Telegram.WebApp.sendData(JSON.stringify(messageData));
         });
 
-        // Initialize the Web App
         Telegram.WebApp.ready();
     </script>
 </body>
