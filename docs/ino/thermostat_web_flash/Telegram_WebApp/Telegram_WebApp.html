@@ -165,12 +165,14 @@ document.getElementById('taskForm').addEventListener('submit', function(e) {
     <h2><a href="schedule.html">a Better?<br>schedule.html</a><br> </h2> 
     
     <pre> 
-    telegram web app closing after Telegram.WebApp.sendData
+    telegram webapp miniapp closing after Telegram.WebApp.sendData
         is this normal?
+        
     html5 time input does behave different in telegram 
         https://ldijkman.github.io/async-esp-fs-webserver/ino/thermostat_web_flash/Telegram_WebApp/Telegram_WebApp.html
+   
     How to inspect Telegram web app?
-        Telegram Desktop on Windows and Linux​
+        Telegram Desktop on Windows and Linux​ 
             Go to Settings > Advanced > Experimental settings > Enable webview inspection. 
             Right click in the WebView and choose Inspect.
 
@@ -187,7 +189,7 @@ document.getElementById('taskForm').addEventListener('submit', function(e) {
             /editapp
             /myapps
 
-   arduno ESP8266 telegram webapp only sends data when launched/opened from bottom keyboard  
+   arduino ESP8266 telegram webapp miniapp only sends data when launched/opened from bottom keyboard  
         Mini Apps launched from a web_app type keyboard button
         can send data back to the bot in a service message using Telegram.WebApp.sendData.
         This makes it possible for the bot to produce a response without communicating with any external servers.   
@@ -195,7 +197,22 @@ document.getElementById('taskForm').addEventListener('submit', function(e) {
   times are saved to browser local storage
         if you use the same device / browser it should save the times
 
+ how to send data from arduino ESP8266, bot api, to webapp miniapp web api
+       so that i can send status or sensor info from esp8266 to webapp
+       do not see how i can do that 
+
+telegram has web storage cloud storage (bit like local storage browser)
+       webapp miniapp 
+       CloudStorage
+           set WebApp.CloudStorage.setItem
+           get WebApp.CloudStorage.getItem
+       This object controls the cloud storage. Each bot can store up to 1024 items per user in the cloud storage.
+       https://core.telegram.org/bots/webapps#cloudstorage
+       nice for store time data in cloud 
+       so that every browser/device nows the times wich are set
+
     </pre>
+
 
 
 
