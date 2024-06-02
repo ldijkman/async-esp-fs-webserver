@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-    <!-- Send a Telegram Message from Browser-->
+    <!-- Send a Telegram Message from Browser telegram webapp miniapp-->
     <head>
         <meta charset="UTF-8" />
-        <title>Send Data to Telegram</title>
+        <title>Send Data to Telegram  Send a Telegram Message from Browser telegram webapp miniapp</title>
     </head>
     <body>
         <a href="https://t.me/Luberth_Dijkman/26" target="_blank"
@@ -97,8 +97,7 @@ Hello World</textarea
                 const yourBotToken = getDataFromStorage('botToken');
                 const chatId = getDataFromStorage('chatId');
                 const message =
-                    messageInput.value.trim() +
-                    '\n   https://plnkr.co/edit/Q2iPP3ykEXlCth9Q?open=lib%2Fscript.js&preview'; // Retrieve message from input field
+                    messageInput.value.trim();// + '\n   https://plnkr.co/edit/Q2iPP3ykEXlCth9Q?open=lib%2Fscript.js&preview'; // Retrieve message from input field
                 if (!yourBotToken || !chatId || !message) {
                     alert(
                         'Bot token, chat ID, or message not set. Please set them first.'
