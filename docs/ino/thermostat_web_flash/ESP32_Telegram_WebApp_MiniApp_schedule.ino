@@ -212,6 +212,7 @@
 
 #include <WiFiClientSecure.h>
 
+#include "esp_heap_caps.h"
 
 //#include <ESP8266HTTPClient.h>
 #include <HTTPClient.h>
@@ -226,7 +227,7 @@
 // https://t.me/Luberth_Dijkman/84
 
 
-#include <ArduinoJson.h>
+
 
 #include <EEPROM.h>
 
@@ -292,6 +293,9 @@ Task tasks[maxTasks];
 
 bool manual=0;
 
+  // Ensure you allocate enough space for the entire JSON string
+  // used next for url parameter test
+// char bottomkeyboardJson[1024];
 
 
 // GPIO where the DS18B20 is connected
@@ -395,6 +399,7 @@ const char commands[] PROGMEM = R"rawliteral(
  //String bottomkeyboardJson = "[[\"Menu\", \"On\",\"OFF\",\"Buzzer\"],[\"Reboot\"]]";
    // Define the JSON keyboard layout as a constant character array in program memory
 //const char bottomkeyboardJson[] PROGMEM = R"rawliteral(JSON([[\"Menu\", \"On\",\"OFF\",\"Buzzer\"],[\"Reboot\"]])JSON")rawliteral";;
+
 const char bottomkeyboardJson[] PROGMEM = R"RAW(
 [
   ["Menu", "ON", "OFF", "Task"],
@@ -407,6 +412,7 @@ const char bottomkeyboardJson[] PROGMEM = R"RAW(
   ]
 ]
 )RAW";
+
 
 // maybe needs my modifeid version of
 // https://github.com/ldijkman/Universal-Arduino-Telegram-Bot
@@ -741,45 +747,48 @@ void getExternalIP() {
 
 
 
+#include "esp_system.h" // Include ESP32 system header
+
 void printResetReason() {
-  //rst_info *resetInfo = ESP.getResetInfoPtr();
-  /*
+  esp_reset_reason_t reset_reason;
+  reset_reason = esp_reset_reason(); // Get the reset reason
+  
   Serial.print(F("Reset reason: "));
-  switch (resetInfo->reason) {
-    case 0:
-      resetReasonStr = F("Power on reset");
-      Serial.println(resetReasonStr);
+  switch (reset_reason) {
+    case ESP_RST_POWERON: // Power on reset
+      Serial.println(F("Power on reset"));
       break;
-    case 1:
-      resetReasonStr = F("Hardware watch dog reset");
-      Serial.println(resetReasonStr);
+    case ESP_RST_EXT: // Reset by external pin
+      Serial.println(F("External system reset"));
       break;
-    case 2:
-      resetReasonStr = F("Exception reset");
-      Serial.println(resetReasonStr);
+    case ESP_RST_SW: // Software reset via esp_restart
+      Serial.println(F("Software restart"));
       break;
-    case 3:
-      resetReasonStr = F("Software watch dog reset");
-      Serial.println(resetReasonStr);
+    case ESP_RST_PANIC: // Software reset due to exception/panic
+      Serial.println(F("Exception reset"));
       break;
-    case 4:
-      resetReasonStr = F("Software restart");
-      Serial.println(resetReasonStr);
+    case ESP_RST_INT_WDT: // Reset (software or hardware) due to interrupt watchdog
+      Serial.println(F("Hardware watch dog reset"));
       break;
-    case 5:
-      resetReasonStr = F("Wake up from deep-sleep");
-      Serial.println(resetReasonStr);
+    case ESP_RST_TASK_WDT: // Reset due to task watchdog
+      Serial.println(F("Software watch dog reset"));
       break;
-    case 6:
-      resetReasonStr = F("External system reset");
-      Serial.println(resetReasonStr);
+    case ESP_RST_WDT: // Reset due to other watchdogs
+      Serial.println(F("Other watchdog reset"));
+      break;
+    case ESP_RST_DEEPSLEEP: // Wake up from deep-sleep
+      Serial.println(F("Wake up from deep-sleep"));
+      break;
+    case ESP_RST_BROWNOUT: // Brownout reset (software or hardware)
+      Serial.println(F("Brownout reset"));
+      break;
+    case ESP_RST_SDIO: // Reset over SDIO
+      Serial.println(F("Reset over SDIO"));
       break;
     default:
-      resetReasonStr = F("Unknown reset reason");
-      Serial.println(resetReasonStr);
+      Serial.println(F("Unknown reset reason"));
       break;
   }
-  */
 }
 
 
@@ -885,6 +894,30 @@ void setup() {
   digitalWrite(LED_PIN, HIGH);  // Start with the LED high is off
 
   pinMode(BUZZER_PIN, OUTPUT);
+
+
+
+/*
+ * next  send bot token and chat id as url parameter to webapp 
+  snprintf(bottomkeyboardJson, sizeof(bottomkeyboardJson), R"RAW(
+[
+  ["Menu", "ON", "OFF", "Task"],
+  ["1Min", "5Min", "10Min", "15Min", "30Min", "60Min"],
+  ["10°", "15°", "16°", "17°", "18°", "19°", "20°", "21°", "22°"],
+  [
+    "Reboot", "Time", "Buzzer", "Info",
+    {"text": "web_app", "web_app": {"url": "https://ldijkman.github.io/async-esp-fs-webserver/ino/thermostat_web_flash/Telegram_WebApp/Telegram_WebApp.html?bot_token=%s&chat_id=%s"}},
+    {"text": "web_app", "web_app": {"url": "https://ldijkman.github.io/async-esp-fs-webserver/ino/thermostat_web_flash/Telegram_WebApp/schedule.html?bot_token=%s&chat_id=%s"}}
+  ]
+]
+)RAW", BOT_TOKEN, CHAT_ID, BOT_TOKEN, CHAT_ID);
+
+  // Debug print to serial
+  Serial.println(bottomkeyboardJson);
+
+*/
+
+
 
 
   WiFi.begin(ssid, password);
@@ -1620,8 +1653,12 @@ if (text.startsWith(F("/delete_task"))) {
 
 //used text tolower earlier so Min is min
 if (text == F("info")) {
-  size_t freeHeap = 0;//ESP.getFreeHeap();
-  size_t freeStack = 0;//ESP.getFreeContStack();
+
+
+
+
+
+  
   uint32_t chipId = 0;//ESP.getChipId();
   uint32_t flashChipId = 0;//ESP.getFlashChipId();
   uint32_t flashChipSize = 0;//ESP.getFlashChipSize();
@@ -1656,10 +1693,12 @@ if (text == F("info")) {
 
 
   String message = F("http://paypal.me/LDijkman\n\n");
-  /*
-  message += F("Stack: ") + String(freeStack) + F(" bytes\n");
-  message += F("Heap: ") + String(freeHeap) + F(" bytes\n\n");
-  message += F("Chip ID: ") + String(chipId) + F("\n");
+
+  message += "free heap: " + String(esp_get_free_heap_size()) + "\n";
+  heap_caps_print_heap_info(MALLOC_CAP_DEFAULT);
+
+  
+ /*  message += F("Chip ID: ") + String(chipId) + F("\n");
   message += F("Flash Chip ID: ") + String(flashChipId) + F("\n");
   message += F("Flash Chip Size: ") + String(flashChipSize) + F(" bytes\n");
   message += F("Flash Chip Real Size: ") + String(flashChipRealSize) + F(" bytes\n");
@@ -1688,6 +1727,9 @@ if (text == F("info")) {
   bot.sendMessage(CHAT_ID, message);
   bot.sendMessage(CHAT_ID, F("/list_tasks"));
   browseService("http", "tcp");  // find other mdns devices in network
+  
+  bot.sendMessage(CHAT_ID, F("https://t.me/Luberth_Dijkman"));
+  
 }
 
     }
