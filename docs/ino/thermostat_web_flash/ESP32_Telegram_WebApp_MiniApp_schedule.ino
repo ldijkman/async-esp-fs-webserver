@@ -750,45 +750,45 @@ void getExternalIP() {
 #include "esp_system.h" // Include ESP32 system header
 
 void printResetReason() {
-  esp_reset_reason_t reset_reason;
-  reset_reason = esp_reset_reason(); // Get the reset reason
-  
-  Serial.print(F("Reset reason: "));
+  esp_reset_reason_t reset_reason = esp_reset_reason(); // Get the reset reason
+  Serial.print(F("Reset reason: ")); 
   switch (reset_reason) {
     case ESP_RST_POWERON: // Power on reset
-      Serial.println(F("Power on reset"));
+      resetReasonStr = F("Power on reset");
       break;
     case ESP_RST_EXT: // Reset by external pin
-      Serial.println(F("External system reset"));
+      resetReasonStr = F("External system reset");
       break;
     case ESP_RST_SW: // Software reset via esp_restart
-      Serial.println(F("Software restart"));
+      resetReasonStr = F("Software restart");
       break;
     case ESP_RST_PANIC: // Software reset due to exception/panic
-      Serial.println(F("Exception reset"));
+      resetReasonStr = F("Exception reset");
       break;
     case ESP_RST_INT_WDT: // Reset (software or hardware) due to interrupt watchdog
-      Serial.println(F("Hardware watch dog reset"));
+      resetReasonStr = F("Hardware watch dog reset");
       break;
     case ESP_RST_TASK_WDT: // Reset due to task watchdog
-      Serial.println(F("Software watch dog reset"));
+      resetReasonStr = F("Software watch dog reset");
       break;
     case ESP_RST_WDT: // Reset due to other watchdogs
-      Serial.println(F("Other watchdog reset"));
+      resetReasonStr = F("Other watchdog reset");
       break;
     case ESP_RST_DEEPSLEEP: // Wake up from deep-sleep
-      Serial.println(F("Wake up from deep-sleep"));
+      resetReasonStr = F("Wake up from deep-sleep");
       break;
     case ESP_RST_BROWNOUT: // Brownout reset (software or hardware)
-      Serial.println(F("Brownout reset"));
+      resetReasonStr = F("Brownout reset");
       break;
     case ESP_RST_SDIO: // Reset over SDIO
-      Serial.println(F("Reset over SDIO"));
+      resetReasonStr = F("Reset over SDIO");
       break;
     default:
-      Serial.println(F("Unknown reset reason"));
+      resetReasonStr = F("Unknown reset reason");
       break;
   }
+  Serial.println(resetReasonStr);
+      
 }
 
 
