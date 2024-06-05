@@ -57,7 +57,7 @@
   chat gpt says
   The pinout for a Wemos D1 Mini (an ESP8266-based development board) typically looks like this:
   https://t.me/Luberth_Dijkman/28
-  
+
   D0 -> GPIO16
   D1 -> GPIO5
   D2 -> GPIO4
@@ -71,7 +71,7 @@
   RX -> GPIO3
   A0 -> Analog input
 
- https://t.me/Luberth_Dijkman/28 
+  https://t.me/Luberth_Dijkman/28
 */
 
 
@@ -127,9 +127,9 @@
                                                 |___/
 
 */
-// Configure your BOT 
+// Configure your BOT
 // Create a Bot on Telegram    help message https://t.me/Luberth_Dijkman/55
-//         
+//
 // go to
 // https://t.me/botfather
 // ask for /newbot
@@ -244,14 +244,14 @@ UniversalTelegramBot bot(BOT_TOKEN, secured_client);
 void buzzer();
 
 /*
- __          ___ ______ _    _____             __ _       
- \ \        / (_)  ____(_)  / ____|           / _(_)      
-  \ \  /\  / / _| |__   _  | |     ___  _ __ | |_ _  __ _ 
+  __          ___ ______ _    _____             __ _
+  \ \        / (_)  ____(_)  / ____|           / _(_)
+  \ \  /\  / / _| |__   _  | |     ___  _ __ | |_ _  __ _
    \ \/  \/ / | |  __| | | | |    / _ \| '_ \|  _| |/ _` |
     \  /\  /  | | |    | | | |___| (_) | | | | | | | (_| |
      \/  \/   |_|_|    |_|  \_____\___/|_| |_|_| |_|\__, |
                                                      __/ |
-                                                    |___/ 
+                                                    |___/
 
 */
 
@@ -260,7 +260,7 @@ const char* ssid = "Bangert_30_Andijk";      // wifi router name broadcasted in 
 const char* password = "ookikwilerin";       // your password
 
 
-  struct tm *timeinfo;
+struct tm *timeinfo;
 
 
 const char* mDNS_adress = "thermostat";  // .local is added by ESP
@@ -291,10 +291,10 @@ struct Task {
 const int maxTasks = 4;
 Task tasks[maxTasks];
 
-bool manual=0;
+bool manual = 0;
 
-  // Ensure you allocate enough space for the entire JSON string
-  // used next for url parameter test
+// Ensure you allocate enough space for the entire JSON string
+// used next for url parameter test
 // char bottomkeyboardJson[1024];
 
 
@@ -422,7 +422,7 @@ const char bottomkeyboardJson[] PROGMEM = R"RAW(
 
 
 
- 
+
 // HTML content with JavaScript for WebSocket communication
 const char index_html[] PROGMEM = R"rawliteral(
 <!DOCTYPE HTML><html>
@@ -576,6 +576,7 @@ ws.onmessage = function(event) {
         wsMessages.innerHTML = lines.join("<br>");
     }
 }
+
     
 function updateRelayStatus(isOn) {
   var statusElement = document.getElementById("relayStatus");
@@ -586,6 +587,7 @@ function updateRelayStatus(isOn) {
     statusElement.innerHTML = "<span style='display: inline-block; width: 10px; height: 10px; border: 2px solid blue; border-radius: 50%;'></span>";
   }
 }
+
     
 function sendSetpoint(value) {
   var minValue = 10; // Define the minimum setpoint value
@@ -926,9 +928,9 @@ void setup() {
     secured_client.setInsecure(); // Not recommended for production, only for testing
   // Only required on 2.5 Beta
   // client.setInsecure();
-//X509List cert(TELEGRAM_CERTIFICATE_ROOT);
-//WiFiClientSecure secured_client;
-//UniversalTelegramBot bot(BOT_TOKEN, secured_client);
+  // X509List cert(TELEGRAM_CERTIFICATE_ROOT);
+  // WiFiClientSecure secured_client;
+  // UniversalTelegramBot bot(BOT_TOKEN, secured_client);
 
 WiFiClientSecure secured_client;
 // Make sure to set up the secure client for ESP32, might require setting up certificates or bypassing them:
@@ -1035,7 +1037,7 @@ secured_client.setInsecure(); // Not recommended for production, but can be used
 
 
   // Convert the time to a struct tm
- // struct tm *timeinfo;
+  // struct tm *timeinfo;
   timeinfo = localtime(&now);
 
   // Print the time in human-readable format
@@ -1084,10 +1086,24 @@ Serial.println(F("send bottom bot menu "));
 
   Serial.println(F("send bot start info"));
   String message = (F("Thermostat started \n"));
-  //message += F("WiFi Network: ") + String(ssid) + "\n";
- // message += F("Local URL: http://") + String(mDNS_adress) + ".local\n";
- // message += F("Local IP: http://") + WiFi.localIP().toString() + "\n";
- // message += F("External IP: ") + externalIP + F("\nReset reason ") + resetReasonStr + " " + asctime(timeinfo) + "\n";
+  message += F("WiFi Network: "); 
+  message += String(ssid); 
+  message += F("\n");
+  
+ message += F("Local URL: http://");
+ message += String(mDNS_adress); 
+ message += F(".local\n");
+ 
+ message += F("Local IP: http://");
+ message += WiFi.localIP().toString();
+ message += F("\n");
+ message += F("External IP: ");
+ message += externalIP;
+ message += F("\nReset reason ");
+ message += resetReasonStr;
+ message += F(" "); 
+ message += asctime(timeinfo); 
+ message += F("\n");
 
   bot.sendMessage(CHAT_ID, message.c_str(), "");
   
@@ -1099,11 +1115,19 @@ Serial.println(F("send bottom bot menu "));
   // Assuming currentTemperature holds the current temperature
   bot.sendMessage(CHAT_ID, asctime(timeinfo), "");
 
-  int freeContStack = 0;//ESP.getFreeContStack();
-  int freeHeap = 0;//ESP.getFreeHeap();
-//  message = F("Setpoint: ") + String(temperatureSetpoint, 1) + F("°C, Current Temp: ") + String(sensors.getTempCByIndex(0), 1) + "°C\n     Stack: " + String(freeContStack) + " bytes, Heap: " + String(freeHeap) + " bytes";
+  int freeContStack = 0;    //ESP.getFreeContStack();
+  int freeHeap = 0;         //ESP.getFreeHeap();
+  message = F("Setpoint: ");
+  message += String(temperatureSetpoint, 1);
+  message +=  F("°C, Current Temp: ");
+  message +=  String(sensors.getTempCByIndex(0), 1);
+  message +=  F("°C\n     Stack: ");
+  message +=  String(freeContStack);
+  message +=  F(" bytes, Heap: ");
+  message +=  String(freeHeap);
+  message +=  F(" bytes");
 
- // bot.sendMessage(CHAT_ID, message.c_str(), "");
+  bot.sendMessage(CHAT_ID, message.c_str(), "");
 
 
   // Print the last reset reason
@@ -1118,14 +1142,14 @@ Serial.println(F("send bottom bot menu "));
   server.begin();
 
 
- 
+
 
 }
 
 
 
 void buzzer() {
- 
+
   tone(BUZZER_PIN, 1000, 250);    // Play the first tone (1000 Hz for 250 milliseconds)
   delay(250 + 10);                // Wait for the 250 of the first tone plus a little extra to ensure it's fully played
 
@@ -1378,15 +1402,26 @@ void handleNewMessages(int numNewMessages) {
         text.replace("TIME", "");
         timeRequested = text.toInt();
         digitalWrite(LED_PIN, LOW);
-  //      bot.sendMessage(CHAT_ID, F("LED ON, off delay ") + String(timeRequested) + F(" Minutes"), "");
+ String message = F("LED ON, off delay ");
+        message += String(timeRequested);
+        message += F(" Minutes");
+        bot.sendMessage(CHAT_ID, message , "");
         lightTimerActive = true;
         lightTimerExpires = millis() + (timeRequested * 1000 * 60);
       } else if (text.startsWith("TEMP")) {
         text.replace("TEMP", "");
         temperatureSetpoint = text.toInt();
 
-//        String message = F("Setpoint: ") + String(temperatureSetpoint, 1) + F("°C, Current Temp: ") + String(sensors.getTempCByIndex(0), 1) + "°C\n     Stack: " + String(ESP.getFreeContStack()) + " bytes, Heap: " + String(ESP.getFreeHeap()) + " bytes";
-  //      bot.sendMessage(CHAT_ID, message.c_str(), "");
+        String message = F("Setpoint: ");
+        message += String(temperatureSetpoint, 1);
+        message += F("°C, Current Temp: ");
+        message += String(sensors.getTempCByIndex(0), 1);
+        message += F("°C\n     Stack: ");
+       // message += String(ESP.getFreeContStack());
+        message += F(" bytes, Heap: ");
+       // message += String(ESP.getFreeHeap());
+        message += F(" bytes");
+        bot.sendMessage(CHAT_ID, message.c_str(), "");
 
       }
 
@@ -1571,7 +1606,7 @@ if (text == F("time")) {
 //used text tolower earlier so Min is min
 if (text == F("task")) {
         bot.sendMessage(CHAT_ID, F("Schedule 1 to 4 Daily Repeat\ntask tasknumber_1_to_4 HH:MM duration_in_minutes\nlike\ntask 1 06:30 30\n/list_tasks\n/delete_task"), "");
- 
+
 }
 
 
