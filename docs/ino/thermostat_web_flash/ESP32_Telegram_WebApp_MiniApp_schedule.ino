@@ -1532,7 +1532,12 @@ if (text == F("1min") || text == F("5min") || text == F("10min") || text == F("1
         text.replace("min", ""); // Remove the "Min" suffix to isolate the number
         timeRequested = text.toInt(); // Convert the remaining text to an integer
         digitalWrite(LED_PIN, LOW);
-//        bot.sendMessage(CHAT_ID, F("LED ON, off delay ") + String(timeRequested) + F(" Minutes"), "");
+        
+        String message = F("LED ON, off delay ");
+        message += String(timeRequested);
+        message += F(" Minutes");
+        bot.sendMessage(CHAT_ID, message, "");
+        
         lightTimerActive = true;
         lightTimerExpires = millis() + (timeRequested * 1000 * 60);
 }
@@ -1546,8 +1551,16 @@ if (text == F("10°") || text == F("15°") || text == F("16°") || text == F("17
     temperatureSetpoint = tempSetpoint;       // Update the temperature setpoint 
     
     // Construct the message to send back to the user
-//    String message = F("Setpoint: ") + String(temperatureSetpoint, 1) + F("°C, Current Temp: ") + String(sensors.getTempCByIndex(0), 1) + "°C\n     Stack: " + String(ESP.getFreeContStack()) + " bytes, Heap: " + String(ESP.getFreeHeap()) + " bytes";
- //   bot.sendMessage(CHAT_ID, message.c_str(), "");
+    String message = F("Setpoint: ");
+    message += String(temperatureSetpoint, 1); 
+    message += F("°C, Current Temp: ");
+    message += String(sensors.getTempCByIndex(0), 1);
+    message += F("°C\n     Stack: ");
+    //message += String(ESP.getFreeContStack());
+    message += F(" bytes, Heap: ");
+    //message += String(ESP.getFreeHeap());
+    message += F(" bytes");
+    bot.sendMessage(CHAT_ID, message.c_str(), "");
 }
 
 if (text == F("time")) {
@@ -1698,26 +1711,56 @@ if (text == F("info")) {
   heap_caps_print_heap_info(MALLOC_CAP_DEFAULT);
 
   
- /*  message += F("Chip ID: ") + String(chipId) + F("\n");
-  message += F("Flash Chip ID: ") + String(flashChipId) + F("\n");
-  message += F("Flash Chip Size: ") + String(flashChipSize) + F(" bytes\n");
-  message += F("Flash Chip Real Size: ") + String(flashChipRealSize) + F(" bytes\n");
-  message += F("Free Sketch Space: ") + String(freeSketchSpace) + F(" bytes\n");
-  message += F("Sketch Size: ") + String(sketchSize) + F(" bytes\n");
-  message += F("CPU Frequency: ") + String(cpuFreqMHz) + F(" MHz\n");
-  message += F("SDK Version: ") + sdkVersion + F("\n");
-  message += F("Boot Version: ") + String(bootVersion) + F("\n\n");
-  message += F("IP Address: http://") + ipAddress + F("\n");
-  message += F("MAC Address: ") + macAddress + F("\n");
-  message += F("mDNS: ") + mdnsInfo + F("\n");
-  message += F("SSID: ") + ssid + F("\n");
-  message += F("RSSI: ") + String(rssi) + F(" dBm\n");
-  message += F("External IP: http://") +  externalIP + F("\n");
-  message += F("Router IP: http://") + routerIP + F("\n");
-  message += F("Gateway IP: http://") + String(WiFi.gatewayIP().toString()) + F("\n");
-  message += F("DNS Server 1: ") + WiFi.dnsIP(0).toString() + F("\n");
-  message += F("DNS Server 2: ") + WiFi.dnsIP(1).toString() + F("\n\n");
-*/
+//   message += F("Chip ID: ") + String(chipId) + F("\n");
+//  message += F("Flash Chip ID: ") + String(flashChipId) + F("\n");
+ // message += F("Flash Chip Size: ") + String(flashChipSize) + F(" bytes\n");
+ // message += F("Flash Chip Real Size: ") + String(flashChipRealSize) + F(" bytes\n");
+ // message += F("Free Sketch Space: ") + String(freeSketchSpace) + F(" bytes\n");
+ // message += F("Sketch Size: ") + String(sketchSize) + F(" bytes\n");
+//  message += F("CPU Frequency: ") + String(cpuFreqMHz) + F(" MHz\n");
+//  message += F("SDK Version: ") + sdkVersion + F("\n");
+//  message += F("Boot Version: ") + String(bootVersion) + F("\n\n");
+
+  message += F("IP Address: http://");
+  message += ipAddress;
+  message += F("\n");
+  
+  message += F("MAC Address: ");
+  message += macAddress; 
+  message += ("\n");
+  
+  message += F("mDNS: ");
+  message += mdnsInfo; 
+  message += F("\n");
+  
+  message += F("SSID: ");
+  message += ssid;
+  message += F("\n");
+
+  message += F("RSSI: ");
+  message += String(rssi);
+  message += F(" dBm\n");
+
+  message += F("External IP: http://");
+  message += externalIP; 
+  message += F("\n");
+  
+  message += F("Router IP: http://");
+  message += routerIP; 
+  message += F("\n");
+
+  message += F("Gateway IP: http://");              // Directly appending a string literal
+  message += String(WiFi.gatewayIP().toString());   // Appending the IP address as a String
+  message += F("\n");                               // Appending a newline character
+
+  message += F("DNS Server 1: ");
+  message += WiFi.dnsIP(0).toString() ;
+  message += F("\n");
+  
+  message += F("DNS Server 2: ");
+  message +=  WiFi.dnsIP(1).toString();
+  message += F("\n\n");
+
 
  // message += F("LittleFS Total Bytes: ") + String(totalBytes) + F("\n");
  // message += F("LittleFS Used Bytes: ") + String(usedBytes) + F("\n");
@@ -1809,9 +1852,9 @@ void loop() {
 
     // getUpdates returns 1 if there is a new message from Telegram
     int numNewMessages = bot.getUpdates(bot.last_message_received + 1);
- //Serial.println(bot.getUpdates(bot.last_message_received));
-  // Serial.println(bot.getUpdates(bot.last_sent_message_id));
-//    Serial.println(F("numNewMessages ") + String(numNewMessages));
+ // Serial.println(bot.getUpdates(bot.last_message_received));
+ // Serial.println(bot.getUpdates(bot.last_sent_message_id));
+ // Serial.println(F("numNewMessages ") + String(numNewMessages));
 
 
 
@@ -1918,5 +1961,5 @@ void loop() {
 
 
   }
-  //MDNS.update(); // Keep the mDNS responder updated
+  // MDNS.update(); // Keep the mDNS responder updated
 }
