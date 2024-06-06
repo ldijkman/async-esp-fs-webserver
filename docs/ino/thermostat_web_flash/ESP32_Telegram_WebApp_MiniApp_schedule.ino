@@ -1742,6 +1742,18 @@ if (text == F("info")) {
 
   String message = F("http://paypal.me/LDijkman\n\n");
 
+ // Check for PSRAM availability and add its information to the message
+  if(psramFound()){
+    message += F("PSRAM is found.\n");
+    message += F("PSRAM size: ");
+    message += String(ESP.getPsramSize());
+    message += F(" bytes\n");
+  } else {
+    message += F("PSRAM is not available.\n");
+  }
+
+  
+
   message += "free heap: " + String(esp_get_free_heap_size()) + "\n";
   heap_caps_print_heap_info(MALLOC_CAP_DEFAULT);
 
@@ -1755,6 +1767,58 @@ if (text == F("info")) {
 //  message += F("CPU Frequency: ") + String(cpuFreqMHz) + F(" MHz\n");
 //  message += F("SDK Version: ") + sdkVersion + F("\n");
 //  message += F("Boot Version: ") + String(bootVersion) + F("\n\n");
+
+
+
+
+  // Chip ID (MAC address in this case as a stand-in for a unique chip identifier)
+  uint8_t baseMac[6];
+  esp_read_mac(baseMac, ESP_MAC_WIFI_STA);
+  char baseMacChr[18] = {0};
+  sprintf(baseMacChr, "%02X:%02X:%02X:%02X:%02X:%02X", baseMac[0], baseMac[1], baseMac[2], baseMac[3], baseMac[4], baseMac[5]);
+  message += F("Chip ID: ");
+  message += String(baseMacChr) + F("\n");
+
+  // Flash Chip Size
+  flashChipSize = ESP.getFlashChipSize();
+  message += F("Flash Chip Size: ");
+  message += String(flashChipSize);
+  message += F(" bytes\n");
+
+  // Flash Chip Real Size
+  flashChipRealSize = ESP.getFlashChipSize();
+  message += F("Flash Chip Real Size: ");
+  message += String(flashChipRealSize);
+  message += F(" bytes\n");
+
+  // Free Sketch Space
+  freeSketchSpace = ESP.getFreeSketchSpace();
+  message += F("Free Sketch Space: ");
+  message += String(freeSketchSpace);
+  message += F(" bytes\n");
+
+  // Sketch Size
+  sketchSize = ESP.getSketchSize();
+  message += F("Sketch Size: ");
+  message += String(sketchSize);
+  message += F(" bytes\n");
+
+  // CPU Frequency
+  cpuFreqMHz = ESP.getCpuFreqMHz();
+  message += F("CPU Frequency: ");
+  message += String(cpuFreqMHz);
+  message += F(" MHz\n");
+
+  // SDK Version
+  sdkVersion = esp_get_idf_version();
+  message += F("SDK Version: ");
+  message += String(sdkVersion);
+  message +=  F("\n");
+
+
+
+
+
 
   message += F("IP Address: http://");
   message += ipAddress;
@@ -1997,4 +2061,5 @@ void loop() {
 
   }
   // MDNS.update(); // Keep the mDNS responder updated
+                    // only needed for ESP8266 Version
 }
