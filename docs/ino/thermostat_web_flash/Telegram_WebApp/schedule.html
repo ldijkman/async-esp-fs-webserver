@@ -311,44 +311,34 @@ place a label below the .time-segment::before and after line, with the correspon
   position: fixed;
   top: 10px;
   right: 10px;
+  z-index: 1000; /* Ensures the button and menu are above other content */
 }
 
 #menu-content {
   display: none;
+  position: absolute;
+  top: 100%; /* Position the menu right below the button */
+  right: 0; /* Align the menu to the right edge of the button */
   background-color: #f9f9f9;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   padding: 12px 16px;
   z-index: 1;
-  border-radius: 10px; /* Rounded corners for the menu */
-}
-
-#menu-content a {
-  padding: 10px 15px;
-  text-decoration: none;
-  display: block;
-  color: black;
-}
-
-#menu-content a:hover {
-  background-color: #f1f1f1;
+  border-radius: 10px; /* Optional: for rounded corners */
 }
 
 #menu-button {
-  background-color: #D3D3D3; /* Light Gray */
+  background-color: #4CAF50; /* Green */
   color: white;
   padding: 16px;
   font-size: 16px;
   border: none;
   cursor: pointer;
-  border-radius: 5px; /* Rounded corners for the button */
+  border-radius: 5px; /* Rounded corners */
 }
 
 #menu-button:hover {
-  background-color: #BEBEBE; /* Slightly darker shade of gray for hover effect */
+  background-color: #45a049;
 }
-
-
-
 
 
 
