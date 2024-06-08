@@ -306,12 +306,19 @@ place a label below the .time-segment::before and after line, with the correspon
 
 
 
-
 .floating-menu {
   position: fixed;
-  top: 10px;
-  right: 10px;
-  z-index: 1000; /* Ensures the button and menu are above other content */
+  top: 10px; /* You might want to reduce this for smaller screens */
+  right: 10px; /* Adjust or reduce this value on smaller screens */
+  z-index: 1000;
+}
+
+/* Adjustments for smaller screens */
+@media (max-width: 600px) {
+  .floating-menu {
+    top: 5px;
+    right: 5px; /* Reduce the right margin to keep the button within the viewport */
+  }
 }
 
 #menu-content {
