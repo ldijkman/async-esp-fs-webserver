@@ -371,14 +371,15 @@ place a label below the .time-segment::before and after line, with the correspon
 </div>
 
 <script>
- document.getElementById('menu-button').addEventListener('click', function() {
+document.getElementById('menu-button').addEventListener('click', function() {
   var menuContent = document.getElementById('menu-content');
-  if (menucontent.style.display === "block") {
-    menuContent.style.display = "none";
-  } else {
+  // Check if the menuContent is not displayed or is explicitly set to none
+  if (menuContent.style.display === "none" || menuContent.style.display === "") {
     menuContent.style.display = "block";
+  } else {
+    menuContent.style.display = "none";
   }
-});   
+});
 
 </script>
 
