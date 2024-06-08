@@ -371,7 +371,7 @@ place a label below the .time-segment::before and after line, with the correspon
 </div>
 
 <script>
-document.getElementById('menu-button').addEventListener('click', function() {
+document.getElementById('menu-button').addEventListener('click', function(event) {
   var menuContent = document.getElementById('menu-content');
   // Check if the menuContent is not displayed or is explicitly set to none
   if (menuContent.style.display === "none" || menuContent.style.display === "") {
@@ -379,8 +379,18 @@ document.getElementById('menu-button').addEventListener('click', function() {
   } else {
     menuContent.style.display = "none";
   }
+  // Prevent event from propagating to the document level handler
+  event.stopPropagation();
 });
 
+// Add event listener to the whole document
+document.addEventListener('click', function(event) {
+  var menuContent = document.getElementById('menu-content');
+  // If the clicked element is not the menu or the button, and the menu is open, close it.
+  if (!menuContent.contains(event.target) && !document.getElementById('menu-button').contains(event.target) && menuContent.style.display === "block") {
+    menuContent.style.display = "none";
+  }
+});
 </script>
 
 
