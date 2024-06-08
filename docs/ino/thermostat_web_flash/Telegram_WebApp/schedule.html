@@ -300,9 +300,103 @@ place a label below the .time-segment::before and after line, with the correspon
             padding: 10px;
             margin: 10px 0;
         }
+
+
+
+
+
+
+
+.floating-menu {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+}
+
+#menu-content {
+  display: none;
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 12px 16px;
+  z-index: 1;
+}
+
+#menu-content a {
+  padding: 10px 15px;
+  text-decoration: none;
+  display: block;
+  color: black;
+}
+
+#menu-content a:hover {
+  background-color: #f1f1f1;
+}
+
+#menu-button {
+  background-color: #4CAF50; /* Green */
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+#menu-button:hover {
+  background-color: #45a049;
+}
+
+
+
+
+
+
+
+
+
+
+                
     </style>
     </head>
     <body>
+
+
+
+<div class="floating-menu">
+  <button id="menu-button">☰</button>
+  <div id="menu-content" class="menu-content">
+    <a href="#">Link 1</a>
+    <a href="#">Link 2</a>
+    <a href="#">Link 3</a>
+  </div>
+</div>
+
+<script">
+ document.getElementById('menu-button').addEventListener('click', function() {
+  var menuContent = document.getElementById('menu-content');
+  if (menucontent.style.display === "block") {
+    menuContent.style.display = "none";
+  } else {
+    menuContent.style.display = "block";
+  }
+});   
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
       <div style="background-color: #f1f1f1; padding: 10px; text-align: center;">
 <!--          
     <div id="urlDisplay" style="margin: 10px 0; font-size: 20px; font-weight: bold;"></div>
