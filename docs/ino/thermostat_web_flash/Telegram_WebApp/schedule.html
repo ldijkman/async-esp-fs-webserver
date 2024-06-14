@@ -1870,5 +1870,18 @@ The Art of Time Controlled. Visual TimeSlots Schedule.
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
 </script>
--->          
+-->        
+
+<script>
+function sendMessageToParent() {
+    // Message can be any object but must be serializable
+    var message = {type: "from_iframe", text: "Hello, parent window!"};
+    
+    // "*" can be replaced with the specific origin of the parent for added security
+    window.parent.postMessage(message, "*");
+}
+sendMessageToParent();
+</script>
+
+          
           </body></html>          
